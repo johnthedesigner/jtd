@@ -6,14 +6,17 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>John the Designer - UI/UX/Good Person</title>
+        <title>John the Designer - UI/UX/Developer</title>
         <meta name="description" content="John is a front-end developement and user interface design manager with a passion for user experience">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400|Libre+Baskerville:400,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/jtd.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
 
@@ -21,17 +24,27 @@
     <!-- START BODY -->
     
     	<!-- FEATURE SECTION -->
-        <section id="section-feature">
+        <section id="section-feature" class="vertical-align-wrapper">
         	
-        	<!-- HEADER/LOGO -->
-	        <header><h1><img src="http://placehold.it/85x25" id="logo" alt="John the Designer - Web Developer & User Experience Expert"></h1></header>
-	        
+        	<!-- SECTION FRAME -->
+        	<div class="section-frame"></div>
+        	
 	        <!-- FEATURE COPY -->
-	        <div class="body-container" id="feature-copy">
-	        	<p>I'm John the Designer.<br>
+	        <div class="body-container vertical-align" id="feature-copy">
+
+	        	<!-- HEADER/LOGO -->
+		        <header><h1><img src="img/feature-jtd.png" width="170" height="50" id="logo" alt="John the Designer - Web Developer & User Experience Expert"></h1></header>
+	        
+	        	<!--<p>I'm John the Designer.<br>
 	        	I design, <a href="http://johnthedesigner.github.io/" title="John the Designer on GitHub" target="_blank">code</a>, cook<br>
-	        	&amp; I <a href="http://johnthedesigner.github.io/" title="The John the Designer Blog" target="_blank">post</a> about it online</p>
+	        	&amp; I <a href="http://blog.johnthedesigner.com/" title="The John the Designer Blog" target="_blank">post</a> about it online</p>-->
+	        	<p>I'm John the Designer.
+	        	I design, <a href="http://johnthedesigner.github.io/" title="John the Designer on GitHub" target="_blank">code</a>, cook
+	        	&amp; I <a href="http://blog.johnthedesigner.com/" title="The John the Designer Blog" target="_blank">post</a> about it online.</p>
+
 	        </div>
+	        
+	        <div id="down-arrow"><img src="img/down-arrow.png" width="70" height="70"></div>
 	        
         </section>
         
@@ -39,17 +52,60 @@
         <section id="section-intro">
         
 	        <!-- INTRO COPY -->
-	        <div class="body-container" id="feature-copy">
-	        	<p>I'm John the Designer.<br>
-	        	I design, <a href="http://johnthedesigner.github.io/" title="John the Designer on GitHub" target="_blank">code</a>, cook<br>
-	        	&amp; I <a href="http://johnthedesigner.github.io/" title="The John the Designer Blog" target="_blank">post</a> about it online</p>
+	        <div class="body-container" id="intro-copy">
+	        	<h3>So what kind of designer am I?</h3>
+	        	<p class="section-paragraph">I’m a front-end development & UI design manager with a passion for user experience. At times I’m wireframing, creating style guides, crafting final artwork or elbow deep in code, but that 5% of the project that makes 95% of the difference, that’s my wheelhouse.</p>
+	        	<div>
+		        	<a class="section-link" href="http://blog.johnthedesigner.com" alt="Read my blog" target="_blank"><i class="fa fa-pencil-square"></i>Read my Blog</a>
+	        	</div>
+	        	<div>
+		        	<a class="section-link" href="https://www.linkedin.com/in/johnlivornese" alt="John Livornese (Johnthedesigner) on LinkedIn" target="_blank"><i class="fa fa-linkedin-square"></i>Connect with me on LinkedIn</a>
+	        	</div>
+	        	<div>
+		        	<a class="section-link" href="http://johnthedesigner.github.io" alt="John Livornese (Johnthedesigner) on GitHub" target="_blank"><i class="fa fa-git-square"></i>Follow me on GitHub</a>
+	        	</div>
 	        </div>
 	        
         </section>
         
-        <!-- INTRO COPY -->
-        <section id="section-about"
-
+        <!-- OFF DUTY SECTION -->
+        <section id="section-offtime">
+        
+        	<!-- SECTION FRAME -->
+        	<div class="section-frame"></div>
+        	
+	        <!-- OFF DUTY COPY -->
+	        <div class="body-container" id="intro-copy">
+	        	<h3>What do I do when I'm not making websites?</h3>
+	        	<p class="section-paragraph">I love to cook home made dinners and sometimes I post photos of them, I have too many old cameras and not enough time to use them all. My one-year-old keeps me pretty busy at times too.</p>
+		        <div>
+		        	<a class="section-link" href="http://www.instagram.com/johnthedesigner" alt="John Livornese (Johnthedesigner) on Instagram" target="_blank"><i class="fa fa-instagram"></i>Follow me on Instagram</a>
+		        </div>
+		        <div>
+		        	<a class="section-link" href="http://www.facebook.com/jtdboston" alt="John Livornese (Johnthedesigner) on Facebook" target="_blank"><i class="fa fa-facebook-square"></i>Follow me on Facebook</a>
+		        </div>
+	        </div>
+	        
+        </section>
+        
+        <!-- CONTACT SECTION -->
+        <section id="section-contact">
+        
+	        <!-- CONTACT COPY -->
+	        <div class="body-container" id="contact-copy">
+	        	<p class="section-paragraph">Let's talk user experience, or responsive design, or social APIs, or photography, or Seinfeld reruns. Get in touch and we’ll talk.</p>
+	        	<div>
+		        	<a class="section-link" href="" id="email-link"><i class="fa fa-envelope-square"></i></a>
+	        	</div>
+	        </div>
+	        
+        </section>
+        
+        <footer>
+        	<img src="img/footer-jtd.jpg" width="85" height="25" id="footer-logo">
+        	<p>Designed and coded with care by John “The Designer” Livornese, Boston, MA</p>
+        </footer>
+        
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
@@ -62,7 +118,7 @@
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
+            ga('create','UA-18588101-1');ga('send','pageview');
         </script>
     </body>
 </html>
