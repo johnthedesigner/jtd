@@ -40,6 +40,19 @@ $(document).ready(function(){
 		var featureHeight = $('#section-feature').height();
 		$("html, body").animate({ scrollTop: featureHeight },{ duration: 600, easing: 'easeOutQuart' });
 	});
+	
+	// Back to top
+	$(window).scroll(function(){
+		if( $(window).scrollTop() > 0 ){
+			$('#back-to-top').addClass('active');
+		} else {
+			$('#back-to-top').removeClass('active');
+		}
+	});
+	$('#back-to-top').click(function(){
+		$("html, body").animate({ scrollTop: 0 },{ duration: 600, easing: 'easeOutQuart' });
+	});
+	
 });
 
 // To do:

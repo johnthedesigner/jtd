@@ -1,6 +1,23 @@
 html,body{
 	height:100%;
 	font-size:12px;
+	position:static;
+}
+#back-to-top{
+	color:#ef3757;
+	display:block;
+	position:fixed;
+	top:0;
+	right:0;
+	padding:.5em;
+	font-size:3em;
+	z-index:10;
+	opacity:0;
+	transition:opacity linear .2s;
+	cursor:pointer;
+}
+#back-to-top.active{
+	opacity:1;
 }
 #section-feature{
 	background-color:#ef3757;
@@ -51,6 +68,11 @@ html,body{
 	bottom:-15px;
 	margin-left:-35px;
 	z-index:2;
+	cursor:pointer;
+	transition:bottom ease-out .2s;
+}
+#down-arrow:hover{
+	bottom:-5px;
 }
 
 /* BODY SECTIONS */
@@ -79,7 +101,7 @@ html,body{
 	background: -moz-linear-gradient(right, #ff4137, #e73366); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(to right, #ff4137 , #e73366); /* Standard syntax */
 	background-color:#ef3757;
-	background-image:url(../img/items3.jpg);
+	background-image:url(../img/items.jpg);
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-size:cover;
