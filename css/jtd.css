@@ -4,16 +4,18 @@ html,body{
 }
 #section-feature{
 	background-color:#ef3757;
-	background-image:url(../img/items3.jpg);
+	background-image:url(../img/items.jpg);
 	background-position:center center;
 	background-repeat:no-repeat;
 	background-size:cover;
 	background-attachment:fixed;
 	height:100%;
 	overflow:hidden;
+	position:relative;
 }
 #feature-copy{
 	padding-top:200px;
+	padding-bottom:3em;
 	color:#ef3757;
 	position:relative;
 	z-index:1
@@ -48,6 +50,7 @@ html,body{
 	left:50%;
 	bottom:-15px;
 	margin-left:-35px;
+	z-index:2;
 }
 
 /* BODY SECTIONS */
@@ -155,6 +158,14 @@ footer p{
 	html,body{
 		font-size:8px;
 	}
+	#section-feature{
+		min-height:100%;
+		height:auto;
+	}
+	#section-offtime,#section-feature{
+		background-size:1600px auto;
+		background-attachment:inherit;
+	}
 	#feature-copy p{
 		font-size:6em;
 	}
@@ -166,6 +177,10 @@ footer p{
 @media (max-width: 480px) {
 	html,body{
 		font-size:6px;
+	}
+	#section-offtime,#section-feature{
+		background-size:1000px auto;
+		background-attachment:inherit;
 	}
 	footer p{
 		font-size:1.5em;

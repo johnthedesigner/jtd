@@ -18,7 +18,7 @@ $(document).ready(function(){
 				
 			var elementOffset = ( ( $(this).closest('.vertical-align-wrapper').height() - $(this).height() ) / 2.5 ) + 'px';
 			$(this).css('padding-top',elementOffset);
-			console.log(elementOffset);
+			//console.log(elementOffset);
 	
 		});
 	}
@@ -34,6 +34,12 @@ $(document).ready(function(){
 			$("#feature-copy").css('margin-top',offset);
 		});
 	};
+	
+	// Click to scroll down
+	$('#down-arrow').click(function(){
+		var featureHeight = $('#section-feature').height();
+		$("html, body").animate({ scrollTop: featureHeight },{ duration: 600, easing: 'easeOutQuart' });
+	});
 });
 
 // To do:
