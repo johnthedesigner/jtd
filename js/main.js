@@ -54,11 +54,3 @@ $(document).ready(function(){
 	});
 	
 });
-
-// To do:
-// auto-center main feature
-// scroll-timed details
-// click to scroll arrow
-// interactive hinting
-// revise full content/sections
-// responsive styles
