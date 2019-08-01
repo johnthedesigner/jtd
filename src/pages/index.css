@@ -1,0 +1,8 @@
+.main {
+  min-height: 100%;
+}
+.hero {
+  width: 100vw;
+  height: 95vh;
+  background: rebeccapurple;
+}
