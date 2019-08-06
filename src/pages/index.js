@@ -1,83 +1,141 @@
 import React from "react";
-import _ from "lodash";
 
 import Layout from "../components/layout";
-// import Image from "../components/image";
+import Image from "../components/image";
 import SEO from "../components/seo";
 import "./index.css";
 
-const generateButton = heroSize => {
-  let buttonHeight = _.sample([24, 32, 48]);
-  let buttonWidth = _.random(100, 150, false);
-  return {
-    height: buttonHeight,
-    width: buttonWidth,
-    x: _.random(0, heroSize.width - buttonWidth, false),
-    y: _.random(0, heroSize.height - buttonHeight, false),
-    background: _.sample(["rebeccapurple", "#2efccf", "#ffcd73"]),
-    textColor: "white",
-    border: "white",
-    text: "Click me!"
-  };
-};
-
 class IndexPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      buttons: [],
-      heroSize: { width: 0, height: 0 }
-    };
-    this.heroRef = React.createRef();
-  }
-
-  componentDidMount() {
-    let heroBoundingBox = this.heroRef.current.getBoundingClientRect();
-    let heroSize = {
-      width: heroBoundingBox.width,
-      height: heroBoundingBox.height
-    };
-    let buttons = _.times(150, () => {
-      return generateButton(heroSize);
-    });
-    this.setState({ buttons, heroSize });
-  }
-
   render() {
     return (
       <Layout>
         <SEO title="Home" />
-        <div className="hero" ref={this.heroRef}>
-          <svg
-            width={this.state.heroSize.width}
-            height={this.state.heroSize.height}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0
-            }}
-          >
-            <defs>
-              <filter id="shadow">
-                <feDropShadow dx="0" dy="3" stdDeviation="2" />
-              </filter>
-            </defs>
-            {_.map(this.state.buttons, (button, index) => {
-              return (
-                <rect
-                  key={index}
-                  height={button.height}
-                  width={button.width}
-                  x={button.x}
-                  y={button.y}
-                  fill={button.background}
-                  filter={"url(#shadow)"}
-                >
-                  <text>{button.text}</text>
-                </rect>
-              );
-            })}
-          </svg>
+        <div id="work">
+          <div className="intro">
+            <div className="intro-copy">
+              <svg
+                viewBox="0 0 640 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="intro-logo"
+              >
+                <rect x="220" width="100" height="100" />
+                <rect x="320" width="100" height="100" />
+                <rect x="270" y="100" width="100" height="100" />
+                <rect x="440" width="100" height="100" />
+                <rect x="440" y="100" width="100" height="100" />
+                <path d="M540 200C595.228 200 640 155.228 640 100L540 100L540 200Z" />
+                <path d="M640 100C640 44.7715 595.228 3.91405e-06 540 8.74228e-06L540 100L640 100Z" />
+                <rect x="100" width="100" height="100" />
+                <path d="M100 200C155.228 200 200 155.228 200 100L100 100L100 200Z" />
+                <path d="M0 100C0 155.228 44.7715 200 100 200L100 100L0 100Z" />
+              </svg>
+              <h2 className="intro-copy__headline">
+                These are some examples of my recent work. Please{" "}
+                <a href="mailto:john@johnthedesigner.com">get in touch</a> If
+                you've got any questions or want to know more how the design for
+                these features came together.
+              </h2>
+            </div>
+          </div>
+          <div className="work-copy">
+            <h3>1. The Highlights Page</h3>
+            <h2>
+              The Highlights page is a new homepage for projects in our flagship
+              application. It's the cornerstone of our new "Answers first"
+              strategy.
+            </h2>
+            <p>
+              Sed venenatis ipsum metus, vel blandit nunc venenatis sit amet.
+              Aliquam erat volutpat. Cras lacinia felis cursus magna tincidunt
+              porta. Nunc ut augue ultrices, condimentum mi eu, lobortis urna.
+              Quisque suscipit iaculis sollicitudin. Pellentesque habitant morbi
+              tristique senectus et netus et malesuada fames ac turpis egestas.
+            </p>
+          </div>
+          <div className="figma-iframe__container">
+            <div className="figma-iframe--large">
+              <iframe
+                title="iframe 1"
+                style={{ border: "none" }}
+                width="100%"
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
+                allowFullScreen
+              ></iframe>
+              <h4 className="figma-iframe__caption">
+                Full-page mockup of the highlights page
+              </h4>
+            </div>
+            <div className="figma-iframe--small">
+              <iframe
+                title="iframe 2"
+                style={{ border: "none" }}
+                width="100%"
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
+                allowFullScreen
+              ></iframe>
+              <h4 className="figma-iframe__caption">
+                Sed venenatis ipsum metus, vel blandit nunc venenatis sit amet.
+                Aliquam erat volutpat. Cras lacinia felis cursus magna tincidunt
+                porta. Nunc ut augue ultrices, condimentum mi eu, lobortis urna.
+                Quisque suscipit iaculis sollicitudin. Pellentesque habitant
+                morbi tristique senectus et netus et malesuada fames ac turpis
+                egestas.
+              </h4>
+            </div>
+            <div className="figma-iframe--small">
+              <iframe
+                title="iframe 3"
+                style={{ border: "none" }}
+                width="100%"
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
+                allowFullScreen
+              ></iframe>
+              <h4 className="figma-iframe__caption">
+                Full-page mockup of the highlights page
+              </h4>
+            </div>
+          </div>
+          <div className="work-copy">
+            <p>
+              Sed venenatis ipsum metus, vel blandit nunc venenatis sit amet.
+              Aliquam erat volutpat. Cras lacinia felis cursus magna tincidunt
+              porta. Nunc ut augue ultrices, condimentum mi eu, lobortis urna.
+              Quisque suscipit iaculis sollicitudin. Pellentesque habitant morbi
+              tristique senectus et netus et malesuada fames ac turpis egestas.
+            </p>
+          </div>
+          <div className="figma-iframe__container">
+            <div className="figma-iframe--small">
+              <iframe
+                title="iframe 4"
+                style={{ border: "none" }}
+                width="100%"
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
+                allowFullScreen
+              ></iframe>
+              <h4 className="figma-iframe__caption">
+                Sed venenatis ipsum metus, vel blandit nunc venenatis sit amet.
+                Aliquam erat volutpat. Cras lacinia felis cursus magna tincidunt
+                porta. Nunc ut augue ultrices, condimentum mi eu, lobortis urna.
+                Quisque suscipit iaculis sollicitudin. Pellentesque habitant
+                morbi tristique senectus et netus et malesuada fames ac turpis
+                egestas.
+              </h4>
+            </div>
+            <div className="figma-iframe--small">
+              <iframe
+                title="iframe 5"
+                style={{ border: "none" }}
+                width="100%"
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
+                allowFullScreen
+              ></iframe>
+              <h4 className="figma-iframe__caption">
+                Full-page mockup of the highlights page
+              </h4>
+            </div>
+          </div>
         </div>
       </Layout>
     );

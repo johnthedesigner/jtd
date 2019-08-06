@@ -5,6 +5,21 @@ module.exports = {
     author: `@whatwouldjohndo`
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
+      options: {
+        fonts: [
+          {
+            family: `Grenze`,
+            variants: [`500`, `500i`, `900`, `900i`]
+          },
+          {
+            family: `Work Sans`,
+            variants: [`400`, `700`]
+          }
+        ]
+      }
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
