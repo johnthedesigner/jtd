@@ -31,7 +31,10 @@ class IndexPage extends React.Component {
               <span className="table-of-contents__name">
                 1. "Answers First"
               </span>
-              <Link className="table-of-contents__link" to="/work/highlights">
+              <Link
+                className="table-of-contents__link"
+                to="/work/answers-first"
+              >
                 What does that mean?
               </Link>
             </div>
@@ -49,14 +52,14 @@ class IndexPage extends React.Component {
               <span className="table-of-contents__name">
                 3. A Refined Palette
               </span>
-              <Link className="table-of-contents__link" to="/work/highlights">
+              <Link className="table-of-contents__link" to="/work/colors">
                 Building the color palette you'll need later
               </Link>
             </div>
 
             <div className="table-of-contents__item">
               <span className="table-of-contents__name">4. Workflow</span>
-              <Link className="table-of-contents__link" to="/work/highlights">
+              <Link className="table-of-contents__link" to="/work/framework">
                 Guiding the user to work better
               </Link>
             </div>
@@ -65,7 +68,7 @@ class IndexPage extends React.Component {
               <span className="table-of-contents__name">
                 5. Comparing time periods
               </span>
-              <Link className="table-of-contents__link" to="/work/highlights">
+              <Link className="table-of-contents__link" to="/work/comparisons">
                 Nothing else compares
               </Link>
             </div>
@@ -74,7 +77,7 @@ class IndexPage extends React.Component {
               <span className="table-of-contents__name">
                 6. Fitering documents
               </span>
-              <Link className="table-of-contents__link" to="/work/highlights">
+              <Link className="table-of-contents__link" to="/work/filtering">
                 Faceted search FTW
               </Link>
             </div>

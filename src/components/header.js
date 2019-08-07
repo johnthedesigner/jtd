@@ -16,7 +16,7 @@ const Header = ({ siteTitle }) => (
   >
     <div className="nav__menu">
       <Link className="nav__item" to="/">
-        Home
+        ← Back to Home
       </Link>
     </div>
   </header>

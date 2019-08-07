@@ -13,7 +13,7 @@ import Header from "./header";
 import "./normalize.css";
 import "./layout.css";
 
-const Layout = ({ children }) => {
+const Layout = props => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -24,12 +24,20 @@ const Layout = ({ children }) => {
     }
   `);
 
-  return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <main>{children}</main>
-    </>
-  );
+  if (props.showHeader) {
+    return (
+      <>
+        <Header />
+        <main>{props.children}</main>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <main>{props.children}</main>
+      </>
+    );
+  }
 };
 
 Layout.propTypes = {

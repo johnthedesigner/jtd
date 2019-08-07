@@ -5,7 +5,7 @@ import Layout from "../../components/layout";
 import SEO from "../../components/seo";
 
 const SecondPage = () => (
-  <Layout>
+  <Layout showHeader={true}>
     <SEO title="Page two" />
     <div id="main">
       <div className="intro">
