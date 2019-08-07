@@ -17,6 +17,9 @@ html {
   font-family: var(--plain-font);
   color: var(--main-text-color);
   background: var(--body-bg-color);
+  min-height: 100%;
+  border-bottom: var(--highlight-color-2) solid 2rem;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 900px) {
@@ -66,10 +69,6 @@ a {
 
 a:hover {
   text-decoration: none;
-}
-
-#main {
-  border-bottom: var(--highlight-color-2) solid 2rem;
 }
 
 .intro {

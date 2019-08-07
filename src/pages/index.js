@@ -25,41 +25,59 @@ class IndexPage extends React.Component {
             </div>
           </div>
 
-          <div className="work__copy">
-            <h3>1. The Highlights Page</h3>
-            <h4>
-              <Link to="/work/highlights">
-                When you name something <em>highlights</em>, people expect
-                something good
+          <div className="table-of-contents">
+            <h3>Table of Contents</h3>
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">
+                1. "Answers First"
+              </span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                What does that mean?
               </Link>
-            </h4>
-          </div>
+            </div>
 
-          <div className="work__copy">
-            <h3>1. The Highlights Page</h3>
-            <h4>
-              <Link to="/work/highlights">
-                When you name something highlights, people expect something good
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">
+                2. The Highlights Page
+              </span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                Name it <em>"Highlights"</em> it better be good
               </Link>
-            </h4>
-          </div>
+            </div>
 
-          <div className="work__copy">
-            <h3>1. The Highlights Page</h3>
-            <h4>
-              <Link to="/work/highlights">
-                When you name something highlights, people expect something good
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">
+                3. A Refined Palette
+              </span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                Building the color palette you'll need later
               </Link>
-            </h4>
-          </div>
+            </div>
 
-          <div className="work__copy">
-            <h3>1. The Highlights Page</h3>
-            <h4>
-              <Link to="/work/highlights">
-                When you name something highlights, people expect something good
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">4. Workflow</span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                Guiding the user to work better
               </Link>
-            </h4>
+            </div>
+
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">
+                5. Comparing time periods
+              </span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                Nothing else compares
+              </Link>
+            </div>
+
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">
+                6. Fitering documents
+              </span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                Faceted search FTW
+              </Link>
+            </div>
           </div>
         </div>
       </Layout>
