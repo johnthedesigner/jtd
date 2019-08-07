@@ -1,0 +1,7 @@
+.nav__menu {
+  padding: 1rem;
+}
+.nav__item {
+  padding: 1rem;
+  color: var(--main-text-color);
+}

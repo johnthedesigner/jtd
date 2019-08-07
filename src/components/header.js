@@ -2,6 +2,8 @@ import { Link } from "gatsby";
 import PropTypes from "prop-types";
 import React from "react";
 
+import "./header.css";
+
 const Header = ({ siteTitle }) => (
   <header
     style={{
@@ -12,10 +14,13 @@ const Header = ({ siteTitle }) => (
       textAlign: "center"
     }}
   >
-    <div>
-      <h1>
-        <Link to="/">{siteTitle}</Link>
-      </h1>
+    <div className="nav__menu">
+      <Link className="nav__item" to="/">
+        Home
+      </Link>
+      <Link className="nav__item" to="/work/highlights">
+        Highlights
+      </Link>
     </div>
   </header>
 );
