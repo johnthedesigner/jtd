@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
 
 import Layout from "../../components/layout";
 import SEO from "../../components/seo";
@@ -44,6 +43,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--small">
           <iframe
+            title="A scatterplot showing concepts driving a score"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FLjBh1XJwgn5GRMZHODotEn%2FCompare-to-previous-period%3Fnode-id%3D11%253A944"
@@ -56,7 +56,7 @@ const SecondPage = () => (
         </div>
         <div className="figma-iframe--small">
           <iframe
-            title="iframe 2"
+            title="A scatterplot showing differences from period-to-period"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FLjBh1XJwgn5GRMZHODotEn%2FCompare-to-previous-period%3Fnode-id%3D11%253A0"
@@ -71,7 +71,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--large">
           <iframe
-            title="iframe 1"
+            title="High fidelity mockups of the drivers too"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FLjBh1XJwgn5GRMZHODotEn%2FCompare-to-previous-period%3Fnode-id%3D11%253A1436"

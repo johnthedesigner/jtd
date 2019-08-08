@@ -74,7 +74,9 @@ const SecondPage = () => (
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FvDzqArihy9UoD9BuROwkQe%2FNew-filter-pane%3Fnode-id%3D1%253A566"
             allowFullScreen
           ></iframe>
-          <h4 className="work__art-caption">Compact document filter pane</h4>
+          <h4 className="work__art-caption">
+            Advanced mockup of the document filter pane
+          </h4>
         </div>
         <div className="figma-iframe--small">
           <iframe
@@ -85,7 +87,7 @@ const SecondPage = () => (
             allowFullScreen
           ></iframe>
           <h4 className="work__art-caption">
-            Compact document filter pane with active selections
+            Advanced mockup of the document filter pane with active selections
           </h4>
         </div>
       </div>
@@ -94,8 +96,10 @@ const SecondPage = () => (
         <p>
           Extensive usability testing showed that all test subjects knew
           intuitively how to use the new faceted search, and we have received no
-          negative feedback of note about this approach in several years. In
-          short this turns out to be the
+          negative feedback of note about this approach in several years. This
+          feature was successful enough that we're now building new features off
+          of these filters, such as{" "}
+          <Link to="/work/comparisons">Compare Period-over-Period</Link>.
         </p>
       </div>
     </div>
