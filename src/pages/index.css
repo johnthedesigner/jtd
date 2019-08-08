@@ -1,0 +1,17 @@
+.table-of-contents {
+  width: 90%;
+  max-width: 50rem;
+  margin: 5rem auto 10rem;
+}
+
+.table-of-contents__item {
+  display: flex;
+  border-bottom: var(--thin-stroke-color) dotted 2px;
+  padding: 0.5rem 0;
+  margin: 2rem 0;
+}
+
+.table-of-contents__link {
+  flex: 1;
+  text-align: right;
+}
