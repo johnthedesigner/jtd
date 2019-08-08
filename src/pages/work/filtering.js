@@ -6,16 +6,12 @@ import SEO from "../../components/seo";
 
 const SecondPage = () => (
   <Layout showHeader={true}>
-    <SEO title="Page two" />
+    <SEO title="Filtering Documents" />
     <div id="main">
       <div className="intro">
         <div className="intro-copy">
-          <h1>The Highlights Page</h1>
-          <h2 className="intro-copy__headline">
-            The Highlights page is a new homepage for projects in our flagship
-            application. It's the cornerstone of our new "Answers first"
-            strategy.
-          </h2>
+          <h1>Filtering Documents</h1>
+          <h2 className="intro-copy__headline">Faceted search FTW</h2>
         </div>
       </div>
       <div className="work__copy">

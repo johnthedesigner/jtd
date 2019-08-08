@@ -13,6 +13,14 @@ import Header from "./header";
 import "./normalize.css";
 import "./layout.css";
 
+const ConditionalHeader = ({ showHeader }) => {
+  if (showHeader) {
+    return <Header />;
+  } else {
+    return null;
+  }
+};
+
 const Layout = props => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -24,20 +32,12 @@ const Layout = props => {
     }
   `);
 
-  if (props.showHeader) {
-    return (
-      <>
-        <Header />
-        <main>{props.children}</main>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <main>{props.children}</main>
-      </>
-    );
-  }
+  return (
+    <>
+      <ConditionalHeader showHeader={props.showHeader} />
+      <main>{props.children}</main>
+    </>
+  );
 };
 
 Layout.propTypes = {

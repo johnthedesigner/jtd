@@ -10,11 +10,9 @@ const SecondPage = () => (
     <div id="main">
       <div className="intro">
         <div className="intro-copy">
-          <h1>The Highlights Page</h1>
+          <h1>A Refined Palette</h1>
           <h2 className="intro-copy__headline">
-            The Highlights page is a new homepage for projects in our flagship
-            application. It's the cornerstone of our new "Answers first"
-            strategy.
+            Building the color palette you'r egoing to need later
           </h2>
         </div>
       </div>

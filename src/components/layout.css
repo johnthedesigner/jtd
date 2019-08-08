@@ -18,7 +18,7 @@ html {
   color: var(--main-text-color);
   background: var(--body-bg-color);
   min-height: 100%;
-  border-bottom: var(--highlight-color-2) solid 2rem;
+  border-bottom: var(--highlight-color-1) solid 2rem;
   box-sizing: border-box;
 }
 

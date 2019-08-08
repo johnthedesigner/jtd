@@ -17,19 +17,37 @@ class IndexPage extends React.Component {
             <div className="intro-copy">
               <Logo fill="none" />
               <h2 className="intro-copy__headline">
-                These are some examples of my recent work. Please{" "}
-                <a href="mailto:john@johnthedesigner.com">get in touch</a> If
-                you've got any questions or want to know more how the design for
-                these features came together.
+                Hi, I’m John Livornese. I’m the head of product design for{" "}
+                <a href="http://luminoso.com" target="_blank">
+                  Luminoso
+                </a>
+                , in Boston, Massachusetts. We make AI-based text analytics
+                software and{" "}
+                <a href="http://luminoso.com/jobs" target="_blank">
+                  <em>we're hiring</em>
+                </a>
+                . Since you’re here anyway, why not check out some of my{" "}
+                <a href="#work">work</a>, or you could{" "}
+                <a href="mailto:john@johnthedesigner.com">get in touch</a>. We
+                could talk design or whatever, no pressure.
               </h2>
             </div>
           </div>
 
-          <div className="table-of-contents">
-            <h3>Table of Contents</h3>
+          <div className="table-of-contents" id="work">
+            <h3>Some of my recent work</h3>
             <div className="table-of-contents__item">
               <span className="table-of-contents__name">
-                1. "Answers First"
+                1. The Highlights Page
+              </span>
+              <Link className="table-of-contents__link" to="/work/highlights">
+                The cornerstone of our UI
+              </Link>
+            </div>
+
+            <div className="table-of-contents__item">
+              <span className="table-of-contents__name">
+                2. "Answers First"
               </span>
               <Link
                 className="table-of-contents__link"
@@ -41,44 +59,19 @@ class IndexPage extends React.Component {
 
             <div className="table-of-contents__item">
               <span className="table-of-contents__name">
-                2. The Highlights Page
+                3. Improving the Analysis Workflow
               </span>
-              <Link className="table-of-contents__link" to="/work/highlights">
-                Name it <em>"Highlights"</em> it better be good
+              <Link className="table-of-contents__link" to="/work/workflow">
+                No more analysis paralysis
               </Link>
             </div>
 
             <div className="table-of-contents__item">
               <span className="table-of-contents__name">
-                3. A Refined Palette
-              </span>
-              <Link className="table-of-contents__link" to="/work/colors">
-                Building the color palette you'll need later
-              </Link>
-            </div>
-
-            <div className="table-of-contents__item">
-              <span className="table-of-contents__name">4. Workflow</span>
-              <Link className="table-of-contents__link" to="/work/framework">
-                Guiding the user to work better
-              </Link>
-            </div>
-
-            <div className="table-of-contents__item">
-              <span className="table-of-contents__name">
-                5. Comparing time periods
+                4. Comparing time periods
               </span>
               <Link className="table-of-contents__link" to="/work/comparisons">
-                Nothing else compares
-              </Link>
-            </div>
-
-            <div className="table-of-contents__item">
-              <span className="table-of-contents__name">
-                6. Fitering documents
-              </span>
-              <Link className="table-of-contents__link" to="/work/filtering">
-                Faceted search FTW
+                What even happened last week?
               </Link>
             </div>
           </div>
