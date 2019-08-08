@@ -1,4 +1,0 @@
-jtd
-===
-
-JohnTheDesigner.com
