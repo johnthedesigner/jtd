@@ -44,7 +44,6 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--small">
           <iframe
-            title="iframe 3"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FLjBh1XJwgn5GRMZHODotEn%2FCompare-to-previous-period%3Fnode-id%3D11%253A944"

@@ -12,7 +12,7 @@ const SecondPage = () => (
         <div className="intro-copy">
           <h1>The Highlights Page</h1>
           <h2 className="intro-copy__headline">
-            The Highlights page is a new homepage for projects in our flagship
+            The Highlights page is the new homepage for projects in our flagship
             application. It's the cornerstone of our new "Answers first"
             strategy.
           </h2>
@@ -49,7 +49,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--large">
           <iframe
-            title="iframe 1"
+            title="Full page Highlights mockup"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"

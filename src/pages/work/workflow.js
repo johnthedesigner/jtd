@@ -53,11 +53,10 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--large">
           <iframe
-            title="iframe 1"
+            title="Establishing consistency"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FWbulkhmmepuCu0C3LTMTU1%2FImproved-workflow%3Fnode-id%3D1%253A2853"
-            allowFullScreen
           ></iframe>
           <h4 className="work__art-caption">
             Some elements and features are consistent from tool to tool. These
@@ -68,7 +67,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--large">
           <iframe
-            title="iframe 1"
+            title="Examples of real tools in this framework"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FWbulkhmmepuCu0C3LTMTU1%2FImproved-workflow%3Fnode-id%3D1%253A443"

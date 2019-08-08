@@ -42,7 +42,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--large">
           <iframe
-            title="iframe 1"
+            title="Board meeting slides explaining 'Answers First'"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2Fv5jmrmjss7Yi399fk4GJew%2FAnswers-first-slides"
@@ -57,7 +57,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--small">
           <iframe
-            title="iframe 2"
+            title="Board meeting slides, highlights page"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2F1RIMxkNrRAs3rCiejN0XkN%2FAnswers-first-view-examples%3Fnode-id%3D2%253A31"
@@ -70,7 +70,7 @@ const SecondPage = () => (
         </div>
         <div className="figma-iframe--small">
           <iframe
-            title="iframe 3"
+            title="mockup from a board meeting"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2F1RIMxkNrRAs3rCiejN0XkN%2FAnswers-first-view-examples%3Fnode-id%3D2%253A6"
@@ -85,7 +85,7 @@ const SecondPage = () => (
       <div className="work__art-container">
         <div className="figma-iframe--large">
           <iframe
-            title="iframe 1"
+            title="Highlights feature at initial release time"
             style={{ border: "none" }}
             width="100%"
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
