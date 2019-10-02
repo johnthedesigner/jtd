@@ -1,5 +1,7 @@
 .nav__menu {
   padding: 1rem;
+  z-index: 1;
+  position: relative;
 }
 .nav__item {
   padding: 1rem;

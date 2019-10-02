@@ -23,6 +23,10 @@ module.exports = {
           {
             family: `Work Sans`,
             variants: [`400`, `700`]
+          },
+          {
+            family: `PT Serif`,
+            variants: [`400`, `400i`, `700`, `700i`]
           }
         ]
       }

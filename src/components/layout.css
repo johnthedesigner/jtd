@@ -1,20 +1,24 @@
 /* Variables */
 :root {
-  --body-bg-color: #f3f4f5;
+  /* --body-bg-color: #f3f4f5; */
+  --body-bg-color: #ffffff;
   --header-bg-color: white;
-  --main-text-color: #2c4249;
+  --main-text-color: #112222;
+  --secondary-text-color: #2c4249;
   --highlight-color-1: #2efccf;
   --highlight-color-2: #16f1c1;
   --iframe-bg-color: #dde0e2;
   --thin-stroke-color: #dde0e2;
   --fancy-font: "Grenze", sans-serif;
-  --plain-font: "Work Sans", sans-serif;
+  /* --plain-font: "Work Sans", sans-serif; */
+  --plain-font: "PT Serif", serif;
   --box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
 }
 
 html {
-  font-size: 16px;
+  font-size: 20px;
   font-family: var(--plain-font);
+  line-height: 1.5;
   color: var(--main-text-color);
   background: var(--body-bg-color);
   min-height: 100%;
@@ -24,13 +28,13 @@ html {
 
 @media screen and (max-width: 900px) {
   html {
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 
 @media screen and (max-width: 600px) {
   html {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -38,19 +42,20 @@ h1 {
   font-family: var(--fancy-font);
   font-weight: 500;
   font-size: 1.5rem;
-  border-bottom: #dde0e2 solid 1px;
 }
 
 h2 {
   font-family: var(--fancy-font);
   font-weight: 900;
   font-size: 3rem;
+  line-height: 1.25;
 }
 
 h3 {
   font-family: var(--fancy-font);
+  font-size: 1.5rem;
   font-weight: 500;
-  border-bottom: #dde0e2 solid 1px;
+  line-height: 1.5;
 }
 
 h4 {
@@ -61,6 +66,7 @@ h4 {
 
 p {
   line-height: 1.75;
+  margin: 1rem 0 2rem;
 }
 
 a {
@@ -71,12 +77,26 @@ a:hover {
   text-decoration: none;
 }
 
+#main {
+  padding-bottom: 5rem;
+}
+
 .intro {
+  position: relative;
   border-top: var(--highlight-color-1) solid 5px;
-  background: var(--header-bg-color);
   padding: 5rem 0;
   border-bottom: var(--thin-stroke-color) solid 1px;
-  box-shadow: var(--box-shadow);
+}
+
+.intro:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
 }
 
 .intro a {
@@ -85,7 +105,7 @@ a:hover {
 
 .intro-copy {
   width: 90%;
-  max-width: 50rem;
+  max-width: 35rem;
   margin: 0 auto;
   /* color: #162f36; */
 }
@@ -103,7 +123,7 @@ a:hover {
 
 .work__copy {
   width: 90%;
-  max-width: 50rem;
+  max-width: 35rem;
   margin: 5rem auto 5rem;
 }
 
@@ -116,7 +136,8 @@ a:hover {
 
 .work__art-caption {
   font-weight: 300;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  color: var(--secondary-text-color);
   border-bottom: var(--thin-stroke-color) solid 1px;
   padding: 0 0.625rem 1rem;
   margin-bottom: 2rem;
