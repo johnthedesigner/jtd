@@ -8,6 +8,8 @@ const { KnexAdapter } = require("@keystonejs/adapter-knex");
 
 require("dotenv").config();
 
+const { User, Post, PostCategory } = require("./schema");
+
 const PROJECT_NAME = "jtd";
 
 const keystone = new Keystone({
@@ -36,43 +38,9 @@ const keystone = new Keystone({
   }
 });
 
-// Access control functions
-const userIsAdmin = ({ authentication: { item: user } }) =>
-  Boolean(user && user.isAdmin);
-const userOwnsItem = ({ authentication: { item: user } }) => {
-  if (!user) {
-    return false;
-  }
-  return { id: user.id };
-};
-const userIsAdminOrOwner = auth => {
-  const isAdmin = access.userIsAdmin(auth);
-  const isOwner = access.userOwnsItem(auth);
-  return isAdmin ? isAdmin : isOwner;
-};
-const access = { userIsAdmin, userOwnsItem, userIsAdminOrOwner };
-
-keystone.createList("User", {
-  fields: {
-    name: { type: Text },
-    email: {
-      type: Text,
-      isUnique: true
-    },
-    isAdmin: { type: Checkbox },
-    password: {
-      type: Password
-    }
-  },
-  // To create an initial user you can temporarily remove access controls
-  access: {
-    read: access.userIsAdminOrOwner,
-    update: access.userIsAdminOrOwner,
-    create: access.userIsAdmin,
-    delete: access.userIsAdmin,
-    auth: true
-  }
-});
+keystone.createList("User", User);
+keystone.createList("Post", Post);
+keystone.createList("PostCategory", PostCategory);
 
 const authStrategy = keystone.createAuthStrategy({
   type: PasswordAuthStrategy,

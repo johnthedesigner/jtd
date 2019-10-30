@@ -1578,6 +1578,23 @@
     "@keystonejs/fields" "^5.0.0"
     react "^16.8.6"
 
+"@keystonejs/fields-wysiwyg-tinymce@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@keystonejs/fields-wysiwyg-tinymce/-/fields-wysiwyg-tinymce-5.0.0.tgz#e6fc83baed914d1504a5718d5e26d544597737d6"
+  dependencies:
+    "@arch-ui/fields" "^2.0.1"
+    "@arch-ui/icons" "^0.0.5"
+    "@arch-ui/input" "^0.1.0"
+    "@arch-ui/theme" "^0.0.5"
+    "@babel/runtime" "^7.4.3"
+    "@emotion/core" "^10.0.14"
+    "@keystonejs/build-field-types" "^5.0.0"
+    "@keystonejs/fields" "^5.0.0"
+    cuid "^2.1.6"
+    prop-types "^15.7.2"
+    react "^16.8.6"
+    tinymce "^5.0.3"
+
 "@keystonejs/fields@^5.0.0", "@keystonejs/fields@^5.0.1", "@keystonejs/fields@^5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@keystonejs/fields/-/fields-5.0.2.tgz#ea0732ac501928472e986762a396815f02910991"
@@ -1642,6 +1659,13 @@
     slate-drop-or-paste-images "^0.9.1"
     slate-react "^0.22.4"
     unsplash-js "^5.0.0"
+
+"@keystonejs/file-adapters@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@keystonejs/file-adapters/-/file-adapters-5.1.0.tgz#c398afca7a66cf5d06511aa1bf8e8d08780e8796"
+  dependencies:
+    cloudinary "^1.13.2"
+    mkdirp "^0.5.1"
 
 "@keystonejs/keystone@^5.0.0", "@keystonejs/keystone@^5.1.0":
   version "5.1.0"
@@ -3238,6 +3262,13 @@ clipboard-copy@^3.0.0:
 clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
+
+cloudinary@^1.13.2:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.16.0.tgz#d2254a04fc0cacf3cae4ec8fce2005c82e6dc78a"
+  dependencies:
+    lodash "^4.17.11"
+    q "^1.5.1"
 
 clsx@^1.0.1:
   version "1.0.4"
@@ -7429,6 +7460,10 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
+q@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+
 qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
@@ -8903,6 +8938,10 @@ tiny-warning@^1.0.0:
 tinycolor2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
+
+tinymce@^5.0.3:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.1.1.tgz#fd0d2ad1d07e9aa60a88d391b1cdcaa6402f3104"
 
 tmp@^0.0.33:
   version "0.0.33"
