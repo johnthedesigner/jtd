@@ -10,7 +10,9 @@ const PROJECT_NAME = "jtd";
 
 const keystone = new Keystone({
   name: PROJECT_NAME,
-  adapter: new Adapter()
+  adapter: new Adapter({
+    mongoUri: process.env.MONGODB_URI
+  })
 });
 
 // Access control functions
