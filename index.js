@@ -24,7 +24,16 @@ const keystone = new Keystone({
         ssl: true
       }
     }
-  })
+  }),
+  onConnect: async () => {
+    // Add initial admin user if there are no users found
+    // Admin credentials will be pulled from environment variables
+    const users = await keystone.lists.User.adapter.findAll();
+    if (!users.length) {
+      const initialData = require("./initialData");
+      await keystone.createItems(initialData);
+    }
+  }
 });
 
 // Access control functions
@@ -69,6 +78,20 @@ const authStrategy = keystone.createAuthStrategy({
   type: PasswordAuthStrategy,
   list: "User"
 });
+
+// Create initial admin user
+// keystone.onConnect(() => {
+//   keystone.createItems({
+//     User: [
+//       {
+//         name: process.env.ADMIN_NAME,
+//         email: process.env.ADMIN_EMAIL,
+//         password: process.env.ADMIN_INIT_PASSWORD,
+//         isAdmin: true
+//       }
+//     ]
+//   });
+// });
 
 module.exports = {
   keystone,
