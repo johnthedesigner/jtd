@@ -4,7 +4,6 @@ const { Text, Checkbox, Password } = require("@keystonejs/fields");
 const { GraphQLApp } = require("@keystonejs/app-graphql");
 const { AdminUIApp } = require("@keystonejs/app-admin-ui");
 const { NextApp } = require("@keystonejs/app-next");
-// const { MongooseAdapter: Adapter } = require("@keystonejs/adapter-mongoose");
 const { KnexAdapter } = require("@keystonejs/adapter-knex");
 
 require("dotenv").config();
