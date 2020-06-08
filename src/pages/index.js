@@ -16,24 +16,48 @@ class IndexPage extends React.Component {
             <div className="intro-copy">
               <Logo fill="none" />
               <h2 className="intro-copy__headline">
-                Hi, I’m John Livornese. I’m the head of product design for{" "}
+                Hi, I’m John Livornese. I work for{" "}
+                <a
+                  href="http://tableau.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Tableau"
+                >
+                  Tableau{" "}
+                </a>
+                /{" "}
+                <a
+                  href="http://salesforce.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Salesforce"
+                >
+                  Salesforce{" "}
+                </a>
+                as Sr. User Experience Designer in predictive analytics. I'm
+                formerly the head of product design for{" "}
                 <a
                   href="http://luminoso.com"
                   target="_blank"
                   rel="noopener noreferrer"
+                  title="Luminoso"
                 >
                   Luminoso
                 </a>
-                , in Boston, Massachusetts. We make AI-based text analytics
-                software and{" "}
+                , in Boston, Massachusetts. I also built{" "}
                 <a
-                  href="http://luminoso.com/jobs"
+                  href="https://www.figma.com/community/plugin/849144368519969202/Paletteer"
                   target="_blank"
                   rel="noopener noreferrer"
+                  title="Paletteer Figma plugin"
                 >
-                  <em>we're hiring</em>
+                  Paletteer{" "}
                 </a>
-                . Since you’re here anyway, why not check out some of my{" "}
+                , the Figma plugin for generating useful color palettes for
+                digital design.
+                <br />
+                <br />
+                Since you’re here, why not check out some of my{" "}
                 <a href="#work">work</a>, or you could{" "}
                 <a href="mailto:john@johnthedesigner.com">get in touch</a>. We
                 could talk design or whatever, no pressure.
