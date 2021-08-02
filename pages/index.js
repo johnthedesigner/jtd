@@ -5,9 +5,10 @@ import Color from 'color'
 
 import Artboard from '../components/Artboard'
 import artboardJson from '../artboard'
-import { mapArtboard } from '../utils/artboardUtils'
+import { mapArtboard, scaleDimension } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
+import LayerControl from '../components/LayerControl'
 
 export default function Home() {
     const artboardWrapperStyles = {
@@ -25,21 +26,34 @@ export default function Home() {
     const [scaleFactor, setScaleFactor] = useState(1)
     const [isScaled, setIsScaled] = useState(false)
     const [artboardSize, setArtboardSize] = useState({
-        width: 1000,
-        height: 1000,
+        artboardWidth: 1000,
+        artboardHeight: 1000,
+        containerWidth: 1000,
+        containerHeight: 1000,
+        xOffset: 0,
+        yOffset: 0,
     })
+    const [highlightedLayer, highlightLayer] = useState(null)
+    const [selectedLayer, selectLayer] = useState(null)
 
     useEffect(() => {
         const resizeArtboard = () => {
             // Get appropriate size for artboard based on viewport size
             let wrapper = document.getElementById(`artboard-wrapper`)
-            setArtboardSize({
-                width: wrapper.clientWidth,
-                height: wrapper.clientHeight,
-            })
-            setScaleFactor(
+            let viewportWidth = wrapper.clientWidth
+            let viewportHeight = wrapper.clientHeight
+            let newScaleFactor =
                 _.min([wrapper.clientWidth, wrapper.clientHeight]) / 1000
-            )
+            let artboardSize = 1000 * newScaleFactor
+            setArtboardSize({
+                artboardWidth: artboardSize,
+                artboardHeight: artboardSize,
+                containerWidth: viewportWidth,
+                containerHeight: viewportHeight,
+                xOffset: (viewportWidth - artboardSize) / 2,
+                yOffset: (viewportHeight - artboardSize) / 2,
+            })
+            setScaleFactor(newScaleFactor)
             setIsScaled(true)
         }
 
@@ -76,13 +90,26 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div id="artboard-wrapper" style={artboardWrapperStyles}>
-                <Artboard scaleFactor={scaleFactor}>
-                    <div className="artboard__svg-wrapper">
+            <div
+                id="artboard-wrapper"
+                style={artboardWrapperStyles}
+                onClick={() => selectLayer(null)}
+            >
+                <Artboard scaleFactor={scaleFactor} artboardSize={artboardSize}>
+                    <div
+                        className="artboard__svg-wrapper"
+                        style={{
+                            position: 'relative',
+                            width: artboardSize.artboardWidth,
+                            height: artboardSize.artboardHeight,
+                            margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
+                        }}
+                    >
                         <svg
                             width={artboardSize.width}
                             height={artboardSize.height}
                             viewBox="0 0 1000 1000"
+                            overflow="visible"
                         >
                             <defs>
                                 {_.map(mappedArtboard.layers, (layer) => {
@@ -139,7 +166,8 @@ export default function Home() {
                                             // highlightLayer={highlightLayer}
                                             key={layer.id}
                                             layer={layer}
-                                            // selectLayer={selectLayer}
+                                            highlightLayer={highlightLayer}
+                                            highlightedLayer={highlightedLayer}
                                             isScaled={isScaled}
                                             scaleFactor={scaleFactor}
                                             // scaleLayer={scaleLayer}
@@ -148,6 +176,34 @@ export default function Home() {
                                 }
                             )}
                         </svg>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: scaleDimension(1000, scaleFactor),
+                                height: scaleDimension(1000, scaleFactor),
+                            }}
+                        >
+                            {_.map(
+                                _.orderBy(mappedArtboard.layers, 'order'),
+                                (layer, index) => {
+                                    return (
+                                        <LayerControl
+                                            key={layer.id}
+                                            artboardSize={artboardSize}
+                                            layer={layer}
+                                            highlightLayer={highlightLayer}
+                                            highlightedLayer={highlightedLayer}
+                                            selectLayer={selectLayer}
+                                            selectedLayer={selectedLayer}
+                                            isScaled={isScaled}
+                                            scaleFactor={scaleFactor}
+                                        />
+                                    )
+                                }
+                            )}
+                        </div>
                     </div>
                 </Artboard>
             </div>
