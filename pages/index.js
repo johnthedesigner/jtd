@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import _ from 'lodash'
 import Head from 'next/head'
 import Color from 'color'
+import { DndProvider, useDrop } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import Artboard from '../components/Artboard'
 import artboardJson from '../artboard'
@@ -9,6 +11,7 @@ import { mapArtboard, scaleDimension } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
 import LayerControl from '../components/LayerControl'
+import Reducer from '../utils/reducer'
 
 export default function Home() {
     const artboardWrapperStyles = {
@@ -23,6 +26,7 @@ export default function Home() {
         backgroundPosition: '-6px -6px',
     }
 
+    // const [artboard, setArtboard] = useState({ layers: [] })
     const [scaleFactor, setScaleFactor] = useState(1)
     const [isScaled, setIsScaled] = useState(false)
     const [artboardSize, setArtboardSize] = useState({
@@ -36,7 +40,29 @@ export default function Home() {
     const [highlightedLayer, highlightLayer] = useState(null)
     const [selectedLayer, selectLayer] = useState(null)
 
+    let mappedArtboard = mapArtboard(artboardJson)
+
+    // const storeArtboard = (artboard) => {
+    //     window.localStorage.setItem('artboard', artboard)
+    // }
+    // const retrieveArtboard = () => {
+    //     return window.localStorage.getItem('artboard')
+    // }
+
+    const [artboard, dispatch] = useReducer(Reducer, mappedArtboard)
+
     useEffect(() => {
+        // let retrievedArtboard = retrieveArtboard()
+        // if (retrievedArtboard === undefined) {
+        //     let mappedArtboard = mapArtboard(artboardJson)
+        //     storeArtboard(JSON.stringify(mappedArtboard))
+        //     setArtboard(mappedArtboard)
+        //     console.log(retrievedArtboard)
+        // } else {
+        //     setArtboard(JSON.parse(retrievedArtboard))
+        //     console.log(JSON.parse(retrievedArtboard))
+        // }
+
         const resizeArtboard = () => {
             // Get appropriate size for artboard based on viewport size
             let wrapper = document.getElementById(`artboard-wrapper`)
@@ -68,8 +94,6 @@ export default function Home() {
         }
     }, [])
 
-    const mappedArtboard = mapArtboard(artboardJson)
-
     return (
         <div>
             <link
@@ -95,117 +119,127 @@ export default function Home() {
                 style={artboardWrapperStyles}
                 onClick={() => selectLayer(null)}
             >
-                <Artboard scaleFactor={scaleFactor} artboardSize={artboardSize}>
-                    <div
-                        className="artboard__svg-wrapper"
-                        style={{
-                            position: 'relative',
-                            width: artboardSize.artboardWidth,
-                            height: artboardSize.artboardHeight,
-                            margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
-                        }}
+                <DndProvider backend={HTML5Backend}>
+                    <Artboard
+                        scaleFactor={scaleFactor}
+                        artboardSize={artboardSize}
+                        dispatch={dispatch}
                     >
-                        <svg
-                            width={artboardSize.width}
-                            height={artboardSize.height}
-                            viewBox="0 0 1000 1000"
-                            overflow="visible"
-                        >
-                            <defs>
-                                {_.map(mappedArtboard.layers, (layer) => {
-                                    let { fill } = layer.adjustments
-                                    if (fill === undefined) return null
-                                    let fillColors = colorsWithFallback(
-                                        fill.color,
-                                        fill.gradient
-                                    )
-                                    let fillConfig
-                                    if (fill.type === 'gradient') {
-                                        fillConfig = fillColors.gradient
-                                    } else {
-                                        fillConfig = {
-                                            angle: 0,
-                                            start: fillColors.solid,
-                                            end: fillColors.solid,
-                                        }
-                                    }
-
-                                    return (
-                                        <linearGradient
-                                            key={layer.id}
-                                            id={`gradient${layer.id}`}
-                                            x1="0%"
-                                            x2="0%"
-                                            y1="0%"
-                                            y2="100%"
-                                        >
-                                            <stop
-                                                className="stop1"
-                                                offset="0%"
-                                                stopColor={Color(
-                                                    fillConfig.start
-                                                ).hex()}
-                                            />
-                                            <stop
-                                                className="stop2"
-                                                offset="100%"
-                                                stopColor={Color(
-                                                    fillConfig.end
-                                                ).hex()}
-                                            />
-                                        </linearGradient>
-                                    )
-                                })}
-                            </defs>
-                            {_.map(
-                                _.orderBy(mappedArtboard.layers, 'order'),
-                                (layer, index) => {
-                                    return (
-                                        <Layer
-                                            // dragLayers={dragLayers}
-                                            // highlightLayer={highlightLayer}
-                                            key={layer.id}
-                                            layer={layer}
-                                            highlightLayer={highlightLayer}
-                                            highlightedLayer={highlightedLayer}
-                                            isScaled={isScaled}
-                                            scaleFactor={scaleFactor}
-                                            // scaleLayer={scaleLayer}
-                                        />
-                                    )
-                                }
-                            )}
-                        </svg>
                         <div
+                            className="artboard__svg-wrapper"
                             style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: scaleDimension(1000, scaleFactor),
-                                height: scaleDimension(1000, scaleFactor),
+                                position: 'relative',
+                                width: artboardSize.artboardWidth,
+                                height: artboardSize.artboardHeight,
+                                margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
                             }}
                         >
-                            {_.map(
-                                _.orderBy(mappedArtboard.layers, 'order'),
-                                (layer, index) => {
-                                    return (
-                                        <LayerControl
-                                            key={layer.id}
-                                            artboardSize={artboardSize}
-                                            layer={layer}
-                                            highlightLayer={highlightLayer}
-                                            highlightedLayer={highlightedLayer}
-                                            selectLayer={selectLayer}
-                                            selectedLayer={selectedLayer}
-                                            isScaled={isScaled}
-                                            scaleFactor={scaleFactor}
-                                        />
-                                    )
-                                }
-                            )}
+                            <svg
+                                width={artboardSize.width}
+                                height={artboardSize.height}
+                                viewBox="0 0 1000 1000"
+                                overflow="visible"
+                            >
+                                <defs>
+                                    {_.map(artboard.layers, (layer) => {
+                                        let { fill } = layer.adjustments
+                                        if (fill === undefined) return null
+                                        let fillColors = colorsWithFallback(
+                                            fill.color,
+                                            fill.gradient
+                                        )
+                                        let fillConfig
+                                        if (fill.type === 'gradient') {
+                                            fillConfig = fillColors.gradient
+                                        } else {
+                                            fillConfig = {
+                                                angle: 0,
+                                                start: fillColors.solid,
+                                                end: fillColors.solid,
+                                            }
+                                        }
+
+                                        return (
+                                            <linearGradient
+                                                key={layer.id}
+                                                id={`gradient${layer.id}`}
+                                                x1="0%"
+                                                x2="0%"
+                                                y1="0%"
+                                                y2="100%"
+                                            >
+                                                <stop
+                                                    className="stop1"
+                                                    offset="0%"
+                                                    stopColor={Color(
+                                                        fillConfig.start
+                                                    ).hex()}
+                                                />
+                                                <stop
+                                                    className="stop2"
+                                                    offset="100%"
+                                                    stopColor={Color(
+                                                        fillConfig.end
+                                                    ).hex()}
+                                                />
+                                            </linearGradient>
+                                        )
+                                    })}
+                                </defs>
+                                {_.map(
+                                    _.orderBy(artboard.layers, 'order'),
+                                    (layer, index) => {
+                                        return (
+                                            <Layer
+                                                // dragLayers={dragLayers}
+                                                // highlightLayer={highlightLayer}
+                                                key={layer.id}
+                                                layer={layer}
+                                                highlightLayer={highlightLayer}
+                                                highlightedLayer={
+                                                    highlightedLayer
+                                                }
+                                                isScaled={isScaled}
+                                                scaleFactor={scaleFactor}
+                                                // scaleLayer={scaleLayer}
+                                            />
+                                        )
+                                    }
+                                )}
+                            </svg>
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: scaleDimension(1000, scaleFactor),
+                                    height: scaleDimension(1000, scaleFactor),
+                                }}
+                            >
+                                {_.map(
+                                    _.orderBy(artboard.layers, 'order'),
+                                    (layer, index) => {
+                                        return (
+                                            <LayerControl
+                                                key={layer.id}
+                                                artboardSize={artboardSize}
+                                                layer={layer}
+                                                highlightLayer={highlightLayer}
+                                                highlightedLayer={
+                                                    highlightedLayer
+                                                }
+                                                selectLayer={selectLayer}
+                                                selectedLayer={selectedLayer}
+                                                isScaled={isScaled}
+                                                scaleFactor={scaleFactor}
+                                            />
+                                        )
+                                    }
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </Artboard>
+                    </Artboard>
+                </DndProvider>
             </div>
         </div>
     )
