@@ -67,11 +67,10 @@ export function deselectLayers(artboardId) {
     }
 }
 
-export function dragLayers(artboardId, layerId, x, y, previewOnly) {
+export function dragLayers(layerIds, x, y, previewOnly) {
     return {
         type: DRAG_LAYERS,
-        artboardId,
-        layerId,
+        layerIds,
         x,
         y,
         previewOnly,
@@ -124,10 +123,9 @@ export function scaleLayer(artboardId, scaleDirectives, previewOnly) {
     }
 }
 
-export function selectLayer(artboardId, layerId, shiftKey) {
+export function selectLayer(layerId, shiftKey) {
     return {
         type: SELECT_LAYER,
-        artboardId,
         layerId,
         shiftKey,
     }

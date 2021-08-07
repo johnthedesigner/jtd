@@ -24,7 +24,7 @@ import {
 
 // Indent console logs with a title
 export function consoleGroup(title, logArray) {
-    if (process.env.NODE_ENV === 'development' && false) {
+    if (process.env.NODE_ENV === 'development') {
         console.group(title)
         logArray.forEach((line) => console.log(line))
         console.groupEnd()
@@ -133,11 +133,10 @@ export default function Reducer(state = {}, a) {
             consoleGroup(a.type, [a])
             let affectedLayers = clonedArtboard.selections
             // For each selected layer apply offset to all points
-            _.each([a.layerId], (layerId) => {
+            _.each(affectedLayers, (layerId) => {
                 let nextDraggedLayer = _.find(clonedArtboard.layers, {
-                    id: a.layerId[0],
+                    id: layerId,
                 })
-                console.log(nextDraggedLayer)
                 let draggedDimensions = _.cloneDeep(nextDraggedLayer.dimensions)
                 draggedDimensions.x += Math.round(a.x)
                 draggedDimensions.y += Math.round(a.y)
@@ -149,8 +148,7 @@ export default function Reducer(state = {}, a) {
                     updateHistory(clonedArtboard)
                 }
             })
-            console.log(Object.assign({}, state, clonedArtboard))
-            return Object.assign({}, state, { ...clonedArtboard })
+            return Object.assign({}, state, clonedArtboard)
 
         case ENABLE_TEXT_EDITOR:
             consoleGroup(a.type, [a])
@@ -299,14 +297,11 @@ export default function Reducer(state = {}, a) {
             ) {
                 return state
             } else {
-                clonedArtboards[a.artboardId].selections = a.shiftKey
-                    ? _.xor(clonedArtboards[a.artboardId].selections, [
-                          a.layerId,
-                      ])
+                clonedArtboard.selections = a.shiftKey
+                    ? _.xor(clonedArtboard.selections, [a.layerId])
                     : [a.layerId]
                 return Object.assign({}, state, {
-                    artboards: clonedArtboards,
-                    currentArtboardId: a.artboardId,
+                    ...clonedArtboard,
                 })
             }
 

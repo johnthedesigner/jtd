@@ -10,8 +10,15 @@ import artboardJson from '../artboard'
 import { mapArtboard, scaleDimension } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
-import LayerControl from '../components/LayerControl'
 import Reducer from '../utils/reducer'
+import { dragLayers, selectLayer } from '../utils/actions'
+import DragHandle from '../components/DragHandle'
+import ResizeHandle from '../components/ResizeHandle'
+import {
+    getLayerDimensions,
+    scaleAllDimensions,
+    unscaleDimension,
+} from '../utils/artboardUtils'
 
 export default function Home() {
     const artboardWrapperStyles = {
@@ -37,32 +44,81 @@ export default function Home() {
         xOffset: 0,
         yOffset: 0,
     })
-    const [highlightedLayer, highlightLayer] = useState(null)
-    const [selectedLayer, selectLayer] = useState(null)
+
+    let lastDragUpdate = 0
+    let lastOffset = { x: 0, y: 0 }
+
+    const [collectedProps, dropTarget] = useDrop(() => ({
+        accept: 'LAYER',
+        collect: (monitor, props) => {
+            return { isDragging: monitor.isOver() }
+        },
+        hover: (item, monitor) => {
+            // Get layer offset while hovering and round it off so we don't move less than a pixel
+            let rawOffset = monitor.getDifferenceFromInitialOffset()
+            let offset = {
+                x: Math.round(rawOffset.x),
+                y: Math.round(rawOffset.y),
+            }
+            let rightNow = Date.now()
+            let dragInterval = rightNow - lastDragUpdate
+            // Only do something if the pointer has moved
+            // Also wait at least a little between updates to limit updates per second
+            if (
+                (offset.x !== lastOffset.x || offset.y !== lastOffset.y) &&
+                dragInterval > 10
+            ) {
+                lastOffset = offset
+                lastDragUpdate = rightNow
+                dispatch(
+                    dragLayers(
+                        [artboard.selections],
+                        unscaleDimension(offset.x, scaleFactor),
+                        unscaleDimension(offset.y, scaleFactor),
+                        true
+                    )
+                )
+                dispatch(selectLayer(item.id))
+            }
+        },
+        drop: (item, monitor) => {
+            let offset = monitor.getDifferenceFromInitialOffset()
+            dispatch(
+                dragLayers(
+                    item.id,
+                    unscaleDimension(offset.x, scaleFactor),
+                    unscaleDimension(offset.y, scaleFactor),
+                    false
+                )
+            )
+        },
+    }))
 
     let mappedArtboard = mapArtboard(artboardJson)
 
-    // const storeArtboard = (artboard) => {
-    //     window.localStorage.setItem('artboard', artboard)
-    // }
-    // const retrieveArtboard = () => {
-    //     return window.localStorage.getItem('artboard')
-    // }
-
     const [artboard, dispatch] = useReducer(Reducer, mappedArtboard)
 
-    useEffect(() => {
-        // let retrievedArtboard = retrieveArtboard()
-        // if (retrievedArtboard === undefined) {
-        //     let mappedArtboard = mapArtboard(artboardJson)
-        //     storeArtboard(JSON.stringify(mappedArtboard))
-        //     setArtboard(mappedArtboard)
-        //     console.log(retrievedArtboard)
-        // } else {
-        //     setArtboard(JSON.parse(retrievedArtboard))
-        //     console.log(JSON.parse(retrievedArtboard))
-        // }
+    let selectedLayers = _.filter(artboard.layers, (layer) => {
+        return _.includes(artboard.selections, layer.id)
+    })
+    let selectionDimensions = scaleAllDimensions(
+        getLayerDimensions(selectedLayers),
+        scaleFactor,
+        true
+    )
 
+    const resizeableControlStyles = {
+        position: 'absolute',
+        top: selectionDimensions.y,
+        left: selectionDimensions.x,
+        width: selectionDimensions.width,
+        height: selectionDimensions.height,
+        transform: `rotate(${selectionDimensions.rotation}deg)`,
+        pointerEvents: 'none',
+        display: collectedProps.isDragging ? 'none' : 'block',
+    }
+
+    useEffect(() => {
         const resizeArtboard = () => {
             // Get appropriate size for artboard based on viewport size
             let wrapper = document.getElementById(`artboard-wrapper`)
@@ -84,7 +140,7 @@ export default function Home() {
         }
 
         if (document != null) {
-            resizeArtboard()
+            setTimeout(resizeArtboard, 20)
         }
 
         window.addEventListener('resize', resizeArtboard)
@@ -114,132 +170,181 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div
-                id="artboard-wrapper"
-                style={artboardWrapperStyles}
-                onClick={() => selectLayer(null)}
-            >
-                <DndProvider backend={HTML5Backend}>
-                    <Artboard
-                        scaleFactor={scaleFactor}
-                        artboardSize={artboardSize}
-                        dispatch={dispatch}
+            <div id="artboard-wrapper" style={artboardWrapperStyles}>
+                <Artboard
+                    scaleFactor={scaleFactor}
+                    artboardSize={artboardSize}
+                    dispatch={dispatch}
+                >
+                    <div
+                        className="artboard__svg-wrapper"
+                        style={{
+                            position: 'relative',
+                            width: artboardSize.artboardWidth,
+                            height: artboardSize.artboardHeight,
+                            margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
+                        }}
                     >
+                        <svg
+                            width={artboardSize.width}
+                            height={artboardSize.height}
+                            viewBox="0 0 1000 1000"
+                            overflow="visible"
+                        >
+                            <defs>
+                                {_.map(artboard.layers, (layer) => {
+                                    let { fill } = layer.adjustments
+                                    if (fill === undefined) return null
+                                    let fillColors = colorsWithFallback(
+                                        fill.color,
+                                        fill.gradient
+                                    )
+                                    let fillConfig
+                                    if (fill.type === 'gradient') {
+                                        fillConfig = fillColors.gradient
+                                    } else {
+                                        fillConfig = {
+                                            angle: 0,
+                                            start: fillColors.solid,
+                                            end: fillColors.solid,
+                                        }
+                                    }
+
+                                    return (
+                                        <linearGradient
+                                            key={layer.id}
+                                            id={`gradient${layer.id}`}
+                                            x1="0%"
+                                            x2="0%"
+                                            y1="0%"
+                                            y2="100%"
+                                        >
+                                            <stop
+                                                className="stop1"
+                                                offset="0%"
+                                                stopColor={Color(
+                                                    fillConfig.start
+                                                ).hex()}
+                                            />
+                                            <stop
+                                                className="stop2"
+                                                offset="100%"
+                                                stopColor={Color(
+                                                    fillConfig.end
+                                                ).hex()}
+                                            />
+                                        </linearGradient>
+                                    )
+                                })}
+                            </defs>
+                            {_.map(
+                                _.orderBy(artboard.layers, 'order'),
+                                (layer, index) => {
+                                    return (
+                                        <Layer
+                                            dispatch={dispatch}
+                                            key={layer.id}
+                                            layer={layer}
+                                            isScaled={isScaled}
+                                            scaleFactor={scaleFactor}
+                                        />
+                                    )
+                                }
+                            )}
+                        </svg>
+                    </div>
+                    <div>
                         <div
-                            className="artboard__svg-wrapper"
+                            ref={dropTarget}
+                            className="layer-control__drop-target"
                             style={{
-                                position: 'relative',
-                                width: artboardSize.artboardWidth,
-                                height: artboardSize.artboardHeight,
-                                margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                left: 0,
+                            }}
+                            onClick={() => {
+                                dispatch(selectLayer(null, false))
                             }}
                         >
-                            <svg
-                                width={artboardSize.width}
-                                height={artboardSize.height}
-                                viewBox="0 0 1000 1000"
-                                overflow="visible"
-                            >
-                                <defs>
-                                    {_.map(artboard.layers, (layer) => {
-                                        let { fill } = layer.adjustments
-                                        if (fill === undefined) return null
-                                        let fillColors = colorsWithFallback(
-                                            fill.color,
-                                            fill.gradient
-                                        )
-                                        let fillConfig
-                                        if (fill.type === 'gradient') {
-                                            fillConfig = fillColors.gradient
-                                        } else {
-                                            fillConfig = {
-                                                angle: 0,
-                                                start: fillColors.solid,
-                                                end: fillColors.solid,
-                                            }
-                                        }
-
-                                        return (
-                                            <linearGradient
-                                                key={layer.id}
-                                                id={`gradient${layer.id}`}
-                                                x1="0%"
-                                                x2="0%"
-                                                y1="0%"
-                                                y2="100%"
-                                            >
-                                                <stop
-                                                    className="stop1"
-                                                    offset="0%"
-                                                    stopColor={Color(
-                                                        fillConfig.start
-                                                    ).hex()}
-                                                />
-                                                <stop
-                                                    className="stop2"
-                                                    offset="100%"
-                                                    stopColor={Color(
-                                                        fillConfig.end
-                                                    ).hex()}
-                                                />
-                                            </linearGradient>
-                                        )
-                                    })}
-                                </defs>
-                                {_.map(
-                                    _.orderBy(artboard.layers, 'order'),
-                                    (layer, index) => {
-                                        return (
-                                            <Layer
-                                                // dragLayers={dragLayers}
-                                                // highlightLayer={highlightLayer}
-                                                key={layer.id}
-                                                layer={layer}
-                                                highlightLayer={highlightLayer}
-                                                highlightedLayer={
-                                                    highlightedLayer
-                                                }
-                                                isScaled={isScaled}
-                                                scaleFactor={scaleFactor}
-                                                // scaleLayer={scaleLayer}
-                                            />
-                                        )
-                                    }
-                                )}
-                            </svg>
                             <div
+                                className="layer-control__artboard-area"
                                 style={{
                                     position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: scaleDimension(1000, scaleFactor),
-                                    height: scaleDimension(1000, scaleFactor),
+                                    width: artboardSize.artboardWidth,
+                                    height: artboardSize.artboardHeight,
+                                    margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
                                 }}
                             >
                                 {_.map(
                                     _.orderBy(artboard.layers, 'order'),
                                     (layer, index) => {
                                         return (
-                                            <LayerControl
+                                            <DragHandle
                                                 key={layer.id}
-                                                artboardSize={artboardSize}
                                                 layer={layer}
-                                                highlightLayer={highlightLayer}
-                                                highlightedLayer={
-                                                    highlightedLayer
+                                                isDragging={
+                                                    collectedProps.isDragging
                                                 }
-                                                selectLayer={selectLayer}
-                                                selectedLayer={selectedLayer}
-                                                isScaled={isScaled}
                                                 scaleFactor={scaleFactor}
+                                                selections={artboard.selections}
+                                                dispatch={dispatch}
                                             />
                                         )
                                     }
                                 )}
+                                <div
+                                    className={'resize-control__wrapper'}
+                                    style={resizeableControlStyles}
+                                >
+                                    <ResizeHandle
+                                        className="resize-handle__top"
+                                        directions={['top']}
+                                        dimensions={selectionDimensions}
+                                    >
+                                        <i>top</i>
+                                    </ResizeHandle>
+                                    <ResizeHandle
+                                        className="resize-handle__right"
+                                        directions={['right']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                    <ResizeHandle
+                                        className="resize-handle__bottom"
+                                        directions={['bottom']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                    <ResizeHandle
+                                        className="resize-handle__left"
+                                        directions={['left']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                    <ResizeHandle
+                                        className="resize-handle__top-left"
+                                        directions={['top', 'left']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                    <ResizeHandle
+                                        className="resize-handle__top-right"
+                                        directions={['top', 'right']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                    <ResizeHandle
+                                        className="resize-handle__bottom-right"
+                                        directions={['bottom', 'right']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                    <ResizeHandle
+                                        className="resize-handle__bottom-left"
+                                        directions={['bottom', 'left']}
+                                        dimensions={selectionDimensions}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </Artboard>
-                </DndProvider>
+                    </div>
+                </Artboard>
             </div>
         </div>
     )

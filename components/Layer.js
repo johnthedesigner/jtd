@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import _ from 'lodash'
 
 import RectangleLayer from './RectangleLayer'
 import ImageLayer from './ImageLayer'
 import TextLayer from './TextLayer'
 import EllipseLayer from './EllipseLayer'
+import { selectLayer } from '../utils/actions'
 
 export const layerTypes = {
     ellipse: 'ellipse',
@@ -32,6 +34,11 @@ const Layer = (props) => {
         }
         setRenderDimensions(layerDimensions)
     }, [dimensions, tempDimensions])
+
+    const handleClick = (e) => {
+        e.stopPropagation()
+        props.dispatch(selectLayer(props.layer.id, e.shiftKey))
+    }
 
     const layerType = (layer) => {
         switch (layer.type) {
@@ -71,7 +78,11 @@ const Layer = (props) => {
 
     let { layer } = props
 
-    return <g key={`g${layer.id}`}>{layerType(layer)}</g>
+    return (
+        <g key={`g${layer.id}`} onClick={handleClick}>
+            {layerType(layer)}
+        </g>
+    )
 }
 
 export default Layer
