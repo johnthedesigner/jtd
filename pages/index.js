@@ -20,7 +20,116 @@ import {
     unscaleDimension,
 } from '../utils/artboardUtils'
 
-export default function Home() {
+export default function Home(props) {
+    const [scaleFactor, setScaleFactor] = useState(1)
+    const [isScaled, setIsScaled] = useState(false)
+    const [artboardSize, setArtboardSize] = useState({
+        artboardWidth: 1000,
+        artboardHeight: 1000,
+        containerWidth: 1000,
+        containerHeight: 1000,
+        xOffset: 0,
+        yOffset: 0,
+    })
+    let mappedArtboard = mapArtboard(artboardJson)
+
+    const [artboard, dispatch] = useReducer(Reducer, mappedArtboard)
+
+    const resizeArtboard = (wrapper) => {
+        // Get appropriate size for artboard based on viewport size
+        let viewportWidth = wrapper.clientWidth
+        let viewportHeight = wrapper.clientHeight
+        let newScaleFactor =
+            _.min([wrapper.clientWidth, wrapper.clientHeight]) / 1000
+        let artboardSize = 1000 * newScaleFactor
+        setArtboardSize({
+            artboardWidth: artboardSize,
+            artboardHeight: artboardSize,
+            containerWidth: viewportWidth,
+            containerHeight: viewportHeight,
+            xOffset: (viewportWidth - artboardSize) / 2,
+            yOffset: (viewportHeight - artboardSize) / 2,
+        })
+        setScaleFactor(newScaleFactor)
+        setIsScaled(true)
+    }
+
+    useEffect(() => {
+        let wrapper = document.getElementById(`artboard-wrapper`)
+
+        if (document != null) {
+            setTimeout(() => resizeArtboard(wrapper), 20)
+        }
+
+        window.addEventListener('resize', () => resizeArtboard(wrapper))
+
+        return () => {
+            window.removeEventListener('resize', () => resizeArtboard(wrapper))
+        }
+    }, [artboard])
+
+    let lastDragUpdate = 0
+    let lastOffset = { x: 0, y: 0 }
+
+    const [collectedProps, dropTarget] = useDrop(
+        () => ({
+            accept: 'LAYER',
+            collect: (monitor, props) => {
+                return { isDragging: monitor.isOver() }
+            },
+            hover: (item, monitor) => {
+                // Get layer offset while hovering and round it off so we don't move less than a pixel
+                let rawOffset = monitor.getDifferenceFromInitialOffset()
+                let offset = {
+                    x: Math.round(rawOffset.x),
+                    y: Math.round(rawOffset.y),
+                }
+                let rightNow = Date.now()
+                let dragInterval = rightNow - lastDragUpdate
+                // Only do something if the pointer has moved
+                // Also wait at least a little between updates to limit updates per second
+                if (
+                    (offset.x !== lastOffset.x || offset.y !== lastOffset.y) &&
+                    dragInterval > 20
+                ) {
+                    lastOffset = offset
+                    lastDragUpdate = rightNow
+                    dispatch(selectLayer(item.id, false))
+                    dispatch(
+                        dragLayers(
+                            [artboard.selections],
+                            unscaleDimension(offset.x, scaleFactor),
+                            unscaleDimension(offset.y, scaleFactor),
+                            true
+                        )
+                    )
+                    dispatch(selectLayer(item.id))
+                }
+            },
+            drop: (item, monitor) => {
+                let offset = monitor.getDifferenceFromInitialOffset()
+                dispatch(
+                    dragLayers(
+                        item.id,
+                        unscaleDimension(offset.x, scaleFactor),
+                        unscaleDimension(offset.y, scaleFactor),
+                        false
+                    )
+                )
+            },
+        }),
+        [artboardSize]
+    )
+
+    let selectedLayers = _.filter(artboard.layers, (layer) => {
+        return _.includes(artboard.selections, layer.id)
+    })
+    let selectionDimensions = scaleAllDimensions(
+        getLayerDimensions(selectedLayers),
+        scaleFactor,
+        true
+    )
+
     const artboardWrapperStyles = {
         position: 'absolute',
         top: 0,
@@ -33,80 +142,6 @@ export default function Home() {
         backgroundPosition: '-6px -6px',
     }
 
-    // const [artboard, setArtboard] = useState({ layers: [] })
-    const [scaleFactor, setScaleFactor] = useState(1)
-    const [isScaled, setIsScaled] = useState(false)
-    const [artboardSize, setArtboardSize] = useState({
-        artboardWidth: 1000,
-        artboardHeight: 1000,
-        containerWidth: 1000,
-        containerHeight: 1000,
-        xOffset: 0,
-        yOffset: 0,
-    })
-
-    let lastDragUpdate = 0
-    let lastOffset = { x: 0, y: 0 }
-
-    const [collectedProps, dropTarget] = useDrop(() => ({
-        accept: 'LAYER',
-        collect: (monitor, props) => {
-            return { isDragging: monitor.isOver() }
-        },
-        hover: (item, monitor) => {
-            // Get layer offset while hovering and round it off so we don't move less than a pixel
-            let rawOffset = monitor.getDifferenceFromInitialOffset()
-            let offset = {
-                x: Math.round(rawOffset.x),
-                y: Math.round(rawOffset.y),
-            }
-            let rightNow = Date.now()
-            let dragInterval = rightNow - lastDragUpdate
-            // Only do something if the pointer has moved
-            // Also wait at least a little between updates to limit updates per second
-            if (
-                (offset.x !== lastOffset.x || offset.y !== lastOffset.y) &&
-                dragInterval > 10
-            ) {
-                lastOffset = offset
-                lastDragUpdate = rightNow
-                dispatch(
-                    dragLayers(
-                        [artboard.selections],
-                        unscaleDimension(offset.x, scaleFactor),
-                        unscaleDimension(offset.y, scaleFactor),
-                        true
-                    )
-                )
-                dispatch(selectLayer(item.id))
-            }
-        },
-        drop: (item, monitor) => {
-            let offset = monitor.getDifferenceFromInitialOffset()
-            dispatch(
-                dragLayers(
-                    item.id,
-                    unscaleDimension(offset.x, scaleFactor),
-                    unscaleDimension(offset.y, scaleFactor),
-                    false
-                )
-            )
-        },
-    }))
-
-    let mappedArtboard = mapArtboard(artboardJson)
-
-    const [artboard, dispatch] = useReducer(Reducer, mappedArtboard)
-
-    let selectedLayers = _.filter(artboard.layers, (layer) => {
-        return _.includes(artboard.selections, layer.id)
-    })
-    let selectionDimensions = scaleAllDimensions(
-        getLayerDimensions(selectedLayers),
-        scaleFactor,
-        true
-    )
-
     const resizeableControlStyles = {
         position: 'absolute',
         top: selectionDimensions.y,
@@ -117,38 +152,6 @@ export default function Home() {
         pointerEvents: 'none',
         display: collectedProps.isDragging ? 'none' : 'block',
     }
-
-    useEffect(() => {
-        const resizeArtboard = () => {
-            // Get appropriate size for artboard based on viewport size
-            let wrapper = document.getElementById(`artboard-wrapper`)
-            let viewportWidth = wrapper.clientWidth
-            let viewportHeight = wrapper.clientHeight
-            let newScaleFactor =
-                _.min([wrapper.clientWidth, wrapper.clientHeight]) / 1000
-            let artboardSize = 1000 * newScaleFactor
-            setArtboardSize({
-                artboardWidth: artboardSize,
-                artboardHeight: artboardSize,
-                containerWidth: viewportWidth,
-                containerHeight: viewportHeight,
-                xOffset: (viewportWidth - artboardSize) / 2,
-                yOffset: (viewportHeight - artboardSize) / 2,
-            })
-            setScaleFactor(newScaleFactor)
-            setIsScaled(true)
-        }
-
-        if (document != null) {
-            setTimeout(resizeArtboard, 20)
-        }
-
-        window.addEventListener('resize', resizeArtboard)
-
-        return () => {
-            window.removeEventListener('resize', resizeArtboard)
-        }
-    }, [])
 
     return (
         <div>

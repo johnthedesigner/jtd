@@ -20,7 +20,6 @@ const DragHandle = (props) => {
         setDimensions(
             scaleAllDimensions(props.layer.dimensions, props.scaleFactor, true)
         )
-        console.log(props.selections, props.layer.id)
         if (_.includes(props.selections, props.layer.id)) {
             setIsSelected(true)
         } else {

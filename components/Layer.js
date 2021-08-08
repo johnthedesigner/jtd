@@ -6,6 +6,7 @@ import ImageLayer from './ImageLayer'
 import TextLayer from './TextLayer'
 import EllipseLayer from './EllipseLayer'
 import { selectLayer } from '../utils/actions'
+import { scaleAllDimensions } from '../utils/artboardUtils'
 
 export const layerTypes = {
     ellipse: 'ellipse',
@@ -79,7 +80,7 @@ const Layer = (props) => {
     let { layer } = props
 
     return (
-        <g key={`g${layer.id}`} onClick={handleClick}>
+        <g key={`g${layer.id}`} onClick={handleClick} onMouseDown={handleClick}>
             {layerType(layer)}
         </g>
     )

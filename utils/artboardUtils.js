@@ -4,12 +4,12 @@ import { mergeAdjustments } from './mergeAdjustments'
 
 // Scale an individual Dimension for artboard resizing
 export const scaleDimension = (dimension, scaleFactor) => {
-    return dimension * scaleFactor
+    return Math.round(dimension * scaleFactor)
 }
 
 // Unscale an individual Dimension for artboard resizing
 export const unscaleDimension = (dimension, scaleFactor) => {
-    return Math.round(Math.round(dimension / scaleFactor / 1) * 1)
+    return Math.round(dimension / scaleFactor)
 }
 
 // Scale full set of layer dimensions for artboard resizing
