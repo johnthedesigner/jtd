@@ -5,6 +5,7 @@ import Color from 'color'
 import { useDrop } from 'react-dnd'
 
 import Artboard from '../components/Artboard'
+import ArtboardShortcutsWrapper from '../components/ArtboardShortcutsWrapper'
 import artboardJson from '../artboard'
 import { mapArtboard } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
@@ -228,8 +229,6 @@ export default function Home(props) {
         backgroundPosition: '-6px -6px',
     }
 
-    console.log(artboard.selections)
-
     const resizeableControlStyles = {
         position: 'absolute',
         top: selectionDimensions.y,
@@ -266,178 +265,182 @@ export default function Home(props) {
             </Head>
 
             <div id="artboard-wrapper" style={artboardWrapperStyles}>
-                <Artboard
-                    scaleFactor={scaleFactor}
-                    artboardSize={artboardSize}
-                    dispatch={dispatch}
-                >
-                    <div
-                        className="artboard__svg-wrapper"
-                        style={{
-                            position: 'relative',
-                            width: artboardSize.artboardWidth,
-                            height: artboardSize.artboardHeight,
-                            margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
-                        }}
+                <ArtboardShortcutsWrapper dispatch={dispatch}>
+                    <Artboard
+                        scaleFactor={scaleFactor}
+                        artboardSize={artboardSize}
+                        dispatch={dispatch}
                     >
-                        <svg
-                            width={artboardSize.width}
-                            height={artboardSize.height}
-                            viewBox="0 0 1000 1000"
-                            overflow="visible"
-                        >
-                            <defs>
-                                {_.map(artboard.layers, (layer) => {
-                                    let { fill } = layer.adjustments
-                                    if (fill === undefined) return null
-                                    let fillColors = colorsWithFallback(
-                                        fill.color,
-                                        fill.gradient
-                                    )
-                                    let fillConfig
-                                    if (fill.type === 'gradient') {
-                                        fillConfig = fillColors.gradient
-                                    } else {
-                                        fillConfig = {
-                                            angle: 0,
-                                            start: fillColors.solid,
-                                            end: fillColors.solid,
-                                        }
-                                    }
-
-                                    return (
-                                        <linearGradient
-                                            key={layer.id}
-                                            id={`gradient${layer.id}`}
-                                            x1="0%"
-                                            x2="0%"
-                                            y1="0%"
-                                            y2="100%"
-                                        >
-                                            <stop
-                                                className="stop1"
-                                                offset="0%"
-                                                stopColor={Color(
-                                                    fillConfig.start
-                                                ).hex()}
-                                            />
-                                            <stop
-                                                className="stop2"
-                                                offset="100%"
-                                                stopColor={Color(
-                                                    fillConfig.end
-                                                ).hex()}
-                                            />
-                                        </linearGradient>
-                                    )
-                                })}
-                            </defs>
-                            {_.map(
-                                _.orderBy(artboard.layers, 'order'),
-                                (layer, index) => {
-                                    return (
-                                        <Layer
-                                            dispatch={dispatch}
-                                            key={layer.id}
-                                            layer={layer}
-                                            isScaled={isScaled}
-                                            scaleFactor={scaleFactor}
-                                        />
-                                    )
-                                }
-                            )}
-                        </svg>
-                    </div>
-                    <div>
                         <div
-                            ref={dropTarget}
-                            className="layer-control__drop-target"
+                            className="artboard__svg-wrapper"
                             style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: 0,
-                            }}
-                            onClick={() => {
-                                dispatch(deselectLayers())
+                                position: 'relative',
+                                width: artboardSize.artboardWidth,
+                                height: artboardSize.artboardHeight,
+                                margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
                             }}
                         >
-                            <div
-                                className="layer-control__artboard-area"
-                                style={{
-                                    position: 'absolute',
-                                    width: artboardSize.artboardWidth,
-                                    height: artboardSize.artboardHeight,
-                                    margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
-                                }}
+                            <svg
+                                width={artboardSize.width}
+                                height={artboardSize.height}
+                                viewBox="0 0 1000 1000"
+                                overflow="visible"
                             >
+                                <defs>
+                                    {_.map(artboard.layers, (layer) => {
+                                        let { fill } = layer.adjustments
+                                        if (fill === undefined) return null
+                                        let fillColors = colorsWithFallback(
+                                            fill.color,
+                                            fill.gradient
+                                        )
+                                        let fillConfig
+                                        if (fill.type === 'gradient') {
+                                            fillConfig = fillColors.gradient
+                                        } else {
+                                            fillConfig = {
+                                                angle: 0,
+                                                start: fillColors.solid,
+                                                end: fillColors.solid,
+                                            }
+                                        }
+
+                                        return (
+                                            <linearGradient
+                                                key={layer.id}
+                                                id={`gradient${layer.id}`}
+                                                x1="0%"
+                                                x2="0%"
+                                                y1="0%"
+                                                y2="100%"
+                                            >
+                                                <stop
+                                                    className="stop1"
+                                                    offset="0%"
+                                                    stopColor={Color(
+                                                        fillConfig.start
+                                                    ).hex()}
+                                                />
+                                                <stop
+                                                    className="stop2"
+                                                    offset="100%"
+                                                    stopColor={Color(
+                                                        fillConfig.end
+                                                    ).hex()}
+                                                />
+                                            </linearGradient>
+                                        )
+                                    })}
+                                </defs>
                                 {_.map(
                                     _.orderBy(artboard.layers, 'order'),
                                     (layer, index) => {
                                         return (
-                                            <DragHandle
+                                            <Layer
+                                                dispatch={dispatch}
                                                 key={layer.id}
                                                 layer={layer}
-                                                isDragging={
-                                                    collectedProps.isDragging
-                                                }
+                                                isScaled={isScaled}
                                                 scaleFactor={scaleFactor}
-                                                selections={artboard.selections}
-                                                dispatch={dispatch}
                                             />
                                         )
                                     }
                                 )}
+                            </svg>
+                        </div>
+                        <div>
+                            <div
+                                ref={dropTarget}
+                                className="layer-control__drop-target"
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                }}
+                                onClick={() => {
+                                    dispatch(deselectLayers())
+                                }}
+                            >
                                 <div
-                                    className={'resize-control__wrapper'}
-                                    style={resizeableControlStyles}
+                                    className="layer-control__artboard-area"
+                                    style={{
+                                        position: 'absolute',
+                                        width: artboardSize.artboardWidth,
+                                        height: artboardSize.artboardHeight,
+                                        margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
+                                    }}
                                 >
-                                    <ResizeHandle
-                                        className="resize-handle__top"
-                                        directions={['top']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__right"
-                                        directions={['right']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__bottom"
-                                        directions={['bottom']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__left"
-                                        directions={['left']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__top-left"
-                                        directions={['top', 'left']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__top-right"
-                                        directions={['top', 'right']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__bottom-right"
-                                        directions={['bottom', 'right']}
-                                        dimensions={selectionDimensions}
-                                    />
-                                    <ResizeHandle
-                                        className="resize-handle__bottom-left"
-                                        directions={['bottom', 'left']}
-                                        dimensions={selectionDimensions}
-                                    />
+                                    {_.map(
+                                        _.orderBy(artboard.layers, 'order'),
+                                        (layer, index) => {
+                                            return (
+                                                <DragHandle
+                                                    key={layer.id}
+                                                    layer={layer}
+                                                    isDragging={
+                                                        collectedProps.isDragging
+                                                    }
+                                                    scaleFactor={scaleFactor}
+                                                    selections={
+                                                        artboard.selections
+                                                    }
+                                                    dispatch={dispatch}
+                                                />
+                                            )
+                                        }
+                                    )}
+                                    <div
+                                        className={'resize-control__wrapper'}
+                                        style={resizeableControlStyles}
+                                    >
+                                        <ResizeHandle
+                                            className="resize-handle__top"
+                                            directions={['top']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__right"
+                                            directions={['right']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__bottom"
+                                            directions={['bottom']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__left"
+                                            directions={['left']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__top-left"
+                                            directions={['top', 'left']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__top-right"
+                                            directions={['top', 'right']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__bottom-right"
+                                            directions={['bottom', 'right']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                        <ResizeHandle
+                                            className="resize-handle__bottom-left"
+                                            directions={['bottom', 'left']}
+                                            dimensions={selectionDimensions}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </Artboard>
+                    </Artboard>
+                </ArtboardShortcutsWrapper>
             </div>
         </div>
     )

@@ -22,7 +22,7 @@ const Layer = (props) => {
         y: 0,
         width: 0,
         height: 0,
-        rotation: '0deg',
+        rotation: '0',
     })
 
     useEffect(() => {

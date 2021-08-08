@@ -37,33 +37,29 @@ export function adjustLayers(artboardId, adjustmentGroup, propertyName, value) {
     }
 }
 
-export function bumpLayers(artboardId, axis, distance) {
+export function bumpLayers(axis, distance) {
     return {
         type: BUMP_LAYERS,
-        artboardId,
         axis,
         distance,
     }
 }
 
-export function copyLayers(artboardId) {
+export function copyLayers() {
     return {
         type: COPY_LAYERS,
-        artboardId,
     }
 }
 
-export function deleteLayers(artboardId) {
+export function deleteLayers() {
     return {
         type: DELETE_LAYERS,
-        artboardId,
     }
 }
 
-export function deselectLayers(artboardId) {
+export function deselectLayers() {
     return {
         type: DESELECT_LAYERS,
-        artboardId,
     }
 }
 

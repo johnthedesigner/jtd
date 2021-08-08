@@ -97,7 +97,7 @@ export default function Reducer(state = {}, a) {
                 bumpedLayer.dimensions[axis] += distance
             })
             updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            return Object.assign({}, state, clonedArtboard)
 
         case COPY_LAYERS:
             consoleGroup(a.type, [a])
@@ -115,12 +115,16 @@ export default function Reducer(state = {}, a) {
 
         case DELETE_LAYERS:
             consoleGroup(a.type, [a])
-            clonedArtboard.layers = _.remove(clonedArtboard.layers, (layer) => {
-                return !_.includes(clonedArtboard.selections, layer.id)
+            let newLayers = {}
+            _.each(clonedArtboard.layers, (layer) => {
+                if (!_.includes(clonedArtboard.selections, layer.id)) {
+                    newLayers[layer.id] = { ...clonedArtboard.layers[layer.id] }
+                }
             })
+            clonedArtboard.layers = newLayers
             clonedArtboard.selections = []
             updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            return Object.assign({}, state, clonedArtboard)
 
         case DESELECT_LAYERS:
             consoleGroup(a.type, [a])
@@ -215,7 +219,6 @@ export default function Reducer(state = {}, a) {
 
         case SCALE_LAYER:
             consoleGroup(a.type, [a])
-            console.log(a)
             let scaledSelections = clonedArtboard.selections
             // Only attempt to apply new adjustments if a single layer is selected
             if (scaledSelections.length === 1) {
