@@ -66,9 +66,9 @@ const ResizeHandle = (props) => {
         right: 'auto',
         bottom: 'auto',
         left: 'auto',
-        zIndex: 100,
         boxSizing: 'border-box',
         cursor: 'pointer',
+        pointerEvents: 'auto',
         ...positions,
     }
 

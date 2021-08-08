@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 import { scaleAllDimensions } from '../utils/artboardUtils'
 import { selectLayer } from '../utils/actions'
@@ -41,7 +42,6 @@ const DragHandle = (props) => {
 
     const { layer } = props
     const { x, y, width, height, rotation } = dimensions
-    console.log(rotation)
     const dragHandleStyles = {
         position: 'absolute',
         top: y ? y : 0,
@@ -50,16 +50,20 @@ const DragHandle = (props) => {
         width: width ? width : 0,
         height: height ? height : 0,
         transform: `rotate(${rotation}deg)`,
-        opacity: props.isDragging && isSelected ? 0 : 1,
-        border: isSelected ? '1px solid magenta' : 'none',
+        border: !props.isDragging && isSelected ? '1px solid magenta' : 'none',
         borderRadius: layer.type === 'ellipse' ? '50%' : 0,
         cursor: 'pointer',
     }
 
-    const [collected, dragSource] = useDrag(() => ({
+    const [collected, dragSource, preview] = useDrag(() => ({
         type: 'DRAG',
         item: { id: props.layer.id },
     }))
+
+    // Disable drag previews
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true })
+    }, [])
 
     return (
         <div

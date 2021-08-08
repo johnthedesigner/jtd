@@ -2,16 +2,20 @@ import { useEffect, useReducer, useState } from 'react'
 import _ from 'lodash'
 import Head from 'next/head'
 import Color from 'color'
-import { DndProvider, useDrop } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useDrop } from 'react-dnd'
 
 import Artboard from '../components/Artboard'
 import artboardJson from '../artboard'
-import { mapArtboard, scaleDimension } from '../utils/artboardUtils'
+import { mapArtboard } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
 import Reducer from '../utils/reducer'
-import { dragLayers, scaleLayer, selectLayer } from '../utils/actions'
+import {
+    deselectLayers,
+    dragLayers,
+    scaleLayer,
+    selectLayer,
+} from '../utils/actions'
 import DragHandle from '../components/DragHandle'
 import ResizeHandle from '../components/ResizeHandle'
 import {
@@ -224,14 +228,21 @@ export default function Home(props) {
         backgroundPosition: '-6px -6px',
     }
 
+    console.log(artboard.selections)
+
     const resizeableControlStyles = {
         position: 'absolute',
         top: selectionDimensions.y,
         left: selectionDimensions.x,
         width: selectionDimensions.width,
         height: selectionDimensions.height,
+        zIndex: 100,
         transform: `rotate(${selectionDimensions.rotation}deg)`,
-        display: collectedProps.isDragging ? 'none' : 'block',
+        display:
+            collectedProps.isDragging || artboard.selections.length === 0
+                ? 'none'
+                : 'block',
+        pointerEvents: 'none',
     }
 
     return (
@@ -349,7 +360,7 @@ export default function Home(props) {
                                 left: 0,
                             }}
                             onClick={() => {
-                                dispatch(selectLayer(null, false))
+                                dispatch(deselectLayers())
                             }}
                         >
                             <div
@@ -386,9 +397,7 @@ export default function Home(props) {
                                         className="resize-handle__top"
                                         directions={['top']}
                                         dimensions={selectionDimensions}
-                                    >
-                                        <i>top</i>
-                                    </ResizeHandle>
+                                    />
                                     <ResizeHandle
                                         className="resize-handle__right"
                                         directions={['right']}

@@ -124,10 +124,8 @@ export default function Reducer(state = {}, a) {
 
         case DESELECT_LAYERS:
             consoleGroup(a.type, [a])
-            clonedArtboards[a.artboardId].selections = []
-            return Object.assign({}, state, {
-                artboards: clonedArtboards,
-            })
+            clonedArtboard.selections = []
+            return Object.assign({}, state, clonedArtboard)
 
         case DRAG_LAYERS:
             consoleGroup(a.type, [a])
