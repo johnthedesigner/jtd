@@ -239,7 +239,7 @@ export default function Home(props) {
         zIndex: 100,
         transform: `rotate(${selectionDimensions.rotation}deg)`,
         display:
-            collectedProps.isDragging || artboard.selections.length === 0
+            collectedProps.isDragging || artboard.selections.length != 1
                 ? 'none'
                 : 'block',
         pointerEvents: 'none',
