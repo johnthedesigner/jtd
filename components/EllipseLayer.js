@@ -36,7 +36,7 @@ const EllipseLayer = (props) => {
             stroke={stroke.color ? stroke.color : 'rgba(32,32,32)'}
             strokeWidth={stroke.width}
             style={layerStyles}
-            // transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
+            transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
         />
     )
 }

@@ -6,7 +6,6 @@ import ImageLayer from './ImageLayer'
 import TextLayer from './TextLayer'
 import EllipseLayer from './EllipseLayer'
 import { selectLayer } from '../utils/actions'
-import { scaleAllDimensions } from '../utils/artboardUtils'
 
 export const layerTypes = {
     ellipse: 'ellipse',
@@ -68,7 +67,6 @@ const Layer = (props) => {
                         layer={layer}
                         isScaled={props.isScaled}
                         scaleFactor={props.scaleFactor}
-                        // scaleLayer={props.scaleLayer}
                     />
                 )
 

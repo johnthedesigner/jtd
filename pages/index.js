@@ -11,7 +11,7 @@ import { mapArtboard, scaleDimension } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
 import Reducer from '../utils/reducer'
-import { dragLayers, selectLayer } from '../utils/actions'
+import { dragLayers, scaleLayer, selectLayer } from '../utils/actions'
 import DragHandle from '../components/DragHandle'
 import ResizeHandle from '../components/ResizeHandle'
 import {
@@ -54,6 +54,15 @@ export default function Home(props) {
         setIsScaled(true)
     }
 
+    let selectedLayers = _.filter(artboard.layers, (layer) => {
+        return _.includes(artboard.selections, layer.id)
+    })
+    let selectionDimensions = scaleAllDimensions(
+        getLayerDimensions(selectedLayers),
+        scaleFactor,
+        true
+    )
+
     useEffect(() => {
         let wrapper = document.getElementById(`artboard-wrapper`)
 
@@ -71,63 +80,136 @@ export default function Home(props) {
     let lastDragUpdate = 0
     let lastOffset = { x: 0, y: 0 }
 
+    // Handle Layer Drag Input
+    const handleDrag = (item, monitor, previewOnly) => {
+        // Get layer offset while hovering and round it off so we don't move less than a pixel
+        let rawOffset = monitor.getDifferenceFromInitialOffset()
+        let offset = {
+            x: Math.round(rawOffset.x),
+            y: Math.round(rawOffset.y),
+        }
+        let rightNow = Date.now()
+        let dragInterval = rightNow - lastDragUpdate
+        // Only do something if the pointer has moved
+        // Also wait at least a little between updates to limit updates per second
+        if (
+            ((offset.x !== lastOffset.x || offset.y !== lastOffset.y) &&
+                dragInterval > 20) ||
+            !previewOnly
+        ) {
+            lastOffset = offset
+            lastDragUpdate = rightNow
+            dispatch(selectLayer(item.id, false))
+            dispatch(
+                dragLayers(
+                    [artboard.selections],
+                    unscaleDimension(offset.x, scaleFactor),
+                    unscaleDimension(offset.y, scaleFactor),
+                    previewOnly
+                )
+            )
+        }
+    }
+
+    // Translate Resize Handle Input into Scaling Instructions
+    const calculateLayerResize = (offset, handleInfo) => {
+        let { x, y } = offset
+        let getVectoredDistance = (direction) => {
+            // Get original drag distance
+            let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+            // Adjust Offset coordinates realative to each side
+            let adjustedOffset = [x, y]
+            switch (direction) {
+                case 'top':
+                    adjustedOffset = [-1 * y, x]
+                    break
+                case 'right':
+                    adjustedOffset = [x, y]
+                    break
+                case 'bottom':
+                    adjustedOffset = [y, -1 * x]
+                    break
+                case 'left':
+                    adjustedOffset = [-1 * x, -1 * y]
+                    break
+                default:
+                // Do nothing
+            }
+            // Get drag angle in degrees adjusted for scale factor
+            let angleRadians = Math.atan2(adjustedOffset[1], adjustedOffset[0])
+            angleRadians -= selectionDimensions.rotation * (Math.PI / 180)
+            // Get vectored drag distance and undo scale factor
+            let vectoredDistance = distance * Math.cos(angleRadians)
+            vectoredDistance = unscaleDimension(vectoredDistance, scaleFactor)
+            return vectoredDistance
+        }
+        // Return an array of directions/scale distances
+        return _.map(handleInfo.directions, (direction) => {
+            return {
+                direction,
+                distance: getVectoredDistance(direction),
+            }
+        })
+    }
+    // Handle Layer Resize Handle Input
+    const handleResize = (item, monitor, previewOnly) => {
+        let rightNow = Date.now()
+        let dragInterval = rightNow - lastDragUpdate
+        if (dragInterval > 20 || !previewOnly) {
+            lastDragUpdate = rightNow
+            let resizeDirectives = calculateLayerResize(
+                monitor.getDifferenceFromInitialOffset(),
+                monitor.getItem()
+            )
+            // console.log(
+            //     resizeDirectives[0].direction,
+            //     resizeDirectives[0].distance
+            // )
+            // console.log(
+            //     resizeDirectives[1].direction,
+            //     resizeDirectives[1].distance
+            // )
+            dispatch(scaleLayer(resizeDirectives, previewOnly))
+        }
+    }
+
+    // Collect Drag Input
     const [collectedProps, dropTarget] = useDrop(
         () => ({
-            accept: 'LAYER',
+            accept: ['DRAG', 'RESIZE'],
             collect: (monitor, props) => {
                 return { isDragging: monitor.isOver() }
             },
             hover: (item, monitor) => {
-                // Get layer offset while hovering and round it off so we don't move less than a pixel
-                let rawOffset = monitor.getDifferenceFromInitialOffset()
-                let offset = {
-                    x: Math.round(rawOffset.x),
-                    y: Math.round(rawOffset.y),
-                }
-                let rightNow = Date.now()
-                let dragInterval = rightNow - lastDragUpdate
-                // Only do something if the pointer has moved
-                // Also wait at least a little between updates to limit updates per second
-                if (
-                    (offset.x !== lastOffset.x || offset.y !== lastOffset.y) &&
-                    dragInterval > 20
-                ) {
-                    lastOffset = offset
-                    lastDragUpdate = rightNow
-                    dispatch(selectLayer(item.id, false))
-                    dispatch(
-                        dragLayers(
-                            [artboard.selections],
-                            unscaleDimension(offset.x, scaleFactor),
-                            unscaleDimension(offset.y, scaleFactor),
-                            true
-                        )
-                    )
-                    dispatch(selectLayer(item.id))
+                switch (monitor.getItemType()) {
+                    case 'DRAG':
+                        handleDrag(item, monitor, true)
+                        break
+
+                    case 'RESIZE':
+                        handleResize(item, monitor, true)
+                        break
+
+                    default:
+                        break
                 }
             },
             drop: (item, monitor) => {
-                let offset = monitor.getDifferenceFromInitialOffset()
-                dispatch(
-                    dragLayers(
-                        item.id,
-                        unscaleDimension(offset.x, scaleFactor),
-                        unscaleDimension(offset.y, scaleFactor),
-                        false
-                    )
-                )
+                switch (monitor.getItemType()) {
+                    case 'DRAG':
+                        handleDrag(item, monitor, false)
+                        break
+
+                    case 'RESIZE':
+                        handleResize(item, monitor, false)
+                        break
+
+                    default:
+                        break
+                }
             },
         }),
         [artboardSize]
-    )
-
-    let selectedLayers = _.filter(artboard.layers, (layer) => {
-        return _.includes(artboard.selections, layer.id)
-    })
-    let selectionDimensions = scaleAllDimensions(
-        getLayerDimensions(selectedLayers),
-        scaleFactor,
-        true
     )
 
     const artboardWrapperStyles = {
@@ -149,7 +231,6 @@ export default function Home(props) {
         width: selectionDimensions.width,
         height: selectionDimensions.height,
         transform: `rotate(${selectionDimensions.rotation}deg)`,
-        pointerEvents: 'none',
         display: collectedProps.isDragging ? 'none' : 'block',
     }
 

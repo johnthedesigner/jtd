@@ -66,13 +66,20 @@ const ResizeHandle = (props) => {
         right: 'auto',
         bottom: 'auto',
         left: 'auto',
+        zIndex: 100,
         boxSizing: 'border-box',
         cursor: 'pointer',
         ...positions,
     }
 
+    const [collected, dragSource] = useDrag(() => ({
+        type: 'RESIZE',
+        item: { directions: props.directions },
+    }))
+
     return (
         <div
+            ref={dragSource}
             className={`resize-handle ${className}`}
             onClick={(e) => {
                 console.log('clicked resize-handle')

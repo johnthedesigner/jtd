@@ -217,6 +217,7 @@ export default function Reducer(state = {}, a) {
 
         case SCALE_LAYER:
             consoleGroup(a.type, [a])
+            console.log(a)
             let scaledSelections = clonedArtboard.selections
             // Only attempt to apply new adjustments if a single layer is selected
             if (scaledSelections.length === 1) {
@@ -287,7 +288,7 @@ export default function Reducer(state = {}, a) {
                     updateHistory(clonedArtboard)
                 }
             }
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            return Object.assign({}, state, clonedArtboard)
 
         case SELECT_LAYER:
             consoleGroup(a.type, [a])

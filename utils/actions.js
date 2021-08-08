@@ -114,10 +114,9 @@ export function rotateLayer(artboardId, degrees) {
     }
 }
 
-export function scaleLayer(artboardId, scaleDirectives, previewOnly) {
+export function scaleLayer(scaleDirectives, previewOnly) {
     return {
         type: SCALE_LAYER,
-        artboardId,
         scaleDirectives,
         previewOnly,
     }

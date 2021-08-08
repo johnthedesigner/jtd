@@ -41,21 +41,23 @@ const DragHandle = (props) => {
 
     const { layer } = props
     const { x, y, width, height, rotation } = dimensions
-
+    console.log(rotation)
     const dragHandleStyles = {
         position: 'absolute',
         top: y ? y : 0,
         left: x ? x : 0,
+        zIndex: 99,
         width: width ? width : 0,
         height: height ? height : 0,
         transform: `rotate(${rotation}deg)`,
         opacity: props.isDragging && isSelected ? 0 : 1,
         border: isSelected ? '1px solid magenta' : 'none',
         borderRadius: layer.type === 'ellipse' ? '50%' : 0,
+        cursor: 'pointer',
     }
 
     const [collected, dragSource] = useDrag(() => ({
-        type: 'LAYER',
+        type: 'DRAG',
         item: { id: props.layer.id },
     }))
 

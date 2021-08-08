@@ -39,7 +39,7 @@ const ImageLayer = (props) => {
             href={selectedImage.url.src}
             opacity={opacity}
             style={layerStyles}
-            // transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
+            transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
         />
     )
 }

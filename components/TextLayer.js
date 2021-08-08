@@ -132,7 +132,7 @@ const TextLayer = (props) => {
             style={textStyles}
             textAnchor={textAnchor}
             textDecoration={underline ? 'underline' : 'none'}
-            // transform={`rotate(${rotation} ${rotateOriginX} ${rotateOriginY})`}
+            transform={`rotate(${rotation} ${rotateOriginX} ${rotateOriginY})`}
         >
             {_.map(textArray, (chunk, index) => {
                 return (

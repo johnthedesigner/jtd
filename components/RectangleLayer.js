@@ -37,7 +37,7 @@ const RectangleLayer = (props) => {
             stroke={stroke.color}
             strokeWidth={stroke.width}
             style={layerStyles}
-            // transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
+            transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
         />
     )
 }
