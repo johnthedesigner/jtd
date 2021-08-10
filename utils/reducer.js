@@ -325,15 +325,13 @@ export default function Reducer(state, a) {
             // Allow undo action if there is a history
             if (newState.history && newState.history.length > 1) {
                 // Overwrite the artboard with the previous history item
-                newState.artboard =
+                newState.artboard = _.cloneDeep(
                     newState.history[newState.history.length - 2]
-                // drop undone history items
-                newState.history = _.slice(
-                    newState.history,
-                    0,
-                    newState.history.length - 1
                 )
-                updateHistory(newState.artboard)
+                // drop undone history items
+                newState.history = _.cloneDeep(
+                    _.slice(newState.history, 0, newState.history.length - 1)
+                )
             }
             break
 
