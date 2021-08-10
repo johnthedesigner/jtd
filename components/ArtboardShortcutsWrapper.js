@@ -45,16 +45,27 @@ const ArtboardShortcutsWrapper = (props) => {
     useHotkeys('backspace', (e) => {
         props.dispatch(deleteLayers())
     })
-    useHotkeys(['command+c', 'control+c'], () => {
+    useHotkeys('cmd+c', (e) => {
+        e.preventDefault()
         props.dispatch(copyLayers())
     })
-    useHotkeys(['command+v', 'control+v'], () => {
+    useHotkeys('ctrl+c', (e) => {
+        e.preventDefault()
+        props.dispatch(copyLayers())
+    })
+    useHotkeys('cmd+v', () => {
         props.dispatch(pasteLayers())
     })
-    useHotkeys(['command+z', 'control+z'], () => {
+    useHotkeys('ctrl+v', () => {
+        props.dispatch(pasteLayers())
+    })
+    useHotkeys('cmd+z', () => {
         props.dispatch(undoAction())
     })
-    useHotkeys(['command+e', 'control+e'], () => {
+    useHotkeys('ctrl+z', () => {
+        props.dispatch(undoAction())
+    })
+    useHotkeys(['cmd+e', 'ctrl+e'], () => {
         console.log(JSON.stringify(currentArtboard))
     })
 

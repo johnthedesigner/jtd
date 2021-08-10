@@ -95,10 +95,9 @@ export function moveLayers(artboardId, direction) {
         direction,
     }
 }
-export function pasteLayers(artboardId) {
+export function pasteLayers() {
     return {
         type: PASTE_LAYERS,
-        artboardId,
     }
 }
 
@@ -133,10 +132,9 @@ export function toggleImagePicker(artboardId) {
     }
 }
 
-export function undoAction(artboardId) {
+export function undoAction() {
     return {
         type: UNDO_ACTION,
-        artboardId,
     }
 }
 

@@ -16,6 +16,7 @@ const DragHandle = (props) => {
     })
 
     const [isSelected, setIsSelected] = useState(false)
+    const [isHighlighted, setIsHighlighted] = useState(false)
 
     useEffect(() => {
         setDimensions(
@@ -40,6 +41,11 @@ const DragHandle = (props) => {
         }
     }
 
+    const handleDragStart = (e) => {
+        // e.stopPropagation()
+        props.dispatch(selectLayer(props.layer.id, e.shiftKey))
+    }
+
     const { layer } = props
     const { x, y, width, height, rotation } = dimensions
     const dragHandleStyles = {
@@ -50,7 +56,10 @@ const DragHandle = (props) => {
         width: width ? width : 0,
         height: height ? height : 0,
         transform: `rotate(${rotation}deg)`,
-        border: !props.isDragging && isSelected ? '1px solid magenta' : 'none',
+        border:
+            !props.isDragging && (isSelected || isHighlighted)
+                ? '1px solid magenta'
+                : 'none',
         borderRadius: layer.type === 'ellipse' ? '50%' : 0,
         cursor: 'pointer',
     }
@@ -71,6 +80,9 @@ const DragHandle = (props) => {
             className={`drag-handle ${layer.isSelected ? 'is-selected' : ''}`}
             onClick={handleClick}
             onDoubleClick={handleDoubleClick}
+            onDragStart={handleDragStart}
+            onMouseOver={() => setIsHighlighted(true)}
+            onMouseOut={() => setIsHighlighted(false)}
             style={dragHandleStyles}
         />
     )

@@ -1,7 +1,8 @@
 import _ from 'lodash'
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
-import { newLayers } from './newLayers'
+import artboardJson from '../artboard'
+import { mapArtboard } from '../utils/artboardUtils'
 import {
     ADD_LAYER,
     ADJUST_LAYERS,
@@ -31,112 +32,122 @@ export function consoleGroup(title, logArray) {
     }
 }
 
-export default function Reducer(state = {}, a) {
+// Get artboard data from JSON file
+const mappedArtboard = mapArtboard(artboardJson)
+
+// Set up initial state for reducer
+export const initialState = {
+    artboard: mappedArtboard,
+    history: [],
+}
+
+export default function Reducer(state, a) {
+    // Clone state to apply updates
+    const newState = _.cloneDeep(state)
+    console.log(state.history)
+
+    // Get timestamp for this batch of updates
+    const rightNow = Date.now()
+
     // Add an updated artboard to its own history
     const updateHistory = (artboard) => {
-        state.history.push(artboard)
+        newState.history.push(_.cloneDeep(artboard))
     }
 
-    // Prepare cloned artboard
-    let clonedArtboard = _.cloneDeep(state)
-
-    // Prepare cloned layer
-    let cloneLayer = (layerId) => {
-        return _.cloneDeep(state.layers[layerId])
-    }
-
-    var upsertLayer = function (layers, layerId, newLayer) {
-        var match = _.find(layers, { id: layerId })
-        if (match) {
-            var index = _.indexOf(arr, _.find(layers, { id: layerId }))
-            arr.splice(index, 1, newLayer)
-        } else {
-            arr.push(newLayer)
-        }
-    }
+    // var upsertLayer = function (layers, layerId, newLayer) {
+    //     var match = _.find(layers, { id: layerId })
+    //     if (match) {
+    //         var index = _.indexOf(arr, _.find(layers, { id: layerId }))
+    //         arr.splice(index, 1, newLayer)
+    //     } else {
+    //         arr.push(newLayer)
+    //     }
+    // }
 
     // Add initial history entry if one isn't present
-    if (clonedArtboard && state.history.length === 0) {
-        state.history.push(_.cloneDeep(clonedArtboard))
+    if (newState.artboard && newState.history.length === 0) {
+        updateHistory(newState.artboard)
     }
+
+    // Log action (in dev environment only)
+    consoleGroup(a.type, [a])
 
     // Switching between action types
     switch (a.type) {
         case ADD_LAYER:
-            consoleGroup(a.type, [a])
             let newLayer
             if (a.layerType === 'image') {
                 newLayer = newLayers[a.layerType](a.image)
             } else {
                 newLayer = newLayers[a.layerType]()
             }
-            newLayer.id = uuid.v1()
-            newLayer.order = clonedArtboard.layers.length + 1
-            clonedArtboard.layers.push(newLayer)
-            clonedArtboard.selections = [newLayer.id]
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            newLayer.id = uuidv4()
+            newLayer.order = newState.artboard.layers.length + 1
+            newState.artboard.layers.push(newLayer)
+            newState.artboard.selections = [newLayer.id]
+            updateHistory(newState.artboard)
+            break
 
         case ADJUST_LAYERS:
-            consoleGroup(a.type, [a])
-            let adjustedLayers = clonedArtboard.selections
+            let adjustedLayers = newState.artboard.selections
             _.each(adjustedLayers, (layerId) => {
-                _.find(clonedArtboard.layers, { id: layerId }).adjustments[
+                _.find(newState.artboard.layers, { id: layerId }).adjustments[
                     a.adjustmentGroup
                 ][a.propertyName] = a.value
             })
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            updateHistory(newState.artboard)
+            break
 
         case BUMP_LAYERS:
-            consoleGroup(a.type, [a])
             const { axis, distance } = a
-            let bumpedLayers = clonedArtboard.selections
+            let bumpedLayers = newState.artboard.selections
             _.each(bumpedLayers, (layerId) => {
-                let bumpedLayer = _.find(clonedArtboard.layers, { id: layerId })
+                let bumpedLayer = _.find(newState.artboard.layers, {
+                    id: layerId,
+                })
                 bumpedLayer.dimensions[axis] += distance
             })
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, clonedArtboard)
+            updateHistory(newState.artboard)
+            break
 
         case COPY_LAYERS:
-            consoleGroup(a.type, [a])
-            let copiedLayers = _.map(clonedArtboard.selections, (layerId) => {
-                return Object.assign(
-                    {},
-                    _.find(clonedArtboard.layers, (layer) => {
-                        return layer.id === layerId
-                    })
-                )
-            })
-            return Object.assign({}, state, {
-                pasteBuffer: _.cloneDeep(copiedLayers),
-            })
+            let copiedLayers = _.map(
+                newState.artboard.selections,
+                (layerId) => {
+                    return Object.assign(
+                        {},
+                        _.find(newState.artboard.layers, (layer) => {
+                            return layer.id === layerId
+                        })
+                    )
+                }
+            )
+            newState.pasteBuffer = copiedLayers
+            break
 
         case DELETE_LAYERS:
-            consoleGroup(a.type, [a])
             let newLayers = {}
-            _.each(clonedArtboard.layers, (layer) => {
-                if (!_.includes(clonedArtboard.selections, layer.id)) {
-                    newLayers[layer.id] = { ...clonedArtboard.layers[layer.id] }
+            _.each(newState.artboard.layers, (layer) => {
+                if (!_.includes(newState.artboard.selections, layer.id)) {
+                    newLayers[layer.id] = {
+                        ...newState.artboard.layers[layer.id],
+                    }
                 }
             })
-            clonedArtboard.layers = newLayers
-            clonedArtboard.selections = []
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, clonedArtboard)
+            newState.artboard.layers = newLayers
+            newState.artboard.selections = []
+            updateHistory(newState.artboard)
+            break
 
         case DESELECT_LAYERS:
-            consoleGroup(a.type, [a])
-            clonedArtboard.selections = []
-            return Object.assign({}, state, clonedArtboard)
+            newState.artboard.selections = []
+            break
 
         case DRAG_LAYERS:
-            consoleGroup(a.type, [a])
-            let affectedLayers = clonedArtboard.selections
+            let affectedLayers = newState.artboard.selections
             // For each selected layer apply offset to all points
             _.each(affectedLayers, (layerId) => {
-                let nextDraggedLayer = _.find(clonedArtboard.layers, {
+                let nextDraggedLayer = _.find(newState.artboard.layers, {
                     id: layerId,
                 })
                 let draggedDimensions = _.cloneDeep(nextDraggedLayer.dimensions)
@@ -147,83 +158,80 @@ export default function Reducer(state = {}, a) {
                 } else {
                     nextDraggedLayer.dimensions = draggedDimensions
                     nextDraggedLayer.tempDimensions = undefined
-                    updateHistory(clonedArtboard)
+                    updateHistory(newState.artboard)
                 }
             })
-            return Object.assign({}, state, clonedArtboard)
+            break
 
         case ENABLE_TEXT_EDITOR:
-            consoleGroup(a.type, [a])
-            clonedArtboard.editableTextLayer = a.layerId
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            newState.artboard.editableTextLayer = a.layerId
+            break
 
         // TODO: Figure out whether to resurrect this
         case HIGHLIGHT_LAYER:
-            consoleGroup(a.type, [a])
-            return Object.assign({}, state, {
-                highlights: Object.assign({}, state.highlights, {
-                    layerId: a.layerId,
-                }),
-            })
+            newState.highlights = { layerId: a.layerId }
+            break
 
         case MOVE_LAYERS:
-            consoleGroup(a.type, [a])
             let movedLayers = _.orderBy(
-                _.map(clonedArtboard.selections, (layerId) => {
-                    return _.find(clonedArtboard.layers, { id: layerId })
+                _.map(newState.artboard.selections, (layerId) => {
+                    return _.find(newState.artboard.layers, { id: layerId })
                 }),
                 'order'
             )
-            _.each(_.orderBy(movedLayers, 'order'), (layer) => {
-                // Remove each selected layer
-                _.remove(clonedArtboard.layers, (checkLayer) => {
-                    return checkLayer.id === layer.id
-                })
+
+            let unmovedLayers = []
+            _.each(_.orderBy(newState.artboard.layers, 'order'), (layer) => {
+                if (!_.includes(newState.artboard.selections, layer.id)) {
+                    unmovedLayers.push(layer)
+                }
             })
+
             // Add selected layer back to the front or back of the list
-            clonedArtboard.layers =
+            let newLayerOrder =
                 a.direction === 'front'
-                    ? [...clonedArtboard.layers, ...movedLayers]
-                    : [...movedLayers, ...clonedArtboard.layers]
-            _.each(clonedArtboard.layers, (layer, index) => {
-                layer.order = index
-            })
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+                    ? [...unmovedLayers, ...movedLayers]
+                    : [...movedLayers, ...unmovedLayers]
+            let newlyOrderedLayers = _.keyBy(
+                _.map(newLayerOrder, (orderedLayer, index) => {
+                    orderedLayer.order = index
+                    return orderedLayer
+                }),
+                'id'
+            )
+            newState.artboard.layers = newlyOrderedLayers
+            updateHistory(newState.artboard)
+            break
 
         case PASTE_LAYERS:
-            consoleGroup(a.type, [a])
-            let pastedLayers = _.map(state.pasteBuffer, (layer) => {
+            let pastedLayerIds = []
+            _.map(state.pasteBuffer, (layer) => {
                 let pastedLayer = _.cloneDeep(layer)
-                pastedLayer.id = uuid.v4()
-                return pastedLayer
+                pastedLayer.id = uuidv4()
+                pastedLayerIds.push(pastedLayer.id)
+                newState.artboard.layers[pastedLayer.id] = pastedLayer
             })
-            let pastedLayerIds = _.map(pastedLayers, (layer) => {
-                return layer.id
-            })
-            clonedArtboard.layers = [...clonedArtboard.layers, ...pastedLayers]
-            clonedArtboard.selections = pastedLayerIds
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            newState.artboard.selections = pastedLayerIds
+            updateHistory(newState.artboard)
+            break
 
         case ROTATE_LAYER:
-            consoleGroup(a.type, [a])
+            console.log('ROTATE THE LAYER!!!!', a)
             const { degrees } = a
-            let rotatedLayerId = clonedArtboard.selections[0]
-            let rotatedLayer = _.find(clonedArtboard.layers, {
+            let rotatedLayerId = newState.artboard.selections[0]
+            let rotatedLayer = _.find(newState.artboard.layers, {
                 id: rotatedLayerId,
             })
             rotatedLayer.dimensions.rotation = degrees
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, { artboards: clonedArtboards })
+            updateHistory(newState.artboard)
+            break
 
         case SCALE_LAYER:
-            consoleGroup(a.type, [a])
-            let scaledSelections = clonedArtboard.selections
+            let scaledSelections = newState.artboard.selections
             // Only attempt to apply new adjustments if a single layer is selected
             if (scaledSelections.length === 1) {
                 // Get the affected layer and its dimensions
-                let scaledLayer = _.find(clonedArtboard.layers, {
+                let scaledLayer = _.find(newState.artboard.layers, {
                     id: scaledSelections[0],
                 })
                 let newDimensions = _.cloneDeep(scaledLayer.dimensions)
@@ -286,68 +294,63 @@ export default function Reducer(state = {}, a) {
                 } else {
                     scaledLayer.dimensions = newDimensions
                     scaledLayer.tempDimensions = undefined
-                    updateHistory(clonedArtboard)
+                    updateHistory(newState.artboard)
                 }
             }
-            return Object.assign({}, state, clonedArtboard)
+            break
 
         case SELECT_LAYER:
-            consoleGroup(a.type, [a])
             if (
-                _.includes(clonedArtboard.selections, a.layerId) &&
+                _.includes(newState.artboard.selections, a.layerId) &&
                 !a.shiftKey
             ) {
-                return state
+                // Do nothing
+                // return state
             } else {
-                clonedArtboard.selections = a.shiftKey
-                    ? _.xor(clonedArtboard.selections, [a.layerId])
+                newState.artboard.selections = a.shiftKey
+                    ? _.xor(newState.artboard.selections, [a.layerId])
                     : [a.layerId]
-                return Object.assign({}, state, {
-                    ...clonedArtboard,
-                })
+                // return Object.assign({}, state, {
+                //     ...newState.artboard,
+                // })
             }
+            break
 
         case TOGGLE_IMAGE_PICKER:
-            consoleGroup(a.type, [a])
-            clonedArtboard.showImagePicker = !clonedArtboard.showImagePicker
-            return Object.assign({}, state, {
-                artboards: clonedArtboards,
-            })
+            newState.artboard.showImagePicker =
+                !newState.artboard.showImagePicker
+            break
 
         case UNDO_ACTION:
-            consoleGroup(a.type, [a])
-            let artboardHistory = _.cloneDeep(state.history[a.artboardId])
             // Allow undo action if there is a history
-            if (artboardHistory && artboardHistory.length > 1) {
+            if (newState.history && newState.history.length > 1) {
                 // Overwrite the artboard with the previous history item
-                clonedArtboards[a.artboardId] =
-                    artboardHistory[artboardHistory.length - 2]
+                newState.artboard =
+                    newState.history[newState.history.length - 2]
                 // drop undone history items
-                state.history[a.artboardId] = _.slice(
-                    artboardHistory,
+                newState.history = _.slice(
+                    newState.history,
                     0,
-                    artboardHistory.length - 1
+                    newState.history.length - 1
                 )
-                return Object.assign({}, state, {
-                    artboards: clonedArtboards,
-                })
-            } else {
-                // If there's no previous history, don't do anything
-                return state
+                updateHistory(newState.artboard)
             }
+            break
 
         case UPDATE_TEXT:
-            consoleGroup(a.type, [a])
-            let newTextLayer = _.filter(clonedArtboard.layers, (layer) => {
-                return layer.id === clonedArtboard.editableTextLayer
-            })[0]
-            newTextLayer.text = a.text
-            updateHistory(clonedArtboard)
-            return Object.assign({}, state, {
-                artboards: clonedArtboards,
-            })
+        // let newTextLayer = _.filter(newState.artboard.layers, (layer) => {
+        //     return layer.id === newState.artboard.editableTextLayer
+        // })[0]
+        // newTextLayer.text = a.text
+        // updateHistory(newState.artboard)
+
+        // return Object.assign({}, state, {
+        //     artboards: clonedArtboards,
+        // })
 
         default:
-            return state
+        // If there's no recognized action, take no action
+        // return state
     }
+    return Object.assign({}, state, newState)
 }

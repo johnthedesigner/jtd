@@ -10,7 +10,7 @@ import artboardJson from '../artboard'
 import { mapArtboard } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
-import Reducer from '../utils/reducer'
+import Reducer, { initialState } from '../utils/reducer'
 import {
     deselectLayers,
     dragLayers,
@@ -25,6 +25,16 @@ import {
     unscaleDimension,
 } from '../utils/artboardUtils'
 
+// Reference values for preventing unnecessary erenders on drag and resize
+// const [dragUpdate, setDragUpdate] = useState(0)
+const dragState = {
+    lastDragUpdate: 0,
+    lastOffset: {
+        x: 0,
+        y: 0,
+    },
+}
+
 export default function Home(props) {
     const [scaleFactor, setScaleFactor] = useState(1)
     const [isScaled, setIsScaled] = useState(false)
@@ -36,9 +46,11 @@ export default function Home(props) {
         xOffset: 0,
         yOffset: 0,
     })
-    let mappedArtboard = mapArtboard(artboardJson)
 
-    const [artboard, dispatch] = useReducer(Reducer, mappedArtboard)
+    // Set up reducer
+    const [appState, dispatch] = useReducer(Reducer, initialState)
+
+    const { artboard } = appState
 
     const resizeArtboard = (wrapper) => {
         // Get appropriate size for artboard based on viewport size
@@ -82,9 +94,6 @@ export default function Home(props) {
         }
     }, [artboard])
 
-    let lastDragUpdate = 0
-    let lastOffset = { x: 0, y: 0 }
-
     // Handle Layer Drag Input
     const handleDrag = (item, monitor, previewOnly) => {
         // Get layer offset while hovering and round it off so we don't move less than a pixel
@@ -94,17 +103,22 @@ export default function Home(props) {
             y: Math.round(rawOffset.y),
         }
         let rightNow = Date.now()
-        let dragInterval = rightNow - lastDragUpdate
+        let dragInterval = rightNow - dragState.lastDragUpdate
+        console.log(
+            Math.abs(offset.x - dragState.lastOffset.x),
+            Math.abs(offset.y - dragState.lastOffset.y)
+        )
         // Only do something if the pointer has moved
         // Also wait at least a little between updates to limit updates per second
         if (
-            ((offset.x !== lastOffset.x || offset.y !== lastOffset.y) &&
+            ((Math.abs(offset.x - dragState.lastOffset.x) > 1 ||
+                Math.abs(offset.x - dragState.lastOffset.x) > 1) &&
                 dragInterval > 20) ||
             !previewOnly
         ) {
-            lastOffset = offset
-            lastDragUpdate = rightNow
-            dispatch(selectLayer(item.id, false))
+            dragState.lastDragUpdate = rightNow
+            dragState.lastOffset = offset
+            if (!previewOnly) dispatch(selectLayer(item.id, false))
             dispatch(
                 dragLayers(
                     [artboard.selections],
@@ -166,14 +180,6 @@ export default function Home(props) {
                 monitor.getDifferenceFromInitialOffset(),
                 monitor.getItem()
             )
-            // console.log(
-            //     resizeDirectives[0].direction,
-            //     resizeDirectives[0].distance
-            // )
-            // console.log(
-            //     resizeDirectives[1].direction,
-            //     resizeDirectives[1].distance
-            // )
             dispatch(scaleLayer(resizeDirectives, previewOnly))
         }
     }
@@ -223,8 +229,8 @@ export default function Home(props) {
         right: 0,
         bottom: 0,
         left: 0,
-        backgroundColor: '#EEEEEE',
-        backgroundImage: 'radial-gradient(#BBBBBB 1px, transparent 0)',
+        backgroundColor: '#b9ffff',
+        backgroundImage: 'radial-gradient(#00d0d0 1px, transparent 0)',
         backgroundSize: '24px 24px',
         backgroundPosition: '-6px -6px',
     }
