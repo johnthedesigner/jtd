@@ -27,7 +27,7 @@ const DragHandle = (props) => {
         } else {
             setIsSelected(false)
         }
-    }, [props.layer.dimensions, props.selections])
+    }, [props.layer.dimensions, props.selections, props.scaleFactor])
 
     const handleClick = (e) => {
         e.stopPropagation()

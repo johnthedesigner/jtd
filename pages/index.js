@@ -173,9 +173,9 @@ export default function Home(props) {
     // Handle Layer Resize Handle Input
     const handleResize = (item, monitor, previewOnly) => {
         let rightNow = Date.now()
-        let dragInterval = rightNow - lastDragUpdate
+        let dragInterval = rightNow - dragState.lastDragUpdate
         if (dragInterval > 20 || !previewOnly) {
-            lastDragUpdate = rightNow
+            dragState.lastDragUpdate = rightNow
             let resizeDirectives = calculateLayerResize(
                 monitor.getDifferenceFromInitialOffset(),
                 monitor.getItem()

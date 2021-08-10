@@ -44,7 +44,6 @@ export const initialState = {
 export default function Reducer(state, a) {
     // Clone state to apply updates
     const newState = _.cloneDeep(state)
-    console.log(state.history)
 
     // Get timestamp for this batch of updates
     const rightNow = Date.now()

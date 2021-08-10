@@ -31,21 +31,21 @@ const ResizeHandle = (props) => {
 
         case 'top':
             positions.top = handleOffset
-            positions.left = `${dimensions.width / 2}px`
+            positions.left = `calc(${dimensions.width / 2}px - .375rem)`
             break
 
         case 'bottom':
             positions.bottom = handleOffset
-            positions.left = `${dimensions.width / 2}px`
+            positions.left = `calc(${dimensions.width / 2}px - .375rem)`
             break
 
         case 'left':
             positions.left = handleOffset
-            positions.top = `${dimensions.height / 2}px`
+            positions.top = `calc(${dimensions.height / 2}px - .375rem)`
             break
 
         case 'right':
-            positions.top = `${dimensions.height / 2}px`
+            positions.top = `calc(${dimensions.height / 2}px - .375rem)`
             positions.right = handleOffset
             break
 
