@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 // import BlendAdjustment from './BlendAdjustment'
 import DimensionsAdjustment from './DimensionsAdjustment'
 import FillAdjustment from './FillAdjustment'
-// import StrokeAdjustment from './StrokeAdjustment'
+import StrokeAdjustment from './StrokeAdjustment'
 // import TextAdjustment from './TextAdjustment'
 import {
     adjustLayers,
@@ -64,12 +64,12 @@ const AdjustmentsPanel = (props) => {
                 dispatch={dispatch}
                 projectColors={props.projectColors}
             />
-            {/* <StrokeAdjustment
-                adjustLayers={adjustLayers}
+            <StrokeAdjustment
                 adjustments={adjustments.stroke}
+                dispatch={dispatch}
                 projectColors={projectColors}
             />
-            <TextAdjustment
+            {/* <TextAdjustment
                 adjustLayers={adjustLayers}
                 adjustments={adjustments.text}
                 projectColors={projectColors}
