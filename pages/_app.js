@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/artboard.css'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 

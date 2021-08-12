@@ -13,6 +13,7 @@ import {
     ROTATE_LAYER,
     SCALE_LAYER,
     SELECT_LAYER,
+    SELECT_ALL_LAYERS,
     TOGGLE_IMAGE_PICKER,
     UNDO_ACTION,
     UPDATE_TEXT,
@@ -27,10 +28,9 @@ export function addLayer(artboardId, layerType, image) {
     }
 }
 
-export function adjustLayers(artboardId, adjustmentGroup, propertyName, value) {
+export function adjustLayers(adjustmentGroup, propertyName, value) {
     return {
         type: ADJUST_LAYERS,
-        artboardId,
         adjustmentGroup,
         propertyName,
         value,
@@ -101,10 +101,9 @@ export function pasteLayers() {
     }
 }
 
-export function rotateLayer(artboardId, degrees) {
+export function rotateLayer(degrees) {
     return {
         type: ROTATE_LAYER,
-        artboardId,
         degrees,
     }
 }
@@ -122,6 +121,12 @@ export function selectLayer(layerId, shiftKey) {
         type: SELECT_LAYER,
         layerId,
         shiftKey,
+    }
+}
+
+export function selectAllLayers() {
+    return {
+        type: SELECT_ALL_LAYERS,
     }
 }
 

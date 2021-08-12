@@ -17,11 +17,13 @@ import {
     PASTE_LAYERS,
     ROTATE_LAYER,
     SCALE_LAYER,
+    SELECT_ALL_LAYERS,
     SELECT_LAYER,
     TOGGLE_IMAGE_PICKER,
     UNDO_ACTION,
     UPDATE_TEXT,
 } from './constants.js'
+import { mergeAdjustments } from './mergeAdjustments'
 
 // Indent console logs with a title
 export function consoleGroup(title, logArray) {
@@ -88,6 +90,7 @@ export default function Reducer(state, a) {
             break
 
         case ADJUST_LAYERS:
+            console.log(a)
             let adjustedLayers = newState.artboard.selections
             _.each(adjustedLayers, (layerId) => {
                 _.find(newState.artboard.layers, { id: layerId }).adjustments[
@@ -315,6 +318,11 @@ export default function Reducer(state, a) {
             }
             break
 
+        case SELECT_ALL_LAYERS:
+            newState.artboard.selections = _.map(newState.layers, (layer) => {
+                return layer.id
+            })
+
         case TOGGLE_IMAGE_PICKER:
             newState.artboard.showImagePicker =
                 !newState.artboard.showImagePicker
@@ -346,8 +354,18 @@ export default function Reducer(state, a) {
         // })
 
         default:
-        // If there's no recognized action, take no action
-        // return state
+            // update artboard adjustments based on selections
+            let newAdjustments = _.cloneDeep(
+                mergeAdjustments(
+                    _.filter(newState.artboard.layers, (layer) => {
+                        return _.includes(
+                            newState.artboard.selections,
+                            layer.id
+                        )
+                    })
+                )
+            )
+            newState.artboard.adjustments = newAdjustments
     }
     return Object.assign({}, state, newState)
 }

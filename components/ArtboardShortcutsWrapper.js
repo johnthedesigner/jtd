@@ -5,6 +5,7 @@ import {
     copyLayers,
     deleteLayers,
     pasteLayers,
+    selectAllLayers,
     undoAction,
 } from '../utils/actions'
 
@@ -44,6 +45,14 @@ const ArtboardShortcutsWrapper = (props) => {
     })
     useHotkeys('backspace', (e) => {
         props.dispatch(deleteLayers())
+    })
+    useHotkeys('cmd+a', (e) => {
+        e.preventDefault()
+        props.dispatch(selectAllLayers())
+    })
+    useHotkeys('ctrl+a', (e) => {
+        e.preventDefault()
+        props.dispatch(selectAllLayers())
     })
     useHotkeys('cmd+c', (e) => {
         e.preventDefault()

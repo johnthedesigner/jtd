@@ -6,10 +6,10 @@ import { useDrop } from 'react-dnd'
 
 import Artboard from '../components/Artboard'
 import ArtboardShortcutsWrapper from '../components/ArtboardShortcutsWrapper'
-import artboardJson from '../artboard'
-import { mapArtboard } from '../utils/artboardUtils'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
+import AdjustmentsPanel from '../components/AdjustmentsPanel'
+import { mergeAdjustments } from '../utils/mergeAdjustments'
 import Reducer, { initialState } from '../utils/reducer'
 import {
     deselectLayers,
@@ -72,6 +72,7 @@ export default function Home(props) {
     }
 
     let selectedLayers = _.filter(artboard.layers, (layer) => {
+        // console.log('looping through selected layers')
         return _.includes(artboard.selections, layer.id)
     })
     let selectionDimensions = scaleAllDimensions(
@@ -81,6 +82,7 @@ export default function Home(props) {
     )
 
     useEffect(() => {
+        // Resize artboard based on viewport size
         let wrapper = document.getElementById(`artboard-wrapper`)
 
         if (document != null) {
@@ -92,7 +94,12 @@ export default function Home(props) {
         return () => {
             window.removeEventListener('resize', () => resizeArtboard(wrapper))
         }
-    }, [artboard])
+    }, [
+        artboard,
+        artboard.selections,
+        artboard.adjustments,
+        artboard.dimensions,
+    ])
 
     // Handle Layer Drag Input
     const handleDrag = (item, monitor, previewOnly) => {
@@ -104,10 +111,6 @@ export default function Home(props) {
         }
         let rightNow = Date.now()
         let dragInterval = rightNow - dragState.lastDragUpdate
-        console.log(
-            Math.abs(offset.x - dragState.lastOffset.x),
-            Math.abs(offset.y - dragState.lastOffset.y)
-        )
         // Only do something if the pointer has moved
         // Also wait at least a little between updates to limit updates per second
         if (
@@ -445,6 +448,13 @@ export default function Home(props) {
                                 </div>
                             </div>
                         </div>
+                        <AdjustmentsPanel
+                            appState={appState}
+                            artboard={artboard}
+                            adjustments={artboard.adjustments}
+                            dispatch={dispatch}
+                            projectColors={artboard.projectColors}
+                        />
                     </Artboard>
                 </ArtboardShortcutsWrapper>
             </div>

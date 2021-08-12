@@ -32,7 +32,9 @@ var buildFromPath = (path, val) =>
 
 export const mergeAdjustments = (array) => {
     const adjustmentsArray = _.map(array, (layer) => {
-        return layer.adjustments
+        let layerAdjustments = layer.adjustments
+        layerAdjustments.dimensions = layer.dimensions
+        return layerAdjustments
     })
     if (adjustmentsArray.length > 0) {
         const first = _.head(adjustmentsArray)
@@ -62,5 +64,13 @@ export const mergeAdjustments = (array) => {
             },
             {}
         )
+    } else {
+        return {
+            blending: {},
+            dimensions: {},
+            fill: {},
+            stroke: {},
+            text: {},
+        }
     }
 }
