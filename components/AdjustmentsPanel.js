@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
 
-// import BlendAdjustment from './BlendAdjustment'
+import BlendAdjustment from './BlendAdjustment'
 import DimensionsAdjustment from './DimensionsAdjustment'
 import FillAdjustment from './FillAdjustment'
 import StrokeAdjustment from './StrokeAdjustment'
-// import TextAdjustment from './TextAdjustment'
+import TextAdjustment from './TextAdjustment'
 import {
     adjustLayers,
     bumpLayers,
@@ -69,15 +69,17 @@ const AdjustmentsPanel = (props) => {
                 dispatch={dispatch}
                 projectColors={projectColors}
             />
-            {/* <TextAdjustment
+            <TextAdjustment
                 adjustLayers={adjustLayers}
                 adjustments={adjustments.text}
+                dispatch={dispatch}
                 projectColors={projectColors}
             />
             <BlendAdjustment
                 adjustLayers={adjustLayers}
                 adjustments={adjustments.blending}
-            /> */}
+                dispatch={dispatch}
+            />
         </div>
     )
 }

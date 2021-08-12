@@ -38,7 +38,6 @@ const FillAdjustment = (props) => {
     })
 
     if (adjustments.type) {
-        console.log(adjustments.type)
         let fillColors = colorsWithFallback(
             adjustments.color,
             adjustments.gradient
