@@ -42,7 +42,7 @@ const DragHandle = (props) => {
     }
 
     const handleDragStart = (e) => {
-        // e.stopPropagation()
+        e.stopPropagation()
         props.dispatch(selectLayer(props.layer.id, e.shiftKey))
     }
 

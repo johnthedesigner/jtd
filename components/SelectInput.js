@@ -13,7 +13,7 @@ const SelectInput = (props) => {
         props.setValue(e.target.value)
     }
 
-    const { propertyName, label, options, tooltipText } = props
+    const { propertyName, label, options } = props
 
     const labelStyles = {
         display: label ? 'block' : 'none',

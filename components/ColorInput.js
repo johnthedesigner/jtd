@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Tooltip from '@material-ui/core/Tooltip'
 
 import ColorPicker from './ColorPicker'
 
@@ -23,19 +22,17 @@ const ColorInput = (props) => {
 
     return (
         <div className="color-adjustment">
-            <Tooltip title={tooltipText} placement="right">
-                <div className="color-adjustment__color-thumbnail">
-                    <div
-                        className="color-adjustment__preview"
-                        style={previewStyles}
-                    />
-                    <div
-                        className={`color-adjustment__thumbnail color-adjustment__thumbnail--${propertyName}`}
-                        onClick={() => setShowPicker(!showPicker)}
-                        style={thumbnailStyles}
-                    />
-                </div>
-            </Tooltip>
+            <div className="color-adjustment__color-thumbnail">
+                <div
+                    className="color-adjustment__preview"
+                    style={previewStyles}
+                />
+                <div
+                    className={`color-adjustment__thumbnail color-adjustment__thumbnail--${propertyName}`}
+                    onClick={() => setShowPicker(!showPicker)}
+                    style={thumbnailStyles}
+                />
+            </div>
             <ColorPicker
                 colors={projectColors}
                 updateColor={updateColor}

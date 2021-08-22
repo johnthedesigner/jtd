@@ -38,7 +38,7 @@ const AdjustmentsPanel = (props) => {
     const { artboard, projectColors, dimensions, dispatch } = props
 
     const adjustmentPanelStyles = {
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
         bottom: 0,

@@ -1,4 +1,4 @@
-import { useHotkeys, useHotKeys } from 'react-hotkeys-hook'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 import {
     bumpLayers,
@@ -74,11 +74,11 @@ const ArtboardShortcutsWrapper = (props) => {
     useHotkeys('ctrl+z', () => {
         props.dispatch(undoAction())
     })
-    useHotkeys(['cmd+e', 'ctrl+e'], () => {
-        console.log(JSON.stringify(currentArtboard))
+    useHotkeys('cmd+e', () => {
+        console.log(JSON.stringify(props.artboard))
     })
 
-    return <div>{props.children}</div>
+    return <>{props.children}</>
 }
 
 export default ArtboardShortcutsWrapper

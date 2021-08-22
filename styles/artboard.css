@@ -1,3 +1,8 @@
+html,
+body {
+    overscroll-behavior: none;
+}
+
 /* Action Bars */
 .action-bar__left,
 .action-bar__top-right,

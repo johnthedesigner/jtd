@@ -16,8 +16,8 @@
             "title": "ellipse",
             "order": 5,
             "dimensions": {
-                "x": -250,
-                "y": 250,
+                "x": 4250,
+                "y": 4750,
                 "width": 500,
                 "height": 500,
                 "rotation": 90
@@ -42,8 +42,8 @@
             "title": "ellipse",
             "order": 5,
             "dimensions": {
-                "x": 750,
-                "y": 250,
+                "x": 5250,
+                "y": 4750,
                 "width": 500,
                 "height": 500,
                 "rotation": 90
@@ -68,8 +68,8 @@
             "title": "rectangle",
             "order": 0,
             "dimensions": {
-                "x": 0,
-                "y": 0,
+                "x": 4500,
+                "y": 4500,
                 "width": 1000,
                 "height": 1000,
                 "rotation": 0
@@ -95,8 +95,8 @@
             "title": "image",
             "order": 1,
             "dimensions": {
-                "x": 40,
-                "y": 40,
+                "x": 4540,
+                "y": 4540,
                 "width": 920,
                 "height": 920,
                 "rotation": 0
@@ -109,11 +109,11 @@
         {
             "type": "text",
             "title": "text",
-            "text": "Lorem ipsum dolor sit amet.",
+            "text": "John the Designer",
             "order": 4,
             "dimensions": {
-                "x": 200,
-                "y": 340,
+                "x": 4700,
+                "y": 4840,
                 "width": 600,
                 "height": 400,
                 "rotation": 0

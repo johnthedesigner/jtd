@@ -9,15 +9,20 @@ import { colorsWithFallback } from '../utils/colorUtils'
 import { adjustLayers } from '../utils/actions'
 
 const FillAdjustment = (props) => {
-    const [adjustments, setAdjustments] = useState({
-        type: '',
-        color: '',
-        gradient: '',
-    })
+    const [type, setType] = useState('')
+    const [color, setColor] = useState('')
+    const [gradient, setGradient] = useState('')
 
     useEffect(() => {
-        if (props.adjustments) {
-            setAdjustments(props.adjustments)
+        let { adjustments } = props
+        if (adjustments) {
+            if (adjustments.type) setType(adjustments.type)
+            if (adjustments.color) setColor(adjustments.color)
+            if (adjustments.gradient) setGradient(adjustments.gradient)
+        } else {
+            setType('')
+            setColor('')
+            setGradient('')
         }
     })
 
@@ -37,11 +42,8 @@ const FillAdjustment = (props) => {
         return { name: option.name, value: option.type }
     })
 
-    if (adjustments.type) {
-        let fillColors = colorsWithFallback(
-            adjustments.color,
-            adjustments.gradient
-        )
+    if (type) {
+        let fillColors = colorsWithFallback(color, gradient)
 
         return (
             <div>
@@ -51,24 +53,21 @@ const FillAdjustment = (props) => {
                         options={fillTypeOptions}
                         propertyName={'type'}
                         setValue={setFillType}
-                        tooltipText="Fill type"
-                        valueFromProps={adjustments.type}
+                        valueFromProps={type}
                     />
-                    {adjustments.type === 'color' && (
+                    {type === 'color' && (
                         <ColorInput
                             handleChange={setSolidFill}
                             projectColors={props.projectColors}
                             propertyName={'color'}
-                            tooltipText="Fill color"
                             valueFromProps={fillColors.solid}
                         />
                     )}
-                    {adjustments.type === 'gradient' && (
+                    {type === 'gradient' && (
                         <GradientInput
                             handleChange={setGradientFill}
                             projectColors={props.projectColors}
                             propertyName={'gradient'}
-                            tooltipText="Fill gradient"
                             valueFromProps={fillColors.gradient}
                         />
                     )}

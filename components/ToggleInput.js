@@ -7,7 +7,7 @@ const ToggleInput = (props) => {
         <div className="adjustments-input adjustments-input--toggle-button">
             <button
                 type={type}
-                onClick={() => handleChange(props.valueFromProps)}
+                onClick={() => handleChange(!props.valueFromProps)}
             >
                 {propertyName}
             </button>

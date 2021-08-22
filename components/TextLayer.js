@@ -12,12 +12,20 @@ const TextLayer = (props) => {
         height: 0,
         rotation: 0,
     })
+    const [isScaled, setIsScaled] = useState(false)
 
     let textTag = useRef(null)
 
     useEffect(async () => {
         await setDimensions(props.dimensions)
-        layoutText(props)
+        await setIsScaled(props.isScaled)
+
+        // Check if layout is scaled first before laying out text
+        if (props.isScaled) {
+            setTimeout(() => layoutText(props), 20)
+        } else {
+            // Do nothing
+        }
     }, [
         renderedText,
         props.layer.dimensions,
@@ -51,6 +59,8 @@ const TextLayer = (props) => {
 
         // Go through each text element and build rows
         _.each(textTag.current.children, (child, index) => {
+            let childIsSpace = child.textContent === ' '
+
             // Reset existing positioning
             child.setAttribute('dx', 0)
             child.setAttribute('dy', 0)
@@ -67,12 +77,35 @@ const TextLayer = (props) => {
                     align
                 )
             } else {
-                // It didn't fit. increment row and add new row to rows array
+                // It didn't fit so increment row and add new row to rows array
                 currentRow++
-                rows[currentRow] = {
-                    firstChild: index,
-                    width: childWidth,
-                    offset: getAlignOffset(layerWidth, childWidth, align),
+                if (childIsSpace) {
+                    // Don't include space in row width calculation
+                    rows[currentRow] = {
+                        firstChild: index + 1,
+                        width: 0,
+                        offset: getAlignOffset(layerWidth, 0, align),
+                    }
+                } else {
+                    // Remove width of previous space from previous row
+                    let previousRow = rows[currentRow - 1]
+                    let previousString = textTag.current.children[index - 1]
+                    let previousStringWidth =
+                        previousString.getComputedTextLength()
+                    previousRow.width -= previousStringWidth
+                    // Remove space to prevent improper offset calculations
+                    previousString.textContent = ''
+                    previousRow.offset = getAlignOffset(
+                        layerWidth,
+                        previousRow.width,
+                        align
+                    )
+                    // Add current string to new row
+                    rows[currentRow] = {
+                        firstChild: index,
+                        width: childWidth,
+                        offset: getAlignOffset(layerWidth, childWidth, align),
+                    }
                 }
             }
         })
@@ -99,7 +132,15 @@ const TextLayer = (props) => {
     })
     let { x, y, width, height, rotation } = dimensions
     let { text, isEditable } = layer
-    let textArray = text.split(' ')
+    let stringArray = text.split(' ')
+    let textArray = []
+    // Insert strings and spaces into the textArray
+    _.each(stringArray, (string, index) => {
+        textArray.push(string)
+        if (index + 1 < stringArray.length) {
+            textArray.push(' ')
+        }
+    })
     let rotateOriginX = x + width / 2
     let rotateOriginY = y + height / 2
     // Default left-aligned text props
@@ -119,7 +160,7 @@ const TextLayer = (props) => {
             draggable={false}
             fill={color}
             fontSize={fontSize}
-            key={`rect${layer.id}`}
+            key={`text-${layer.id}`}
             x={x}
             y={y}
             dx={dx}
@@ -136,8 +177,11 @@ const TextLayer = (props) => {
         >
             {_.map(textArray, (chunk, index) => {
                 return (
-                    <tspan key={index} textAnchor={textAnchor}>
-                        {chunk + ' '}
+                    <tspan
+                        key={`text-${layer.id}-${index}`}
+                        textAnchor={textAnchor}
+                    >
+                        {chunk}
                     </tspan>
                 )
             })}

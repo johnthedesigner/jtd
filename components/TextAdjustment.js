@@ -111,7 +111,7 @@ const TypeAdjustment = (props) => {
                         key={adjustmentGroup + 'color'}
                         projectColors={projectColors}
                         propertyName={'color'}
-                        setValue={(value) =>
+                        handleChange={(value) =>
                             props.dispatch(
                                 adjustLayers('text', 'fontColor', value)
                             )
@@ -121,7 +121,7 @@ const TypeAdjustment = (props) => {
                     />
                     <ToggleInput
                         propertyName={'italic'}
-                        setValue={(value) =>
+                        handleChange={(value) =>
                             props.dispatch(
                                 adjustLayers('text', 'italic', value)
                             )
@@ -131,7 +131,7 @@ const TypeAdjustment = (props) => {
                     />
                     <ToggleInput
                         propertyName={'underline'}
-                        setValue={(value) =>
+                        handleChange={(value) =>
                             props.dispatch(
                                 adjustLayers('text', 'underline', value)
                             )

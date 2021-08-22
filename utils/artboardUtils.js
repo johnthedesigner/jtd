@@ -74,7 +74,8 @@ export const getLayerDimensions = (layers) => {
           )
         : null
 
-    let rotation = layers.length !== 1 ? 0 : layers[0].dimensions.rotation
+    let firstLayerDimensions = layers[0] ? layers[0].dimensions : {}
+    let rotation = layers.length === 1 ? firstLayerDimensions.rotation : 0
 
     return { x, y, width, height, rotation }
 }

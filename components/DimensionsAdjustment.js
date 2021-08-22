@@ -6,40 +6,59 @@ import { bumpLayers, scaleLayer, rotateLayer } from '../utils/actions'
 const DimensionsAdjustment = (props) => {
     let adjustmentGroup = 'dimensions'
 
-    const [adjustments, setAdjustments] = useState({
-        x: '',
-        y: '',
-        width: '',
-        height: '',
-        rotation: '',
-    })
+    const [x, setX] = useState('')
+    const [y, setY] = useState('')
+    const [width, setWidth] = useState('')
+    const [height, setHeight] = useState('')
+    const [rotation, setRotation] = useState('')
+
+    // const [adjustments, setAdjustments] = useState({
+    //     x: '',
+    //     y: '',
+    //     width: '',
+    //     height: '',
+    //     rotation: '',
+    // })
     const { dispatch } = props
 
     useEffect(() => {
-        setAdjustments(props.adjustments)
+        let { adjustments } = props
+        if (adjustments) {
+            if (adjustments.x) setX(adjustments.x)
+            if (adjustments.y) setY(adjustments.y)
+            if (adjustments.width) setWidth(adjustments.width)
+            if (adjustments.height) setHeight(adjustments.height)
+            if (adjustments.rotation) setRotation(adjustments.rotation)
+        } else {
+            setX('')
+            setY('')
+            setWidth('')
+            setHeight('')
+            setRotation('')
+        }
+        // setAdjustments(props.adjustments)
     }, [props.adjustments])
 
-    const setX = (newX) => {
-        let distance = Math.floor(newX - adjustments.x)
+    const dispatchX = (newX) => {
+        let distance = Math.floor(newX - x)
         dispatch(bumpLayers('x', distance))
     }
-    const setY = (newY) => {
-        let distance = Math.floor(newY - adjustments.y)
+    const dispatchY = (newY) => {
+        let distance = Math.floor(newY - y)
         dispatch(bumpLayers('y', distance))
     }
-    const setWidth = (newWidth) => {
-        let distance = Math.floor(newWidth - adjustments.width)
+    const dispatchWidth = (newWidth) => {
+        let distance = Math.floor(newWidth - width)
         dispatch(scaleLayer([{ direction: 'right', distance }], false))
     }
-    const setHeight = (newHeight) => {
-        let distance = Math.floor(newHeight - adjustments.height)
+    const dispatchHeight = (newHeight) => {
+        let distance = Math.floor(newHeight - height)
         dispatch(scaleLayer([{ direction: 'bottom', distance }], false))
     }
-    const setRotation = (degrees) => {
-        console.log(`rotate ${degrees} degrees`)
+    const dispatchRotation = (degrees) => {
         dispatch(rotateLayer(Math.floor(degrees)))
     }
-    if (adjustments) {
+    if (x || y || width || height || rotation) {
         return (
             <div>
                 <div className="adjustments-panel__header">Dimensions</div>
@@ -48,51 +67,51 @@ const DimensionsAdjustment = (props) => {
                         key={adjustmentGroup + 'x'}
                         propertyName={'x'}
                         label="X"
-                        setValue={setX}
+                        setValue={dispatchX}
                         suffix="px"
                         tooltipText="X offset"
                         type="number"
-                        valueFromProps={adjustments.x}
+                        valueFromProps={x}
                     />
                     <MaskedTextInput
                         key={adjustmentGroup + 'y'}
                         propertyName={'y'}
                         label="Y"
-                        setValue={setY}
+                        setValue={dispatchY}
                         suffix="px"
                         tooltipText="Y offset"
                         type="number"
-                        valueFromProps={adjustments.y}
+                        valueFromProps={y}
                     />
                     <MaskedTextInput
                         key={adjustmentGroup + 'width'}
                         propertyName={'width'}
                         label="W"
-                        setValue={setWidth}
+                        setValue={dispatchWidth}
                         suffix="px"
                         tooltipText="Width"
                         type="number"
-                        valueFromProps={adjustments.width}
+                        valueFromProps={width}
                     />
                     <MaskedTextInput
                         key={adjustmentGroup + 'height'}
                         propertyName={'height'}
                         label="H"
-                        setValue={setHeight}
+                        setValue={dispatchHeight}
                         suffix="px"
                         tooltipText="Height"
                         type="number"
-                        valueFromProps={adjustments.height}
+                        valueFromProps={height}
                     />
                     <MaskedTextInput
                         key={adjustmentGroup + 'rotation'}
                         propertyName={'rotation'}
                         label="R"
-                        setValue={setRotation}
+                        setValue={dispatchRotation}
                         suffix="deg"
                         tooltipText="Rotation"
                         type="number"
-                        valueFromProps={adjustments.rotation}
+                        valueFromProps={rotation}
                     />
                 </div>
             </div>

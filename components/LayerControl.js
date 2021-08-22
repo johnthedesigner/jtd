@@ -43,55 +43,55 @@ const LayerControl = (props) => {
         }
     }, [])
 
-    const calculateLayerResize = (offset, handleInfo) => {
-        let { scaleFactor } = props
-        let { x, y } = offset
-        let getVectoredDistance = (direction) => {
-            // Get original drag distance
-            let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
-            // Adjust Offset coordinates realative to each side
-            let adjustedOffset = [x, y]
-            switch (direction) {
-                case 'top':
-                    adjustedOffset = [-1 * y, x]
-                    break
-                case 'right':
-                    adjustedOffset = [x, y]
-                    break
-                case 'bottom':
-                    adjustedOffset = [y, -1 * x]
-                    break
-                case 'left':
-                    adjustedOffset = [-1 * x, -1 * y]
-                    break
-                default:
-                // Do nothing
-            }
-            // Get drag angle in degrees adjusted for scale factor
-            let angleRadians = Math.atan2(adjustedOffset[1], adjustedOffset[0])
-            angleRadians -= dimensions.rotation * (Math.PI / 180)
-            // Get vectored drag distance and undo scale factor
-            let vectoredDistance = distance * Math.cos(angleRadians)
-            vectoredDistance = unscaleDimension(vectoredDistance, scaleFactor)
-            return vectoredDistance
-        }
-        // Return an array of directions/scale distances
-        return _.map(handleInfo.directions, (direction) => {
-            return {
-                direction,
-                distance: getVectoredDistance(direction),
-            }
-        })
-    }
+    // const calculateLayerResize = (offset, handleInfo) => {
+    //     let { scaleFactor } = props
+    //     let { x, y } = offset
+    //     let getVectoredDistance = (direction) => {
+    //         // Get original drag distance
+    //         let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+    //         // Adjust Offset coordinates realative to each side
+    //         let adjustedOffset = [x, y]
+    //         switch (direction) {
+    //             case 'top':
+    //                 adjustedOffset = [-1 * y, x]
+    //                 break
+    //             case 'right':
+    //                 adjustedOffset = [x, y]
+    //                 break
+    //             case 'bottom':
+    //                 adjustedOffset = [y, -1 * x]
+    //                 break
+    //             case 'left':
+    //                 adjustedOffset = [-1 * x, -1 * y]
+    //                 break
+    //             default:
+    //             // Do nothing
+    //         }
+    //         // Get drag angle in degrees adjusted for scale factor
+    //         let angleRadians = Math.atan2(adjustedOffset[1], adjustedOffset[0])
+    //         angleRadians -= dimensions.rotation * (Math.PI / 180)
+    //         // Get vectored drag distance and undo scale factor
+    //         let vectoredDistance = distance * Math.cos(angleRadians)
+    //         vectoredDistance = unscaleDimension(vectoredDistance, scaleFactor)
+    //         return vectoredDistance
+    //     }
+    //     // Return an array of directions/scale distances
+    //     return _.map(handleInfo.directions, (direction) => {
+    //         return {
+    //             direction,
+    //             distance: getVectoredDistance(direction),
+    //         }
+    //     })
+    // }
 
-    const handleDrag = (layerId, x, y) => {
-        // console.log(layerId, x, y)
-        // props.dispatch(dragLayers(layerId, x, y))
-    }
+    // const handleDrag = (layerId, x, y) => {
+    //     // console.log(layerId, x, y)
+    //     // props.dispatch(dragLayers(layerId, x, y))
+    // }
 
-    const handleResize = (resizeDirectives, previewOnly) => {
-        props.scaleLayer(resizeDirectives, previewOnly)
-    }
+    // // const handleResize = (resizeDirectives, previewOnly) => {
+    // //     props.scaleLayer(resizeDirectives, previewOnly)
+    // // }
 
     const { canDrop, enableTextEditor, isActive, layers, selectLayer } = props
     const { x, y, width, height, rotation } = dimensions
@@ -131,7 +131,7 @@ const LayerControl = (props) => {
                             artboard={props.artboard}
                             dispatch={props.dispatch}
                             enableTextEditor={enableTextEditor}
-                            handleDrag={handleDrag}
+                            // handleDrag={handleDrag}
                             HTML5Backend={HTML5Backend}
                             key={layer.id}
                             layer={layer}

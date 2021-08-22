@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Tooltip from '@material-ui/core/Tooltip'
 
 import ColorPicker from './ColorPicker'
 
@@ -46,28 +45,22 @@ const GradientInput = (props) => {
 
     return (
         <div className="gradient-adjustment">
-            <Tooltip title={tooltipText} placement="right">
-                <div className="gradient-adjustment__gradient-thumbnail">
-                    <div
-                        className="gradient-adjustment__gradient-thumbnail-preview"
-                        style={gradientThumbPreviewStyles}
-                    />
-                    <div
-                        className={
-                            'gradient-adjustment__gradient-start-thumbnail'
-                        }
-                        onClick={showStartPicker}
-                        style={startThumbnailStyles}
-                    />
-                    <div
-                        className={
-                            'gradient-adjustment__gradient-end-thumbnail'
-                        }
-                        onClick={showEndPicker}
-                        style={endThumbnailStyles}
-                    />
-                </div>
-            </Tooltip>
+            <div className="gradient-adjustment__gradient-thumbnail">
+                <div
+                    className="gradient-adjustment__gradient-thumbnail-preview"
+                    style={gradientThumbPreviewStyles}
+                />
+                <div
+                    className={'gradient-adjustment__gradient-start-thumbnail'}
+                    onClick={showStartPicker}
+                    style={startThumbnailStyles}
+                />
+                <div
+                    className={'gradient-adjustment__gradient-end-thumbnail'}
+                    onClick={showEndPicker}
+                    style={endThumbnailStyles}
+                />
+            </div>
             <ColorPicker
                 colors={projectColors}
                 updateColor={updateGradient}

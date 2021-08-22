@@ -29,7 +29,7 @@ const BlendAdjustment = (props) => {
             if (adjustments.mode) setBlendMode(adjustments.mode)
             if (adjustments.opacity) setOpacity(adjustments.opacity)
         }
-    }, [adjustments.mode, adjustments.opacity])
+    }, [adjustments])
 
     const blendModeOptions = _.map(blendModes, (mode) => {
         return { name: mode, value: mode }
@@ -41,7 +41,6 @@ const BlendAdjustment = (props) => {
         newValue = value >= 100 ? 1 : newValue
         // don't allow values under 0%
         newValue = value <= 0 ? 0 : newValue
-        console.log(value, newValue)
         setOpacity(newValue)
         props.dispatch(adjustLayers('blending', 'opacity', newValue))
     }
