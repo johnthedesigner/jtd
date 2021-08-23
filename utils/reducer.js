@@ -24,6 +24,7 @@ import {
     UPDATE_TEXT,
 } from './constants.js'
 import { mergeAdjustments } from './mergeAdjustments'
+import { newLayers } from './newLayers'
 
 // Indent console logs with a title
 export function consoleGroup(title, logArray) {
@@ -84,7 +85,7 @@ export default function Reducer(state, a) {
             }
             newLayer.id = uuidv4()
             newLayer.order = newState.artboard.layers.length + 1
-            newState.artboard.layers.push(newLayer)
+            newState.artboard.layers[newLayer.id] = newLayer
             newState.artboard.selections = [newLayer.id]
             updateHistory(newState.artboard)
             break
@@ -127,15 +128,15 @@ export default function Reducer(state, a) {
             break
 
         case DELETE_LAYERS:
-            let newLayers = {}
+            let layersAfterUpdate = {}
             _.each(newState.artboard.layers, (layer) => {
                 if (!_.includes(newState.artboard.selections, layer.id)) {
-                    newLayers[layer.id] = {
+                    layersAfterUpdate[layer.id] = {
                         ...newState.artboard.layers[layer.id],
                     }
                 }
             })
-            newState.artboard.layers = newLayers
+            newState.artboard.layers = layersAfterUpdate
             newState.artboard.selections = []
             updateHistory(newState.artboard)
             break

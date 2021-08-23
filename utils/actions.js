@@ -19,10 +19,9 @@ import {
     UPDATE_TEXT,
 } from './constants'
 
-export function addLayer(artboardId, layerType, image) {
+export function addLayer(layerType, image) {
     return {
         type: ADD_LAYER,
-        artboardId,
         layerType,
         image,
     }

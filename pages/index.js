@@ -7,6 +7,7 @@ import { useDrop } from 'react-dnd'
 import ArtboardShortcutsWrapper from '../components/ArtboardShortcutsWrapper'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
+import ActionBars from '../components/ActionBars'
 import AdjustmentsPanel from '../components/AdjustmentsPanel'
 import { mergeAdjustments } from '../utils/mergeAdjustments'
 import Reducer, { initialState } from '../utils/reducer'
@@ -433,6 +434,14 @@ export default function Home() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="artboard__action-bar">
+                        <ActionBars
+                            adjustments={artboard.adjustments}
+                            dispatch={dispatch}
+                            buttonFill={'black'}
+                            layerIds={artboard.selection.layers}
+                        />
                     </div>
                     <AdjustmentsPanel
                         appState={appState}

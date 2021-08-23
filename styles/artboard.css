@@ -4,6 +4,13 @@ body {
 }
 
 /* Action Bars */
+.artboard__action-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 3rem;
+}
 .action-bar__left,
 .action-bar__top-right,
 .action-bar__bottom-right {
@@ -14,15 +21,15 @@ body {
 }
 .action-bar__left {
     top: 0;
-    left: -3rem;
+    left: 0;
 }
 .action-bar__top-right {
     top: 0;
-    right: -3rem;
+    right: 0;
 }
 .action-bar__bottom-right {
     bottom: 0.5rem;
-    right: -3rem;
+    right: 0;
 }
 
 .action-bar__button {
@@ -32,7 +39,7 @@ body {
     border: none;
     margin: 0rem 0.5rem 0.5rem;
     padding: 0;
-    opacity: 0;
+    /* opacity: 0; */
     cursor: pointer;
     transition: all linear 0.2s;
     z-index: 100;
@@ -130,11 +137,24 @@ div:first-child > .adjustments-panel__header {
     padding: 0.25rem 0;
 }
 .adjustments-input--text > label {
-    @include adjustments-label();
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 0.75rem;
+    color: #888;
+    display: block;
+    flex: 1;
+    margin-right: 0.5rem;
     flex: 1;
 }
 .adjustments-input--text > input {
-    @include adjustments-text-input();
+    font-family: 'IBM Plex Mono', 'Source Code Pro', sans-serif;
+    line-height: 1.5;
+    width: 100%;
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+    background: white;
+    border: rgba(0, 0, 0, 0.1) solid 1px;
+    border-radius: 0.125rem;
+    color: black;
     flex: 4;
 }
 
@@ -146,11 +166,25 @@ div:first-child > .adjustments-panel__header {
     padding: 0.25rem 0;
 }
 .adjustments-input--select > label {
-    @include adjustments-label();
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 0.75rem;
+    color: #888;
+    display: block;
+    flex: 1;
+    margin-right: 0.5rem;
     flex: 1;
 }
 .adjustments-input--select > select {
-    @include adjustments-select-input();
+    font-family: 'IBM Plex Mono', 'Source Code Pro', sans-serif;
+    border-radius: 0.125rem;
+    appearance: none;
+    line-height: 1.5;
+    width: 100%;
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+    background: white;
+    border: rgba(0, 0, 0, 0.1) solid 1px;
+    color: black;
     flex: 4;
 }
 .adjustments-input--select::after {
@@ -179,7 +213,7 @@ div:first-child > .adjustments-panel__header {
     border-radius: 50%;
     width: 1rem;
     height: 1rem;
-    box-shadow: 0 0 0 2px $light-gray;
+    box-shadow: 0 0 0 2px #666;
     transition: all linear 0.1s;
     cursor: pointer;
     /* @include color-dot(); */
@@ -206,7 +240,7 @@ div:first-child > .adjustments-panel__header {
     left: 0.5rem;
     right: 0.5rem;
     transition: all linear 0.2s;
-    box-shadow: 0 0 0 1px $light-gray;
+    box-shadow: 0 0 0 1px #666;
     border-radius: 2px;
 }
 
@@ -235,14 +269,14 @@ div:first-child > .adjustments-panel__header {
     border-radius: 50%;
     width: 1rem;
     height: 1rem;
-    box-shadow: 0 0 0 2px $light-gray;
+    box-shadow: 0 0 0 2px #666;
     transition: all linear 0.1s;
     cursor: pointer;
     /* @include color-dot(); */
     margin: 0.2rem auto;
 }
 
-// Image picker
+/* Image picker */
 .image-picker {
     display: flex;
     flex-direction: column;
