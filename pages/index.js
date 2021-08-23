@@ -4,7 +4,6 @@ import Head from 'next/head'
 import Color from 'color'
 import { useDrop } from 'react-dnd'
 
-import Artboard from '../components/Artboard'
 import ArtboardShortcutsWrapper from '../components/ArtboardShortcutsWrapper'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
@@ -24,7 +23,6 @@ import {
     scaleAllDimensions,
     unscaleDimension,
 } from '../utils/artboardUtils'
-import { Hidden } from '@material-ui/core'
 
 // Reference values for preventing unnecessary erenders on drag and resize
 // const [dragUpdate, setDragUpdate] = useState(0)
@@ -36,7 +34,7 @@ const dragState = {
     },
 }
 
-export default function Home(props) {
+export default function Home() {
     const [scaleFactor, setScaleFactor] = useState(1)
     const [isScaled, setIsScaled] = useState(false)
     const [artboardSize, setArtboardSize] = useState({
@@ -45,8 +43,6 @@ export default function Home(props) {
         containerWidth: 1000,
         containerHeight: 1000,
     })
-    const [initScrollX, setInitScrollX] = useState(null)
-    const [initScrollY, setInitScrollY] = useState(null)
 
     // Set up reducer
     const [appState, dispatch] = useReducer(Reducer, initialState)
@@ -66,9 +62,6 @@ export default function Home(props) {
     useEffect(() => {
         // Resize artboard based on viewport size
         let wrapper = document.getElementById(`artboard-wrapper`)
-        let scrollContainer = document.getElementById(
-            'artboard__scroll-container'
-        )
 
         // Establish sizes to base our artboard on, scaled to viewport size
         let viewAreaBase = 1000
@@ -191,6 +184,7 @@ export default function Home(props) {
             hover: (item, monitor) => {
                 switch (monitor.getItemType()) {
                     case 'DRAG':
+                        console.log('dragging')
                         handleDrag(item, monitor, true)
                         break
 
@@ -205,6 +199,7 @@ export default function Home(props) {
             drop: (item, monitor) => {
                 switch (monitor.getItemType()) {
                     case 'DRAG':
+                        console.log('dropping')
                         handleDrag(item, monitor, false)
                         break
 
@@ -217,7 +212,7 @@ export default function Home(props) {
                 }
             },
         }),
-        [artboardSize]
+        [artboard, artboardSize, selectedLayers]
     )
 
     const artboardWrapperStyles = {
@@ -252,6 +247,7 @@ export default function Home(props) {
             collectedProps.isDragging || artboard.selections.length != 1
                 ? 'none'
                 : 'block',
+        pointerEvents: 'none',
     }
 
     return (
@@ -354,7 +350,6 @@ export default function Home(props) {
                     </div>
                     <div>
                         <div
-                            ref={dropTarget}
                             className="layer-control__drop-target"
                             style={{
                                 position: 'absolute',
@@ -368,6 +363,7 @@ export default function Home(props) {
                             }}
                         >
                             <div
+                                ref={dropTarget}
                                 className="layer-control__artboard-area"
                                 style={{
                                     position: 'absolute',
