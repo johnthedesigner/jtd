@@ -11,27 +11,7 @@ import { adjustLayers } from '../utils/actions'
 const TypeAdjustment = (props) => {
     const adjustmentGroup = 'text'
 
-    const [alignment, setAlignment] = useState('left')
-    const [fontColor, setFontColor] = useState('')
-    const [fontFamily, setFontFamily] = useState('')
-    const [fontSize, setFontSize] = useState('')
-    const [fontWeight, setFontWeight] = useState('')
-    const [italic, setItalic] = useState(false)
-    const [underline, setUnderline] = useState(false)
-
     const { adjustments, projectColors } = props
-
-    useEffect(() => {
-        if (adjustments) {
-            if (adjustments.align) setAlignment(adjustments.align)
-            if (adjustments.color) setFontColor(adjustments.color)
-            if (adjustments.fontFamily) setFontFamily(adjustments.fontFamily)
-            if (adjustments.fontSize) setFontSize(adjustments.fontSize)
-            if (adjustments.fontWeight) setFontWeight(adjustments.fontWeight)
-            if (adjustments.italic) setItalic(adjustments.italic)
-            if (adjustments.underline) setUnderline(adjustments.underline)
-        }
-    }, [adjustments])
 
     const alignOptions = _.map(['left', 'center', 'right'], (option) => {
         return { name: option, value: option }
@@ -45,7 +25,13 @@ const TypeAdjustment = (props) => {
         return { name: size, value: size }
     })
 
-    const currentFamily = _.find(typeStyles.families, { id: fontFamily })
+    let fontFamilyFromProps = ''
+    if (props.adjustments && props.adjustments.fontFamily)
+        fontFamilyFromProps = props.adjustments.fontFamily
+
+    const currentFamily = _.find(typeStyles.families, {
+        id: fontFamilyFromProps,
+    })
     const fontWeightOptions = []
     if (currentFamily) {
         _.each(currentFamily.weights, (weight) => {
@@ -68,7 +54,7 @@ const TypeAdjustment = (props) => {
                             )
                         }
                         tooltipText="Font family"
-                        valueFromProps={fontFamily}
+                        valueFromProps={props.adjustments.fontFamily}
                     />
                     <SelectInput
                         key={adjustmentGroup + 'fontWeight'}
@@ -81,7 +67,7 @@ const TypeAdjustment = (props) => {
                             )
                         }
                         tooltipText="Font weight"
-                        valueFromProps={fontWeight}
+                        valueFromProps={props.adjustments.fontWeight}
                     />
                     <SelectInput
                         key={adjustmentGroup + 'fontSize'}
@@ -94,7 +80,7 @@ const TypeAdjustment = (props) => {
                             )
                         }
                         tooltipText="Font size"
-                        valueFromProps={fontSize}
+                        valueFromProps={props.adjustments.fontSize}
                     />
                     <SelectInput
                         key={adjustmentGroup + 'align'}
@@ -105,19 +91,17 @@ const TypeAdjustment = (props) => {
                             props.dispatch(adjustLayers('text', 'align', value))
                         }
                         tooltipText="Text alignment"
-                        valueFromProps={alignment}
+                        valueFromProps={props.adjustments.align}
                     />
                     <ColorInput
                         key={adjustmentGroup + 'color'}
                         projectColors={projectColors}
                         propertyName={'color'}
                         handleChange={(value) =>
-                            props.dispatch(
-                                adjustLayers('text', 'fontColor', value)
-                            )
+                            props.dispatch(adjustLayers('text', 'color', value))
                         }
                         tooltipText="Text color"
-                        valueFromProps={fontColor}
+                        valueFromProps={props.adjustments.color}
                     />
                     <ToggleInput
                         propertyName={'italic'}
@@ -127,7 +111,7 @@ const TypeAdjustment = (props) => {
                             )
                         }
                         tooltipText="Italic"
-                        valueFromProps={italic}
+                        valueFromProps={props.adjustments.italic}
                     />
                     <ToggleInput
                         propertyName={'underline'}
@@ -137,7 +121,7 @@ const TypeAdjustment = (props) => {
                             )
                         }
                         tooltipText="Underlined"
-                        valueFromProps={underline}
+                        valueFromProps={props.adjustments.underline}
                     />
                 </div>
             </div>

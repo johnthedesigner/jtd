@@ -90,7 +90,6 @@ export default function Reducer(state, a) {
             break
 
         case ADJUST_LAYERS:
-            console.log(a)
             let adjustedLayers = newState.artboard.selections
             _.each(adjustedLayers, (layerId) => {
                 _.find(newState.artboard.layers, { id: layerId }).adjustments[

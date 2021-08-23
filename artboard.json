@@ -123,12 +123,11 @@
                 "text": {
                     "align": "center",
                     "fontFamily": "sans",
-                    "fontSize": "96",
+                    "fontSize": 96,
                     "fontWeight": 300,
                     "italic": true,
-                    "textColor": "rgba(0,0,0)",
                     "underline": false,
-                    "color": "rgb(255, 255, 255)"
+                    "color": "rgb(0, 0, 0)"
                 }
             },
             "id": "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17"
