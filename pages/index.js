@@ -144,7 +144,6 @@ export default function Home() {
                 // Do nothing
             }
             // Get drag angle in degrees adjusted for scale factor
-            console.log(selectionDimensions.rotation)
             let angleRadians = Math.atan2(adjustedOffset[1], adjustedOffset[0])
             angleRadians -= selectionDimensions.rotation * (Math.PI / 180)
             // Get vectored drag distance and undo scale factor
@@ -182,10 +181,8 @@ export default function Home() {
                 return { isDragging: monitor.isOver() }
             },
             hover: (item, monitor) => {
-                console.log(item)
                 switch (monitor.getItemType()) {
                     case 'DRAG':
-                        console.log('dragging')
                         handleDrag(item, monitor, true)
                         break
 
@@ -198,10 +195,8 @@ export default function Home() {
                 }
             },
             drop: (item, monitor) => {
-                console.log(item)
                 switch (monitor.getItemType()) {
                     case 'DRAG':
-                        console.log('dropping')
                         handleDrag(item, monitor, false)
                         break
 
