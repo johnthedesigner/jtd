@@ -30,6 +30,9 @@ const TextLayer = (props) => {
         return family.id === fontFamily
     })
 
+    let rotateOriginX = dimensions.x + dimensions.width / 2
+    let rotateOriginY = dimensions.y + dimensions.height / 2
+
     const textStyles = {
         fontFamily: fontFamilyProps.value,
         fontSize: `${fontSize}px`,
@@ -46,6 +49,7 @@ const TextLayer = (props) => {
             y={dimensions.y}
             width={dimensions.width}
             height={dimensions.height}
+            transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
         >
             <div style={textStyles}>{props.layer.text}</div>
         </foreignObject>
