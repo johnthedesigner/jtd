@@ -1,9 +1,21 @@
+import { useEffect, useState } from 'react'
 import _ from 'lodash'
 
 import { typeStyles } from '../utils/adjustmentOptions'
 
 const TextLayer = (props) => {
-    const { x, y, width, height, rotation } = props.layer.dimensions
+    const [dimensions, setDimensions] = useState({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        rotation: 0,
+    })
+
+    useEffect(() => {
+        setDimensions(props.dimensions)
+    }, [props.dimensions])
+
     const {
         align,
         fontFamily,
@@ -29,7 +41,12 @@ const TextLayer = (props) => {
     }
 
     return (
-        <foreignObject x={x} y={y} width={width} height={height}>
+        <foreignObject
+            x={dimensions.x}
+            y={dimensions.y}
+            width={dimensions.width}
+            height={dimensions.height}
+        >
             <div style={textStyles}>{props.layer.text}</div>
         </foreignObject>
     )
