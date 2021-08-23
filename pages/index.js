@@ -182,6 +182,7 @@ export default function Home() {
                 return { isDragging: monitor.isOver() }
             },
             hover: (item, monitor) => {
+                console.log(item)
                 switch (monitor.getItemType()) {
                     case 'DRAG':
                         console.log('dragging')
@@ -197,6 +198,7 @@ export default function Home() {
                 }
             },
             drop: (item, monitor) => {
+                console.log(item)
                 switch (monitor.getItemType()) {
                     case 'DRAG':
                         console.log('dropping')

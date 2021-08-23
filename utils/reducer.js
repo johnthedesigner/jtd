@@ -217,7 +217,6 @@ export default function Reducer(state, a) {
             break
 
         case ROTATE_LAYER:
-            console.log('ROTATE THE LAYER!!!!', a)
             const { degrees } = a
             let rotatedLayerId = newState.artboard.selections[0]
             let rotatedLayer = _.find(newState.artboard.layers, {
