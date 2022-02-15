@@ -1,20 +1,59 @@
+import { useEffect, useState } from 'react'
+
 import ActionIcon from './ActionIcons'
 import { addLayer } from '../utils/actions'
+import { unscaleDimension } from '../utils/artboardUtils'
 
 const ActionBars = (props) => {
+    const [layerOffsetX, setLayerOffsetX] = useState(0)
+    const [layerOffsetY, setLayerOffsetY] = useState(0)
+
+    useEffect(() => {
+        // let artboard = document.getElementById('artboard__svg')
+        let viewbox = document.getElementById('artboard-wrapper')
+
+        let handleScroll = () => {
+            console.log('scale factor', props.scaleFactor)
+            setLayerOffsetX(
+                unscaleDimension(
+                    viewbox.scrollLeft + viewbox.clientWidth / 2,
+                    props.scaleFactor
+                )
+            )
+            setLayerOffsetY(
+                unscaleDimension(
+                    viewbox.scrollTop + viewbox.clientHeight / 2,
+                    props.scaleFactor
+                )
+            )
+        }
+
+        setTimeout(handleScroll, 20)
+
+        viewbox.addEventListener('scroll', handleScroll)
+
+        return () => {
+            viewbox.removeEventListener('scroll', handleScroll)
+        }
+    }, [props.scaleFactor])
+
     const addEllipse = (e) => {
         e.target.blur()
-        props.dispatch(addLayer('ellipse'))
+        props.dispatch(
+            addLayer('ellipse', { x: layerOffsetX, y: layerOffsetY })
+        )
     }
 
     const addRectangle = (e) => {
         e.target.blur()
-        props.dispatch(addLayer('rectangle'))
+        props.dispatch(
+            addLayer('rectangle', { x: layerOffsetX, y: layerOffsetY })
+        )
     }
 
     const addText = (e) => {
         e.target.blur()
-        props.dispatch(addLayer('text'))
+        props.dispatch(addLayer('text', { x: layerOffsetX, y: layerOffsetY }))
     }
 
     const handleClick = (e) => e.stopPropagation()

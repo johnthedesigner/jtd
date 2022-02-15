@@ -26,7 +26,6 @@ import {
 } from '../utils/artboardUtils'
 
 // Reference values for preventing unnecessary erenders on drag and resize
-// const [dragUpdate, setDragUpdate] = useState(0)
 const dragState = {
     lastDragUpdate: 0,
     lastOffset: {
@@ -44,6 +43,7 @@ export default function Home() {
         containerWidth: 1000,
         containerHeight: 1000,
     })
+    const scrollContainer = useRef(null)
 
     // Set up reducer
     const [appState, dispatch] = useReducer(Reducer, initialState)
@@ -268,7 +268,11 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div id="artboard-wrapper" style={artboardWrapperStyles}>
+            <div
+                ref={scrollContainer}
+                id="artboard-wrapper"
+                style={artboardWrapperStyles}
+            >
                 <ArtboardShortcutsWrapper
                     artboard={artboard}
                     dispatch={dispatch}
@@ -279,6 +283,7 @@ export default function Home() {
                         style={svgWrapperStyles}
                     >
                         <svg
+                            id="artboard__svg"
                             width={artboardSize.artboardWidth}
                             height={artboardSize.artboardHeight}
                             viewBox="0 0 10000 10000"
@@ -441,6 +446,10 @@ export default function Home() {
                             dispatch={dispatch}
                             buttonFill={'black'}
                             layerIds={artboard.selection.layers}
+                            scrollContainer={scrollContainer}
+                            scaleFactor={scaleFactor}
+                            viewportWidth={artboardSize.containerWidth}
+                            viewportHeight={artboardSize.containerHeight}
                         />
                     </div>
                     <AdjustmentsPanel

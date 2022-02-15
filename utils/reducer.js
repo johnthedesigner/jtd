@@ -84,7 +84,12 @@ export default function Reducer(state, a) {
                 newLayer = newLayers[a.layerType]()
             }
             newLayer.id = uuidv4()
-            newLayer.order = newState.artboard.layers.length + 1
+            // Put layer in the middle of visible area
+            newLayer.dimensions.x = a.offset.x - newLayer.dimensions.width / 2
+            newLayer.dimensions.y = a.offset.y - newLayer.dimensions.height / 2
+            // Add current dimensions to adjustments
+            newLayer.adjustments.dimensions = { ...newLayer.dimensions }
+            newLayer.order = _.keys(newState.artboard.layers).length + 1
             newState.artboard.layers[newLayer.id] = newLayer
             newState.artboard.selections = [newLayer.id]
             updateHistory(newState.artboard)
@@ -311,6 +316,7 @@ export default function Reducer(state, a) {
                 newState.artboard.selections = a.shiftKey
                     ? _.xor(newState.artboard.selections, [a.layerId])
                     : [a.layerId]
+                console.log(newState.artboard.layers[a.layerId])
                 // return Object.assign({}, state, {
                 //     ...newState.artboard,
                 // })

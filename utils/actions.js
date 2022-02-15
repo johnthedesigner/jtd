@@ -19,10 +19,11 @@ import {
     UPDATE_TEXT,
 } from './constants'
 
-export function addLayer(layerType, image) {
+export function addLayer(layerType, offset, image) {
     return {
         type: ADD_LAYER,
         layerType,
+        offset,
         image,
     }
 }
