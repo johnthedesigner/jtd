@@ -72,7 +72,7 @@
                 "y": 4500,
                 "width": 1000,
                 "height": 1000,
-                "rotation": 0
+                "rotation": 45
             },
             "adjustments": {
                 "blending": { "mode": "normal", "opacity": 1 },
@@ -112,9 +112,9 @@
             "text": "John the Designer",
             "order": 4,
             "dimensions": {
-                "x": 4700,
-                "y": 4840,
-                "width": 600,
+                "x": 4600,
+                "y": 4750,
+                "width": 800,
                 "height": 400,
                 "rotation": 0
             },
@@ -123,11 +123,11 @@
                 "text": {
                     "align": "center",
                     "fontFamily": "sans",
-                    "fontSize": 96,
-                    "fontWeight": 300,
+                    "fontSize": 144,
+                    "fontWeight": 900,
                     "italic": true,
                     "underline": false,
-                    "color": "rgb(0, 0, 0)"
+                    "color": "rgb(255, 255, 255)"
                 }
             },
             "id": "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17"

@@ -24,6 +24,7 @@ import {
     scaleAllDimensions,
     unscaleDimension,
 } from '../utils/artboardUtils'
+import AdjustmentOptions from '../components/AdjustmentOptions'
 
 // Reference values for preventing unnecessary erenders on drag and resize
 const dragState = {
@@ -45,6 +46,9 @@ export default function Home() {
     })
     const scrollContainer = useRef(null)
 
+    // adjustment state
+    const [currentAdjustment, setCurrentAdjustment] = useState(null)
+
     // Set up reducer
     const [appState, dispatch] = useReducer(Reducer, initialState)
 
@@ -59,6 +63,17 @@ export default function Home() {
         scaleFactor,
         true
     )
+
+    // If selected layers change, close adjustments pane
+    useEffect(() => {
+        setCurrentAdjustment(null)
+    }, [
+        _.join(
+            _.map(selectedLayers, (layer) => {
+                return layer.id
+            })
+        ),
+    ])
 
     useEffect(() => {
         // Resize artboard based on viewport size
@@ -226,7 +241,7 @@ export default function Home() {
         position: 'relative',
         width: artboardSize.artboardWidth,
         height: artboardSize.artboardHeight,
-        backgroundColor: '#fff',
+        backgroundColor: 'rgb(183, 33, 255)',
         backgroundImage:
             'radial-gradient(#FFCF86 1px, transparent 0),radial-gradient(#FFB2EE 1px, transparent 0),radial-gradient(#7ADFFF 1px, transparent 0),radial-gradient(#CACACA 1px, transparent 0)',
         backgroundSize: '48px 48px',
@@ -362,6 +377,7 @@ export default function Home() {
                                 left: 0,
                             }}
                             onClick={() => {
+                                setCurrentAdjustment(null)
                                 dispatch(deselectLayers())
                             }}
                         >
@@ -458,6 +474,14 @@ export default function Home() {
                         adjustments={artboard.adjustments}
                         dispatch={dispatch}
                         projectColors={artboard.projectColors}
+                    />
+                    <AdjustmentOptions
+                        adjustments={artboard.adjustments}
+                        artboard={artboard}
+                        currentAdjustment={currentAdjustment}
+                        dispatch={dispatch}
+                        projectColors={artboard.projectColors}
+                        setCurrentAdjustment={setCurrentAdjustment}
                     />
                 </ArtboardShortcutsWrapper>
             </div>
