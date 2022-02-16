@@ -44,6 +44,22 @@ export const initialState = {
     history: [],
 }
 
+// // Update selection adjustments
+// const updateAdjustments = (newState) => {
+//     console.log(
+//         mergeAdjustments(
+//             _.filter(newState.artboard.layers, (layer) => {
+//                 return _.includes(newState.artboard.selections, layer.id)
+//             })
+//         ).dimensions
+//     )
+//     newState.artboard.selection.adjustments = mergeAdjustments(
+//         _.filter(newState.artboard.layers, (layer) => {
+//             return _.includes(newState.artboard.selections, layer.id)
+//         })
+//     )
+// }
+
 export default function Reducer(state, a) {
     // Clone state to apply updates
     const newState = _.cloneDeep(state)
@@ -52,8 +68,8 @@ export default function Reducer(state, a) {
     const rightNow = Date.now()
 
     // Add an updated artboard to its own history
-    const updateHistory = (artboard) => {
-        newState.history.push(_.cloneDeep(artboard))
+    const updateHistory = (state) => {
+        newState.history.push(_.cloneDeep(state.artboard))
     }
 
     // var upsertLayer = function (layers, layerId, newLayer) {
@@ -68,7 +84,23 @@ export default function Reducer(state, a) {
 
     // Add initial history entry if one isn't present
     if (newState.artboard && newState.history.length === 0) {
-        updateHistory(newState.artboard)
+        updateHistory(newState)
+    }
+
+    // Update selection adjustments
+    const updateAdjustments = (newState) => {
+        console.log(
+            mergeAdjustments(
+                _.filter(newState.artboard.layers, (layer) => {
+                    return _.includes(newState.artboard.selections, layer.id)
+                })
+            ).dimensions
+        )
+        newState.artboard.selection.adjustments = mergeAdjustments(
+            _.filter(newState.artboard.layers, (layer) => {
+                return _.includes(newState.artboard.selections, layer.id)
+            })
+        )
     }
 
     // Log action (in dev environment only)
@@ -92,7 +124,8 @@ export default function Reducer(state, a) {
             newLayer.order = _.keys(newState.artboard.layers).length + 1
             newState.artboard.layers[newLayer.id] = newLayer
             newState.artboard.selections = [newLayer.id]
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case ADJUST_LAYERS:
@@ -102,7 +135,8 @@ export default function Reducer(state, a) {
                     a.adjustmentGroup
                 ][a.propertyName] = a.value
             })
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case BUMP_LAYERS:
@@ -114,7 +148,8 @@ export default function Reducer(state, a) {
                 })
                 bumpedLayer.dimensions[axis] += distance
             })
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case COPY_LAYERS:
@@ -143,7 +178,8 @@ export default function Reducer(state, a) {
             })
             newState.artboard.layers = layersAfterUpdate
             newState.artboard.selections = []
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case DESELECT_LAYERS:
@@ -165,7 +201,8 @@ export default function Reducer(state, a) {
                 } else {
                     nextDraggedLayer.dimensions = draggedDimensions
                     nextDraggedLayer.tempDimensions = undefined
-                    updateHistory(newState.artboard)
+                    updateAdjustments(newState)
+                    updateHistory(newState)
                 }
             })
             break
@@ -207,7 +244,8 @@ export default function Reducer(state, a) {
                 'id'
             )
             newState.artboard.layers = newlyOrderedLayers
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case PASTE_LAYERS:
@@ -219,7 +257,8 @@ export default function Reducer(state, a) {
                 newState.artboard.layers[pastedLayer.id] = pastedLayer
             })
             newState.artboard.selections = pastedLayerIds
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case ROTATE_LAYER:
@@ -229,7 +268,8 @@ export default function Reducer(state, a) {
                 id: rotatedLayerId,
             })
             rotatedLayer.dimensions.rotation = degrees
-            updateHistory(newState.artboard)
+            updateAdjustments(newState)
+            updateHistory(newState)
             break
 
         case SCALE_LAYER:
@@ -255,7 +295,7 @@ export default function Reducer(state, a) {
                     let { direction, distance } = directive
 
                     // First, apply position and scale offsets based on unrotated layer
-                    let resizeAxis = newDimensions.rotation
+                    let resizeAxis = _.clone(newDimensions.rotation)
                     switch (direction) {
                         case 'right':
                             newDimensions.width += distance
@@ -298,9 +338,15 @@ export default function Reducer(state, a) {
                 if (a.previewOnly) {
                     scaledLayer.tempDimensions = newDimensions
                 } else {
-                    scaledLayer.dimensions = newDimensions
+                    scaledLayer.dimensions.x = newDimensions.x
+                    scaledLayer.dimensions.y = newDimensions.y
+                    scaledLayer.dimensions.width = newDimensions.width
+                    scaledLayer.dimensions.height = newDimensions.height
+                    scaledLayer.dimensions.rotation = newDimensions.rotation
                     scaledLayer.tempDimensions = undefined
-                    updateHistory(newState.artboard)
+                    // console.log(scaledLayer.dimensions)
+                    updateAdjustments(newState)
+                    updateHistory(newState)
                 }
             }
             break
@@ -316,10 +362,7 @@ export default function Reducer(state, a) {
                 newState.artboard.selections = a.shiftKey
                     ? _.xor(newState.artboard.selections, [a.layerId])
                     : [a.layerId]
-                console.log(newState.artboard.layers[a.layerId])
-                // return Object.assign({}, state, {
-                //     ...newState.artboard,
-                // })
+                updateAdjustments(newState)
             }
             break
 
@@ -327,6 +370,8 @@ export default function Reducer(state, a) {
             newState.artboard.selections = _.map(newState.layers, (layer) => {
                 return layer.id
             })
+            updateAdjustments(newState)
+            break
 
         case TOGGLE_IMAGE_PICKER:
             newState.artboard.showImagePicker =
@@ -344,6 +389,7 @@ export default function Reducer(state, a) {
                 newState.history = _.cloneDeep(
                     _.slice(newState.history, 0, newState.history.length - 1)
                 )
+                updateAdjustments(newState)
             }
             break
 
@@ -352,7 +398,7 @@ export default function Reducer(state, a) {
         //     return layer.id === newState.artboard.editableTextLayer
         // })[0]
         // newTextLayer.text = a.text
-        // updateHistory(newState.artboard)
+        // updateHistory(newState)
 
         // return Object.assign({}, state, {
         //     artboards: clonedArtboards,
@@ -372,5 +418,7 @@ export default function Reducer(state, a) {
             )
             newState.artboard.adjustments = newAdjustments
     }
+    updateAdjustments(newState)
+    console.log(newState.artboard.selection.adjustments.dimensions)
     return Object.assign({}, state, newState)
 }

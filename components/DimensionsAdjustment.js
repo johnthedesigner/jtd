@@ -19,10 +19,10 @@ const DimensionsAdjustment = (props) => {
     //     height: '',
     //     rotation: '',
     // })
-    const { dispatch } = props
+    const { adjustments, dispatch } = props
 
     useEffect(() => {
-        let { adjustments } = props
+        // let { adjustments } = props
         if (adjustments) {
             if (adjustments.x) setX(adjustments.x)
             if (adjustments.y) setY(adjustments.y)
@@ -37,7 +37,14 @@ const DimensionsAdjustment = (props) => {
             setRotation('')
         }
         // setAdjustments(props.adjustments)
-    }, [props.adjustments])
+    }, [
+        adjustments,
+        // adjustments.x,
+        // adjustments.y,
+        // adjustments.width,
+        // adjustments.height,
+        // adjustments.rotation,
+    ])
 
     const dispatchX = (newX) => {
         let distance = Math.floor(newX - x)

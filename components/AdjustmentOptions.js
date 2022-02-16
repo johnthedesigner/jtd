@@ -32,12 +32,12 @@ const AdjustmentOptions = (props) => {
     })
 
     useEffect(() => {
-        let artboardClone = _.cloneDeep(artboard)
-        let selectedLayers = _.filter(artboardClone.layers, (layer) => {
-            return _.includes(artboardClone.selections, layer.id)
-        })
-        setAdjustments(mergeAdjustments(selectedLayers))
-    }, [props.artboard])
+        // let artboardClone = _.cloneDeep(artboard)
+        // let selectedLayers = _.filter(artboardClone.layers, (layer) => {
+        //     return _.includes(artboardClone.selections, layer.id)
+        // })
+        setAdjustments(artboard.selection.adjustments)
+    }, [artboard.selection.adjustments])
 
     const AdjustmentPane = ({ children, type }) => {
         if (currentAdjustment === type) {
@@ -59,6 +59,12 @@ const AdjustmentOptions = (props) => {
     let adjustmentOptionsClasses = `adjustment-options ${
         artboard.selections.length === 0 ? 'adjustment-options--hidden' : ''
     }`
+
+    let adjustmentIconClasses = (type) => {
+        return `adjustment-options__icon ${
+            type === currentAdjustment ? 'adjustment-options__icon--active' : ''
+        }`
+    }
 
     return (
         <>
@@ -103,33 +109,45 @@ const AdjustmentOptions = (props) => {
             <div className={adjustmentOptionsClasses}>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
                     <span
-                        className="adjustment-options__icon"
+                        className={adjustmentIconClasses('dimensions')}
                         onClick={() => {
-                            setCurrentAdjustment('dimensions')
+                            setCurrentAdjustment(
+                                currentAdjustment === 'dimensions'
+                                    ? null
+                                    : 'dimensions'
+                            )
                         }}
                     />
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.text}>
                     <span
-                        className="adjustment-options__icon"
+                        className={adjustmentIconClasses('text')}
                         onClick={() => {
-                            setCurrentAdjustment('text')
+                            setCurrentAdjustment(
+                                currentAdjustment === 'text' ? null : 'text'
+                            )
                         }}
                     />
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.fill}>
                     <span
-                        className="adjustment-options__icon"
+                        className={adjustmentIconClasses('fill')}
                         onClick={() => {
-                            setCurrentAdjustment('fill')
+                            setCurrentAdjustment(
+                                currentAdjustment === 'fill' ? null : 'fill'
+                            )
                         }}
                     />
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.blending}>
                     <span
-                        className="adjustment-options__icon"
+                        className={adjustmentIconClasses('blending')}
                         onClick={() => {
-                            setCurrentAdjustment('blending')
+                            setCurrentAdjustment(
+                                currentAdjustment === 'blending'
+                                    ? null
+                                    : 'blending'
+                            )
                         }}
                     />
                 </AdjustmentIconWrapper>

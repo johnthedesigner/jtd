@@ -13,7 +13,6 @@ const ActionBars = (props) => {
         let viewbox = document.getElementById('artboard-wrapper')
 
         let handleScroll = () => {
-            console.log('scale factor', props.scaleFactor)
             setLayerOffsetX(
                 unscaleDimension(
                     viewbox.scrollLeft + viewbox.clientWidth / 2,
@@ -62,6 +61,9 @@ const ActionBars = (props) => {
         e.target.blur()
         this.props.toggleImagePicker()
     }
+
+    let temporarilyDisableActionBars = true
+    if (temporarilyDisableActionBars) return null
 
     return (
         <div>

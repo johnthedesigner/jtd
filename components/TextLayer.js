@@ -43,6 +43,10 @@ const TextLayer = (props) => {
         textDecoration: underline ? 'underline' : 'none',
     }
 
+    const foreignObjectStyles = {
+        overflow: 'visible',
+    }
+
     return (
         <foreignObject
             x={dimensions.x}
@@ -50,6 +54,7 @@ const TextLayer = (props) => {
             width={dimensions.width}
             height={dimensions.height}
             transform={`rotate(${dimensions.rotation} ${rotateOriginX} ${rotateOriginY})`}
+            style={foreignObjectStyles}
         >
             <div style={textStyles}>{props.layer.text}</div>
         </foreignObject>

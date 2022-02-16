@@ -20,7 +20,7 @@
                 "y": 4750,
                 "width": 500,
                 "height": 500,
-                "rotation": 90
+                "rotation": 0
             },
             "adjustments": {
                 "blending": { "mode": "color", "opacity": 1 },
@@ -46,7 +46,7 @@
                 "y": 4750,
                 "width": 500,
                 "height": 500,
-                "rotation": 90
+                "rotation": 0
             },
             "adjustments": {
                 "blending": { "mode": "color", "opacity": 1 },
@@ -122,10 +122,10 @@
                 "blending": { "mode": "normal", "opacity": 1 },
                 "text": {
                     "align": "center",
-                    "fontFamily": "sans",
+                    "fontFamily": "blackletter",
                     "fontSize": 144,
-                    "fontWeight": 900,
-                    "italic": true,
+                    "fontWeight": 700,
+                    "italic": false,
                     "underline": false,
                     "color": "rgb(255, 255, 255)"
                 }

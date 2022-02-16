@@ -14,6 +14,13 @@ export const typeStyles = {
             weights: [200, 400],
             hasItalic: false,
         },
+        {
+            id: 'blackletter',
+            name: 'Blackletter',
+            value: "'Schmaltzy', sans-serif",
+            weights: [200, 400, 700, 900],
+            hasItalic: false,
+        },
     ],
 }
 

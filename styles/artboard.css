@@ -3,6 +3,15 @@ body {
     overscroll-behavior: none;
 }
 
+/* Fonts */
+@font-face {
+    font-family: 'Schmaltzy';
+    /* font-style: normal;
+    font-weight: 200; */
+    src: url(/fonts/Schmaltzy-VF.ttf) format('ttf');
+    /* unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; */
+}
+
 /* Action Bars */
 .artboard__action-bar {
     position: fixed;
@@ -324,14 +333,17 @@ div:first-child > .adjustments-panel__header {
 
 /* Adjustment Options */
 .adjustment-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     width: 4rem;
     padding: 1rem;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
-    z-index: 1001;
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)); */
+    z-index: 1002;
     transition: all ease-out 0.1s;
     pointer-events: none;
 }
@@ -344,22 +356,47 @@ div:first-child > .adjustments-panel__header {
     display: block;
     width: 2rem;
     height: 2rem;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     border-radius: 50%;
-    background: blue;
+    background: white;
     pointer-events: initial;
+    box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.4);
+}
+
+.adjustment-options__icon--active {
+    background: black;
 }
 
 .adjustments-pane {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     position: fixed;
-    top: 0;
+    /* top: 0; */
     right: 0;
     bottom: 0;
     width: 30rem;
-    padding: 1rem 3rem 1rem 14rem;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
-    z-index: 1000;
+    padding: 1rem 4rem 1rem 14rem;
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); */
+    z-index: 1001;
     pointer-events: none;
+}
+
+.adjustments-pane:before {
+    content: '';
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 30rem;
+    height: 30rem;
+    z-index: -1;
+    background: linear-gradient(
+        to bottom right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
 }
 
 .adjustments-pane * {

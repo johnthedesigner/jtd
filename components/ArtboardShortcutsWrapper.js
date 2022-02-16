@@ -1,4 +1,5 @@
 import { useHotkeys } from 'react-hotkeys-hook'
+import { useEffect, useState } from 'react'
 
 import {
     bumpLayers,
@@ -10,6 +11,11 @@ import {
 } from '../utils/actions'
 
 const ArtboardShortcutsWrapper = (props) => {
+    const [artboard, setArtboard] = useState(null)
+    useEffect(() => {
+        setArtboard(props.artboard)
+    })
+
     // Set up key commands
     useHotkeys('shift+up', (e) => {
         // e.preventDefault()
