@@ -33,6 +33,9 @@ const TextLayer = (props) => {
     let rotateOriginX = dimensions.x + dimensions.width / 2
     let rotateOriginY = dimensions.y + dimensions.height / 2
 
+    let opacity = props.layer.adjustments.blending.opacity
+    let blendMode = props.layer.adjustments.blending.mode
+
     const textStyles = {
         fontFamily: fontFamilyProps.value,
         fontSize: `${fontSize}px`,
@@ -41,10 +44,12 @@ const TextLayer = (props) => {
         textAlign: align,
         fontStyle: italic ? 'italic' : 'normal',
         textDecoration: underline ? 'underline' : 'none',
+        opacity,
     }
 
     const foreignObjectStyles = {
         overflow: 'visible',
+        mixBlendMode: blendMode ? blendMode : 'normal',
     }
 
     return (

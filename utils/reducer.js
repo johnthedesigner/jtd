@@ -89,13 +89,6 @@ export default function Reducer(state, a) {
 
     // Update selection adjustments
     const updateAdjustments = (newState) => {
-        console.log(
-            mergeAdjustments(
-                _.filter(newState.artboard.layers, (layer) => {
-                    return _.includes(newState.artboard.selections, layer.id)
-                })
-            ).dimensions
-        )
         newState.artboard.selection.adjustments = mergeAdjustments(
             _.filter(newState.artboard.layers, (layer) => {
                 return _.includes(newState.artboard.selections, layer.id)
@@ -394,15 +387,12 @@ export default function Reducer(state, a) {
             break
 
         case UPDATE_TEXT:
-        // let newTextLayer = _.filter(newState.artboard.layers, (layer) => {
-        //     return layer.id === newState.artboard.editableTextLayer
-        // })[0]
-        // newTextLayer.text = a.text
-        // updateHistory(newState)
-
-        // return Object.assign({}, state, {
-        //     artboards: clonedArtboards,
-        // })
+            let newTextLayer = _.filter(newState.artboard.layers, (layer) => {
+                return layer.id === newState.artboard.editableTextLayer
+            })[0]
+            newTextLayer.text = a.text
+            updateHistory(newState)
+            break
 
         default:
             // update artboard adjustments based on selections
@@ -419,6 +409,5 @@ export default function Reducer(state, a) {
             newState.artboard.adjustments = newAdjustments
     }
     updateAdjustments(newState)
-    console.log(newState.artboard.selection.adjustments.dimensions)
     return Object.assign({}, state, newState)
 }

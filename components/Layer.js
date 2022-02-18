@@ -15,6 +15,7 @@ export const layerTypes = {
 }
 
 const Layer = (props) => {
+    const { artboard } = props
     const { dimensions, tempDimensions } = props.layer
 
     const [renderDimensions, setRenderDimensions] = useState({
@@ -61,14 +62,18 @@ const Layer = (props) => {
                 )
 
             case layerTypes.text:
-                return (
-                    <TextLayer
-                        dimensions={renderDimensions}
-                        layer={layer}
-                        isScaled={props.isScaled}
-                        scaleFactor={props.scaleFactor}
-                    />
-                )
+                if (props.artboard.editableTextLayer === layer.id) {
+                    return null
+                } else {
+                    return (
+                        <TextLayer
+                            dimensions={renderDimensions}
+                            layer={layer}
+                            isScaled={props.isScaled}
+                            scaleFactor={props.scaleFactor}
+                        />
+                    )
+                }
 
             default:
                 console.log('Unrecognized layer type: ', layer.type)

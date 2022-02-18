@@ -69,7 +69,7 @@ const ActionBars = (props) => {
         <div>
             <div className="action-bar__top-right" onClick={handleClick}>
                 <button className="action-bar__plus-icon">
-                    <ActionIcon iconType="plus" fill="rgba(0,0,0,.2)" />
+                    <ActionIcon iconType="plus" fill="white" />
                 </button>
                 <button className="action-bar__button" onClick={addRectangle}>
                     <ActionIcon iconType="rectangle" fill={props.buttonFill} />
@@ -87,7 +87,7 @@ const ActionBars = (props) => {
                     <ActionIcon iconType="textLayer" fill={props.buttonFill} />
                 </button>
             </div>
-            <div className="action-bar__bottom-right" onClick={handleClick}>
+            {/* <div className="action-bar__bottom-right" onClick={handleClick}>
                 <button
                     className="action-bar__button"
                     onClick={(e) => {
@@ -107,7 +107,7 @@ const ActionBars = (props) => {
                 >
                     <ActionIcon iconType="sendToBack" fill={props.buttonFill} />
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }

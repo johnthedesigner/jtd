@@ -81,7 +81,7 @@ const ArtboardShortcutsWrapper = (props) => {
         props.dispatch(undoAction())
     })
     useHotkeys('cmd+e', () => {
-        console.log(JSON.stringify(props.artboard))
+        console.log(JSON.stringify(artboard))
     })
 
     return <>{props.children}</>

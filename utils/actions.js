@@ -73,10 +73,9 @@ export function dragLayers(layerIds, x, y, previewOnly) {
     }
 }
 
-export function enableTextEditor(artboardId, layerId) {
+export function enableTextEditor(layerId) {
     return {
         type: ENABLE_TEXT_EDITOR,
-        artboardId,
         layerId,
     }
 }
@@ -88,10 +87,9 @@ export function highlightLayer(layerId) {
     }
 }
 
-export function moveLayers(artboardId, direction) {
+export function moveLayers(direction) {
     return {
         type: MOVE_LAYERS,
-        artboardId,
         direction,
     }
 }
@@ -143,10 +141,9 @@ export function undoAction() {
     }
 }
 
-export function updateText(artboardId, text) {
+export function updateText(text) {
     return {
         type: UPDATE_TEXT,
-        artboardId,
         text,
     }
 }

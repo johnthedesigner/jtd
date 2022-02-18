@@ -9,10 +9,11 @@ import TextAdjustment from './TextAdjustment'
 import {
     adjustLayers,
     bumpLayers,
+    moveLayers,
     rotateLayer,
     scaleLayer,
 } from '../utils/actions'
-import { mergeAdjustments } from '../utils/mergeAdjustments'
+import ActionIcon from './ActionIcons'
 
 const AdjustmentOptions = (props) => {
     const {
@@ -151,6 +152,67 @@ const AdjustmentOptions = (props) => {
                         }}
                     />
                 </AdjustmentIconWrapper>
+                <button
+                    className="action-bar__button"
+                    onClick={() => {
+                        setCurrentAdjustment(
+                            currentAdjustment === 'dimensions'
+                                ? null
+                                : 'dimensions'
+                        )
+                    }}
+                >
+                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={() => {
+                        setCurrentAdjustment(
+                            currentAdjustment === 'text' ? null : 'text'
+                        )
+                    }}
+                >
+                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={() => {
+                        setCurrentAdjustment(
+                            currentAdjustment === 'fill' ? null : 'fill'
+                        )
+                    }}
+                >
+                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={() => {
+                        setCurrentAdjustment(
+                            currentAdjustment === 'blending' ? null : 'blending'
+                        )
+                    }}
+                >
+                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={(e) => {
+                        dispatch(moveLayers('front'))
+                    }}
+                >
+                    <ActionIcon
+                        iconType="bringToFront"
+                        fill={props.buttonFill}
+                    />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={(e) => {
+                        dispatch(moveLayers('back'))
+                    }}
+                >
+                    <ActionIcon iconType="sendToBack" fill={props.buttonFill} />
+                </button>
             </div>
         </>
     )

@@ -10,134 +10,166 @@
         "excerptColor": "#21967D"
     },
     "nonfeaturedStyles": { "buttonFill": "#999999", "titleColor": "#21967D" },
-    "layers": [
-        {
+    "layers": {
+        "a2889317-ac42-48b4-8174-1f8dc7ac95e7": {
             "type": "ellipse",
             "title": "ellipse",
-            "order": 5,
-            "dimensions": {
-                "x": 4250,
-                "y": 4750,
-                "width": 500,
-                "height": 500,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "color", "opacity": 1 },
-                "fill": {
-                    "type": "gradient",
-                    "color": null,
-                    "gradient": {
-                        "angle": 0,
-                        "start": "hsl(166.89999999999998, 81.8%, 38%)",
-                        "end": "hsl(166.89999999999998, 100%, 56.9%)"
-                    }
-                },
-                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" }
-            },
-            "id": "a2889317-ac42-48b4-8174-1f8dc7ac95e7"
-        },
-        {
-            "type": "ellipse",
-            "title": "ellipse",
-            "order": 5,
-            "dimensions": {
-                "x": 5250,
-                "y": 4750,
-                "width": 500,
-                "height": 500,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "color", "opacity": 1 },
-                "fill": {
-                    "type": "gradient",
-                    "color": null,
-                    "gradient": {
-                        "angle": 0,
-                        "start": "hsl(166.89999999999998, 81.8%, 38%)",
-                        "end": "hsl(166.89999999999998, 100%, 56.9%)"
-                    }
-                },
-                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" }
-            },
-            "id": "a2889317-ac42-48b4-8174-1f8dc7ac95e8"
-        },
-        {
-            "type": "rectangle",
-            "title": "rectangle",
-            "order": 0,
-            "dimensions": {
-                "x": 4500,
-                "y": 4500,
-                "width": 1000,
-                "height": 1000,
-                "rotation": 45
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "fill": {
-                    "type": "gradient",
-                    "gradient": {
-                        "start": "rgb(183, 33, 255)",
-                        "end": "rgb(33, 212, 253)",
-                        "angle": 0
-                    },
-                    "color": null
-                },
-                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" }
-            },
-            "id": "xx-3c5117d0-e53e-11e7-95a2-f1bdc7305b17"
-        },
-        {
-            "imageId": "test2",
-            "type": "image",
-            "title": "image",
             "order": 1,
             "dimensions": {
-                "x": 4540,
-                "y": 4540,
-                "width": 920,
-                "height": 920,
+                "x": 1020,
+                "y": 1360,
+                "width": 600,
+                "height": 600,
                 "rotation": 0
             },
             "adjustments": {
-                "blending": { "mode": "overlay", "opacity": 0.75 }
+                "blending": { "mode": "multiply", "opacity": 1 },
+                "fill": {
+                    "type": "gradient",
+                    "color": null,
+                    "gradient": {
+                        "angle": 0,
+                        "start": "rgb(33, 212, 253)",
+                        "end": "rgb(42, 245, 152)"
+                    }
+                },
+                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
+                "dimensions": {
+                    "x": 1020,
+                    "y": 1360,
+                    "width": 600,
+                    "height": 600,
+                    "rotation": 0
+                }
             },
-            "id": "ecdd5ab0-efdd-11e7-b4cc-ad6a8eba07d0"
+            "id": "a2889317-ac42-48b4-8174-1f8dc7ac95e7",
+            "isSelected": false,
+            "isEditable": false
         },
-        {
+        "c0f0b1db-9512-4fe4-a9a9-289d0b5c6dee": {
+            "type": "ellipse",
+            "title": "ellipse",
+            "order": 2,
+            "dimensions": {
+                "x": 1380,
+                "y": 1360,
+                "width": 600,
+                "height": 600,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "multiply", "opacity": 1 },
+                "fill": {
+                    "type": "gradient",
+                    "color": null,
+                    "gradient": {
+                        "angle": 0,
+                        "start": "hsl(2.8999999999999773, 80.2%, 65.6%)",
+                        "end": "rgb(183, 33, 255)"
+                    }
+                },
+                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
+                "dimensions": {
+                    "x": 1380,
+                    "y": 1360,
+                    "width": 600,
+                    "height": 600,
+                    "rotation": 0
+                }
+            },
+            "id": "c0f0b1db-9512-4fe4-a9a9-289d0b5c6dee",
+            "isSelected": false,
+            "isEditable": false
+        },
+        "002ec68c-89ac-4bbc-91a9-ec8bf46ca011": {
+            "type": "ellipse",
+            "title": "ellipse",
+            "order": 3,
+            "dimensions": {
+                "x": 1200,
+                "y": 1040,
+                "width": 600,
+                "height": 600,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "multiply", "opacity": 1 },
+                "fill": {
+                    "type": "gradient",
+                    "color": null,
+                    "gradient": {
+                        "angle": 0,
+                        "start": "rgb(33, 212, 253)",
+                        "end": "rgb(183, 33, 255)"
+                    }
+                },
+                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
+                "dimensions": {
+                    "x": 1200,
+                    "y": 1040,
+                    "width": 600,
+                    "height": 600,
+                    "rotation": 0
+                }
+            },
+            "id": "002ec68c-89ac-4bbc-91a9-ec8bf46ca011",
+            "isSelected": true,
+            "isEditable": false
+        },
+        "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17": {
             "type": "text",
             "title": "text",
-            "text": "John the Designer",
+            "text": "This is my personal website.",
             "order": 4,
             "dimensions": {
-                "x": 4600,
-                "y": 4750,
+                "x": 1100,
+                "y": 1180,
                 "width": 800,
-                "height": 400,
+                "height": 700,
                 "rotation": 0
             },
             "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
+                "blending": { "mode": "overlay", "opacity": "0.80" },
                 "text": {
                     "align": "center",
                     "fontFamily": "blackletter",
-                    "fontSize": 144,
-                    "fontWeight": 700,
+                    "fontSize": "144",
+                    "fontWeight": "700",
                     "italic": false,
                     "underline": false,
                     "color": "rgb(255, 255, 255)"
+                },
+                "dimensions": {
+                    "x": 1100,
+                    "y": 1130,
+                    "width": 800,
+                    "height": 300,
+                    "rotation": 0
                 }
             },
-            "id": "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17"
+            "id": "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17",
+            "isSelected": false,
+            "isEditable": false
         }
-    ],
+    },
     "projectColors": ["#FAACA8", "#DDD6F3", "#B721FF", "#21D4FD", "#2AF598"],
     "selections": [],
     "history": [],
     "editingTextLayer": null,
     "activeFlyout": null,
     "editableTextLayer": [],
-    "showImagePicker": false
+    "showImagePicker": false,
+    "isSelected": true,
+    "layerSelected": false,
+    "selection": {
+        "isActive": true,
+        "adjustments": {},
+        "dimensions": {
+            "x": 4750,
+            "y": 4610,
+            "width": 500,
+            "height": 500,
+            "rotation": 0
+        }
+    }
 }

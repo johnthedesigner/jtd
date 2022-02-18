@@ -37,7 +37,7 @@ const DragHandle = (props) => {
     const handleDoubleClick = (e) => {
         e.stopPropagation()
         if (props.layer.type === 'text') {
-            props.enableTextEditor(props.layer.id)
+            props.dispatch(props.enableTextEditor(props.layer.id))
         }
     }
 

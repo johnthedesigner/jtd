@@ -7,15 +7,17 @@ import { useDrop } from 'react-dnd'
 import ArtboardShortcutsWrapper from '../components/ArtboardShortcutsWrapper'
 import { colorsWithFallback } from '../utils/colorUtils'
 import Layer from '../components/Layer'
+import TextLayerEditor from '../components/TextLayerEditor'
 import ActionBars from '../components/ActionBars'
 import AdjustmentsPanel from '../components/AdjustmentsPanel'
-import { mergeAdjustments } from '../utils/mergeAdjustments'
 import Reducer, { initialState } from '../utils/reducer'
 import {
     deselectLayers,
     dragLayers,
+    enableTextEditor,
     scaleLayer,
     selectLayer,
+    updateText,
 } from '../utils/actions'
 import DragHandle from '../components/DragHandle'
 import ResizeHandle from '../components/ResizeHandle'
@@ -34,6 +36,10 @@ const dragState = {
         y: 0,
     },
 }
+
+let artboardBackgroundColor = '#ddd'
+let artboardDotColors = ['#bbb', '#bbb', '#bbb', '#bbb']
+let artboardDotSize = '1.3px'
 
 export default function Home() {
     const [scaleFactor, setScaleFactor] = useState(1)
@@ -81,7 +87,7 @@ export default function Home() {
 
         // Establish sizes to base our artboard on, scaled to viewport size
         let viewAreaBase = 1000
-        let artboardSizeBase = 10000
+        let artboardSizeBase = 3000
         // Get appropriate size for artboard based on viewport size
         let viewportWidth = wrapper.clientWidth
         let viewportHeight = wrapper.clientHeight
@@ -228,6 +234,30 @@ export default function Home() {
         [artboard, artboardSize, selectedLayers]
     )
 
+    // When text editing is enabled, display the appropriate layer
+    const EditableTextLayer = (props) => {
+        if (artboard.editableTextLayer.length > 0) {
+            let textLayer = _.filter(artboard.layers, (layer) => {
+                // Show editable text layer
+                return layer.id === artboard.editableTextLayer
+            })
+            // return null
+            return (
+                <TextLayerEditor
+                    dispatch={dispatch}
+                    enableTextEditor={enableTextEditor}
+                    key={textLayer.id}
+                    layer={textLayer[0]}
+                    isScaled={isScaled}
+                    scaleFactor={scaleFactor}
+                    updateText={updateText}
+                />
+            )
+        } else {
+            return null
+        }
+    }
+
     const artboardWrapperStyles = {
         position: 'fixed',
         top: 0,
@@ -241,9 +271,8 @@ export default function Home() {
         position: 'relative',
         width: artboardSize.artboardWidth,
         height: artboardSize.artboardHeight,
-        backgroundColor: 'rgb(183, 33, 255)',
-        backgroundImage:
-            'radial-gradient(#FFCF86 1px, transparent 0),radial-gradient(#FFB2EE 1px, transparent 0),radial-gradient(#7ADFFF 1px, transparent 0),radial-gradient(#CACACA 1px, transparent 0)',
+        backgroundColor: artboardBackgroundColor,
+        backgroundImage: `radial-gradient(${artboardDotColors[0]} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColors[1]} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColors[2]} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColors[3]} ${artboardDotSize}, transparent 0)`,
         backgroundSize: '48px 48px',
         backgroundPosition: '-6px -6px, 18px 18px, -6px 18px, 18px -6px',
     }
@@ -301,7 +330,7 @@ export default function Home() {
                             id="artboard__svg"
                             width={artboardSize.artboardWidth}
                             height={artboardSize.artboardHeight}
-                            viewBox="0 0 10000 10000"
+                            viewBox="0 0 3000 3000"
                             overflow="visible"
                         >
                             <defs>
@@ -355,6 +384,7 @@ export default function Home() {
                                 (layer, index) => {
                                     return (
                                         <Layer
+                                            artboard={artboard}
                                             dispatch={dispatch}
                                             key={layer.id}
                                             layer={layer}
@@ -397,6 +427,9 @@ export default function Home() {
                                         return (
                                             <DragHandle
                                                 key={layer.id}
+                                                enableTextEditor={
+                                                    enableTextEditor
+                                                }
                                                 layer={layer}
                                                 isDragging={
                                                     collectedProps.isDragging
@@ -483,6 +516,7 @@ export default function Home() {
                         projectColors={artboard.projectColors}
                         setCurrentAdjustment={setCurrentAdjustment}
                     />
+                    <EditableTextLayer />
                 </ArtboardShortcutsWrapper>
             </div>
             <div
