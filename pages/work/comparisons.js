@@ -21,8 +21,8 @@ const Comparisons = () => {
                     <p>
                         In our flagship product, users can apply filters to look
                         at narrow ranges of time, such as the past week, to
-                        understand what's going on lately. User interviews and
-                        feedback led us to add the ability to compare to a
+                        understand what&apos;s going on lately. User interviews
+                        and feedback led us to add the ability to compare to a
                         previous time range directly in Drivers UI.
                     </p>
                     <h3>How did we approach this design?</h3>
@@ -36,9 +36,9 @@ const Comparisons = () => {
                         product.
                     </p>
                     <p>
-                        A project's data could have more than one date field and
-                        a user would have to narrow their view down to a
-                        particular date range in order to do a comparison. In
+                        A project&apos;s data could have more than one date
+                        field and a user would have to narrow their view down to
+                        a particular date range in order to do a comparison. In
                         order to build this feature in a way that users could
                         discover, learn and use themselves, we need to introduce
                         new elements that would send clear signals to the user
