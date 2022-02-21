@@ -18,7 +18,7 @@ const Work = () => {
                 </div>
                 <div className="table-of-contents__item">
                     <span className="table-of-contents__name">
-                        2. "Answers First"
+                        2. &quot;Answers First&quot;
                     </span>
                     <Link href="/work/answers-first">
                         <a className="table-of-contents__link">
