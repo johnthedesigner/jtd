@@ -96,13 +96,13 @@ const Comparisons = () => {
                     <h3>How did we approach this design?</h3>
                     <p>
                         This addition to the Drivers feature is brand new and
-                        we're only just getting initial feedback. We will look
-                        to learn a lot from releasing this initial version to
-                        our users. For example: What sorts of time periods do
+                        we&apos;re only just getting initial feedback. We will
+                        look to learn a lot from releasing this initial version
+                        to our users. For example: What sorts of time periods do
                         our users wish to compare? Are the basic comparison
-                        options we've given them enough for their purposes? How
-                        often do people want to compare the same terms from one
-                        period to the next, versus comparing which different
+                        options we&apos;ve given them enough for their purposes?
+                        How often do people want to compare the same terms from
+                        one period to the next, versus comparing which different
                         terms were more uniquely important from period to
                         period?
                     </p>
