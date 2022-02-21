@@ -48,7 +48,7 @@ const About = () => {
                     digital design.
                     <br />
                     <br />
-                    Since you're here, why not check out some of my
+                    Since you&apos;re here, why not check out some of my
                     <Link href="/work">
                         <a>work</a>
                     </Link>
