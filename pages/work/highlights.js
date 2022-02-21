@@ -14,8 +14,8 @@ const Highlights = () => (
                     </h1>
                     <h2 className="intro-copy__headline">
                         The Highlights page is the new homepage for projects in
-                        our flagship application. It's the cornerstone of our
-                        new "Answers first" strategy.
+                        our flagship application. It&apos;s the cornerstone of
+                        our new &quot;Answers first&quot; strategy.
                     </h2>
                 </div>
             </div>
@@ -24,13 +24,14 @@ const Highlights = () => (
                 <p>
                     Customer feedback and interviews with users showed that
                     there were a number of important parts of our users'
-                    workflow that we simply didn't support in our flagship
+                    workflow that we simply didn&apos;t support in our flagship
                     application. To compound the issue, our users sometimes felt
                     paralyzed after creating a project. Despite training, they
-                    just didn't know where to begin with their analysis process.
-                    With a growing team setting more ambitious goals, we needed
-                    a way to add a number of new features and at the same time,
-                    provide even better guidance despite growing complexity.
+                    just didn&apos;t know where to begin with their analysis
+                    process. With a growing team setting more ambitious goals,
+                    we needed a way to add a number of new features and at the
+                    same time, provide even better guidance despite growing
+                    complexity.
                 </p>
                 <h3>How did we approach this design?</h3>
                 <p>
@@ -87,7 +88,7 @@ const Highlights = () => (
                     ></iframe>
                     <h4 className="work__art-caption">
                         A mockup of a Highlights card showing concepts that are
-                        driving down a product's star ratings
+                        driving down a product&apos;s star ratings
                     </h4>
                 </div>
             </div>
@@ -96,7 +97,7 @@ const Highlights = () => (
                 <p>
                     Our users valued the high-level visualizations of their
                     project data and how quickly and easily they can get to this
-                    output. But what we didn't anticipate was that the
+                    output. But what we didn&apos;t anticipate was that the
                     plain-language captions on our highlights cards would be far
                     and away the greatest improvement for our users, explaining
                     the value of our features in and guiding users to the

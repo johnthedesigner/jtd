@@ -9,7 +9,7 @@ const AnswersFirst = () => {
                 <div className="intro">
                     <div className="intro-copy">
                         <h1 className="intro-copy__superhead">
-                            "Answers First"
+                            &quot;Answers First&quot;
                         </h1>
                         <h2 className="intro-copy__headline">
                             Our app needed major additions, but how could we
@@ -40,8 +40,8 @@ const AnswersFirst = () => {
                             <a>Highlights</a>
                         </Link>
                         that would present high-level insights (This is where
-                        you get "Answers First"), then we would guide users to
-                        our more in-depth tools to build off of these
+                        you get &quot;Answers First&quot;), then we would guide
+                        users to our more in-depth tools to build off of these
                         foundational discoveries.
                     </p>
                 </div>
@@ -56,7 +56,7 @@ const AnswersFirst = () => {
                         ></iframe>
                         <h4 className="work__art-caption">
                             Slides from an early board presentation explaining
-                            the "Answers First" approach
+                            the &quot;Answers First&quot; approach
                         </h4>
                     </div>
                 </div>

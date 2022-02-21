@@ -49,12 +49,12 @@ const Workflow = () => {
                         intuit the relationship between elements on the screen
                         as well. Each of the elements of our framework can be
                         thought of in a hierarchy. Without choosing a range of
-                        time, you can't compare to a previous period and without
-                        choosing a larger set of important terms, you can't
-                        start narrowing and curating our visualizations. So in
-                        designing our updated framework, we made sure to place
-                        elements relative to each other based on these
-                        hierarchies
+                        time, you can&apos;t compare to a previous period and
+                        without choosing a larger set of important terms, you
+                        can&apos;t start narrowing and curating our
+                        visualizations. So in designing our updated framework,
+                        we made sure to place elements relative to each other
+                        based on these hierarchies
                     </p>
                 </div>
                 <div className="work__art-container">

@@ -22,10 +22,11 @@ const Filtering = () => {
                         Our customers upload tens of thousands or more documents
                         to understand the unstructured customer feedback they
                         contain. And just about every document customers upload
-                        comes along with a variety of metadata, like "purchase
-                        date", "store number", "department" and more. Customers
-                        expectations for metadata in our product were simple.
-                        They wanted to filter their documents by that metadata.
+                        comes along with a variety of metadata, like
+                        &quot;purchase date&quot;, &quot;store number&quot;,
+                        &quot;department&quot; and more. Customers expectations
+                        for metadata in our product were simple. They wanted to
+                        filter their documents by that metadata.
                     </p>
                     <h3>How did we approach this design?</h3>
                     <p>
