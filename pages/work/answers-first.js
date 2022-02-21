@@ -27,15 +27,16 @@ const AnswersFirst = () => {
                         answer those questions, we had work to do. We needed a
                         broader array of analysis tools in the application, and
                         we needed new ways to draw connections between our
-                        analysis outputs and our users' business goals.
+                        analysis outputs and our users&apos; business goals.
                     </p>
                     <h3>How did we approach this design?</h3>
                     <p>
-                        The solution I proposed is called "Answers First". We
-                        would lean into our technology's strength, producing
-                        meaningful results within minutes from thousands or
-                        tens-of-thousands or even hundres of thousands of
-                        documents. We would build a new project view called
+                        The solution I proposed is called &quot;Answers
+                        First&quot;. We would lean into our technology&apos;s
+                        strength, producing meaningful results within minutes
+                        from thousands or tens-of-thousands or even hundres of
+                        thousands of documents. We would build a new project
+                        view called
                         <Link href="/work/highlights">
                             <a>Highlights</a>
                         </Link>
