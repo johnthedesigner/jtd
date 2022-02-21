@@ -44,6 +44,7 @@ const TextLayer = (props) => {
         textAlign: align,
         fontStyle: italic ? 'italic' : 'normal',
         textDecoration: underline ? 'underline' : 'none',
+        lineHeight: 1.25,
         opacity,
     }
 

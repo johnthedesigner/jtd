@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
                 />
                 <link rel="icon" href="/favicon.ico" />
                 <link
-                    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,700,700i,900,900i|IBM+Plex+Mono:200,200i,400,400i"
+                    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,700,700i,900,900i|IBM+Plex+Mono:200,200i,400,400i&family=Work+Sans:ital,wght@0,400;0,700;1,400;1,700"
                     rel="stylesheet"
                 />
                 <link
