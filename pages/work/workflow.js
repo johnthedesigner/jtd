@@ -36,7 +36,7 @@ const Workflow = () => {
                         inputs and outputs. Different tools can be used to
                         answer different questions. But the features share a lot
                         in common too. Within each tool a user can apply filters
-                        to narrow down a period of time,{' '}
+                        to narrow down a period of time,
                         <Link href="/work/comparisons">
                             <a>compare periods of time</a>
                         </Link>

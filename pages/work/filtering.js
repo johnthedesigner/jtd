@@ -107,7 +107,7 @@ const Filtering = () => {
                         search, and we have received no negative feedback of
                         note about this approach in several years. This feature
                         was successful enough that we're now building new
-                        features off of these filters, such as{' '}
+                        features off of these filters, such as
                         <Link href="/work/comparisons">
                             <a>Compare Period-over-Period</a>
                         </Link>

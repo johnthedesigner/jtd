@@ -35,10 +35,10 @@ const AnswersFirst = () => {
                         would lean into our technology's strength, producing
                         meaningful results within minutes from thousands or
                         tens-of-thousands or even hundres of thousands of
-                        documents. We would build a new project view called{' '}
+                        documents. We would build a new project view called
                         <Link href="/work/highlights">
                             <a>Highlights</a>
-                        </Link>{' '}
+                        </Link>
                         that would present high-level insights (This is where
                         you get "Answers First"), then we would guide users to
                         our more in-depth tools to build off of these
@@ -107,10 +107,10 @@ const AnswersFirst = () => {
                     <h3>What did we learn?</h3>
                     <p>
                         The main elements of the Answers First project (New
-                        analysis features and a{' '}
+                        analysis features and a
                         <Link href="/work/highlights">
                             <a>Highlights</a>
-                        </Link>{' '}
+                        </Link>
                         page focused on business goals) have so far proved
                         helpful to new users and has reduced our reliance on
                         custom scripts and additional training sessions. Over
