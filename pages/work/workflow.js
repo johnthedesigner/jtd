@@ -32,11 +32,11 @@ const Workflow = () => {
                     </p>
                     <h3>How did we approach this design?</h3>
                     <p>
-                        Each tool within our application has it's own unique
-                        inputs and outputs. Different tools can be used to
-                        answer different questions. But the features share a lot
-                        in common too. Within each tool a user can apply filters
-                        to narrow down a period of time,
+                        Each tool within our application has it&apos;s own
+                        unique inputs and outputs. Different tools can be used
+                        to answer different questions. But the features share a
+                        lot in common too. Within each tool a user can apply
+                        filters to narrow down a period of time,
                         <Link href="/work/comparisons">
                             <a>compare periods of time</a>
                         </Link>
