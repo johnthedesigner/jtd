@@ -26,7 +26,7 @@ const About = () => {
                         Salesforce
                     </a>
                     as Lead User Experience Designer in predictive analytics.
-                    I'm formerly the head of product design for
+                    I&apos;m formerly the head of product design for
                     <a
                         href="http://luminoso.com"
                         target="_blank"
