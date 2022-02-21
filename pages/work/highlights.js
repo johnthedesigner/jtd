@@ -23,7 +23,7 @@ const Highlights = () => (
                 <h3>What was the problem?</h3>
                 <p>
                     Customer feedback and interviews with users showed that
-                    there were a number of important parts of our users'
+                    there were a number of important parts of our users&apos;
                     workflow that we simply didn&apos;t support in our flagship
                     application. To compound the issue, our users sometimes felt
                     paralyzed after creating a project. Despite training, they
