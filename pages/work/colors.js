@@ -12,7 +12,7 @@ const Colors = () => {
                             A Refined Palette
                         </h1>
                         <h2 className="intro-copy__headline">
-                            Building the color palette you'r egoing to need
+                            Building the color palette you&apos;re going to need
                             later
                         </h2>
                     </div>
