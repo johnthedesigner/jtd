@@ -1,16 +1,118 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.global-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    text-align: center;
+    z-index: 1005;
+}
+
+.global-header__home-button {
+    border: none;
+    background: none;
+    padding: none;
+}
+
+.global-header__logo {
+    filter: drop-shadow(0 1rem 0.5rem rgba(0, 0, 0, 0.4));
+}
+
+.global-header__logo * {
+    transition: fill linear 0.1s;
+}
+
+.global-header__menu-button {
+    border: none;
+    background: none;
+    padding: none;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    filter: drop-shadow(0 1rem 0.5rem rgba(0, 0, 0, 0.4));
+    cursor: pointer;
+}
+
+.global-header__menu svg {
+    filter: drop-shadow(0 1rem 0.5rem rgba(0, 0, 0, 0.4));
+}
+
+.global-header__menu svg * {
+    transition: all linear 0.1s;
+}
+
+.global-nav {
+    font-family: 'IBM Plex Mono', 'Source Code Pro', sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1.3px, transparent 0),
+        radial-gradient(rgba(0, 0, 0, 0.15) 1.3px, transparent 0),
+        radial-gradient(rgba(0, 0, 0, 0.15) 1.3px, transparent 0),
+        radial-gradient(rgba(0, 0, 0, 0.15) 1.3px, transparent 0);
+    background-size: 48px 48px;
+    background-position: -6px -6px, 18px 18px, -6px 18px, 18px -6px;
+    z-index: 1004;
+}
+
+.global-nav__menu-list {
+    list-style: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.global-nav__menu-item {
+    font-size: 3rem;
+    margin: 1rem;
+    color: rgb(42, 245, 152);
+}
+
+.global-nav__menu-item a:hover {
+    text-decoration: underline;
+}
+
+.blinking-cursor {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    color: #222;
+}
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
 }

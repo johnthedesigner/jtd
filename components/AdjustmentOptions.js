@@ -67,6 +67,12 @@ const AdjustmentOptions = (props) => {
         }`
     }
 
+    let actionIconClasses = (type) => {
+        return `action-bar__button ${
+            type === currentAdjustment ? 'action-bar__button--active' : null
+        }`
+    }
+
     return (
         <>
             <AdjustmentPane type="dimensions">
@@ -109,8 +115,8 @@ const AdjustmentOptions = (props) => {
             </AdjustmentPane>
             <div className={adjustmentOptionsClasses}>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
-                    <span
-                        className={adjustmentIconClasses('dimensions')}
+                    <button
+                        className={actionIconClasses('dimensions')}
                         onClick={() => {
                             setCurrentAdjustment(
                                 currentAdjustment === 'dimensions'
@@ -118,31 +124,40 @@ const AdjustmentOptions = (props) => {
                                     : 'dimensions'
                             )
                         }}
-                    />
+                    >
+                        <ActionIcon iconType="resize" fill={props.buttonFill} />
+                    </button>
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.text}>
-                    <span
-                        className={adjustmentIconClasses('text')}
+                    <button
+                        className={actionIconClasses('text')}
                         onClick={() => {
                             setCurrentAdjustment(
                                 currentAdjustment === 'text' ? null : 'text'
                             )
                         }}
-                    />
+                    >
+                        <ActionIcon
+                            iconType="textLayer"
+                            fill={props.buttonFill}
+                        />
+                    </button>
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.fill}>
-                    <span
-                        className={adjustmentIconClasses('fill')}
+                    <button
+                        className={actionIconClasses('fill')}
                         onClick={() => {
                             setCurrentAdjustment(
                                 currentAdjustment === 'fill' ? null : 'fill'
                             )
                         }}
-                    />
+                    >
+                        <ActionIcon iconType="fill" artboard={artboard} />
+                    </button>
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.blending}>
-                    <span
-                        className={adjustmentIconClasses('blending')}
+                    <button
+                        className={actionIconClasses('blending')}
                         onClick={() => {
                             setCurrentAdjustment(
                                 currentAdjustment === 'blending'
@@ -150,69 +165,36 @@ const AdjustmentOptions = (props) => {
                                     : 'blending'
                             )
                         }}
-                    />
+                    >
+                        <ActionIcon iconType="blending" />
+                    </button>
                 </AdjustmentIconWrapper>
-                <button
-                    className="action-bar__button"
-                    onClick={() => {
-                        setCurrentAdjustment(
-                            currentAdjustment === 'dimensions'
-                                ? null
-                                : 'dimensions'
-                        )
-                    }}
-                >
-                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
-                </button>
-                <button
-                    className="action-bar__button"
-                    onClick={() => {
-                        setCurrentAdjustment(
-                            currentAdjustment === 'text' ? null : 'text'
-                        )
-                    }}
-                >
-                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
-                </button>
-                <button
-                    className="action-bar__button"
-                    onClick={() => {
-                        setCurrentAdjustment(
-                            currentAdjustment === 'fill' ? null : 'fill'
-                        )
-                    }}
-                >
-                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
-                </button>
-                <button
-                    className="action-bar__button"
-                    onClick={() => {
-                        setCurrentAdjustment(
-                            currentAdjustment === 'blending' ? null : 'blending'
-                        )
-                    }}
-                >
-                    <ActionIcon iconType="textLayer" fill={props.buttonFill} />
-                </button>
-                <button
-                    className="action-bar__button"
-                    onClick={(e) => {
-                        dispatch(moveLayers('front'))
-                    }}
-                >
-                    <ActionIcon
-                        iconType="bringToFront"
-                        fill={props.buttonFill}
-                    />
-                </button>
-                <button
-                    className="action-bar__button"
-                    onClick={(e) => {
-                        dispatch(moveLayers('back'))
-                    }}
-                >
-                    <ActionIcon iconType="sendToBack" fill={props.buttonFill} />
-                </button>
+                <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
+                    <button
+                        className="action-bar__button"
+                        onClick={(e) => {
+                            dispatch(moveLayers('front'))
+                        }}
+                    >
+                        <ActionIcon
+                            iconType="bringToFront"
+                            fill={props.buttonFill}
+                        />
+                    </button>
+                </AdjustmentIconWrapper>
+                <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
+                    <button
+                        className="action-bar__button"
+                        onClick={(e) => {
+                            dispatch(moveLayers('back'))
+                        }}
+                    >
+                        <ActionIcon
+                            iconType="sendToBack"
+                            fill={props.buttonFill}
+                        />
+                    </button>
+                </AdjustmentIconWrapper>
             </div>
         </>
     )

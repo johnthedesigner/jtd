@@ -1,8 +1,11 @@
 import _ from 'lodash'
+import { useState } from 'react'
 import { useDrag } from 'react-dnd'
 
 const ResizeHandle = (props) => {
     const { className, directions, dimensions } = props
+
+    const [hover, setHover] = useState()
 
     let positions = {}
 
@@ -55,8 +58,8 @@ const ResizeHandle = (props) => {
     }
 
     const resizeHandleStyles = {
-        background: 'magenta',
-        border: '.125rem solid white',
+        background: hover ? 'white' : 'black',
+        border: '.125rem solid magenta',
         borderRadius: '50%',
         width: '.75rem',
         height: '.75rem',
@@ -68,7 +71,9 @@ const ResizeHandle = (props) => {
         left: 'auto',
         boxSizing: 'border-box',
         cursor: 'pointer',
+        cursor: 'grab',
         pointerEvents: 'auto',
+        transition: 'background linear .1s',
         ...positions,
     }
 
@@ -81,9 +86,8 @@ const ResizeHandle = (props) => {
         <div
             ref={dragSource}
             className={`resize-handle ${className}`}
-            onClick={(e) => {
-                console.log('clicked resize-handle')
-            }}
+            onMouseOver={() => setHover(true)}
+            onMouseOut={() => setHover(false)}
             style={resizeHandleStyles}
         />
     )

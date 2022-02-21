@@ -54,17 +54,27 @@ body {
     padding: 0.25rem;
     /* opacity: 0; */
     cursor: pointer;
-    transition: all linear 0.2s;
+    transition: all linear 0.1s;
     z-index: 1002;
     box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.4);
 }
-.action-bar__button svg {
-    stroke: #222;
-    transition: all linear 0.2s;
+
+.action-bar__button--active {
+    background: black;
+    color: rgb(42, 245, 152);
 }
 
-.action-bar__button:hover svg {
-    stroke: #666;
+.action-bar__button:hover {
+    background: rgb(42, 245, 152);
+}
+
+.action-bar__button--active:hover {
+    background: black;
+}
+
+.action-bar__button svg {
+    /* stroke: #222; */
+    transition: all linear 0.2s;
 }
 
 .action-bar__button:nth-child(1) {
@@ -359,6 +369,7 @@ div:first-child > .adjustments-panel__header {
 
 .adjustment-options--hidden {
     right: -4rem;
+    right: 0;
 }
 
 .adjustment-options__icon {
@@ -384,11 +395,11 @@ div:first-child > .adjustments-panel__header {
     /* top: 0; */
     right: 0;
     bottom: 0;
-    width: 30rem;
-    padding: 1rem 4rem 1rem 14rem;
-    /* background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); */
+    width: 16rem;
+    padding: 1rem 4rem 1rem 1rem;
     z-index: 1001;
     pointer-events: none;
+    filter: drop-shadow(0 1rem 1rem rgba(0, 0, 0, 0.4));
 }
 
 .adjustments-pane:before {
@@ -404,7 +415,7 @@ div:first-child > .adjustments-panel__header {
         to bottom right,
         rgba(0, 0, 0, 0) 0%,
         rgba(0, 0, 0, 0) 50%,
-        rgba(0, 0, 0, 0.6) 100%
+        rgba(0, 0, 0, 0.4) 100%
     );
 }
 

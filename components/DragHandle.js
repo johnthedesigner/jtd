@@ -61,7 +61,7 @@ const DragHandle = (props) => {
                 ? '1px solid magenta'
                 : 'none',
         borderRadius: layer.type === 'ellipse' ? '50%' : 0,
-        cursor: 'pointer',
+        cursor: 'grab',
     }
 
     const [collected, dragSource, preview] = useDrag(() => ({
