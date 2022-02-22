@@ -213,6 +213,7 @@ a:hover {
     border: none;
     background: none;
     padding: none;
+    cursor: pointer;
 }
 
 .global-header__logo {
@@ -333,6 +334,12 @@ a:hover {
 
 .text-container a {
     color: var(--red-3);
+    transition: all linear 0.1s;
+}
+
+.text-container a:hover,
+.text-container a:active {
+    color: var(--red-2);
 }
 
 .table-of-contents {
