@@ -114,20 +114,20 @@ const About = () => {
                     We could talk design or whatever, no pressure.
                     <br />
                     <br />
-                    <div>
-                        <a
-                            href="https://twitter.com/whatwouldjohndo"
-                            target="_blank"
-                        >
-                            <TwitterIcon />
-                        </a>
-                        <a
-                            href="https://www.linkedin.com/in/johnlivornese/"
-                            target="_blank"
-                        >
-                            <LinkedinIcon />
-                        </a>
-                    </div>
+                    <a
+                        href="https://twitter.com/whatwouldjohndo"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <TwitterIcon />
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/johnlivornese/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <LinkedinIcon />
+                    </a>
                 </p>
             </div>
         </Layout>
