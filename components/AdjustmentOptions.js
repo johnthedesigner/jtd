@@ -10,6 +10,7 @@ import {
     addLayer,
     adjustLayers,
     bumpLayers,
+    deleteLayers,
     moveLayers,
     rotateLayer,
     scaleLayer,
@@ -191,6 +192,16 @@ const AdjustmentOptions = (props) => {
                             iconType="sendToBack"
                             fill={props.buttonFill}
                         />
+                    </button>
+                </AdjustmentIconWrapper>
+                <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
+                    <button
+                        className="action-bar__button"
+                        onClick={(e) => {
+                            dispatch(deleteLayers())
+                        }}
+                    >
+                        <ActionIcon iconType="trash" fill={props.buttonFill} />
                     </button>
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
