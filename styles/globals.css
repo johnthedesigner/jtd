@@ -127,7 +127,7 @@ html {
     color: var(--main-text-color);
     background: var(--body-bg-color);
     min-height: 100%;
-    border-bottom: var(--green-3) solid 2rem;
+    border-bottom: var(--yellow-3) solid 2rem;
     box-sizing: border-box;
 }
 
@@ -180,11 +180,6 @@ a {
 }
 
 a:hover {
-    text-decoration: none;
-}
-
-a {
-    color: inherit;
     text-decoration: none;
 }
 
@@ -281,6 +276,10 @@ a {
     /* color: #222; */
 }
 
+.global-nav__menu-item a {
+    color: var(--purple-6);
+}
+
 .global-nav__menu-item a:hover {
     text-decoration: underline;
 }
@@ -327,7 +326,7 @@ a {
 }
 
 .text-container a {
-    color: var(--blue-3);
+    color: var(--red-3);
 }
 
 .table-of-contents {

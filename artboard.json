@@ -218,8 +218,212 @@
                 }
             },
             "id": "36aa7983-d843-4f12-bfe2-dba721e595b0",
-            "isSelected": true,
+            "isSelected": false,
             "isEditable": false
+        },
+        "0b5644d5-37cd-4364-8b81-817dd19d96d0": {
+            "type": "text",
+            "title": "text",
+            "text": "To Do:",
+            "order": 7,
+            "dimensions": {
+                "x": 2481,
+                "y": 2319,
+                "width": 400,
+                "height": 28,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "left",
+                    "fontFamily": "sans",
+                    "fontSize": "24",
+                    "fontWeight": "900",
+                    "italic": false,
+                    "textColor": "rgba(0,0,0)",
+                    "underline": false,
+                    "color": "rgb(128, 89, 187)"
+                },
+                "dimensions": {
+                    "x": 1300,
+                    "y": 1400,
+                    "width": 400,
+                    "height": 200,
+                    "rotation": 0
+                }
+            },
+            "id": "0b5644d5-37cd-4364-8b81-817dd19d96d0"
+        },
+        "c47d6772-8a2b-48e3-897a-cfc2afd42a39": {
+            "type": "text",
+            "title": "text",
+            "text": "Prevent arrows from affecting scroll container",
+            "order": 7,
+            "dimensions": {
+                "x": 2481,
+                "y": 2369,
+                "width": 400,
+                "height": 62,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "left",
+                    "fontFamily": "sans",
+                    "fontSize": "24",
+                    "fontWeight": "400",
+                    "italic": false,
+                    "textColor": "rgba(0,0,0)",
+                    "underline": false,
+                    "color": "rgb(128, 89, 187)"
+                },
+                "dimensions": {
+                    "x": 1300,
+                    "y": 1400,
+                    "width": 400,
+                    "height": 200,
+                    "rotation": 0
+                }
+            },
+            "id": "c47d6772-8a2b-48e3-897a-cfc2afd42a39"
+        },
+        "fafab44a-9958-4d71-a125-3543a975a9c0": {
+            "type": "text",
+            "title": "text",
+            "text": "Consider snap-to-point at 10-unit intervals for neater layouts",
+            "order": 7,
+            "dimensions": {
+                "x": 2481,
+                "y": 2449,
+                "width": 400,
+                "height": 62,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "left",
+                    "fontFamily": "sans",
+                    "fontSize": "24",
+                    "fontWeight": "400",
+                    "italic": false,
+                    "textColor": "rgba(0,0,0)",
+                    "underline": false,
+                    "color": "rgb(128, 89, 187)"
+                },
+                "dimensions": {
+                    "x": 1300,
+                    "y": 1400,
+                    "width": 400,
+                    "height": 200,
+                    "rotation": 0
+                }
+            },
+            "id": "fafab44a-9958-4d71-a125-3543a975a9c0"
+        },
+        "09de8767-85cd-4645-ab14-256e1fc681d1": {
+            "type": "text",
+            "title": "text",
+            "text": "Better handling of tabbing through layer editing inputs",
+            "order": 7,
+            "dimensions": {
+                "x": 2481,
+                "y": 2529,
+                "width": 400,
+                "height": 62,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "left",
+                    "fontFamily": "sans",
+                    "fontSize": "24",
+                    "fontWeight": "400",
+                    "italic": false,
+                    "textColor": "rgba(0,0,0)",
+                    "underline": false,
+                    "color": "rgb(128, 89, 187)"
+                },
+                "dimensions": {
+                    "x": 1300,
+                    "y": 1400,
+                    "width": 400,
+                    "height": 200,
+                    "rotation": 0
+                }
+            },
+            "id": "09de8767-85cd-4645-ab14-256e1fc681d1"
+        },
+        "b8af9162-db08-4d48-afab-05888d225ea8": {
+            "type": "text",
+            "title": "text",
+            "text": "Add drag to select groups",
+            "order": 7,
+            "dimensions": {
+                "x": 2481,
+                "y": 2609,
+                "width": 400,
+                "height": 33,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "left",
+                    "fontFamily": "sans",
+                    "fontSize": "24",
+                    "fontWeight": "400",
+                    "italic": false,
+                    "textColor": "rgba(0,0,0)",
+                    "underline": false,
+                    "color": "rgb(128, 89, 187)"
+                },
+                "dimensions": {
+                    "x": 1300,
+                    "y": 1400,
+                    "width": 400,
+                    "height": 200,
+                    "rotation": 0
+                }
+            },
+            "id": "b8af9162-db08-4d48-afab-05888d225ea8"
+        },
+        "e6b7d4d3-366a-4827-8f83-27c1fd89d2d3": {
+            "type": "text",
+            "title": "text",
+            "text": "Revise new layer defaults (color, scale, etc...",
+            "order": 7,
+            "dimensions": {
+                "x": 2481,
+                "y": 2659,
+                "width": 400,
+                "height": 33,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "left",
+                    "fontFamily": "sans",
+                    "fontSize": "24",
+                    "fontWeight": "400",
+                    "italic": false,
+                    "textColor": "rgba(0,0,0)",
+                    "underline": false,
+                    "color": "rgb(128, 89, 187)"
+                },
+                "dimensions": {
+                    "x": 1300,
+                    "y": 1400,
+                    "width": 400,
+                    "height": 200,
+                    "rotation": 0
+                }
+            },
+            "id": "e6b7d4d3-366a-4827-8f83-27c1fd89d2d3"
         }
     },
     "projectColors": ["#FAACA8", "#DDD6F3", "#B721FF", "#21D4FD", "#2AF598"],
@@ -229,16 +433,16 @@
     "activeFlyout": null,
     "editableTextLayer": [],
     "showImagePicker": false,
-    "isSelected": true,
+    "isSelected": false,
     "layerSelected": false,
     "selection": {
-        "isActive": true,
+        "isActive": false,
         "adjustments": {},
         "dimensions": {
-            "x": 1150,
-            "y": 1670,
-            "width": 700,
-            "height": 169,
+            "x": null,
+            "y": null,
+            "width": null,
+            "height": null,
             "rotation": 0
         }
     }
