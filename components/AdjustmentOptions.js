@@ -7,6 +7,7 @@ import FillAdjustment from './FillAdjustment'
 import StrokeAdjustment from './StrokeAdjustment'
 import TextAdjustment from './TextAdjustment'
 import {
+    addLayer,
     adjustLayers,
     bumpLayers,
     moveLayers,
@@ -137,10 +138,7 @@ const AdjustmentOptions = (props) => {
                             )
                         }}
                     >
-                        <ActionIcon
-                            iconType="textLayer"
-                            fill={props.buttonFill}
-                        />
+                        <ActionIcon iconType="text" fill={props.buttonFill} />
                     </button>
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.fill}>
@@ -195,6 +193,40 @@ const AdjustmentOptions = (props) => {
                         />
                     </button>
                 </AdjustmentIconWrapper>
+                <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
+                    <div className="action-bar__divider" />
+                </AdjustmentIconWrapper>
+                <button
+                    className="action-bar__button"
+                    onClick={(e) => {
+                        dispatch(
+                            addLayer('rectangle', { x: 1500, y: 1500 }, false)
+                        )
+                    }}
+                >
+                    <ActionIcon
+                        iconType="newRectangle"
+                        fill={props.buttonFill}
+                    />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={(e) => {
+                        dispatch(
+                            addLayer('ellipse', { x: 1500, y: 1500 }, false)
+                        )
+                    }}
+                >
+                    <ActionIcon iconType="newEllipse" fill={props.buttonFill} />
+                </button>
+                <button
+                    className="action-bar__button"
+                    onClick={(e) => {
+                        dispatch(addLayer('text', { x: 1500, y: 1500 }, false))
+                    }}
+                >
+                    <ActionIcon iconType="newText" fill={props.buttonFill} />
+                </button>
             </div>
         </>
     )

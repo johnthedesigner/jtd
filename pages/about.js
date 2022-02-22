@@ -14,6 +14,7 @@ const About = () => {
                         rel="noopener noreferrer"
                         title="Tableau"
                     >
+                        {' '}
                         Tableau
                     </a>
                     /
@@ -23,7 +24,7 @@ const About = () => {
                         rel="noopener noreferrer"
                         title="Salesforce"
                     >
-                        Salesforce
+                        Salesforce{' '}
                     </a>
                     as Lead User Experience Designer in predictive analytics.
                     I&apos;m formerly the head of product design for
@@ -33,6 +34,7 @@ const About = () => {
                         rel="noopener noreferrer"
                         title="Luminoso"
                     >
+                        {' '}
                         Luminoso
                     </a>
                     , in Boston, Massachusetts. I also built
@@ -42,6 +44,7 @@ const About = () => {
                         rel="noopener noreferrer"
                         title="Paletteer Figma plugin"
                     >
+                        {' '}
                         Paletteer
                     </a>
                     , the Figma plugin for generating useful color palettes for
@@ -50,10 +53,10 @@ const About = () => {
                     <br />
                     Since you&apos;re here, why not check out some of my
                     <Link href="/work">
-                        <a>work</a>
+                        <a> work</a>
                     </Link>
                     , or you could
-                    <a href="mailto:john@johnthedesigner.com">get in touch</a>.
+                    <a href="mailto:john@johnthedesigner.com"> get in touch</a>.
                     We could talk design or whatever, no pressure.
                 </p>
             </div>

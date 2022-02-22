@@ -1,6 +1,8 @@
 import Color from 'color'
 import _ from 'lodash'
 
+import { palettes } from '../utils/colorUtils'
+
 const ColorPicker = (props) => {
     let { updateColor } = props
 
@@ -19,7 +21,21 @@ const ColorPicker = (props) => {
     if (props.show) {
         return (
             <div className="color-picker">
-                <div className={'color-picker__row'} key={`colorRowGrayscale`}>
+                {_.map(palettes, (palette, index) => {
+                    return (
+                        <div className={'color-picker__row'} key={index}>
+                            {_.map(palette, (color) => {
+                                return (
+                                    <ColorDot
+                                        color={Color(color)}
+                                        key={color}
+                                    />
+                                )
+                            })}
+                        </div>
+                    )
+                })}
+                {/* <div className={'color-picker__row'} key={`colorRowGrayscale`}>
                     <ColorDot color={Color('rgba(32, 32, 32)')} />
                     <ColorDot color={Color('rgba(90, 90, 90)')} />
                     <ColorDot color={Color('rgba(140, 140, 140)')} />
@@ -48,7 +64,7 @@ const ColorPicker = (props) => {
                             />
                         </div>
                     )
-                })}
+                })} */}
             </div>
         )
     } else {

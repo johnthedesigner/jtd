@@ -5,21 +5,113 @@
 }
 
 :root {
+    /* Color Palettes */
+    --red-0: #fff0ec;
+    --red-1: #f8cac5;
+    --red-2: #f2a59f;
+    --red-3: #eb7f78;
+    --red-4: #d56f6a;
+    --red-5: #be5f5d;
+    --red-6: #a84f4f;
+    --red-7: #914041;
+    --red-8: #7b3033;
+    --red-9: #642025;
+    --red-10: #4e1018;
+    --red-11: #37000a;
+
+    --orange-0: #fff2de;
+    --orange-1: #fbdbb8;
+    --orange-2: #f8c593;
+    --orange-3: #f4ae6d;
+    --orange-4: #dc9a5f;
+    --orange-5: #c38552;
+    --orange-6: #ab7144;
+    --orange-7: #935d37;
+    --orange-8: #7a4829;
+    --orange-9: #62341b;
+    --orange-10: #491f0e;
+    --orange-11: #310b00;
+
+    --yellow-0: #fff5b2;
+    --yellow-1: #ffe98b;
+    --yellow-2: #ffdd64;
+    --yellow-3: #e7c659;
+    --yellow-4: #cfb04e;
+    --yellow-5: #b69943;
+    --yellow-6: #9e8338;
+    --yellow-7: #866c2c;
+    --yellow-8: #6e5621;
+    --yellow-9: #553f16;
+    --yellow-10: #3d290b;
+    --yellow-11: #251200;
+
+    --green-0: #cdffe5;
+    --green-1: #a1eec2;
+    --green-2: #75dc9e;
+    --green-3: #68c78d;
+    --green-4: #5bb27c;
+    --green-5: #4e9c6b;
+    --green-6: #41875a;
+    --green-7: #347248;
+    --green-8: #275d37;
+    --green-9: #1a4726;
+    --green-10: #0d3215;
+    --green-11: #001d04;
+
+    --blue-0: #e9f6ff;
+    --blue-1: #a5e7ff;
+    --blue-2: #60d8fe;
+    --blue-3: #55c3e5;
+    --blue-4: #4baecc;
+    --blue-5: #4099b2;
+    --blue-6: #358499;
+    --blue-7: #2b7080;
+    --blue-8: #205b67;
+    --blue-9: #15464d;
+    --blue-10: #0b3134;
+    --blue-11: #001c1b;
+
+    --purple-0: #f8f0ff;
+    --purple-1: #e5d3f8;
+    --purple-2: #d1b7f2;
+    --purple-3: #be9aeb;
+    --purple-4: #aa7de4;
+    --purple-5: #956bd0;
+    --purple-6: #8059bb;
+    --purple-7: #6b47a7;
+    --purple-8: #553693;
+    --purple-9: #40247f;
+    --purple-10: #2b126a;
+    --purple-11: #160056;
+
+    --grayscale-0: #f0f3f4;
+    --grayscale-1: #cfd4d6;
+    --grayscale-2: #adb5b8;
+    --grayscale-3: #8c979a;
+    --grayscale-4: #6a787c;
+    --grayscale-5: #49595e;
+    --grayscale-6: #273a40;
+    --grayscale-7: #213439;
+    --grayscale-8: #1b2d32;
+    --grayscale-9: #16272c;
+    --grayscale-10: #102025;
+    --grayscale-11: #0a1a1e;
+
     /* --body-bg-color: #f3f4f5; */
-    --body-bg-color: #ffffff;
-    --header-bg-color: white;
-    --main-text-color: #112222;
-    --secondary-text-color: #2c4249;
-    --highlight-color-1: #2efccf;
-    --highlight-color-2: #16f1c1;
-    --iframe-bg-color: #dde0e2;
-    --thin-stroke-color: #dde0e2;
+    --body-bg-color: var(--grayscale-0);
+    --header-bg-color: var(--grayscale-1);
+    --main-text-color: var(--grayscale-9);
+    --secondary-text-color: var(--grayscale-6);
+    --highlight-color-1: var(--blue-2);
+    --highlight-color-2: var(--blue-3);
+    --iframe-bg-color: var(--grayscale-1);
+    --thin-stroke-color: var(--grayscale-2);
     --fancy-font: 'Grenze', sans-serif;
     --blackletter-font: 'Schmaltzy', sans-serif;
-    /* --plain-font: "Work Sans", sans-serif; */
     --plain-font: 'Work Sans', sans-serif;
     --box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
 }
+
 html,
 body {
     padding: 0;
@@ -35,7 +127,7 @@ html {
     color: var(--main-text-color);
     background: var(--body-bg-color);
     min-height: 100%;
-    border-bottom: var(--highlight-color-1) solid 2rem;
+    border-bottom: var(--green-3) solid 2rem;
     box-sizing: border-box;
 }
 
@@ -84,7 +176,7 @@ p {
 }
 
 a {
-    color: var(--highlight-color-2);
+    color: var(--green-3);
 }
 
 a:hover {
@@ -108,6 +200,12 @@ a {
     padding: 1rem;
     text-align: center;
     z-index: 1005;
+    border-top: var(--blue-3) solid 0.25rem;
+    pointer-events: none;
+}
+
+.global-header * {
+    pointer-events: initial;
 }
 
 .global-header__home-button {
@@ -144,7 +242,7 @@ a {
 }
 
 .global-nav {
-    font-family: 'IBM Plex Mono', 'Source Code Pro', sans-serif;
+    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
     position: fixed;
     top: 0;
     left: 0;
@@ -179,8 +277,8 @@ a {
 .global-nav__menu-item {
     font-size: 3rem;
     margin: 1rem;
-    color: rgb(42, 245, 152);
-    color: #222;
+    color: var(--grayscale-9);
+    /* color: #222; */
 }
 
 .global-nav__menu-item a:hover {
@@ -214,11 +312,12 @@ a {
 }
 
 .intro-copy__superhead {
-    font-family: 'IBM Plex Mono', 'Source Code Pro', sans-serif;
-    text-transform: uppercase;
-    font-size: 0.75rem;
+    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+    /* text-transform: uppercase; */
+    font-size: 1rem;
     font-weight: 900;
-    color: rgb(42, 245, 152);
+    color: var(--blue-3);
+    margin: 1rem 0;
 }
 
 .intro-copy__headline {
@@ -228,7 +327,7 @@ a {
 }
 
 .text-container a {
-    color: rgb(42, 245, 152);
+    color: var(--blue-3);
 }
 
 .table-of-contents {
@@ -240,10 +339,13 @@ a {
 .table-of-contents__item {
     display: flex;
     border-bottom: #ddd dotted 2px;
-    padding: 0.5rem 0;
     margin: 2rem 0;
-    font-size: 1.25rem;
-    font-family: 'IBM Plex Mono', 'Source Code Pro', sans-serif;
+    font-size: 1rem;
+    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+}
+
+.table-of-contents__item > * {
+    padding: 0.5rem;
 }
 
 .table-of-contents__link {
@@ -260,7 +362,7 @@ a {
 
 .intro {
     position: relative;
-    border-top: var(--highlight-color-1) solid 5px;
+    border-top: var(--blue-3) solid 5px;
     padding: 5rem 0;
     border-bottom: var(--thin-stroke-color) solid 1px;
 }
@@ -277,7 +379,7 @@ a {
 }
 
 .intro a {
-    color: var(--highlight-color-1);
+    color: var(--blue-3);
 }
 
 .intro-copy {
@@ -295,7 +397,7 @@ a {
     display: block;
     height: 4rem;
     margin: 0 0 3rem;
-    fill: var(--highlight-color-1);
+    fill: var(--blue-3);
 }
 
 .work__copy {
@@ -323,7 +425,7 @@ a {
 .work__art-caption:before {
     content: '\2191';
     margin-right: 0.5rem;
-    color: var(--highlight-color-1);
+    color: var(--blue-3);
     font-weight: 900;
 }
 
@@ -369,6 +471,14 @@ iframe,
 
     .work__copy {
         margin: 3rem auto;
+    }
+
+    .table-of-contents__item {
+        font-size: 0.75rem;
+    }
+
+    .table-of-contents__item > * {
+        flex: 1;
     }
 
     .figma-iframe--large,

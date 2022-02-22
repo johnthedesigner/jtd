@@ -14,7 +14,7 @@
         "a2889317-ac42-48b4-8174-1f8dc7ac95e7": {
             "type": "ellipse",
             "title": "ellipse",
-            "order": 1,
+            "order": 0,
             "dimensions": {
                 "x": 1020,
                 "y": 1360,
@@ -29,8 +29,8 @@
                     "color": null,
                     "gradient": {
                         "angle": 0,
-                        "start": "rgb(33, 212, 253)",
-                        "end": "rgb(42, 245, 152)"
+                        "start": "rgb(96, 216, 254)",
+                        "end": "rgb(117, 220, 158)"
                     }
                 },
                 "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
@@ -49,7 +49,7 @@
         "c0f0b1db-9512-4fe4-a9a9-289d0b5c6dee": {
             "type": "ellipse",
             "title": "ellipse",
-            "order": 2,
+            "order": 1,
             "dimensions": {
                 "x": 1380,
                 "y": 1360,
@@ -64,8 +64,8 @@
                     "color": null,
                     "gradient": {
                         "angle": 0,
-                        "start": "hsl(2.8999999999999773, 80.2%, 65.6%)",
-                        "end": "rgb(183, 33, 255)"
+                        "start": "rgb(255, 221, 100)",
+                        "end": "rgb(244, 174, 109)"
                     }
                 },
                 "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
@@ -84,7 +84,7 @@
         "002ec68c-89ac-4bbc-91a9-ec8bf46ca011": {
             "type": "ellipse",
             "title": "ellipse",
-            "order": 3,
+            "order": 2,
             "dimensions": {
                 "x": 1200,
                 "y": 1040,
@@ -99,8 +99,8 @@
                     "color": null,
                     "gradient": {
                         "angle": 0,
-                        "start": "rgb(33, 212, 253)",
-                        "end": "rgb(183, 33, 255)"
+                        "start": "rgb(149, 107, 208)",
+                        "end": "rgb(213, 111, 106)"
                     }
                 },
                 "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
@@ -113,42 +113,112 @@
                 }
             },
             "id": "002ec68c-89ac-4bbc-91a9-ec8bf46ca011",
-            "isSelected": true,
+            "isSelected": false,
             "isEditable": false
         },
         "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17": {
             "type": "text",
             "title": "text",
-            "text": "This is my personal website.",
-            "order": 4,
+            "text": "John the Designer",
+            "order": 3,
             "dimensions": {
-                "x": 1100,
-                "y": 1180,
-                "width": 800,
-                "height": 700,
+                "x": 1000,
+                "y": 1230,
+                "width": 1000,
+                "height": 371,
                 "rotation": 0
             },
             "adjustments": {
-                "blending": { "mode": "overlay", "opacity": "0.80" },
+                "blending": { "mode": "normal", "opacity": 1 },
                 "text": {
                     "align": "center",
                     "fontFamily": "blackletter",
                     "fontSize": "144",
-                    "fontWeight": "700",
+                    "fontWeight": "900",
                     "italic": false,
                     "underline": false,
-                    "color": "rgb(255, 255, 255)"
+                    "color": "rgb(16, 32, 37)"
                 },
                 "dimensions": {
-                    "x": 1100,
-                    "y": 1130,
-                    "width": 800,
-                    "height": 300,
+                    "x": 1000,
+                    "y": 1230,
+                    "width": 1000,
+                    "height": 371,
                     "rotation": 0
                 }
             },
             "id": "xx-8999a390-e53e-11e7-95a2-f1bdc7305b17",
             "isSelected": false,
+            "isEditable": false
+        },
+        "d06b1f25-5e08-4899-ac9c-882a91e8767a": {
+            "type": "text",
+            "title": "text",
+            "text": "Oh, hi! My name is",
+            "order": 3,
+            "dimensions": {
+                "x": 1000,
+                "y": 1120,
+                "width": 1000,
+                "height": 76,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "center",
+                    "fontFamily": "blackletter",
+                    "fontSize": "60",
+                    "fontWeight": "200",
+                    "italic": false,
+                    "underline": false,
+                    "color": "rgb(16, 32, 37)"
+                },
+                "dimensions": {
+                    "x": 1000,
+                    "y": 1120,
+                    "width": 1000,
+                    "height": 76,
+                    "rotation": 0
+                }
+            },
+            "id": "d06b1f25-5e08-4899-ac9c-882a91e8767a",
+            "isSelected": false,
+            "isEditable": false
+        },
+        "36aa7983-d843-4f12-bfe2-dba721e595b0": {
+            "type": "text",
+            "title": "text",
+            "text": "I spend most days in design software that looks a lot like this. As an experiment and to better understand my tools, I built a mini design app. You can play around with my homepage yourself. Try it!",
+            "order": 3,
+            "dimensions": {
+                "x": 1150,
+                "y": 1670,
+                "width": 700,
+                "height": 169,
+                "rotation": 0
+            },
+            "adjustments": {
+                "blending": { "mode": "normal", "opacity": 1 },
+                "text": {
+                    "align": "center",
+                    "fontFamily": "mono",
+                    "fontSize": "28",
+                    "fontWeight": "400",
+                    "italic": false,
+                    "underline": false,
+                    "color": "rgb(16, 32, 37)"
+                },
+                "dimensions": {
+                    "x": 1150,
+                    "y": 1670,
+                    "width": 700,
+                    "height": 169,
+                    "rotation": 0
+                }
+            },
+            "id": "36aa7983-d843-4f12-bfe2-dba721e595b0",
+            "isSelected": true,
             "isEditable": false
         }
     },
@@ -165,10 +235,10 @@
         "isActive": true,
         "adjustments": {},
         "dimensions": {
-            "x": 4750,
-            "y": 4610,
-            "width": 500,
-            "height": 500,
+            "x": 1150,
+            "y": 1670,
+            "width": 700,
+            "height": 169,
             "rotation": 0
         }
     }

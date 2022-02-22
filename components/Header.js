@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import { palettes } from '../utils/colorUtils'
 
-const teal = 'rgb(42, 245, 152)'
-const darkGray = '#222'
+const teal = palettes.blue[3]
+const darkGray = palettes.grayscale[9]
 
 const Header = ({ route }) => {
     const [displayNav, setDisplayNav] = useState(false)

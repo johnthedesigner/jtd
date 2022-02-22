@@ -3,6 +3,7 @@ import _ from 'lodash'
 import Head from 'next/head'
 import Link from 'next/link'
 import Color from 'color'
+import { palettes } from '../utils/colorUtils'
 import { useDrop } from 'react-dnd'
 
 import ArtboardShortcutsWrapper from '../components/ArtboardShortcutsWrapper'
@@ -40,8 +41,8 @@ const dragState = {
     },
 }
 
-let artboardBackgroundColor = '#ddd'
-let artboardDotColors = ['#bbb', '#bbb', '#bbb', '#bbb']
+let artboardBackgroundColor = '#F5F5F5'
+let artboardDotColor = palettes.blue[3]
 let artboardDotSize = '1.3px'
 
 export default function Home() {
@@ -275,7 +276,7 @@ export default function Home() {
         width: artboardSize.artboardWidth,
         height: artboardSize.artboardHeight,
         backgroundColor: artboardBackgroundColor,
-        backgroundImage: `radial-gradient(${artboardDotColors[0]} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColors[1]} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColors[2]} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColors[3]} ${artboardDotSize}, transparent 0)`,
+        backgroundImage: `radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0)`,
         backgroundSize: '48px 48px',
         backgroundPosition: '-6px -6px, 18px 18px, -6px 18px, 18px -6px',
     }

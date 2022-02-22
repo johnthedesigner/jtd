@@ -5,9 +5,9 @@ const Logo = () => {
     // let jColor = '#60D8FE'
     // let tColor = '#FF7E76'
     // let dColor = '#FFC960'
-    let jColor = hover ? 'rgb(42, 245, 152)' : '#222'
-    let tColor = hover ? 'rgb(42, 245, 152)' : '#222'
-    let dColor = hover ? 'rgb(42, 245, 152)' : '#222'
+    let jColor = hover ? '#2efccf' : '#222'
+    let tColor = hover ? '#2efccf' : '#222'
+    let dColor = hover ? '#2efccf' : '#222'
 
     return (
         <svg
