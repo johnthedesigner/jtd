@@ -118,6 +118,7 @@ const AdjustmentOptions = (props) => {
             <div className={adjustmentOptionsClasses}>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
                     <button
+                        title="Dimensions"
                         className={actionIconClasses('dimensions')}
                         onClick={() => {
                             setCurrentAdjustment(
@@ -132,6 +133,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.text}>
                     <button
+                        title="Text Styles"
                         className={actionIconClasses('text')}
                         onClick={() => {
                             setCurrentAdjustment(
@@ -144,6 +146,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.fill}>
                     <button
+                        title="Fill & Stroke"
                         className={actionIconClasses('fill')}
                         onClick={() => {
                             setCurrentAdjustment(
@@ -156,6 +159,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.blending}>
                     <button
+                        title="Opacity & Blending"
                         className={actionIconClasses('blending')}
                         onClick={() => {
                             setCurrentAdjustment(
@@ -170,6 +174,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
                     <button
+                        title="Move to Front"
                         className="action-bar__button"
                         onClick={(e) => {
                             dispatch(moveLayers('front'))
@@ -183,6 +188,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
                     <button
+                        title="Move to Back"
                         className="action-bar__button"
                         onClick={(e) => {
                             dispatch(moveLayers('back'))
@@ -196,6 +202,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
                     <button
+                        title="Delete Layers"
                         className="action-bar__button"
                         onClick={(e) => {
                             dispatch(deleteLayers())
@@ -208,6 +215,7 @@ const AdjustmentOptions = (props) => {
                     <div className="action-bar__divider" />
                 </AdjustmentIconWrapper>
                 <button
+                    title="Create Rectangle"
                     className="action-bar__button"
                     onClick={(e) => {
                         dispatch(
@@ -221,6 +229,7 @@ const AdjustmentOptions = (props) => {
                     />
                 </button>
                 <button
+                    title="Create Ellipse"
                     className="action-bar__button"
                     onClick={(e) => {
                         dispatch(
@@ -231,6 +240,7 @@ const AdjustmentOptions = (props) => {
                     <ActionIcon iconType="newEllipse" fill={props.buttonFill} />
                 </button>
                 <button
+                    title="Create Text"
                     className="action-bar__button"
                     onClick={(e) => {
                         dispatch(addLayer('text', { x: 1500, y: 1500 }, false))
