@@ -1,10 +1,21 @@
 import Link from 'next/link'
+import Head from 'next/head'
 
 import Layout from '../../components/Layout'
+
+const title =
+    'Work: Improving the Analysis Workflow | John the Designer – Boston-Area Product Designer John Livornese'
+const description =
+    'An example of some of my recent work in a product design role'
 
 const Workflow = () => {
     return (
         <Layout>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} key="title" />
+                <meta name="description" content={description} />
+            </Head>
             <div id="main">
                 <div className="intro">
                     <div className="intro-copy">

@@ -1,11 +1,20 @@
 import React from 'react'
+import Head from 'next/head'
 
 import Layout from '../../components/Layout'
-// import SEO from '../../components/seo'
+
+const title =
+    'Work: Highlights Page | John the Designer – Boston-Area Product Designer John Livornese'
+const description =
+    'An example of some of my recent work in a product design role'
 
 const Highlights = () => (
     <Layout showHeader={true}>
-        {/* <SEO title="The Highlights Page" /> */}
+        <Head>
+            <title>{title}</title>
+            <meta property="og:title" content={title} key="title" />
+            <meta name="description" content={description} />
+        </Head>
         <div id="main">
             <div className="intro">
                 <div className="intro-copy">

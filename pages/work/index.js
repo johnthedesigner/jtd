@@ -1,9 +1,19 @@
 import Layout from '../../components/Layout'
 import Link from 'next/link'
+import Head from 'next/head'
+
+const title =
+    'Recent Work | John the Designer – Boston-Area Product Designer John Livornese'
+const description = 'Some of my recent work in a product design role'
 
 const Work = () => {
     return (
         <Layout>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} key="title" />
+                <meta name="description" content={description} />
+            </Head>
             <div className="text-container">
                 <h3 className="page-title">Some of my recent work</h3>
                 <div className="table-of-contents__item">
