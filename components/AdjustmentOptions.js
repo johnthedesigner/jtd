@@ -116,6 +116,19 @@ const AdjustmentOptions = (props) => {
                 />
             </AdjustmentPane>
             <div className={adjustmentOptionsClasses}>
+                <AdjustmentIconWrapper showIcon={adjustments.fill}>
+                    <button
+                        title="Fill & Stroke"
+                        className={actionIconClasses('fill')}
+                        onClick={() => {
+                            setCurrentAdjustment(
+                                currentAdjustment === 'fill' ? null : 'fill'
+                            )
+                        }}
+                    >
+                        <ActionIcon iconType="fill" artboard={artboard} />
+                    </button>
+                </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.dimensions}>
                     <button
                         title="Dimensions"
@@ -142,19 +155,6 @@ const AdjustmentOptions = (props) => {
                         }}
                     >
                         <ActionIcon iconType="text" fill={props.buttonFill} />
-                    </button>
-                </AdjustmentIconWrapper>
-                <AdjustmentIconWrapper showIcon={adjustments.fill}>
-                    <button
-                        title="Fill & Stroke"
-                        className={actionIconClasses('fill')}
-                        onClick={() => {
-                            setCurrentAdjustment(
-                                currentAdjustment === 'fill' ? null : 'fill'
-                            )
-                        }}
-                    >
-                        <ActionIcon iconType="fill" artboard={artboard} />
                     </button>
                 </AdjustmentIconWrapper>
                 <AdjustmentIconWrapper showIcon={adjustments.blending}>
@@ -216,7 +216,7 @@ const AdjustmentOptions = (props) => {
                 </AdjustmentIconWrapper>
                 <button
                     title="Create Rectangle"
-                    className="action-bar__button"
+                    className="action-bar__button action-bar__button--create"
                     onClick={(e) => {
                         dispatch(
                             addLayer('rectangle', { x: 1500, y: 1500 }, false)
@@ -230,7 +230,7 @@ const AdjustmentOptions = (props) => {
                 </button>
                 <button
                     title="Create Ellipse"
-                    className="action-bar__button"
+                    className="action-bar__button action-bar__button--create"
                     onClick={(e) => {
                         dispatch(
                             addLayer('ellipse', { x: 1500, y: 1500 }, false)
@@ -241,7 +241,7 @@ const AdjustmentOptions = (props) => {
                 </button>
                 <button
                     title="Create Text"
-                    className="action-bar__button"
+                    className="action-bar__button action-bar__button--create"
                     onClick={(e) => {
                         dispatch(addLayer('text', { x: 1500, y: 1500 }, false))
                     }}

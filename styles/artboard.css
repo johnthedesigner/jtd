@@ -38,7 +38,8 @@ body {
 .action-bar__button {
     width: 2.25rem;
     height: 2.25rem;
-    background: white;
+    background: var(--yellow-3);
+    color: var(--yellow-9);
     border: none;
     border-radius: 50%;
     margin: 0.25rem 0rem;
@@ -50,24 +51,29 @@ body {
     box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.4);
 }
 
+.action-bar__button--create {
+    background: var(--green-3);
+    color: var(--green-9);
+}
+
 .action-bar__divider {
-    background: rgba(0, 0, 0, 0.4);
-    background: var(--blue-3);
+    background: var(--grayscale-6);
     height: 2px;
     margin: 0.5rem 0;
 }
 
-.action-bar__button--active {
-    background: black;
-    color: var(--blue-3);
+.action-bar__button--create .action-bar__button--active {
+    background: var(--grayscale-9);
+    color: white;
 }
 
 .action-bar__button:hover {
-    background: var(--blue-3);
+    background: var(--blue-2);
 }
 
 .action-bar__button--active:hover {
-    background: black;
+    background: var(--grayscale-8);
+    color: var(--blue-3);
 }
 
 .action-bar__button svg {
