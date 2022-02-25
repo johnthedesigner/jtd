@@ -294,15 +294,18 @@ div:first-child > .adjustments-panel__header {
 }
 
 .color-picker__color-dot {
+    flex: 1;
     display: block;
-    border-radius: 50%;
-    width: 1rem;
-    height: 1rem;
-    box-shadow: 0 0 0 2px #666;
+    border-radius: 0%;
+    height: 0.875rem;
     transition: all linear 0.1s;
     cursor: pointer;
     /* @include color-dot(); */
     margin: 0.2rem auto;
+}
+
+.color-picker__color-dot:hover {
+    border: 1px solid white;
 }
 
 /* Image picker */
