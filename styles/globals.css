@@ -100,16 +100,26 @@
     /* --body-bg-color: #f3f4f5; */
     --body-bg-color: var(--grayscale-0);
     --header-bg-color: var(--grayscale-1);
-    --main-text-color: var(--grayscale-9);
+    --main-text-color: var(--grayscale-7);
     --secondary-text-color: var(--grayscale-6);
     --highlight-color-1: var(--blue-2);
     --highlight-color-2: var(--blue-3);
     --iframe-bg-color: var(--grayscale-1);
     --thin-stroke-color: var(--grayscale-2);
-    --fancy-font: 'Grenze', sans-serif;
-    --blackletter-font: 'Schmaltzy', sans-serif;
-    --plain-font: 'Taviraj', serif;
-    --monospace-font: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+    --blackletter-font: 'Schmaltzy', 'Palatino Linotype', Palatino, Palladio,
+        'URW Palladio L', 'Book Antiqua', Baskerville, 'Bookman Old Style',
+        'Bitstream Charter', 'Nimbus Roman No9 L', Garamond, 'Apple Garamond',
+        'ITC Garamond Narrow', 'New Century Schoolbook', 'Century Schoolbook',
+        'Century Schoolbook L', Georgia, serif;
+    --plain-font: 'Taviraj', 'Palatino Linotype', Palatino, Palladio,
+        'URW Palladio L', 'Book Antiqua', Baskerville, 'Bookman Old Style',
+        'Bitstream Charter', 'Nimbus Roman No9 L', Garamond, 'Apple Garamond',
+        'ITC Garamond Narrow', 'New Century Schoolbook', 'Century Schoolbook',
+        'Century Schoolbook L', Georgia, serif;
+    --monospace-font: 'IBM Plex Mono', Consolas, 'Andale Mono WT', 'Andale Mono',
+        'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono',
+        'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco,
+        'Courier New', Courier, monospace;
     --box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
 }
 
@@ -376,7 +386,7 @@ a:hover {
 .intro-copy__superhead {
     font-family: var(--monospace-font);
     font-size: 1rem;
-    font-weight: 900;
+    font-weight: 400;
     color: var(--purple-0);
     margin: 1rem 0;
 }
