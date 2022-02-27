@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { palettes } from '../utils/colorUtils'
 
 const teal = palettes.blue[3]
-const darkGray = palettes.grayscale[9]
+const darkGray = palettes.grayscale[8]
 
 const Header = ({ route }) => {
     const [displayNav, setDisplayNav] = useState(false)
@@ -14,9 +14,9 @@ const Header = ({ route }) => {
         // let jColor = '#60D8FE'
         // let tColor = '#FF7E76'
         // let dColor = '#FFC960'
-        let jColor = hover ? teal : darkGray
-        let tColor = hover ? teal : darkGray
-        let dColor = hover ? teal : darkGray
+        let jColor = hover ? palettes.purple[3] : darkGray
+        let tColor = hover ? palettes.purple[3] : darkGray
+        let dColor = hover ? palettes.purple[3] : darkGray
 
         return (
             <svg
@@ -111,15 +111,21 @@ const Header = ({ route }) => {
                     <nav className="global-nav__menu">
                         <ul className="global-nav__menu-list">
                             <li className="global-nav__menu-item">
-                                <Link href="/">Home</Link>
+                                <Link href="/">
+                                    <a className="global-nav__link">Home</a>
+                                </Link>
                                 <BlinkingCursor linkPath={'/'} />
                             </li>
                             <li className="global-nav__menu-item">
-                                <Link href="/work">Work</Link>
+                                <Link href="/work">
+                                    <a className="global-nav__link">Work</a>
+                                </Link>
                                 <BlinkingCursor linkPath={'/work'} />
                             </li>
                             <li className="global-nav__menu-item">
-                                <Link href="/about">About</Link>
+                                <Link href="/about">
+                                    <a className="global-nav__link">About</a>
+                                </Link>
                                 <BlinkingCursor linkPath={'/about'} />
                             </li>
                         </ul>

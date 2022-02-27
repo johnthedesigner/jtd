@@ -3,6 +3,10 @@ body {
     overscroll-behavior: none;
 }
 
+#artboard-wrapper {
+    border-top: var(--purple-3) solid 0.25rem;
+}
+
 /* Action Bars */
 .artboard__action-bar {
     display: none;
@@ -117,7 +121,7 @@ body {
 
 /* Adjustments Panel */
 .adjustments-panel__wrapper {
-    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+    font-family: var(--monospace-font);
     position: absolute;
     top: 1rem;
     left: 0;
@@ -140,7 +144,7 @@ body {
 }
 
 .adjustments-panel__header {
-    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+    font-family: var(--monospace-font);
     color: white;
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
@@ -175,7 +179,7 @@ div:first-child > .adjustments-panel__header {
     flex: 1;
 }
 .adjustments-input--text > input {
-    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+    font-family: var(--monospace-font);
     line-height: 1.5;
     width: 100%;
     padding: 0 0.25rem;
@@ -204,7 +208,7 @@ div:first-child > .adjustments-panel__header {
     flex: 1;
 }
 .adjustments-input--select > select {
-    font-family: 'Source Code Pro', 'IBM Plex Mono', sans-serif;
+    font-family: var(--monospace-font);
     border-radius: 0.125rem;
     appearance: none;
     line-height: 1.5;

@@ -41,8 +41,8 @@ const dragState = {
     },
 }
 
-let artboardBackgroundColor = '#F5F5F5'
-let artboardDotColor = palettes.blue[3]
+let artboardBackgroundColor = palettes.purple[1]
+let artboardDotColor = palettes.purple[2]
 let artboardDotSize = '1.3px'
 
 export default function Home() {
