@@ -445,6 +445,7 @@ const Colors = () => {
                             <a
                                 href="https://www.figma.com/community/plugin/849144368519969202"
                                 target="_blank"
+                                rel="noreferrer"
                             >
                                 Figma Plugin
                             </a>
