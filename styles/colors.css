@@ -1,8 +1,11 @@
+.seed-colors * {
+    filter: drop-shadow(0 1rem 0.5rem rgba(0, 0, 0, 0.2));
+}
+
 .color-examples {
     width: 28rem;
     max-width: 100%;
     background: white;
-    border: 1px solid var(--grayscale-0);
     border-radius: 1rem;
     margin: 1rem auto;
     filter: drop-shadow(0 1rem 0.5rem rgba(0, 0, 0, 0.2));
@@ -24,6 +27,7 @@
     flex: 1;
     border: none;
     height: 2rem;
+    margin: 0;
     font-family: var(--monospace-font);
     line-height: 2rem;
     cursor: pointer;
@@ -57,6 +61,7 @@
     line-height: 1.5rem;
     padding: 0 1rem;
     margin-right: 1rem;
+    margin-bottom: 0.5rem;
     border-radius: 0.25rem;
 }
 
@@ -80,4 +85,8 @@
 
 .color-examples__icons-row * {
     margin-right: 0.5rem;
+}
+
+.color-examples__paragraph {
+    padding-bottom: 2rem;
 }

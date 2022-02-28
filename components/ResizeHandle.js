@@ -9,7 +9,7 @@ const ResizeHandle = (props) => {
 
     let positions = {}
 
-    const handleOffset = '-0.375rem'
+    const handleOffset = '-0.25rem'
 
     switch (_.join(directions, '-')) {
         case 'top-right':
@@ -34,21 +34,21 @@ const ResizeHandle = (props) => {
 
         case 'top':
             positions.top = handleOffset
-            positions.left = `calc(${dimensions.width / 2}px - .375rem)`
+            positions.left = `calc(${dimensions.width / 2}px - .25rem)`
             break
 
         case 'bottom':
             positions.bottom = handleOffset
-            positions.left = `calc(${dimensions.width / 2}px - .375rem)`
+            positions.left = `calc(${dimensions.width / 2}px - .25rem)`
             break
 
         case 'left':
             positions.left = handleOffset
-            positions.top = `calc(${dimensions.height / 2}px - .375rem)`
+            positions.top = `calc(${dimensions.height / 2}px - .25rem)`
             break
 
         case 'right':
-            positions.top = `calc(${dimensions.height / 2}px - .375rem)`
+            positions.top = `calc(${dimensions.height / 2}px - .25rem)`
             positions.right = handleOffset
             break
 
@@ -58,11 +58,11 @@ const ResizeHandle = (props) => {
     }
 
     const resizeHandleStyles = {
-        background: hover ? 'white' : 'black',
-        border: '.125rem solid magenta',
-        borderRadius: '50%',
-        width: '.75rem',
-        height: '.75rem',
+        background: 'white',
+        border: '1px solid magenta',
+        // borderRadius: '50%',
+        width: '.5rem',
+        height: '.5rem',
         opacity: false ? 0 : 1,
         position: 'absolute',
         top: 'auto',

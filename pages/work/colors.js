@@ -15,11 +15,11 @@ const description =
     'An example of some of my recent work in a product design role'
 
 const seedColors = [
-    '#EB7F78',
-    '#F4AE6D',
-    '#FFDD64',
-    '#75DC9E',
-    '#60D8FE',
+    '#FF6C63',
+    '#FFA51F',
+    '#FFEC44',
+    '#4FEB8D',
+    '#3DACEA',
     '#AA7DE4',
     '#273A40',
 ]
@@ -115,11 +115,19 @@ const Colors = () => {
     const PaletteWidget = () => {
         return (
             <>
-                <h3 style={{ textAlign: 'center' }}>
+                <h4
+                    style={{
+                        fontFamily: 'var(--monospace-font)',
+                        fontStyle: 'italic',
+                        textAlign: 'center',
+                        color: swatches[5].hex,
+                        margin: '.75rem auto',
+                    }}
+                >
                     Choose a seed color to get started
-                </h3>
+                </h4>
                 <div
-                    className="seedColors"
+                    className="seed-colors"
                     style={{
                         display: 'flex',
                         flexDirection: 'row',
@@ -133,7 +141,7 @@ const Colors = () => {
                         onChange={handleInputChange}
                         style={{
                             border: `1px solid ${palettes.grayscale[1]}`,
-                            background: palettes.grayscale[0],
+                            background: 'white',
                             color: palettes.grayscale[8],
                             width: '6rem',
                             height: '2rem',
@@ -148,17 +156,15 @@ const Colors = () => {
                     {_.map(seedColors, (seed) => {
                         let seedStyles = {
                             background: seed,
-                            height: '2rem',
                             width: '2rem',
+                            aspectRatio: '1',
                             borderRadius: '50%',
                             margin: '0 .125rem',
                             cursor: 'pointer',
                             borderColor:
-                                seed == seedColor
-                                    ? palettes.grayscale[8]
-                                    : 'transparent',
+                                seed == seedColor ? 'white' : 'transparent',
                             borderStyle: 'solid',
-                            borderWidth: '.0625rem',
+                            borderWidth: '.125rem',
                             boxSizing: 'border-box',
                         }
                         return (
@@ -172,51 +178,6 @@ const Colors = () => {
                             />
                         )
                     })}
-                </div>
-                <div
-                    className="palette"
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(6, 1fr)',
-                        margin: '2rem auto 0',
-                        width: '28rem',
-                        maxWidth: '100%',
-                    }}
-                >
-                    {palette &&
-                        _.map(palette.swatches, (swatch) => {
-                            let swatchStyles = {
-                                position: 'relative',
-                                background: swatch.hex,
-                                aspectRatio: '2',
-                                margin: '.125rem',
-                                borderRadius: '.25rem',
-                                border: '1px solid rgba(0,0,0,.1)',
-                            }
-                            return (
-                                <div
-                                    key={swatch.hex}
-                                    className="palette__swatch"
-                                    style={swatchStyles}
-                                >
-                                    <div
-                                        className="palette__swatch-label"
-                                        style={{
-                                            position: 'absolute',
-                                            left: 0,
-                                            right: 0,
-                                            bottom: 0,
-                                            color: swatch.displayColor,
-                                            fontFamily: 'var(--monospace-font)',
-                                            fontSize: '.5rem',
-                                            padding: '.25rem',
-                                        }}
-                                    >
-                                        {swatch.hex}
-                                    </div>
-                                </div>
-                            )
-                        })}
                 </div>
                 <div
                     className="color-examples"
@@ -255,6 +216,62 @@ const Colors = () => {
                         >
                             Colorful
                         </button>
+                    </div>
+                    <div
+                        className="color-examples__group"
+                        style={{ marginTop: '2rem' }}
+                    >
+                        <label
+                            className="color-examples__label"
+                            style={labelStyles}
+                        >
+                            Color Palette
+                        </label>
+                        <div
+                            className="palette"
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(6, 1fr)',
+                                margin: '0 auto',
+                                width: '28rem',
+                                maxWidth: '100%',
+                            }}
+                        >
+                            {palette &&
+                                _.map(palette.swatches, (swatch) => {
+                                    let swatchStyles = {
+                                        position: 'relative',
+                                        background: swatch.hex,
+                                        aspectRatio: '2',
+                                        margin: '.125rem',
+                                        borderRadius: '.25rem',
+                                        border: '1px solid rgba(0,0,0,.1)',
+                                    }
+                                    return (
+                                        <div
+                                            key={swatch.hex}
+                                            className="palette__swatch"
+                                            style={swatchStyles}
+                                        >
+                                            <div
+                                                className="palette__swatch-label"
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    color: swatch.displayColor,
+                                                    fontFamily:
+                                                        'var(--monospace-font)',
+                                                    fontSize: '.5rem',
+                                                    padding: '.25rem',
+                                                    overflow: 'hidden',
+                                                }}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                        </div>
                     </div>
                     <div className="color-examples__group">
                         <label
@@ -361,77 +378,78 @@ const Colors = () => {
                         palette={palettes.purple}
                     />
                     <div className="work__copy">
-                        <h3>What was the problem?</h3>
+                        <h3>What's the problem?</h3>
                         <p>
-                            We've all been there right? Your product is a few
-                            years old, the color palette has grown to three
-                            times its original size... wait, who picked this
-                            shade of blue for that button?
+                            We've all been there right? Your product (not to
+                            mention your style guide) is a few years old, the
+                            color palette has grown to three times its original
+                            size, there are 16 colors in the codebase just for
+                            buttons... wait, who made this button "electric
+                            blueberry" for this CTA?
                         </p>
-                        <h3>How did we approach this design?</h3>
                         <p>
-                            Sed venenatis ipsum metus, vel blandit nunc
-                            venenatis sit amet. Aliquam erat volutpat. Cras
-                            lacinia felis cursus magna tincidunt porta. Nunc ut
-                            augue ultrices, condimentum mi eu, lobortis urna.
-                            Quisque suscipit iaculis sollicitudin. Pellentesque
-                            habitant morbi tristique senectus et netus et
-                            malesuada fames ac turpis egestas.
+                            Picking a color palette for digital design is
+                            complicated. Your carefully assembled color palette
+                            can start to expand to accomodate interaction
+                            states, visual hierarchy, accessibility concerns and
+                            other realities of maintaining an application in the
+                            long term. As the palette grows, these new colors
+                            fall into inconsistent use and inconsistent naming
+                            practices. Engineers are less certain of which
+                            colors to use and when to choose a new one.
+                        </p>
+                        <h3>How did I fix it?</h3>
+                        <p>
+                            <em>
+                                TL;DR: Start with the palette you will need, and
+                                share it between design and engineering.
+                            </em>
+                        </p>
+                        <p>
+                            We're often working from a set of core brand colors,
+                            so that's where I started. I wrote an application
+                            that takes a seed color, then builds an array of
+                            shades from that seed. The resulting color palettes
+                            contain a broad enough selection to accomodate
+                            subtle hover states, text contrast issues, light
+                            mode/dark mode color palettes and more. Try it out
+                            below to see an example of how I put this into
+                            practice.
                         </p>
                         <PaletteWidget />
-                    </div>
-                    <div className="work__art-container">
-                        <div className="figma-iframe--large">
-                            <iframe
-                                title="iframe 1"
-                                style={{ border: 'none' }}
-                                width="100%"
-                                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
-                                allowFullScreen
-                            ></iframe>
-                            <h4 className="work__art-caption">
-                                Full-page mockup of the highlights page
-                            </h4>
-                        </div>
-                    </div>
-                    <div className="work__art-container">
-                        <div className="figma-iframe--small">
-                            <iframe
-                                title="iframe 2"
-                                style={{ border: 'none' }}
-                                width="100%"
-                                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
-                                allowFullScreen
-                            ></iframe>
-                            <h4 className="work__art-caption">
-                                Sed venenatis ipsum metus, vel blandit nunc
-                                venenatis sit amet. Aliquam erat volutpat. Cras
-                                lacinia felis cursus magna tincidunt porta.
-                            </h4>
-                        </div>
-                        <div className="figma-iframe--small">
-                            <iframe
-                                title="iframe 3"
-                                style={{ border: 'none' }}
-                                width="100%"
-                                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FVcKqDhujLs16b1wQrcgR7L%2FHighlights-full-page-mock%3Fnode-id%3D1%253A645"
-                                allowFullScreen
-                            ></iframe>
-                            <h4 className="work__art-caption">
-                                Full-page mockup of the highlights page
-                            </h4>
-                        </div>
-                    </div>
-                    <div className="work__copy">
-                        <h3>How did we approach this design?</h3>
+                        <h3>Making it easier to get started</h3>
                         <p>
-                            Sed venenatis ipsum metus, vel blandit nunc
-                            venenatis sit amet. Aliquam erat volutpat. Cras
-                            lacinia felis cursus magna tincidunt porta. Nunc ut
-                            augue ultrices, condimentum mi eu, lobortis urna.
-                            Quisque suscipit iaculis sollicitudin. Pellentesque
-                            habitant morbi tristique senectus et netus et
-                            malesuada fames ac turpis egestas.
+                            Our team needed help organizing the transition to
+                            our new color palette, so I deployed my palette
+                            generator internally as a web app. In addition to
+                            generating arrays of color variations the app
+                            supported an array of features for the team. The
+                            colors could be output as JS objects or CSS
+                            variables so they could be easily incorporated into
+                            our codebase. In addition, engineers could supply a
+                            hex code or RGB value from the codebase and find out
+                            which color from the new color palette most closely
+                            matched that color, significantly accellerating the
+                            clean-up color of our UI.
+                        </p>
+                        <h3>P.S. There's a Figma Plugin</h3>
+                        <p>
+                            The cleanup went quickly and smoothly, the team was
+                            really happy with our color palette generator. I
+                            found myself using the generator for almost every
+                            project I worked on, even outside of work. So I
+                            figured I'd share the joy.
+                        </p>
+                        <p>
+                            I've released a{' '}
+                            <a
+                                href="https://www.figma.com/community/plugin/849144368519969202"
+                                target="_blank"
+                            >
+                                Figma Plugin
+                            </a>
+                            , based on the color palette generator and released
+                            it to the Figma community.
                         </p>
                     </div>
                 </div>

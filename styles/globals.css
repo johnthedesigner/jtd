@@ -153,7 +153,7 @@ main {
 
 @media screen and (max-width: 600px) {
     html {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -341,6 +341,17 @@ a:hover {
     }
 }
 
+.global-nav__social-icons {
+    margin-top: 2rem;
+}
+
+.global-nav__social-link {
+    color: var(--purple-3);
+}
+
+.global-nav__social-link:hover {
+    color: var(--purple-2);
+}
 .about-page {
     background: var(--purple-3);
     padding: 0.1rem 0;
@@ -407,8 +418,9 @@ a:hover {
     display: flex;
     border-bottom: var(--purple-6) dotted 2px;
     margin: 2rem 0;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-family: var(--monospace-font);
+    color: var(--purple-1);
 }
 
 .table-of-contents__item > * {
@@ -537,12 +549,16 @@ iframe,
         width: 80%;
     }
 
+    .intro-copy__headline {
+        font-size: 3rem;
+    }
+
     .work__copy {
         margin: 3rem auto;
     }
 
     .table-of-contents__item {
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
 
     .table-of-contents__item > * {

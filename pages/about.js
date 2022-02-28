@@ -62,45 +62,42 @@ const About = () => {
                 </Head>
                 <div className="text-container">
                     <p className="intro-copy__headline">
-                        Hi, I’m John Livornese. I work for
+                        Hi, I’m John Livornese. I work for&nbsp;
                         <a
                             href="http://tableau.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Tableau"
                         >
-                            {' '}
                             Tableau
-                        </a>
-                        /
+                        </a>{' '}
+                        /{' '}
                         <a
                             href="http://salesforce.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Salesforce"
                         >
-                            Salesforce{' '}
-                        </a>
+                            Salesforce
+                        </a>{' '}
                         as Lead User Experience Designer in predictive
                         analytics. I&apos;m formerly the head of product design
-                        for
+                        for&nbsp;
                         <a
                             href="http://luminoso.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Luminoso"
                         >
-                            {' '}
                             Luminoso
                         </a>
-                        , in Boston, Massachusetts. I also built
+                        , in Boston, MA. I also built&nbsp;
                         <a
                             href="https://www.figma.com/community/plugin/849144368519969202/Paletteer"
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Paletteer Figma plugin"
                         >
-                            {' '}
                             Paletteer
                         </a>
                         , the Figma plugin for generating useful color palettes
@@ -111,9 +108,8 @@ const About = () => {
                         <Link href="/work">
                             <a> work</a>
                         </Link>
-                        , or you could
+                        , or you could&nbsp;
                         <a href="mailto:john@johnthedesigner.com">
-                            {' '}
                             get in touch
                         </a>
                         . We could talk design or whatever, no pressure.
