@@ -363,13 +363,10 @@ const Colors = () => {
                     <div className="work__copy">
                         <h3>What was the problem?</h3>
                         <p>
-                            Sed venenatis ipsum metus, vel blandit nunc
-                            venenatis sit amet. Aliquam erat volutpat. Cras
-                            lacinia felis cursus magna tincidunt porta. Nunc ut
-                            augue ultrices, condimentum mi eu, lobortis urna.
-                            Quisque suscipit iaculis sollicitudin. Pellentesque
-                            habitant morbi tristique senectus et netus et
-                            malesuada fames ac turpis egestas.
+                            We've all been there right? Your product is a few
+                            years old, the color palette has grown to three
+                            times its original size... wait, who picked this
+                            shade of blue for that button?
                         </p>
                         <h3>How did we approach this design?</h3>
                         <p>

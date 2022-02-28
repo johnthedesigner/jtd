@@ -200,7 +200,7 @@ a:active {
 }
 
 a:hover {
-    /* text-decoration: none; */
+    color: var(--red-1);
 }
 
 * {
