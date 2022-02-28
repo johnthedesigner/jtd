@@ -1,5 +1,3 @@
-import { palettes } from '../utils/colorUtils'
-
 const WorkHeader = ({
     superHead,
     headline,
