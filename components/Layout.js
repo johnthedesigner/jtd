@@ -6,20 +6,26 @@ import Header from './Header'
 const Layout = ({ children }) => {
     const { route } = useRouter()
     return (
-        <div>
+        <>
             <Head>
                 <title>John the Designer</title>
                 <meta
                     name="description"
                     content="Product designer from the Boston area."
                 />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1, maximum-scale=1"
+                ></meta>
                 <link rel="icon" href="/favicon.ico" />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link
-                    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,700,700i,900,900i|IBM+Plex+Mono:200,200i,400,400i&family=Work+Sans:ital,wght@0,400;0,700;1,400;1,700"
-                    rel="stylesheet"
+                    rel="preconnect"
+                    href="https://fonts.gstatic.com"
+                    crossorigin
                 />
                 <link
-                    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Taviraj:ital,wght@0,400;0,700;1,400;1,700&display=swap"
                     rel="stylesheet"
                 />
                 <script
@@ -43,7 +49,7 @@ const Layout = ({ children }) => {
             <Header route={route} />
 
             {children}
-        </div>
+        </>
     )
 }
 

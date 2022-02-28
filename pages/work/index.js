@@ -1,73 +1,91 @@
 import Layout from '../../components/Layout'
 import Link from 'next/link'
 import Head from 'next/head'
+import _ from 'lodash'
 
 const title =
     'Recent Work | John the Designer – Boston-Area Product Designer John Livornese'
 const description = 'Some of my recent work in a product design role'
 
 const Work = () => {
-    return (
-        <Layout>
-            <Head>
-                <title>{title}</title>
-                <meta property="og:title" content={title} key="title" />
-                <meta name="description" content={description} />
-            </Head>
-            <div className="text-container">
-                <h3 className="page-title">Some of my recent work</h3>
-                <div className="table-of-contents__item">
-                    <span className="table-of-contents__name">
-                        1. The Highlights Page
-                    </span>
-                    <Link href="/work/highlights">
-                        <a className="table-of-contents__link">
-                            The cornerstone of our UI
-                        </a>
-                    </Link>
-                </div>
-                <div className="table-of-contents__item">
-                    <span className="table-of-contents__name">
-                        2. &quot;Answers First&quot;
-                    </span>
-                    <Link href="/work/answers-first">
-                        <a className="table-of-contents__link">
-                            What does that mean?
-                        </a>
-                    </Link>
-                </div>
-                <div className="table-of-contents__item">
-                    <span className="table-of-contents__name">
-                        3. Improving the Analysis Workflow
-                    </span>
-                    <Link href="/work/workflow">
-                        <a className="table-of-contents__link">
-                            No more analysis paralysis
-                        </a>
-                    </Link>
-                </div>
-                <div className="table-of-contents__item">
-                    <span className="table-of-contents__name">
-                        4. Comparing time periods
-                    </span>
-                    <Link href="/work/comparisons">
-                        <a className="table-of-contents__link">
-                            What even happened last week?
-                        </a>
-                    </Link>
-                </div>
-                <div className="table-of-contents__item">
-                    <span className="table-of-contents__name">
-                        4. Filtering documents
-                    </span>
-                    <Link href="/work/filtering">
-                        <a className="table-of-contents__link">
-                            Faceted search FTW
-                        </a>
-                    </Link>
-                </div>
+    const WorkItem = ({ workItem, index }) => {
+        const { name, caption, path, enabled } = workItem
+        return (
+            <div className="table-of-contents__item">
+                <span className="table-of-contents__name">
+                    {index + 1}. {name}
+                </span>
+                <Link href={path}>
+                    <a className="table-of-contents__link">{caption}</a>
+                </Link>
             </div>
-        </Layout>
+        )
+    }
+
+    const workItems = [
+        {
+            name: 'The Highlights Page',
+            caption: 'The cornerstone of our UI',
+            path: '/work/highlights',
+            enabled: true,
+        },
+        {
+            name: 'Answers First',
+            caption: 'What does that mean?',
+            path: '/work/answers-first',
+            enabled: true,
+        },
+        {
+            name: 'Making great color palettes',
+            caption: 'Which blue should I use?',
+            path: '/work/colors',
+            enabled: true,
+        },
+        {
+            name: 'Improving the Analysis Workflow',
+            caption: 'No more analysis paralysis',
+            path: '/work/workflow',
+            enabled: false,
+        },
+        {
+            name: 'Comparing time periods',
+            caption: 'What even happened last week?',
+            path: '/work/comparisons',
+            enabled: true,
+        },
+        {
+            name: 'Filtering documents',
+            caption: 'Faceted search FTW',
+            path: '/work/filtering',
+            enabled: false,
+        },
+    ]
+
+    return (
+        <main className="work-page">
+            <Layout>
+                <Head>
+                    <title>{title}</title>
+                    <meta property="og:title" content={title} key="title" />
+                    <meta name="description" content={description} />
+                </Head>
+                <div className="text-container">
+                    <h3 className="page-title">Some of my recent work</h3>
+                    {_.map(
+                        _.filter(workItems, { enabled: true }),
+                        (workItem, index) => {
+                            return (
+                                <WorkItem
+                                    workItem={workItem}
+                                    index={index}
+                                    key={index}
+                                />
+                            )
+                        }
+                    )}
+                </div>
+            </Layout>
+        </main>
     )
 }
 
