@@ -315,17 +315,17 @@ a:hover {
 }
 
 .global-nav__menu-item a.global-nav__link {
-    color: var(--purple-3);
+    color: var(--purple-2);
 }
 
 .global-nav__menu-item a.global-nav__link:hover {
-    color: var(--purple-2);
+    color: var(--purple-1);
 }
 
 .blinking-cursor {
     animation: blink-animation 1s steps(5, start) infinite;
     -webkit-animation: blink-animation 1s steps(5, start) infinite;
-    color: var(--purple-8);
+    color: var(--purple-10);
     position: absolute;
     top: 0;
     right: -2rem;
@@ -346,11 +346,11 @@ a:hover {
 }
 
 .global-nav__social-link {
-    color: var(--purple-3);
+    color: var(--purple-2);
 }
 
 .global-nav__social-link:hover {
-    color: var(--purple-2);
+    color: var(--purple-1);
 }
 .about-page {
     background: var(--purple-3);
@@ -359,12 +359,12 @@ a:hover {
 }
 
 .about-page a {
-    color: var(--purple-2);
+    color: var(--purple-1);
 }
 
 .about-page a:hover,
 .about-page a:active {
-    color: var(--purple-1);
+    color: var(--purple-0);
 }
 
 .work-page {
@@ -375,12 +375,12 @@ a:hover {
 }
 
 .work-page a {
-    color: var(--purple-6);
+    color: var(--purple-1);
 }
 
 .work-page a:hover,
 .work-page a:active {
-    color: var(--purple-5);
+    color: var(--purple-0);
 }
 
 .text-container {
@@ -420,7 +420,7 @@ a:hover {
     margin: 2rem 0;
     font-size: 1.25rem;
     font-family: var(--monospace-font);
-    color: var(--purple-1);
+    color: var(--purple-7);
 }
 
 .table-of-contents__item > * {

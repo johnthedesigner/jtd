@@ -13,7 +13,7 @@ const Work = () => {
         return (
             <div className="table-of-contents__item">
                 <span className="table-of-contents__name">
-                    {index + 1}. {name}
+                    <strong>{index + 1}.</strong> <em>{name}</em>
                 </span>
                 <Link href={path}>
                     <a className="table-of-contents__link">{caption}</a>
