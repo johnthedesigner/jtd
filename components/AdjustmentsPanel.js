@@ -24,12 +24,8 @@ const AdjustmentsPanel = (props) => {
     })
 
     useEffect(() => {
-        let artboardClone = _.cloneDeep(artboard)
-        let selectedLayers = _.filter(artboardClone.layers, (layer) => {
-            return _.includes(artboardClone.selections, layer.id)
-        })
-        setAdjustments(mergeAdjustments(selectedLayers))
-    }, [props.artboard])
+        setAdjustments(artboard.selection.adjustments)
+    }, [props.artboard.selection.adjustments])
 
     const handleClick = (e) => {
         e.stopPropagation()

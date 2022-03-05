@@ -60,44 +60,4 @@ export const mergeAdjustments = (array) => {
     })
 
     return mergedAdjustments
-
-    // const adjustmentsArray = _.map(array, (layer) => {
-    //     let layerAdjustments = layer.adjustments
-    //     layerAdjustments.dimensions = layer.dimensions
-    //     return layerAdjustments
-    // })
-
-    // console.log(_.merge(...adjustmentsArray))
-
-    // if (adjustmentsArray.length > 0) {
-    //     const first = _.head(adjustmentsArray)
-
-    //     const commonPaths = getAllPaths(first).filter((path) => {
-    //         const value = getValueAtPath(path, first)
-
-    //         return _.tail(adjustmentsArray).every((obj) => {
-    //             return (
-    //                 valueExistsAtPath(path, obj.adjustments) &&
-    //                 getValueAtPath(path, obj.adjustments) === value
-    //             )
-    //         })
-    //     })
-
-    //     return _.reduce(
-    //         commonPaths,
-    //         (commons, path) => {
-    //             _.merge(
-    //                 commons,
-    //                 buildFromPath(
-    //                     path,
-    //                     getValueAtPath(path, _.head(adjustmentsArray))
-    //                 )
-    //             )
-    //             return commons
-    //         },
-    //         {}
-    //     )
-    // } else {
-    //     return emptyAdjustments
-    // }
 }

@@ -16,7 +16,7 @@ export const layerTypes = {
 
 const Layer = (props) => {
     const { artboard } = props
-    const { dimensions, tempDimensions } = props.layer
+    const { dimensions, tempDimensions } = props.layer.adjustments
 
     const [renderDimensions, setRenderDimensions] = useState({
         x: 0,

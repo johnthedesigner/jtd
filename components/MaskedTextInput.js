@@ -10,14 +10,7 @@ const MaskedTextInput = (props) => {
     }, [props.valueFromProps])
 
     const handleChange = (e) => {
-        var newValue = Math.abs(e.target.value)
-        if (props.type === 'number') {
-            newValue = Math.abs(e.target.value)
-        } else {
-            newValue = Math.abs(e.target.value)
-        }
-
-        setValue(newValue)
+        setValue(e.target.value)
     }
 
     const handleFocus = (e) => {
@@ -25,7 +18,12 @@ const MaskedTextInput = (props) => {
     }
 
     const handleBlur = (e) => {
-        props.setValue(value)
+        let newValue = e.target.value - 0
+        if (newValue != NaN) {
+            props.setValue(value)
+        } else {
+            setValue(valueFromProps)
+        }
     }
 
     const handleKeyPress = (e) => {

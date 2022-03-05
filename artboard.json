@@ -11,13 +11,13 @@
     },
     "nonfeaturedStyles": { "buttonFill": "#999999", "titleColor": "#21967D" },
     "layers": {
-        "a2889317-ac42-48b4-8174-1f8dc7ac95e7": {
+        "002ec68c-89ac-4bbc-91a9-ec8bf46ca011": {
             "type": "ellipse",
             "title": "ellipse",
-            "order": 0,
+            "order": 2,
             "dimensions": {
-                "x": 1020,
-                "y": 1360,
+                "x": 200,
+                "y": 120,
                 "width": 600,
                 "height": 600,
                 "rotation": 0
@@ -30,83 +30,13 @@
                     "gradient": {
                         "angle": 0,
                         "start": "rgb(96, 216, 254)",
-                        "end": "rgb(117, 220, 158)"
+                        "end": "rgb(170, 125, 228)"
                     }
                 },
                 "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
                 "dimensions": {
-                    "x": 1020,
-                    "y": 1360,
-                    "width": 600,
-                    "height": 600,
-                    "rotation": 0
-                }
-            },
-            "id": "a2889317-ac42-48b4-8174-1f8dc7ac95e7",
-            "isSelected": false,
-            "isEditable": false
-        },
-        "c0f0b1db-9512-4fe4-a9a9-289d0b5c6dee": {
-            "type": "ellipse",
-            "title": "ellipse",
-            "order": 1,
-            "dimensions": {
-                "x": 1380,
-                "y": 1360,
-                "width": 600,
-                "height": 600,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "multiply", "opacity": 1 },
-                "fill": {
-                    "type": "gradient",
-                    "color": null,
-                    "gradient": {
-                        "angle": 0,
-                        "start": "rgb(255, 221, 100)",
-                        "end": "rgb(244, 174, 109)"
-                    }
-                },
-                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
-                "dimensions": {
-                    "x": 1380,
-                    "y": 1360,
-                    "width": 600,
-                    "height": 600,
-                    "rotation": 0
-                }
-            },
-            "id": "c0f0b1db-9512-4fe4-a9a9-289d0b5c6dee",
-            "isSelected": false,
-            "isEditable": false
-        },
-        "002ec68c-89ac-4bbc-91a9-ec8bf46ca011": {
-            "type": "ellipse",
-            "title": "ellipse",
-            "order": 2,
-            "dimensions": {
-                "x": 1200,
-                "y": 1040,
-                "width": 600,
-                "height": 600,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "multiply", "opacity": 1 },
-                "fill": {
-                    "type": "gradient",
-                    "color": null,
-                    "gradient": {
-                        "angle": 0,
-                        "start": "rgb(149, 107, 208)",
-                        "end": "rgb(213, 111, 106)"
-                    }
-                },
-                "stroke": { "color": "rgb(32, 32, 32)", "width": "0" },
-                "dimensions": {
-                    "x": 1200,
-                    "y": 1040,
+                    "x": 200,
+                    "y": 120,
                     "width": 600,
                     "height": 600,
                     "rotation": 0
@@ -122,8 +52,8 @@
             "text": "John the Designer",
             "order": 3,
             "dimensions": {
-                "x": 1000,
-                "y": 1250,
+                "x": 0,
+                "y": 250,
                 "width": 1000,
                 "height": 371,
                 "rotation": 0
@@ -140,8 +70,8 @@
                     "color": "rgb(16, 32, 37)"
                 },
                 "dimensions": {
-                    "x": 1000,
-                    "y": 1250,
+                    "x": 0,
+                    "y": 250,
                     "width": 1000,
                     "height": 371,
                     "rotation": 0
@@ -157,8 +87,8 @@
             "text": "Oh, hi! My name is",
             "order": 3,
             "dimensions": {
-                "x": 1000,
-                "y": 1150,
+                "x": 0,
+                "y": 150,
                 "width": 1000,
                 "height": 76,
                 "rotation": 0
@@ -175,8 +105,8 @@
                     "color": "rgb(16, 32, 37)"
                 },
                 "dimensions": {
-                    "x": 1000,
-                    "y": 1150,
+                    "x": 0,
+                    "y": 150,
                     "width": 1000,
                     "height": 76,
                     "rotation": 0
@@ -192,8 +122,8 @@
             "text": "I spend most days in design software that looks a lot like this. As an experiment and to better understand my tools, I built a mini design app. You can play around with my homepage yourself. Try it and let me know what you think!",
             "order": 3,
             "dimensions": {
-                "x": 1150,
-                "y": 1660,
+                "x": 150,
+                "y": 660,
                 "width": 700,
                 "height": 230,
                 "rotation": 0
@@ -210,8 +140,8 @@
                     "color": "rgb(16, 32, 37)"
                 },
                 "dimensions": {
-                    "x": 1150,
-                    "y": 1660,
+                    "x": 150,
+                    "y": 660,
                     "width": 700,
                     "height": 230,
                     "rotation": 0
@@ -220,210 +150,6 @@
             "id": "36aa7983-d843-4f12-bfe2-dba721e595b0",
             "isSelected": false,
             "isEditable": false
-        },
-        "0b5644d5-37cd-4364-8b81-817dd19d96d0": {
-            "type": "text",
-            "title": "text",
-            "text": "To Do:",
-            "order": 7,
-            "dimensions": {
-                "x": 2481,
-                "y": 2319,
-                "width": 400,
-                "height": 28,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "text": {
-                    "align": "left",
-                    "fontFamily": "sans",
-                    "fontSize": "24",
-                    "fontWeight": "900",
-                    "italic": false,
-                    "textColor": "rgba(0,0,0)",
-                    "underline": false,
-                    "color": "rgb(128, 89, 187)"
-                },
-                "dimensions": {
-                    "x": 1300,
-                    "y": 1400,
-                    "width": 400,
-                    "height": 200,
-                    "rotation": 0
-                }
-            },
-            "id": "0b5644d5-37cd-4364-8b81-817dd19d96d0"
-        },
-        "c47d6772-8a2b-48e3-897a-cfc2afd42a39": {
-            "type": "text",
-            "title": "text",
-            "text": "Prevent arrows from affecting scroll container",
-            "order": 7,
-            "dimensions": {
-                "x": 2481,
-                "y": 2369,
-                "width": 400,
-                "height": 62,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "text": {
-                    "align": "left",
-                    "fontFamily": "sans",
-                    "fontSize": "24",
-                    "fontWeight": "400",
-                    "italic": false,
-                    "textColor": "rgba(0,0,0)",
-                    "underline": false,
-                    "color": "rgb(128, 89, 187)"
-                },
-                "dimensions": {
-                    "x": 1300,
-                    "y": 1400,
-                    "width": 400,
-                    "height": 200,
-                    "rotation": 0
-                }
-            },
-            "id": "c47d6772-8a2b-48e3-897a-cfc2afd42a39"
-        },
-        "fafab44a-9958-4d71-a125-3543a975a9c0": {
-            "type": "text",
-            "title": "text",
-            "text": "Consider snap-to-point at 10-unit intervals for neater layouts",
-            "order": 7,
-            "dimensions": {
-                "x": 2481,
-                "y": 2449,
-                "width": 400,
-                "height": 62,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "text": {
-                    "align": "left",
-                    "fontFamily": "sans",
-                    "fontSize": "24",
-                    "fontWeight": "400",
-                    "italic": false,
-                    "textColor": "rgba(0,0,0)",
-                    "underline": false,
-                    "color": "rgb(128, 89, 187)"
-                },
-                "dimensions": {
-                    "x": 1300,
-                    "y": 1400,
-                    "width": 400,
-                    "height": 200,
-                    "rotation": 0
-                }
-            },
-            "id": "fafab44a-9958-4d71-a125-3543a975a9c0"
-        },
-        "09de8767-85cd-4645-ab14-256e1fc681d1": {
-            "type": "text",
-            "title": "text",
-            "text": "Better handling of tabbing through layer editing inputs",
-            "order": 7,
-            "dimensions": {
-                "x": 2481,
-                "y": 2529,
-                "width": 400,
-                "height": 62,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "text": {
-                    "align": "left",
-                    "fontFamily": "sans",
-                    "fontSize": "24",
-                    "fontWeight": "400",
-                    "italic": false,
-                    "textColor": "rgba(0,0,0)",
-                    "underline": false,
-                    "color": "rgb(128, 89, 187)"
-                },
-                "dimensions": {
-                    "x": 1300,
-                    "y": 1400,
-                    "width": 400,
-                    "height": 200,
-                    "rotation": 0
-                }
-            },
-            "id": "09de8767-85cd-4645-ab14-256e1fc681d1"
-        },
-        "b8af9162-db08-4d48-afab-05888d225ea8": {
-            "type": "text",
-            "title": "text",
-            "text": "Add drag to select groups",
-            "order": 7,
-            "dimensions": {
-                "x": 2481,
-                "y": 2609,
-                "width": 400,
-                "height": 33,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "text": {
-                    "align": "left",
-                    "fontFamily": "sans",
-                    "fontSize": "24",
-                    "fontWeight": "400",
-                    "italic": false,
-                    "textColor": "rgba(0,0,0)",
-                    "underline": false,
-                    "color": "rgb(128, 89, 187)"
-                },
-                "dimensions": {
-                    "x": 1300,
-                    "y": 1400,
-                    "width": 400,
-                    "height": 200,
-                    "rotation": 0
-                }
-            },
-            "id": "b8af9162-db08-4d48-afab-05888d225ea8"
-        },
-        "e6b7d4d3-366a-4827-8f83-27c1fd89d2d3": {
-            "type": "text",
-            "title": "text",
-            "text": "Revise new layer defaults (color, scale, etc...",
-            "order": 7,
-            "dimensions": {
-                "x": 2481,
-                "y": 2659,
-                "width": 400,
-                "height": 33,
-                "rotation": 0
-            },
-            "adjustments": {
-                "blending": { "mode": "normal", "opacity": 1 },
-                "text": {
-                    "align": "left",
-                    "fontFamily": "sans",
-                    "fontSize": "24",
-                    "fontWeight": "400",
-                    "italic": false,
-                    "textColor": "rgba(0,0,0)",
-                    "underline": false,
-                    "color": "rgb(128, 89, 187)"
-                },
-                "dimensions": {
-                    "x": 1300,
-                    "y": 1400,
-                    "width": 400,
-                    "height": 200,
-                    "rotation": 0
-                }
-            },
-            "id": "e6b7d4d3-366a-4827-8f83-27c1fd89d2d3"
         }
     },
     "projectColors": ["#FAACA8", "#DDD6F3", "#B721FF", "#21D4FD", "#2AF598"],
@@ -435,15 +161,5 @@
     "showImagePicker": false,
     "isSelected": false,
     "layerSelected": false,
-    "selection": {
-        "isActive": false,
-        "adjustments": {},
-        "dimensions": {
-            "x": null,
-            "y": null,
-            "width": null,
-            "height": null,
-            "rotation": 0
-        }
-    }
+    "selection": { "isActive": false, "adjustments": {} }
 }
