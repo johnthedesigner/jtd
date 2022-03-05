@@ -6,7 +6,9 @@ import { scaleAllDimensions, scaleDimension } from '../utils/artboardUtils'
 import { typeStyles } from '../utils/adjustmentOptions'
 
 const TextLayerEditor = (props) => {
-    let { dimensions, scaleFactor, text } = props.layer
+    let { artboardSize } = props
+    let { scaleFactor, text } = props.layer
+    let { dimensions } = props.layer.adjustments
     const textarea = useRef(null)
 
     const [textContent, setTextContent] = useState()
@@ -48,8 +50,8 @@ const TextLayerEditor = (props) => {
     let editorStyles = {
         border: 'none',
         position: 'absolute',
-        top: `${dimensions.y}px`,
-        left: `${dimensions.x}px`,
+        top: `${dimensions.y + artboardSize.yOffset}px`,
+        left: `${dimensions.x + artboardSize.xOffset}px`,
         width: `${dimensions.width}px`,
         height: '1000px',
         outline: 'none',

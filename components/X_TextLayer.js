@@ -30,7 +30,7 @@ const TextLayer = (props) => {
         }
     }, [
         renderedText,
-        props.layer.dimensions,
+        props.layer.adjustments.dimensions,
         props.isScaled,
         props.scaleFactor,
         props.layer.adjustments,
@@ -38,7 +38,7 @@ const TextLayer = (props) => {
 
     const layoutText = (props) => {
         let { align, fontSize } = props.layer.adjustments.text
-        let layerWidth = props.layer.dimensions.width
+        let layerWidth = props.layer.adjustments.dimensions.width
 
         // Keep track of text rows
         let currentRow = 0 // Start with the first row (duh)

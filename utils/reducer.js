@@ -44,22 +44,6 @@ export const initialState = {
     history: [],
 }
 
-// // Update selection adjustments
-// const updateAdjustments = (newState) => {
-//     console.log(
-//         mergeAdjustments(
-//             _.filter(newState.artboard.layers, (layer) => {
-//                 return _.includes(newState.artboard.selections, layer.id)
-//             })
-//         ).dimensions
-//     )
-//     newState.artboard.selection.adjustments = mergeAdjustments(
-//         _.filter(newState.artboard.layers, (layer) => {
-//             return _.includes(newState.artboard.selections, layer.id)
-//         })
-//     )
-// }
-
 export default function Reducer(state, a) {
     // Clone state to apply updates
     const newState = _.cloneDeep(state)
@@ -72,16 +56,6 @@ export default function Reducer(state, a) {
         newState.history.push(_.cloneDeep(state.artboard))
     }
 
-    // var upsertLayer = function (layers, layerId, newLayer) {
-    //     var match = _.find(layers, { id: layerId })
-    //     if (match) {
-    //         var index = _.indexOf(arr, _.find(layers, { id: layerId }))
-    //         arr.splice(index, 1, newLayer)
-    //     } else {
-    //         arr.push(newLayer)
-    //     }
-    // }
-
     // Add initial history entry if one isn't present
     if (newState.artboard && newState.history.length === 0) {
         updateHistory(newState)
@@ -89,11 +63,14 @@ export default function Reducer(state, a) {
 
     // Update selection adjustments
     const updateAdjustments = (newState) => {
-        newState.artboard.selection.adjustments = mergeAdjustments(
-            _.filter(newState.artboard.layers, (layer) => {
-                return _.includes(newState.artboard.selections, layer.id)
-            })
-        )
+        // Get the layers to which adjustments will be applied
+        let adjustedLayers = _.filter(newState.artboard.layers, (layer) => {
+            return _.includes(newState.artboard.selections, layer.id)
+        })
+
+        // Apply merged adjustments
+        newState.artboard.selection.adjustments =
+            mergeAdjustments(adjustedLayers)
     }
 
     // Log action (in dev environment only)
@@ -110,10 +87,10 @@ export default function Reducer(state, a) {
             }
             newLayer.id = uuidv4()
             // Put layer in the middle of visible area
-            newLayer.dimensions.x = a.offset.x - newLayer.dimensions.width / 2
-            newLayer.dimensions.y = a.offset.y - newLayer.dimensions.height / 2
-            // Add current dimensions to adjustments
-            newLayer.adjustments.dimensions = { ...newLayer.dimensions }
+            newLayer.adjustments.dimensions.x =
+                a.offset.x - newLayer.adjustments.dimensions.width / 2
+            newLayer.adjustments.dimensions.y =
+                a.offset.y - newLayer.adjustments.dimensions.height / 2
             newLayer.order = _.keys(newState.artboard.layers).length + 1
             newState.artboard.layers[newLayer.id] = newLayer
             newState.artboard.selections = [newLayer.id]
@@ -139,7 +116,7 @@ export default function Reducer(state, a) {
                 let bumpedLayer = _.find(newState.artboard.layers, {
                     id: layerId,
                 })
-                bumpedLayer.dimensions[axis] += distance
+                bumpedLayer.adjustments.dimensions[axis] += distance
             })
             updateAdjustments(newState)
             updateHistory(newState)
@@ -186,14 +163,17 @@ export default function Reducer(state, a) {
                 let nextDraggedLayer = _.find(newState.artboard.layers, {
                     id: layerId,
                 })
-                let draggedDimensions = _.cloneDeep(nextDraggedLayer.dimensions)
+                let draggedDimensions = _.cloneDeep(
+                    nextDraggedLayer.adjustments.dimensions
+                )
                 draggedDimensions.x += Math.round(a.x)
                 draggedDimensions.y += Math.round(a.y)
                 if (a.previewOnly) {
-                    nextDraggedLayer.tempDimensions = draggedDimensions
+                    nextDraggedLayer.adjustments.tempDimensions =
+                        draggedDimensions
                 } else {
-                    nextDraggedLayer.dimensions = draggedDimensions
-                    nextDraggedLayer.tempDimensions = undefined
+                    nextDraggedLayer.adjustments.dimensions = draggedDimensions
+                    nextDraggedLayer.adjustments.tempDimensions = undefined
                     updateAdjustments(newState)
                     updateHistory(newState)
                 }
@@ -260,7 +240,7 @@ export default function Reducer(state, a) {
             let rotatedLayer = _.find(newState.artboard.layers, {
                 id: rotatedLayerId,
             })
-            rotatedLayer.dimensions.rotation = degrees
+            rotatedLayer.adjustments.dimensions.rotation = degrees
             updateAdjustments(newState)
             updateHistory(newState)
             break
@@ -273,7 +253,9 @@ export default function Reducer(state, a) {
                 let scaledLayer = _.find(newState.artboard.layers, {
                     id: scaledSelections[0],
                 })
-                let newDimensions = _.cloneDeep(scaledLayer.dimensions)
+                let newDimensions = _.cloneDeep(
+                    scaledLayer.adjustments.dimensions
+                )
 
                 // Calculate how much additional offset is needed for rotated layers
                 const getRotationOffset = (axis, distance) => {
@@ -329,15 +311,17 @@ export default function Reducer(state, a) {
                 })
                 // Apply new dimensions temporarily (on drag) or permanently (on drop)
                 if (a.previewOnly) {
-                    scaledLayer.tempDimensions = newDimensions
+                    scaledLayer.adjustments.tempDimensions = newDimensions
                 } else {
-                    scaledLayer.dimensions.x = newDimensions.x
-                    scaledLayer.dimensions.y = newDimensions.y
-                    scaledLayer.dimensions.width = newDimensions.width
-                    scaledLayer.dimensions.height = newDimensions.height
-                    scaledLayer.dimensions.rotation = newDimensions.rotation
-                    scaledLayer.tempDimensions = undefined
-                    // console.log(scaledLayer.dimensions)
+                    scaledLayer.adjustments.dimensions.x = newDimensions.x
+                    scaledLayer.adjustments.dimensions.y = newDimensions.y
+                    scaledLayer.adjustments.dimensions.width =
+                        newDimensions.width
+                    scaledLayer.adjustments.dimensions.height =
+                        newDimensions.height
+                    scaledLayer.adjustments.dimensions.rotation =
+                        newDimensions.rotation
+                    scaledLayer.adjustments.tempDimensions = undefined
                     updateAdjustments(newState)
                     updateHistory(newState)
                 }

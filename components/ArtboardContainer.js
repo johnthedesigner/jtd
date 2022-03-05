@@ -49,10 +49,12 @@ export default function Home() {
     const [scaleFactor, setScaleFactor] = useState(1)
     const [isScaled, setIsScaled] = useState(false)
     const [artboardSize, setArtboardSize] = useState({
-        artboardWidth: 10000,
-        artboardHeight: 10000,
+        artboardWidth: 1000,
+        artboardHeight: 1000,
         containerWidth: 1000,
         containerHeight: 1000,
+        yOffset: 0,
+        xOffset: 0,
     })
     const scrollContainer = useRef(null)
 
@@ -65,7 +67,6 @@ export default function Home() {
     const { artboard } = appState
 
     let selectedLayers = _.filter(artboard.layers, (layer) => {
-        // console.log('looping through selected layers')
         return _.includes(artboard.selections, layer.id)
     })
     let selectionDimensions = scaleAllDimensions(
@@ -91,19 +92,33 @@ export default function Home() {
 
         // Establish sizes to base our artboard on, scaled to viewport size
         let viewAreaBase = 1000
-        let artboardSizeBase = 3000
+        let artboardSizeBase = 1000
         // Get appropriate size for artboard based on viewport size
         let viewportWidth = wrapper.clientWidth
         let viewportHeight = wrapper.clientHeight
         let newScaleFactor =
             _.min([viewportWidth, viewportHeight]) / viewAreaBase
         let artboardSizeScaled = artboardSizeBase * newScaleFactor
+
+        // Calculate Artboard Offset to keep things centered
+        let getOffset = (artboard, viewport) => {
+            let offset = 0
+            if (artboard < viewport) {
+                offset = (viewport - artboard) / 2
+            }
+            return offset
+        }
+        let yOffset = getOffset(artboardSizeScaled, viewportHeight)
+        let xOffset = getOffset(artboardSizeScaled, viewportWidth)
+
         // Set scaled sizes in state
         setArtboardSize({
             artboardWidth: artboardSizeScaled,
             artboardHeight: artboardSizeScaled,
             containerWidth: viewportWidth,
             containerHeight: viewportHeight,
+            xOffset,
+            yOffset,
         })
         setScaleFactor(newScaleFactor)
         setIsScaled(true)
@@ -255,6 +270,7 @@ export default function Home() {
                     isScaled={isScaled}
                     scaleFactor={scaleFactor}
                     updateText={updateText}
+                    artboardSize={artboardSize}
                 />
             )
         } else {
@@ -269,16 +285,22 @@ export default function Home() {
         bottom: 0,
         left: 0,
         overflow: 'scroll',
+        backgroundColor: artboardBackgroundColor,
+        backgroundImage: `radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0)`,
+        backgroundSize: '48px 48px',
+        backgroundPosition: '-6px -6px, 18px 18px, -6px 18px, 18px -6px',
     }
 
     const svgWrapperStyles = {
         position: 'relative',
         width: artboardSize.artboardWidth,
         height: artboardSize.artboardHeight,
-        backgroundColor: artboardBackgroundColor,
-        backgroundImage: `radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0)`,
-        backgroundSize: '48px 48px',
-        backgroundPosition: '-6px -6px, 18px 18px, -6px 18px, 18px -6px',
+        top: `${artboardSize.yOffset}px`,
+        left: `${artboardSize.xOffset}px`,
+        // backgroundColor: artboardBackgroundColor,
+        // backgroundImage: `radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0),radial-gradient(${artboardDotColor} ${artboardDotSize}, transparent 0)`,
+        // backgroundSize: '48px 48px',
+        // backgroundPosition: '-6px -6px, 18px 18px, -6px 18px, 18px -6px',
     }
 
     const resizeableControlStyles = {
@@ -316,7 +338,7 @@ export default function Home() {
                             id="artboard__svg"
                             width={artboardSize.artboardWidth}
                             height={artboardSize.artboardHeight}
-                            viewBox="0 0 3000 3000"
+                            viewBox="0 0 1000 1000"
                             overflow="visible"
                         >
                             <defs>
@@ -384,6 +406,7 @@ export default function Home() {
                     </div>
                     <div>
                         <div
+                            ref={dropTarget}
                             className="layer-control__drop-target"
                             style={{
                                 position: 'absolute',
@@ -398,13 +421,13 @@ export default function Home() {
                             }}
                         >
                             <div
-                                ref={dropTarget}
                                 className="layer-control__artboard-area"
                                 style={{
                                     position: 'absolute',
                                     width: artboardSize.artboardWidth,
                                     height: artboardSize.artboardHeight,
-                                    margin: `${artboardSize.yOffset}px ${artboardSize.xOffset}px`,
+                                    top: `${artboardSize.yOffset}px`,
+                                    left: `${artboardSize.xOffset}px`,
                                 }}
                             >
                                 {_.map(

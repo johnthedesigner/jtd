@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
+import _ from 'lodash'
 
 import { scaleAllDimensions } from '../utils/artboardUtils'
 import { selectLayer } from '../utils/actions'
-import _ from 'lodash'
+import { palettes } from '../utils/colorUtils'
 
 const DragHandle = (props) => {
     const [dimensions, setDimensions] = useState({
@@ -20,14 +21,22 @@ const DragHandle = (props) => {
 
     useEffect(() => {
         setDimensions(
-            scaleAllDimensions(props.layer.dimensions, props.scaleFactor, true)
+            scaleAllDimensions(
+                props.layer.adjustments.dimensions,
+                props.scaleFactor,
+                true
+            )
         )
         if (_.includes(props.selections, props.layer.id)) {
             setIsSelected(true)
         } else {
             setIsSelected(false)
         }
-    }, [props.layer.dimensions, props.selections, props.scaleFactor])
+    }, [
+        props.layer.adjustments.dimensions,
+        props.selections,
+        props.scaleFactor,
+    ])
 
     const handleClick = (e) => {
         e.stopPropagation()
@@ -58,7 +67,7 @@ const DragHandle = (props) => {
         transform: `rotate(${rotation}deg)`,
         border:
             !props.isDragging && (isSelected || isHighlighted)
-                ? '1px solid magenta'
+                ? `1px solid magenta`
                 : 'none',
         borderRadius: layer.type === 'ellipse' ? '50%' : 0,
         cursor: 'grab',

@@ -38,7 +38,7 @@ export const getLayerDimensions = (layers) => {
         ? _.first(
               _.orderBy(
                   _.map(layers, (layer) => {
-                      return layer.dimensions.x
+                      return layer.adjustments.dimensions.x
                   })
               )
           )
@@ -48,7 +48,7 @@ export const getLayerDimensions = (layers) => {
         ? _.first(
               _.orderBy(
                   _.map(layers, (layer) => {
-                      return layer.dimensions.y
+                      return layer.adjustments.dimensions.y
                   })
               )
           )
@@ -58,7 +58,11 @@ export const getLayerDimensions = (layers) => {
         ? _.last(
               _.orderBy(
                   _.map(layers, (layer) => {
-                      return layer.dimensions.x - x + layer.dimensions.width
+                      return (
+                          layer.adjustments.dimensions.x -
+                          x +
+                          layer.adjustments.dimensions.width
+                      )
                   })
               )
           )
@@ -68,7 +72,11 @@ export const getLayerDimensions = (layers) => {
         ? _.last(
               _.orderBy(
                   _.map(layers, (layer) => {
-                      return layer.dimensions.y - y + layer.dimensions.height
+                      return (
+                          layer.adjustments.dimensions.y -
+                          y +
+                          layer.adjustments.dimensions.height
+                      )
                   })
               )
           )
@@ -90,7 +98,7 @@ let mapLayers = (layers, selections, editableTextLayer) => {
                 isEditable: _.includes(editableTextLayer, layer.id),
                 adjustments: {
                     ...layer.adjustments,
-                    dimensions: layer.dimensions,
+                    dimensions: layer.adjustments.dimensions,
                 },
             }
         }),
@@ -115,7 +123,7 @@ export const mapArtboard = (artboard) => {
         selection: {
             isActive: selectedLayers.length > 0,
             adjustments: mergeAdjustments(selectedLayers),
-            dimensions: getLayerDimensions(selectedLayers),
+            // dimensions: getLayerDimensions(selectedLayers),
         },
     }
 }

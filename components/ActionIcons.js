@@ -36,7 +36,6 @@ const getFillConfig = (artboard) => {
                 ? artboard.selection.adjustments.stroke.strokeColor
                 : 'transparent'
 
-        console.log(colors)
         return colors
     }
 }
