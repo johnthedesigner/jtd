@@ -143,7 +143,8 @@ const Header = ({ route }) => {
                     onMouseOver={() => setHoverMenu(true)}
                     onMouseOut={() => setHoverMenu(false)}
                 >
-                    <MenuButton active={hoverMenu || displayNav} />
+                    <MenuButton active={hoverMenu || displayNav} />{' '}
+                    <span className="global-header__menu-text">Menu</span>
                 </button>
                 <Link href="/" passHref={true}>
                     <button className="global-header__home-button">

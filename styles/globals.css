@@ -254,6 +254,15 @@ a:hover {
     cursor: pointer;
 }
 
+.global-header__menu-text {
+    font-family: var(--monospace-font);
+    font-size: 1rem;
+    line-height: 2.5rem;
+    position: absolute;
+    top: 0;
+    left: 3.25rem;
+}
+
 .global-header__menu svg {
     filter: drop-shadow(0 1rem 0.5rem rgba(0, 0, 0, 0.4));
 }
