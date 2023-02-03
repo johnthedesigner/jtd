@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import Head from 'next/head'
 
-import Layout from '../../components/Layout'
-
 const title =
     'Work: Improving the Analysis Workflow | John the Designer – Boston-Area Product Designer John Livornese'
 const description =
@@ -11,7 +9,7 @@ const description =
 const Workflow = () => {
     return (
         <main className="work-item-page">
-            <Layout>
+            <>
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
@@ -51,7 +49,7 @@ const Workflow = () => {
                             share a lot in common too. Within each tool a user
                             can apply filters to narrow down a period of time,
                             <Link href="/work/comparisons">
-                                <a>compare periods of time</a>
+                                compare periods of time
                             </Link>
                             , analyze feedback for a certain demographic or they
                             can choose a set of concepts to study. These are the
@@ -115,7 +113,7 @@ const Workflow = () => {
                         </p>
                     </div>
                 </div>
-            </Layout>
+            </>
         </main>
     )
 }

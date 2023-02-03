@@ -3,11 +3,10 @@ import _ from 'lodash'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 
-import Layout from '../../components/Layout'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
 import generateColors from '../../utils/generateColors'
-import ActionIcon from '../../components/ActionIcons'
+// import ActionIcon from '../../components/ActionIcons'
 
 const title =
     'Work: Colors | John the Designer – Boston-Area Product Designer John Livornese'
@@ -327,18 +326,6 @@ const Colors = () => {
                         >
                             Icons
                         </label>
-                        <span
-                            className="color-examples__icons-row"
-                            style={{ color: exampleColors.iconColor }}
-                        >
-                            <ActionIcon iconType="newRectangle" />
-                            <ActionIcon iconType="newEllipse" />
-                            <ActionIcon iconType="newText" />
-                            <ActionIcon iconType="resize" />
-                            <ActionIcon iconType="blending" />
-                            <ActionIcon iconType="sendToBack" />
-                            <ActionIcon iconType="bringToFront" />
-                        </span>
                     </div>
                     <div className="color-examples__group">
                         <label
@@ -364,7 +351,7 @@ const Colors = () => {
 
     return (
         <main className="work-item-page">
-            <Layout>
+            <>
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
@@ -454,7 +441,7 @@ const Colors = () => {
                         </p>
                     </div>
                 </div>
-            </Layout>
+            </>
         </main>
     )
 }

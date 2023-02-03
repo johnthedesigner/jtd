@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import Layout from '../../components/Layout'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
 
@@ -12,7 +11,7 @@ const description =
 const Comparisons = () => {
     return (
         <main className="work-item-page">
-            <Layout>
+            <>
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
@@ -118,7 +117,7 @@ const Comparisons = () => {
                         </p>
                     </div>
                 </div>
-            </Layout>
+            </>
         </main>
     )
 }

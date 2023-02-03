@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Head from 'next/head'
 
-import Layout from '../../components/Layout'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
 
@@ -13,7 +12,7 @@ const description =
 const Filtering = () => {
     return (
         <main className="work-item-page">
-            <Layout>
+            <>
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
@@ -121,13 +120,13 @@ const Filtering = () => {
                             feature was successful enough that we&apos;re now
                             building new features off of these filters, such as
                             <Link href="/work/comparisons">
-                                <a>Compare Period-over-Period</a>
+                                Compare Period-over-Period
                             </Link>
                             .
                         </p>
                     </div>
                 </div>
-            </Layout>
+            </>
         </main>
     )
 }
