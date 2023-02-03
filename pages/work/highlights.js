@@ -1,7 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
 
-import Layout from '../../components/Layout'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
 
@@ -12,7 +11,7 @@ const description =
 
 const Highlights = () => (
     <main className="work-item-page">
-        <Layout showHeader={true}>
+        <>
             <Head>
                 <title>{title}</title>
                 <meta property="og:title" content={title} key="title" />
@@ -113,7 +112,7 @@ const Highlights = () => (
                     </p>
                 </div>
             </div>
-        </Layout>
+        </>
     </main>
 )
 

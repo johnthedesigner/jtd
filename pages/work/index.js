@@ -1,4 +1,3 @@
-import Layout from '../../components/Layout'
 import Link from 'next/link'
 import Head from 'next/head'
 import _ from 'lodash'
@@ -63,7 +62,7 @@ const Work = () => {
 
     return (
         <main className="work-page">
-            <Layout>
+            <>
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
@@ -84,7 +83,7 @@ const Work = () => {
                         }
                     )}
                 </div>
-            </Layout>
+            </>
         </main>
     )
 }

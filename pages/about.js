@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
-import Layout from '../components/Layout'
-
 const title =
     'About John the Designer – Boston-Area Product Designer John Livornese'
 const description =
@@ -54,7 +52,7 @@ const About = () => {
 
     return (
         <main className="about-page">
-            <Layout>
+            <>
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
@@ -131,7 +129,7 @@ const About = () => {
                         </a>
                     </p>
                 </div>
-            </Layout>
+            </>
         </main>
     )
 }
