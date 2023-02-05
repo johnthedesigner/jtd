@@ -49,7 +49,7 @@ const SketchLogo = () => {
         randomizeSketches()
         if (step < iterations) {
             step++
-            setTimeout(triggerRandomize, speed * step ** 1.02)
+            setTimeout(triggerRandomize, speed * step ** 1.03)
         }
     }
 
