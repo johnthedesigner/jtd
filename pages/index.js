@@ -2,9 +2,11 @@ import _ from 'lodash'
 import Head from 'next/head'
 import copy from 'copy-to-clipboard'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 import SketchLogo from '../components/SketchLogo'
 import { palettes } from '../utils/colorUtils'
+import ResetButton from '../components/RefreshButton'
 
 const title = 'John the Designer – Boston-Area Product Designer John Livornese'
 const description =
@@ -28,6 +30,44 @@ export default function Home() {
         setTimeout(() => {
             setShowCopySuccess(false)
         }, 3000)
+    }
+
+    const Feature = ({ color, reverse }) => {
+        let rowClass = `home-features__row ${
+            reverse ? 'home-features__row--reverse' : ''
+        }`
+        return (
+            <div className={rowClass}>
+                <div
+                    className="home-features__item"
+                    style={{ background: color }}
+                ></div>
+                <div className="home-features__item-text">
+                    <h3>Lorem ipsum dolor sit amet</h3>
+                    <p>
+                        Nunc luctus elit nulla, quis tincidunt mauris aliquam
+                        eget. Nullam placerat pellentesque venenatis. Nulla
+                        luctus interdum gravida. Donec eu egestas mauris, quis
+                        tempor sapien. Aliquam erat volutpat.
+                    </p>
+                    <p>
+                        <a href="#">Read the Case Study</a>
+                    </p>
+                </div>
+            </div>
+        )
+    }
+
+    const Endorsement = ({ color, text, byline }) => {
+        return (
+            <div
+                className="home-features__endorsement"
+                style={{ background: color }}
+            >
+                <p>{text}</p>
+                <p>{byline};</p>
+            </div>
+        )
     }
 
     return (
@@ -56,29 +96,52 @@ export default function Home() {
             </div>
             <div className="home-features">
                 <div className="home-features__intro">
-                    <h2 className="home-features__title">My Collection</h2>
+                    <h2 className="home-features__title">Past Work</h2>
                     <p className="home-features__intro-text">
                         I turn complicated design problems into simple and
                         beautiful websites & apps.
                     </p>
                 </div>
-                <div className="home-features__row">
-                    <div className="home-features__item"></div>
-                    <div className="home-features__item"></div>
+                <Feature color={palettes.blue[3]} />
+                <Feature color={palettes.red[3]} />
+                <Feature color={palettes.yellow[2]} />
+                <Feature color={palettes.purple[5]} />
+                <div
+                    className="home-features__intro"
+                    style={{ marginTop: '4rem' }}
+                >
+                    <h2 className="home-features__title">Writing</h2>
+                    <p className="home-features__intro-text">
+                        I turn complicated design problems into simple and
+                        beautiful websites & apps.
+                    </p>
+                </div>
+                <Feature color={palettes.blue[3]} reverse />
+                <Feature color={palettes.red[3]} reverse />
+                <div
+                    className="home-features__intro"
+                    style={{ marginTop: '4rem' }}
+                >
+                    <h2 className="home-features__title">Words from Friends</h2>
                 </div>
                 <div className="home-features__row">
-                    <div className="home-features__item"></div>
+                    <Endorsement
+                        color={palettes.blue[3]}
+                        text={'The quick brown fox jumped over the lazy dog'}
+                        byline={'@whatwouldjohndo'}
+                    />
+                    <Endorsement
+                        color={palettes.red[3]}
+                        text={'The quick brown fox jumped over the lazy dog'}
+                        byline={'@whatwouldjohndo'}
+                    />
                 </div>
                 <div className="home-features__row">
-                    <div className="home-features__item"></div>
-                    <div className="home-features__item"></div>
-                </div>
-                <div className="home-features__row">
-                    <div className="home-features__item"></div>
-                </div>
-                <div className="home-features__row">
-                    <div className="home-features__item"></div>
-                    <div className="home-features__item"></div>
+                    <Endorsement
+                        color={palettes.purple[5]}
+                        text={'The quick brown fox jumped over the lazy dog'}
+                        byline={'@whatwouldjohndo'}
+                    />
                 </div>
             </div>
             <div className="home-contact">
@@ -113,6 +176,33 @@ export default function Home() {
                             : 'Copy Email Address'}
                     </button>
                 </div>
+                <p>
+                    <a
+                        href="https://www.twitter.com/whatwouldjohndo/"
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ marginRight: '2rem' }}
+                    >
+                        <Image
+                            src="/twitter.png"
+                            alt="Twitter icon"
+                            width="54"
+                            height="45"
+                        />
+                    </a>
+                    <a
+                        href="https://www.instagram.com/johnthedesigner/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <Image
+                            src="/instagram.png"
+                            alt="Instagram icon"
+                            width="45"
+                            height="45"
+                        />
+                    </a>
+                </p>
             </div>
             <footer>
                 <svg
