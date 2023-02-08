@@ -91,7 +91,7 @@ export default function Home() {
                     style={{
                         position: 'absolute',
                         right: '2rem',
-                        bottom: '-2.5rem',
+                        bottom: '-2.75rem',
                     }}
                 >
                     <path
@@ -103,7 +103,7 @@ export default function Home() {
                 </svg>
                 <p
                     className="home-features__endorsement-quote"
-                    style={{ color: palette[0] }}
+                    style={{ color: 'white' }}
                 >
                     {text}
                 </p>
