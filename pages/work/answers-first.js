@@ -3,6 +3,7 @@ import Head from 'next/head'
 
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
+import Header from '../../components/Header'
 
 const title =
     'Work: "Answers First" | John the Designer – Boston-Area Product Designer John Livornese'
@@ -19,12 +20,13 @@ const AnswersFirst = () => {
                     <meta name="description" content={description} />
                 </Head>
                 <div id="main">
+                    <Header purple />
                     <WorkHeader
                         superHead="Answers First"
                         headline="Our app needed major additions, but how could we
                     keep or even improve our usability as we added new
                     features?"
-                        palette={palettes.blue}
+                        palette={palettes.purple}
                     />
                     <div className="work__copy">
                         <h3>What was the problem?</h3>

@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
 import generateColors from '../../utils/generateColors'
-// import ActionIcon from '../../components/ActionIcons'
+import ActionIcon from '../../components/ActionIcons'
+import Header from '../../components/Header'
 
 const title =
     'Work: Colors | John the Designer – Boston-Area Product Designer John Livornese'
@@ -326,6 +327,18 @@ const Colors = () => {
                         >
                             Icons
                         </label>
+                        <span
+                            className="color-examples__icons-row"
+                            style={{ color: exampleColors.iconColor }}
+                        >
+                            <ActionIcon iconType="newRectangle" />
+                            <ActionIcon iconType="newEllipse" />
+                            <ActionIcon iconType="newText" />
+                            <ActionIcon iconType="resize" />
+                            <ActionIcon iconType="blending" />
+                            <ActionIcon iconType="sendToBack" />
+                            <ActionIcon iconType="bringToFront" />
+                        </span>
                     </div>
                     <div className="color-examples__group">
                         <label
@@ -358,6 +371,7 @@ const Colors = () => {
                     <meta name="description" content={description} />
                 </Head>
                 <div id="main">
+                    <Header purple />
                     <WorkHeader
                         superHead="A Refined Palette"
                         headline="Building the color palette you're going to need

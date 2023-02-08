@@ -3,6 +3,7 @@ import Head from 'next/head'
 
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
+import Header from '../../components/Header'
 
 const title =
     'Work: Highlights Page | John the Designer – Boston-Area Product Designer John Livornese'
@@ -18,12 +19,13 @@ const Highlights = () => (
                 <meta name="description" content={description} />
             </Head>
             <div id="main">
+                <Header purple />
                 <WorkHeader
                     superHead="The Highlights Page"
                     headline='The Highlights page is the new homepage for projects in
                     our flagship application. It&apos;s the cornerstone of
                     our new "Answers first" strategy.'
-                    palette={palettes.yellow}
+                    palette={palettes.purple}
                 />
                 <div className="work__copy">
                     <h3>What was the problem?</h3>

@@ -3,9 +3,11 @@ import Head from 'next/head'
 import copy from 'copy-to-clipboard'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import SketchLogo from '../components/SketchLogo'
 import { palettes } from '../utils/colorUtils'
+import Header from '../components/Header'
 import ResetButton from '../components/RefreshButton'
 
 const title = 'John the Designer – Boston-Area Product Designer John Livornese'
@@ -13,6 +15,8 @@ const description =
     'This is my "personal website", but you know, not too personal. Check out my work, or get in touch and we can talk product design, engineering or Celtics basketball.'
 
 export default function Home() {
+    const router = useRouter()
+
     const [emailAddress, setEmailAddress] = useState('')
     const [showCopySuccess, setShowCopySuccess] = useState(false)
 
@@ -32,40 +36,105 @@ export default function Home() {
         }, 3000)
     }
 
-    const Feature = ({ color, reverse }) => {
-        let rowClass = `home-features__row ${
-            reverse ? 'home-features__row--reverse' : ''
-        }`
+    const Feature = ({ title, caption, thumbnail, logo, path, flag }) => {
+        const itemStyles = {
+            backgroundImage: `url(${thumbnail})`,
+            width: '100%',
+            aspectRatio: '1',
+        }
+
+        const thumbnailClick = () => {
+            if (path) {
+                router.push(path)
+            }
+        }
+
         return (
-            <div className={rowClass}>
-                <div
-                    className="home-features__item"
-                    style={{ background: color }}
-                ></div>
+            <button
+                className={`home-features__item ${
+                    path ? '' : 'home-features__item--disabled'
+                }`}
+                style={itemStyles}
+                onClick={thumbnailClick}
+            >
                 <div className="home-features__item-text">
-                    <h3>Lorem ipsum dolor sit amet</h3>
-                    <p>
-                        Nunc luctus elit nulla, quis tincidunt mauris aliquam
-                        eget. Nullam placerat pellentesque venenatis. Nulla
-                        luctus interdum gravida. Donec eu egestas mauris, quis
-                        tempor sapien. Aliquam erat volutpat.
-                    </p>
-                    <p>
-                        <a href="#">Read the Case Study</a>
-                    </p>
+                    {flag && <p className="home-features__item-flag">{flag}</p>}
+                    <h3 className="home-features__item-title">{title}</h3>
+                    <p className="home-features__item-caption">{caption}</p>
+                    {logo && (
+                        <p className="home-features__item-logo">
+                            <Image
+                                src={logo}
+                                fill
+                                style={{ objectFit: 'contain' }}
+                                alt="company logo"
+                            />
+                        </p>
+                    )}
                 </div>
-            </div>
+            </button>
         )
     }
 
-    const Endorsement = ({ color, text, byline }) => {
+    const Endorsement = ({ palette, text, byline, bytitle, byimage }) => {
         return (
             <div
                 className="home-features__endorsement"
-                style={{ background: color }}
+                style={{ background: palette[2] }}
             >
-                <p>{text}</p>
-                <p>{byline};</p>
+                <svg
+                    width="86"
+                    height="90"
+                    viewBox="0 0 86 90"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{
+                        position: 'absolute',
+                        right: '2rem',
+                        bottom: '-2.5rem',
+                    }}
+                >
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M20 0H86L56 30L26 60H40L0 90L10 60H0L10 30L20 0Z"
+                        fill={palette[2]}
+                    />
+                </svg>
+                <p
+                    className="home-features__endorsement-quote"
+                    style={{ color: palette[0] }}
+                >
+                    {text}
+                </p>
+                <div className="home-features__endorsement-footer">
+                    {byimage && (
+                        <div className="home-features__endorsement-avatar">
+                            <Image
+                                src={byimage}
+                                alt={byline}
+                                className="home-features__endorsement-image"
+                                fill
+                            />
+                        </div>
+                    )}
+                    <div className="home-features__endorsement-footer-text">
+                        <p
+                            className="home-features__endorsement-byline"
+                            style={{ color: palette[6] }}
+                        >
+                            {byline}
+                        </p>
+                        {bytitle && (
+                            <p
+                                className="home-features__endorsement-bytitle"
+                                style={{ color: palette[6] }}
+                            >
+                                {bytitle}
+                            </p>
+                        )}
+                    </div>
+                </div>
             </div>
         )
     }
@@ -77,6 +146,7 @@ export default function Home() {
                 <meta property="og:title" content={title} key="title" />
                 <meta name="description" content={description} />
             </Head>
+            <Header />
             <div className="home-hero">
                 <div className="home-hero__logo">
                     <SketchLogo />
@@ -94,7 +164,7 @@ export default function Home() {
                     </h2>
                 </div>
             </div>
-            <div className="home-features">
+            <div id="work" className="home-features">
                 <div className="home-features__intro">
                     <h2 className="home-features__title">Past Work</h2>
                     <p className="home-features__intro-text">
@@ -102,49 +172,79 @@ export default function Home() {
                         beautiful websites & apps.
                     </p>
                 </div>
-                <Feature color={palettes.blue[3]} />
-                <Feature color={palettes.red[3]} />
-                <Feature color={palettes.yellow[2]} />
-                <Feature color={palettes.purple[5]} />
-                <div
-                    className="home-features__intro"
-                    style={{ marginTop: '4rem' }}
-                >
-                    <h2 className="home-features__title">Writing</h2>
-                    <p className="home-features__intro-text">
-                        I turn complicated design problems into simple and
-                        beautiful websites & apps.
-                    </p>
+                <div className="home-features__list">
+                    <Feature
+                        title="Hit the Ground Running"
+                        caption="Foundational product design process"
+                        thumbnail="/work/thumbnails/upstart.png"
+                        logo="/work/logos/upstart.png"
+                        flag="Coming Soon"
+                    />
+                    <Feature
+                        title="A Visual Spreadsheet Model"
+                        caption="Lorem ipsum dolor sit amet"
+                        thumbnail="/work/thumbnails/visual-spreadsheet.png"
+                        logo="/work/logos/tableau-salesforce.png"
+                        flag="Coming Soon"
+                    />
+                    <Feature
+                        title="The Highlights Page"
+                        caption="The cornerstone of our UI"
+                        thumbnail="/work/thumbnails/highlights.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/highlights"
+                    />
+                    <Feature
+                        title="Making Great Color Palettes"
+                        caption="Which blue should I use?"
+                        thumbnail="/work/thumbnails/color-palettes.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/colors"
+                    />
+                    <Feature
+                        title="Answers First"
+                        caption="How to eliminate “Analysis Paralysis”"
+                        thumbnail="/work/thumbnails/answers-first.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/answers-first"
+                    />
+                    <Feature
+                        title="Comparing Time Periods"
+                        caption="What even happened last week?"
+                        thumbnail="/work/thumbnails/comparison.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/comparisons"
+                    />
                 </div>
-                <Feature color={palettes.blue[3]} reverse />
-                <Feature color={palettes.red[3]} reverse />
                 <div
                     className="home-features__intro"
                     style={{ marginTop: '4rem' }}
                 >
                     <h2 className="home-features__title">Words from Friends</h2>
                 </div>
-                <div className="home-features__row">
+                <div className="home-features__endorsement-list">
                     <Endorsement
-                        color={palettes.blue[3]}
+                        palette={palettes.yellow}
+                        text={
+                            '...The best way I can describe working with John is "effortless"... John is collaborative and flexible, while remaining a decisive advocate for his perspective. His sense of humor, positivity, and humbleness uplifts any team he is working with...'
+                        }
+                        byline={'Michelle Rowe'}
+                        bytitle={'Director of Product Managment'}
+                        byimage={'/endorsements/michelle.jpg'}
+                    />
+                    <Endorsement
+                        palette={palettes.red}
                         text={'The quick brown fox jumped over the lazy dog'}
                         byline={'@whatwouldjohndo'}
                     />
                     <Endorsement
-                        color={palettes.red[3]}
-                        text={'The quick brown fox jumped over the lazy dog'}
-                        byline={'@whatwouldjohndo'}
-                    />
-                </div>
-                <div className="home-features__row">
-                    <Endorsement
-                        color={palettes.purple[5]}
+                        palette={palettes.blue}
                         text={'The quick brown fox jumped over the lazy dog'}
                         byline={'@whatwouldjohndo'}
                     />
                 </div>
             </div>
-            <div className="home-contact">
+            <div id="contact" className="home-contact">
                 <h2 className="home-contact__title">Let's Talk</h2>
                 <p className="home-contact__intro-text">
                     Reach out if you’d like to talk about working together, or
@@ -176,33 +276,6 @@ export default function Home() {
                             : 'Copy Email Address'}
                     </button>
                 </div>
-                <p>
-                    <a
-                        href="https://www.twitter.com/whatwouldjohndo/"
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ marginRight: '2rem' }}
-                    >
-                        <Image
-                            src="/twitter.png"
-                            alt="Twitter icon"
-                            width="54"
-                            height="45"
-                        />
-                    </a>
-                    <a
-                        href="https://www.instagram.com/johnthedesigner/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <Image
-                            src="/instagram.png"
-                            alt="Instagram icon"
-                            width="45"
-                            height="45"
-                        />
-                    </a>
-                </p>
             </div>
             <footer>
                 <svg

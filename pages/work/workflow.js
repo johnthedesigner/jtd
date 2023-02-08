@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Head from 'next/head'
 
+import Header from '../../components/Header'
+
 const title =
     'Work: Improving the Analysis Workflow | John the Designer – Boston-Area Product Designer John Livornese'
 const description =
@@ -16,6 +18,7 @@ const Workflow = () => {
                     <meta name="description" content={description} />
                 </Head>
                 <div id="main">
+                    <Header purple />
                     <div className="intro">
                         <div className="intro-copy">
                             <h1 className="intro-copy__superhead">

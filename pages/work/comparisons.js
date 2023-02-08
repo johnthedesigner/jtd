@@ -2,6 +2,7 @@ import Head from 'next/head'
 
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
+import Header from '../../components/Header'
 
 const title =
     'Work: Comparisons | John the Designer – Boston-Area Product Designer John Livornese'
@@ -18,10 +19,11 @@ const Comparisons = () => {
                     <meta name="description" content={description} />
                 </Head>
                 <div id="main">
+                    <Header purple />
                     <WorkHeader
                         superHead="Comparing Time Periods"
                         headline="Learn from history or be doomed to repeat it."
-                        palette={palettes.green}
+                        palette={palettes.purple}
                     />
                     <div className="work__copy">
                         <h3>What was the problem?</h3>

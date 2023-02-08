@@ -3,6 +3,7 @@ import Head from 'next/head'
 
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
+import Header from '../../components/Header'
 
 const title =
     'Work: Filtering Documents | John the Designer – Boston-Area Product Designer John Livornese'
@@ -19,10 +20,11 @@ const Filtering = () => {
                     <meta name="description" content={description} />
                 </Head>
                 <div id="main">
+                    <Header purple />
                     <WorkHeader
                         superHead="Filtering Documents"
                         headline="Faceted search FTW"
-                        palette={palettes.red}
+                        palette={palettes.purple}
                     />
                     <div className="work__copy">
                         <h3>What was the problem?</h3>
