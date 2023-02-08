@@ -167,10 +167,10 @@ export default function Home() {
             <div id="work" className="home-features">
                 <div className="home-features__intro">
                     <h2 className="home-features__title">Past Work</h2>
-                    <p className="home-features__intro-text">
+                    {/* <p className="home-features__intro-text">
                         I turn complicated design problems into simple and
                         beautiful websites & apps.
-                    </p>
+                    </p> */}
                 </div>
                 <div className="home-features__list">
                     <Feature
@@ -248,7 +248,7 @@ export default function Home() {
                 <h2 className="home-contact__title">Let's Talk</h2>
                 <p className="home-contact__intro-text">
                     Reach out if you’d like to talk about working together, or
-                    just talk about design, or like cooking or whatever.
+                    just talk about design.
                 </p>
                 <div className="email-block">
                     <input
