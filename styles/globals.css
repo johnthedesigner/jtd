@@ -146,7 +146,6 @@ html {
 }
 
 main {
-    border-bottom: var(--purple-5) solid 2rem;
     min-height: 100vh;
 }
 
@@ -195,17 +194,17 @@ p {
 }
 
 a {
-    color: var(--red-3);
+    color: var(--blue-3);
     transition: all linear 0.1s;
 }
 
 a:hover,
 a:active {
-    color: var(--red-2);
+    color: var(--blue-6);
 }
 
 a:hover {
-    color: var(--red-1);
+    color: var(--blue-6);
 }
 
 * {
@@ -250,7 +249,7 @@ a:hover {
 
 .global-nav__link {
     text-decoration: none;
-    color: var(--grayscale-8);
+    color: var(--grayscale-7);
     transition: all ease-in-out 0.2s;
 }
 
@@ -259,11 +258,11 @@ a:hover {
 }
 
 .global-nav__link--purple {
-    color: var(--purple-9);
+    color: var(--blue-9);
 }
 
 .global-nav__link--purple:hover {
-    color: var(--purple-0);
+    color: var(--blue-0);
 }
 
 .global-nav__item--mobile {
@@ -330,8 +329,6 @@ a:hover {
     min-height: 90vh;
     font-size: 1rem; /* adjust to scale hero content up and down */
     background: linear-gradient(to top, white, var(--blue-0));
-    /* background: linear-gradient(to top, var(--purple-2), var(--purple-4)); */
-    /* color: var(--purple-1); */
 }
 
 .home-hero__logo {
@@ -395,6 +392,17 @@ a:hover {
     }
 }
 
+.about-me {
+    width: 40rem;
+    max-width: 80vw;
+    margin: 0 auto 6rem;
+}
+
+.about-me__paragraph {
+    font-family: var(--serif-font);
+    font-size: 2rem;
+}
+
 .home-contact {
     width: 30rem;
     max-width: 90vw;
@@ -405,7 +413,7 @@ a:hover {
 
 .home-contact__title {
     font-family: var(--blackletter-font);
-    font-weight: 700;
+    font-weight: 500;
     font-style: italic;
     text-align: center;
     /* color: var(--green-3); */
@@ -450,19 +458,20 @@ a:hover {
 }
 
 .home-features {
-    padding: 6rem 0 2rem;
+    padding: 0 0 2rem;
 }
 
 .home-features__intro {
     width: 30rem;
     max-width: 90vw;
-    margin: 0 auto 2rem;
+    margin: 0 auto;
+    padding: 6rem 0 2rem;
     text-align: center;
 }
 
 .home-features__title {
     font-family: var(--blackletter-font);
-    font-weight: 700;
+    font-weight: 500;
     font-style: italic;
     text-align: center;
     /* color: var(--purple-5); */
@@ -601,7 +610,8 @@ a:hover {
 
 .home-features__endorsement-footer {
     display: flex;
-    justify-content: top;
+    justify-content: center;
+    align-items: center;
     margin-top: 1rem;
 }
 
@@ -628,7 +638,7 @@ a:hover {
     width: 2.5rem;
     height: 2.5rem;
     overflow: hidden;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     border-radius: 50%;
     mix-blend-mode: luminosity;
 }
@@ -645,9 +655,9 @@ a:hover {
 .intro {
     position: relative;
     padding: 5rem 0;
-    border-bottom: var(--purple-5) solid 1px;
-    background: var(--purple-3);
-    color: var(--purple-5);
+    border-bottom: var(--blue-5) solid 1px;
+    background: var(--blue-3);
+    color: var(--blue-5);
 }
 
 .intro:after {
@@ -872,4 +882,35 @@ iframe,
 
 .color-examples__paragraph {
     padding-bottom: 2rem;
+}
+
+/* ABOUT */
+.about-page {
+    background: var(--purple-3);
+    background: linear-gradient(to top, white, var(--blue-0));
+    background-image: radial-gradient(
+        circle at center,
+        var(--blue-1) 0,
+        var(--blue-1) 10%,
+        var(--blue-0) 10%,
+        var(--blue-0) 100%
+    );
+    background-size: 1rem 1rem;
+    background-repeat: repeat;
+    padding: 0.1rem 0;
+}
+
+/* .about-page a {
+    color: var(--purple-1);
+}
+
+.about-page a:hover,
+.about-page a:active {
+    color: var(--purple-0);
+} */
+
+.text-container {
+    width: 50rem;
+    max-width: 80%;
+    margin: 8rem auto;
 }

@@ -4,29 +4,29 @@ import Head from 'next/head'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
 import Header from '../../components/Header'
+import pages from '../../utils/pages.json'
+import Footer from '../../components/Footer'
 
-const title =
-    'Work: "Answers First" | John the Designer – Boston-Area Product Designer John Livornese'
-const description =
-    'An example of some of my recent work in a product design role'
+const { title, description, image, path } = pages.answersFirst
 
 const AnswersFirst = () => {
     return (
-        <main className="work-item-page">
-            <>
+        <>
+            <main className="work-item-page">
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
                     <meta name="description" content={description} />
+                    <meta name="og:image" content={image} />
                 </Head>
                 <div id="main">
-                    <Header purple />
+                    <Header blue />
                     <WorkHeader
                         superHead="Answers First"
                         headline="Our app needed major additions, but how could we
                     keep or even improve our usability as we added new
                     features?"
-                        palette={palettes.purple}
+                        palette={palettes.blue}
                     />
                     <div className="work__copy">
                         <h3>What was the problem?</h3>
@@ -129,8 +129,9 @@ const AnswersFirst = () => {
                         </p>
                     </div>
                 </div>
-            </>
-        </main>
+            </main>
+            <Footer />
+        </>
     )
 }
 

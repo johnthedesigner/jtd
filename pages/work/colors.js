@@ -8,11 +8,10 @@ import { palettes } from '../../utils/colorUtils'
 import generateColors from '../../utils/generateColors'
 import ActionIcon from '../../components/ActionIcons'
 import Header from '../../components/Header'
+import pages from '../../utils/pages.json'
+import Footer from '../../components/Footer'
 
-const title =
-    'Work: Colors | John the Designer – Boston-Area Product Designer John Livornese'
-const description =
-    'An example of some of my recent work in a product design role'
+const { title, description, image, path } = pages.colors
 
 const seedColors = [
     '#FF6C63',
@@ -363,20 +362,21 @@ const Colors = () => {
     }
 
     return (
-        <main className="work-item-page">
-            <>
+        <>
+            <main className="work-item-page">
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
                     <meta name="description" content={description} />
+                    <meta name="og:image" content={image} />
                 </Head>
                 <div id="main">
-                    <Header purple />
+                    <Header blue />
                     <WorkHeader
                         superHead="A Refined Palette"
                         headline="Building the color palette you're going to need
                             later"
-                        palette={palettes.purple}
+                        palette={palettes.blue}
                     />
                     <div className="work__copy">
                         <h3>What's the problem?</h3>
@@ -455,8 +455,9 @@ const Colors = () => {
                         </p>
                     </div>
                 </div>
-            </>
-        </main>
+            </main>
+            <Footer />
+        </>
     )
 }
 

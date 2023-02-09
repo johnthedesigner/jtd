@@ -4,14 +4,14 @@ import { palettes } from '../utils/colorUtils'
 
 import { InstagramIcon, LinkedinIcon, TwitterIcon } from './SocialIcons'
 
-const Header = ({ purple }) => {
+const Header = ({ blue }) => {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
     const NavLink = ({ children, title, path, newTab, desktop }) => {
         return (
             <Link
                 className={`global-nav__link ${
-                    purple && 'global-nav__link--purple'
+                    blue && 'global-nav__link--blue'
                 }`}
                 href={path}
                 title={title}
@@ -70,6 +70,11 @@ const Header = ({ purple }) => {
                             </NavLink>
                         </li>
                         <li className="global-nav__item global-nav__item--desktop">
+                            <NavLink title="About" path="/#about" desktop>
+                                About
+                            </NavLink>
+                        </li>
+                        <li className="global-nav__item global-nav__item--desktop">
                             <NavLink title="Contact" path="/#contact" desktop>
                                 Contact
                             </NavLink>
@@ -120,6 +125,11 @@ const Header = ({ purple }) => {
                         <li className="mobile-nav__item">
                             <NavLink title="Work" path="/#work" desktop>
                                 Work
+                            </NavLink>
+                        </li>
+                        <li className="mobile-nav__item">
+                            <NavLink title="About" path="/#about" desktop>
+                                About
                             </NavLink>
                         </li>
                         <li className="mobile-nav__item">
