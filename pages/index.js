@@ -93,8 +93,8 @@ export default function Home() {
                     }}
                 >
                     <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M20 0H86L56 30L26 60H40L0 90L10 60H0L10 30L20 0Z"
                         fill={palette[2]}
                     />
@@ -314,6 +314,9 @@ export default function Home() {
                         value={emailAddress}
                         onClick={(e) => {
                             e.target.select()
+                        }}
+                        onChange={() => {
+                            null
                         }}
                         style={{
                             borderColor: showCopySuccess
