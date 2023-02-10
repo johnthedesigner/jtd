@@ -143,7 +143,7 @@ export default function Home() {
                 <title>{title}</title>
                 <meta property="og:title" content={title} key="title" />
                 <meta name="description" content={description} />
-                <meta name="og:image" content={image} />
+                <meta property="og:image" content={image} />
             </Head>
             <Header />
             <div className="home-hero">
