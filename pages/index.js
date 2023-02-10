@@ -23,7 +23,7 @@ export default function Home() {
     // Update email address after initial render
     useEffect(() => {
         setEmailAddress('john@johnthedesigner.com')
-    })
+    }, [])
 
     // Copy email address to clipboard then trigger success message
     const copyEmail = async () => {
@@ -274,8 +274,8 @@ export default function Home() {
                     <p className="about-me__paragraph">
                         Since you&apos;re here, why not check out some of my{' '}
                         <Link href="/#work">work</Link>, or you could&nbsp;
-                        <a href="/#contact">get in touch</a>. We could talk
-                        design or whatever, no pressure.
+                        <Link href="/#contact">get in touch</Link>. We could
+                        talk design or whatever, no pressure.
                     </p>
                 </div>
                 <div
