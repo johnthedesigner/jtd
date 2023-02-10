@@ -74,7 +74,7 @@ export default function Home() {
         )
     }
 
-    const Endorsement = ({ palette, text, byline, bytitle, byimage }) => {
+    const Endorsement = ({ palette, text, byline, bytitle, byimage, size }) => {
         return (
             <div
                 className="home-features__endorsement"
@@ -101,7 +101,7 @@ export default function Home() {
                 </svg>
                 <p
                     className="home-features__endorsement-quote"
-                    style={{ color: 'white' }}
+                    style={{ color: 'white', fontSize: size }}
                 >
                     {text}
                 </p>
@@ -158,8 +158,8 @@ export default function Home() {
                         </span>
                     </h1>
                     <h2 className="home-hero__tag-line">
-                        I turn complicated design problems into simple and
-                        beautiful websites & apps.
+                        I turn complex design problems into simple and beautiful
+                        websites & apps.
                     </h2>
                 </div>
             </div>
@@ -224,7 +224,19 @@ export default function Home() {
                 </div>
                 <div className="about-me">
                     <p className="about-me__paragraph">
-                        Hi, I’m John Livornese. I work for&nbsp;
+                        Hi! I’m John Livornese. I am a creative, strategic,
+                        product design leader with experience working in
+                        difficult problem spaces on teams of all sizes. I love
+                        building interfaces that communicate meaning, increase
+                        understanding, and make the end user feel smarter. My
+                        dream job is a place where people are proud of what
+                        they’re building and they have fun doing it. I’m a
+                        designer who cares a lot about engineering and product,
+                        and I love working with PMs and engineers who care a lot
+                        about design.
+                    </p>
+                    <p className="about-me__paragraph">
+                        I’ve worked at both Fortune 500 companies like{' '}
                         <a
                             href="http://tableau.com"
                             target="_blank"
@@ -232,8 +244,8 @@ export default function Home() {
                             title="Tableau"
                         >
                             Tableau
-                        </a>{' '}
-                        /{' '}
+                        </a>
+                        /
                         <a
                             href="http://salesforce.com"
                             target="_blank"
@@ -241,10 +253,8 @@ export default function Home() {
                             title="Salesforce"
                         >
                             Salesforce
-                        </a>{' '}
-                        as Lead User Experience Designer in predictive
-                        analytics. I&apos;m formerly the head of product design
-                        for&nbsp;
+                        </a>
+                        , and small startups like{' '}
                         <a
                             href="http://luminoso.com"
                             target="_blank"
@@ -253,25 +263,19 @@ export default function Home() {
                         >
                             Luminoso
                         </a>
-                        , in Boston, MA. I also built&nbsp;
-                        <a
-                            href="https://www.figma.com/community/plugin/849144368519969202/Paletteer"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Paletteer Figma plugin"
-                        >
-                            Paletteer
-                        </a>
-                        , the Figma plugin for generating useful color palettes
-                        for digital design.
+                        . Most recently I was Principal Product Designer at
+                        Upstart, where I was brought in to design a brand new
+                        product. I have joined established teams and built teams
+                        from the ground up. My work has often been focused on
+                        foundational and end-to-end design for new products,
+                        building out product design practice and design
+                        strategy.
                     </p>
                     <p className="about-me__paragraph">
                         Since you&apos;re here, why not check out some of my{' '}
                         <Link href="/#work">work</Link>, or you could&nbsp;
-                        <a href="mailto:john@johnthedesigner.com">
-                            get in touch
-                        </a>
-                        . We could talk design or whatever, no pressure.
+                        <a href="/#contact">get in touch</a>. We could talk
+                        design or whatever, no pressure.
                     </p>
                 </div>
                 <div
@@ -286,19 +290,30 @@ export default function Home() {
                         text={
                             '...The best way I can describe working with John is "effortless"... John is collaborative and flexible, while remaining a decisive advocate for his perspective. His sense of humor, positivity, and humbleness uplifts any team he is working with...'
                         }
-                        byline={'Michelle Rowe'}
+                        byline={'Michelle R.'}
                         bytitle={'Director of Product Managment'}
                         byimage={'/endorsements/michelle.jpg'}
+                        size={'1.25rem'}
                     />
                     <Endorsement
                         palette={palettes.red}
-                        text={'The quick brown fox jumped over the lazy dog'}
-                        byline={'@whatwouldjohndo'}
+                        text={
+                            'John is one of the most deliberate, thoughtful, and intentional designers I’ve worked with. I was fortunate to collaborate with him on improving our company’s design challenge interview, where he married prior experience with present circumstances to vastly improve the efficacy of our candidate interview process... Any design team would be lucky to have John in their corner!'
+                        }
+                        byline={'@Gabe O.'}
+                        bytitle={'Product Designer'}
+                        byimage={'/endorsements/gabe.jpg'}
+                        size={'1rem'}
                     />
                     <Endorsement
                         palette={palettes.blue}
-                        text={'The quick brown fox jumped over the lazy dog'}
-                        byline={'@whatwouldjohndo'}
+                        text={
+                            'John was my manager at Luminoso for just shy of three years. In that time, he was an insightful voice of leadership for the broader team and was clearly interested in empowering me in my career. Whenever I had questions or concerns about a project, he was eager to help me untangle the issue. If I had a new product idea, or a concern, he was always supportive and willing to listen...'
+                        }
+                        byline={'Steph B.'}
+                        bytitle={'Senior Product Designer'}
+                        byimage={'/endorsements/steph.jpg'}
+                        size={'1rem'}
                     />
                 </div>
             </div>
