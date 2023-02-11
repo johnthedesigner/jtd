@@ -334,6 +334,41 @@ a:hover {
 .home-hero__logo {
     width: 20em;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.sketch-logo {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.sketch-logo__letters-backdrop {
+    display: block;
+    margin: 0;
+    pointer-events: none;
+    width: 100%;
+    aspect-ratio: 520/230;
+}
+
+.sketch-logo__letter-stack {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.sketch-logo__sketch-letter {
+    position: relative;
+    display: block;
+    margin: 0;
+    pointer-events: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 520/230;
 }
 
 .home-hero__text {
