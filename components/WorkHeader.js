@@ -1,12 +1,4 @@
-import Link from 'next/link'
-
-const WorkHeader = ({
-    superHead,
-    headline,
-    palette,
-    backgroundColor,
-    headlineColor,
-}) => {
+const WorkHeader = ({ superHead, headline, palette }) => {
     const introStyles = {
         backgroundColor: palette[3],
         color: palette[8],
@@ -25,15 +17,6 @@ const WorkHeader = ({
     return (
         <div className="intro" style={introStyles}>
             <div className="intro-copy">
-                {/* <p>
-                    <Link
-                        href="/"
-                        className="intro-copy__back-link"
-                        style={backLinkStyles}
-                    >
-                        &larr; Back to Homepage
-                    </Link>
-                </p> */}
                 <h1 className="intro-copy__superhead" style={superHeadStyles}>
                     {superHead}
                 </h1>

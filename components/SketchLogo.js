@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const SketchLogo = () => {
-    // New logo state
+    // Sketch logo state
     const jLength = 5
     const tLength = 8
     const dLength = 6
@@ -37,49 +37,6 @@ const SketchLogo = () => {
         setters[selectedLetter](selectedSketchIndex)
     }
 
-    // Old Logo state
-    // const jArray = ['Cookie', 'Dog', 'Flamingo', 'Lego', 'Sneaker']
-    // const tArray = [
-    //     'Birdhouse',
-    //     'Groucho',
-    //     'MushroomCloud',
-    //     'Music',
-    //     'Screw',
-    //     'Skull',
-    //     'Spaceman',
-    //     'Umbrella',
-    // ]
-    // const dArray = ['B-Ball', 'Bowling', 'Burger', 'Island', 'Mug', 'Pencil']
-
-    // const [j, setJ] = useState('Cookie')
-    // const [t, setT] = useState('Groucho')
-    // const [d, setD] = useState('Pencil')
-
-    // const randomizeSketches = async () => {
-    //     let sketches = [j, t, d]
-    //     let setters = [setJ, setT, setD]
-    //     let arrays = [jArray, tArray, dArray]
-
-    //     let selectedLetter = Math.floor(Math.random() * 3)
-
-    //     let selectedSketchIndex = Math.floor(
-    //         Math.random() * arrays[selectedLetter].length
-    //     )
-    //     let selectedSketch = arrays[selectedLetter][selectedSketchIndex]
-
-    //     if (selectedSketch === sketches[selectedLetter]) {
-    //         if (selectedSketchIndex + 1 === arrays[selectedLetter].length) {
-    //             selectedSketch = arrays[selectedLetter][selectedSketchIndex - 1]
-    //         } else {
-    //             selectedSketch = arrays[selectedLetter][selectedSketchIndex + 1]
-    //         }
-    //     }
-
-    //     await process.nextTick(() => {
-    //         setters[selectedLetter](selectedSketch)
-    //     })
-    // }
-
     // Loop through random sketches
     let speed = 12
     let iterations = 27
@@ -101,7 +58,6 @@ const SketchLogo = () => {
                 <svg
                     className="sketch-logo__letters-backdrop"
                     width="20em"
-                    // height="8.85em"
                     viewBox="0 0 520 230"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
