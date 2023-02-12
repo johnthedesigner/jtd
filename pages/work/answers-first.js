@@ -1,25 +1,26 @@
 import Link from 'next/link'
 import Head from 'next/head'
 
-import Layout from '../../components/Layout'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
+import Header from '../../components/Header'
+import pages from '../../utils/pages.json'
+import Footer from '../../components/Footer'
 
-const title =
-    'Work: "Answers First" | John the Designer – Boston-Area Product Designer John Livornese'
-const description =
-    'An example of some of my recent work in a product design role'
+const { title, description, image, path } = pages.answersFirst
 
 const AnswersFirst = () => {
     return (
-        <main className="work-item-page">
-            <Layout>
+        <>
+            <main className="work-item-page">
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
                     <meta name="description" content={description} />
+                    <meta name="og:image" content={image} />
                 </Head>
                 <div id="main">
+                    <Header blue />
                     <WorkHeader
                         superHead="Answers First"
                         headline="Our app needed major additions, but how could we
@@ -47,9 +48,7 @@ const AnswersFirst = () => {
                             results within minutes from thousands or
                             tens-of-thousands or even hundres of thousands of
                             documents. We would build a new project view called
-                            <Link href="/work/highlights">
-                                <a>Highlights</a>
-                            </Link>
+                            <Link href="/work/highlights">Highlights</Link>
                             that would present high-level insights (This is
                             where you get &quot;Answers First&quot;), then we
                             would guide users to our more in-depth tools to
@@ -120,9 +119,7 @@ const AnswersFirst = () => {
                         <p>
                             The main elements of the Answers First project (New
                             analysis features and a
-                            <Link href="/work/highlights">
-                                <a>Highlights</a>
-                            </Link>
+                            <Link href="/work/highlights">Highlights</Link>
                             page focused on business goals) have so far proved
                             helpful to new users and has reduced our reliance on
                             custom scripts and additional training sessions.
@@ -132,8 +129,9 @@ const AnswersFirst = () => {
                         </p>
                     </div>
                 </div>
-            </Layout>
-        </main>
+            </main>
+            <Footer />
+        </>
     )
 }
 

@@ -1,15 +1,29 @@
+import Script from 'next/script'
 import '../styles/globals.css'
-import '../styles/artboard.css'
-import '../styles/colors.css'
-
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function MyApp({ Component, pageProps }) {
     return (
-        <DndProvider backend={HTML5Backend}>
+        <>
+            <Script
+                strategy="afterInteractive"
+                src="https://www.googletagmanager.com/gtag/js?id=UA-18588101-1"
+            />
+            <Script
+                id="google-analytics"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-18588101-1', {
+            page_path: window.location.pathname,
+            });
+            `,
+                }}
+            />
             <Component {...pageProps} />
-        </DndProvider>
+        </>
     )
 }
 

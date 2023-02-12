@@ -1,28 +1,29 @@
 import Head from 'next/head'
 
-import Layout from '../../components/Layout'
 import WorkHeader from '../../components/WorkHeader'
 import { palettes } from '../../utils/colorUtils'
+import Header from '../../components/Header'
+import pages from '../../utils/pages.json'
+import Footer from '../../components/Footer'
 
-const title =
-    'Work: Comparisons | John the Designer – Boston-Area Product Designer John Livornese'
-const description =
-    'An example of some of my recent work in a product design role'
+const { title, description, image, path } = pages.comparisons
 
 const Comparisons = () => {
     return (
-        <main className="work-item-page">
-            <Layout>
+        <>
+            <main className="work-item-page">
                 <Head>
                     <title>{title}</title>
                     <meta property="og:title" content={title} key="title" />
                     <meta name="description" content={description} />
+                    <meta name="og:image" content={image} />
                 </Head>
                 <div id="main">
+                    <Header blue />
                     <WorkHeader
                         superHead="Comparing Time Periods"
                         headline="Learn from history or be doomed to repeat it."
-                        palette={palettes.green}
+                        palette={palettes.blue}
                     />
                     <div className="work__copy">
                         <h3>What was the problem?</h3>
@@ -118,8 +119,9 @@ const Comparisons = () => {
                         </p>
                     </div>
                 </div>
-            </Layout>
-        </main>
+            </main>
+            <Footer />
+        </>
     )
 }
 
