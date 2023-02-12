@@ -177,14 +177,14 @@ export default function Home() {
                         caption="Foundational product design process"
                         thumbnail="/work/thumbnails/upstart.png"
                         logo="/work/logos/upstart.png"
-                        flag="Coming Soon"
+                        flag="Case Study Coming Soon"
                     />
                     <Feature
                         title="A Visual Spreadsheet Model"
                         caption="Reigning in the chaos"
                         thumbnail="/work/thumbnails/visual-spreadsheet.png"
                         logo="/work/logos/tableau-salesforce.png"
-                        flag="Coming Soon"
+                        flag="Case Study Coming Soon"
                     />
                     <Feature
                         title="The Highlights Page"
