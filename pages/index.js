@@ -181,7 +181,7 @@ export default function Home() {
                     />
                     <Feature
                         title="A Visual Spreadsheet Model"
-                        caption="Lorem ipsum dolor sit amet"
+                        caption="Reigning in the chaos"
                         thumbnail="/work/thumbnails/visual-spreadsheet.png"
                         logo="/work/logos/tableau-salesforce.png"
                         flag="Coming Soon"
@@ -293,7 +293,7 @@ export default function Home() {
                         byline={'Michelle R.'}
                         bytitle={'Director of Product Managment'}
                         byimage={'/endorsements/michelle.jpg'}
-                        size={'1.25rem'}
+                        size={'.875em'}
                     />
                     <Endorsement
                         palette={palettes.red}
@@ -303,7 +303,7 @@ export default function Home() {
                         byline={'@Gabe O.'}
                         bytitle={'Product Designer'}
                         byimage={'/endorsements/gabe.jpg'}
-                        size={'1rem'}
+                        size={'.75em'}
                     />
                     <Endorsement
                         palette={palettes.blue}
@@ -313,7 +313,7 @@ export default function Home() {
                         byline={'Steph B.'}
                         bytitle={'Senior Product Designer'}
                         byimage={'/endorsements/steph.jpg'}
-                        size={'1rem'}
+                        size={'.75em'}
                     />
                 </div>
             </div>

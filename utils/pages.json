@@ -4,14 +4,14 @@
         "title": "John the Designer – Boston-Area Product Designer John Livornese",
         "description": "This is my \"personal website\", but you know, not too personal. Check out my work, or get in touch and we can talk product design, engineering or Celtics basketball.",
         "image": "/social-img.png",
-        "path": "/business-members",
+        "path": "/",
         "inSitemap": true
     },
     "answersFirst": {
         "label": "Answers First",
         "title": "Case Study: \"Answers First\" | John the Designer – Boston-Area Product Designer John Livornese",
         "description": "An example of some of my recent work in a product design role",
-        "image": "/work/thumbnails/answers-first.png",
+        "image": "/social-img.png",
         "path": "/work/answers-first",
         "inSitemap": true
     },
@@ -19,7 +19,7 @@
         "label": "Colors",
         "title": "Case Study: \"Great Color Palettes\" | John the Designer – Boston-Area Product Designer John Livornese",
         "description": "An example of some of my recent work in a product design role",
-        "image": "/work/thumbnails/color-palettes.png",
+        "image": "/social-img.png",
         "path": "/work/colors",
         "inSitemap": true
     },
@@ -27,16 +27,16 @@
         "label": "Colors",
         "title": "Case Study: \"Great Color Palettes\" | John the Designer – Boston-Area Product Designer John Livornese",
         "description": "An example of some of my recent work in a product design role",
-        "image": "/work/thumbnails/comparison.png",
-        "path": "/work/colors",
+        "image": "/social-img.png",
+        "path": "/work/comparisons",
         "inSitemap": true
     },
     "highlights": {
         "label": "Colors",
         "title": "Case Study: \"Great Color Palettes\" | John the Designer – Boston-Area Product Designer John Livornese",
         "description": "An example of some of my recent work in a product design role",
-        "image": "/work/thumbnails/highlights.png",
-        "path": "/work/colors",
+        "image": "/social-img.png",
+        "path": "/work/highlights",
         "inSitemap": true
     }
 }
