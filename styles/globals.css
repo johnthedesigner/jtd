@@ -342,6 +342,25 @@ a:hover {
     width: 20em;
     cursor: pointer;
     overflow: hidden;
+    position: relative;
+}
+
+.home-hero__logo:before {
+    content: ' ';
+    background: linear-gradient(to bottom, white, var(--blue-0));
+    border-radius: 5rem;
+    border: var(--blue-1) solid 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: all ease-in-out 0.1s;
+    opacity: 0;
+}
+
+.home-hero__logo:hover:before {
+    opacity: 0.5;
 }
 
 .sketch-logo {
