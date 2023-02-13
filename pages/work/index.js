@@ -15,8 +15,8 @@ const Work = () => {
                 <span className="table-of-contents__name">
                     <strong>{index + 1}.</strong> <em>{name}</em>
                 </span>
-                <Link href={path}>
-                    <a className="table-of-contents__link">{caption}</a>
+                <Link href={path} className="table-of-contents__link">
+                    {caption}
                 </Link>
             </div>
         )

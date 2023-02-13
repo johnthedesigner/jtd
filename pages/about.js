@@ -105,10 +105,7 @@ const About = () => {
                         <br />
                         <br />
                         Since you&apos;re here, why not check out some of my
-                        <Link href="/work">
-                            <a> work</a>
-                        </Link>
-                        , or you could&nbsp;
+                        <Link href="/work"> work</Link>, or you could&nbsp;
                         <a href="mailto:john@johnthedesigner.com">
                             get in touch
                         </a>

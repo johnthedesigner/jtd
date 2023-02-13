@@ -161,20 +161,23 @@ const Header = ({ route }) => {
                     <nav className="global-nav__menu">
                         <ul className="global-nav__menu-list">
                             <li className="global-nav__menu-item">
-                                <Link href="/">
-                                    <a className="global-nav__link">Home</a>
+                                <Link href="/" className="global-nav__link">
+                                    Home
                                 </Link>
                                 <BlinkingCursor linkPath={'/'} />
                             </li>
                             <li className="global-nav__menu-item">
-                                <Link href="/work">
-                                    <a className="global-nav__link">Work</a>
+                                <Link href="/work" className="global-nav__link">
+                                    Work
                                 </Link>
                                 <BlinkingCursor linkPath={'/work'} />
                             </li>
                             <li className="global-nav__menu-item">
-                                <Link href="/about">
-                                    <a className="global-nav__link">About</a>
+                                <Link
+                                    href="/about"
+                                    className="global-nav__link"
+                                >
+                                    About
                                 </Link>
                                 <BlinkingCursor linkPath={'/about'} />
                             </li>
