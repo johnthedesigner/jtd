@@ -85,12 +85,14 @@ export default function Reducer(state, a) {
             } else {
                 newLayer = newLayers[a.layerType]()
             }
+            console.log(newLayer)
             newLayer.id = uuidv4()
             // Put layer in the middle of visible area
+            console.log(a)
             newLayer.adjustments.dimensions.x =
-                a.offset.x - newLayer.adjustments.dimensions.width / 2
+                a.offset.x / 2 - newLayer.adjustments.dimensions.width / 2
             newLayer.adjustments.dimensions.y =
-                a.offset.y - newLayer.adjustments.dimensions.height / 2
+                a.offset.y / 2 - newLayer.adjustments.dimensions.height / 2
             newLayer.order = _.keys(newState.artboard.layers).length + 1
             newState.artboard.layers[newLayer.id] = newLayer
             newState.artboard.selections = [newLayer.id]

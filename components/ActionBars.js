@@ -34,7 +34,7 @@ const ActionBars = (props) => {
         return () => {
             viewbox.removeEventListener('scroll', handleScroll)
         }
-    }, [props.scaleFactor])
+    }, [props.scaleFactor, layerOffsetX, layerOffsetY])
 
     const addEllipse = (e) => {
         e.target.blur()

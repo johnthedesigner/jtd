@@ -16,6 +16,13 @@ export const newLayers = {
                     mode: 'normal',
                     opacity: 1,
                 },
+                dimensions: {
+                    x: 200,
+                    y: 200,
+                    width: 600,
+                    height: 600,
+                    rotation: 0,
+                },
                 fill: {
                     type: 'color',
                     color: 'rgba(11,231,183,1)',
@@ -45,6 +52,13 @@ export const newLayers = {
                     mode: 'normal',
                     opacity: 1,
                 },
+                dimensions: {
+                    x: (1000 - image.width) / 2,
+                    y: (1000 - image.width) / 2,
+                    width: image.width,
+                    height: image.height,
+                    rotation: 0,
+                },
             },
         }
     },
@@ -64,6 +78,13 @@ export const newLayers = {
                 blending: {
                     mode: 'normal',
                     opacity: 1,
+                },
+                dimensions: {
+                    x: 200,
+                    y: 200,
+                    width: 600,
+                    height: 600,
+                    rotation: 0,
                 },
                 fill: {
                     type: 'gradient',
@@ -97,6 +118,13 @@ export const newLayers = {
                 blending: {
                     mode: 'normal',
                     opacity: 1,
+                },
+                dimensions: {
+                    x: 300,
+                    y: 450,
+                    width: 400,
+                    height: 200,
+                    rotation: 0,
                 },
                 text: {
                     align: 'left',
