@@ -181,7 +181,7 @@ export default function Home() {
                     />
                     <Feature
                         title="A Visual Spreadsheet Model"
-                        caption="Reigning in the chaos"
+                        caption="Can a spreadsheet be fun?"
                         thumbnail="/work/thumbnails/visual-spreadsheet.png"
                         logo="/work/logos/tableau-salesforce.png"
                         flag="Case Study Coming Soon"
