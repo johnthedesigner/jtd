@@ -1,7 +1,22 @@
+import { useRouter } from 'next/router'
 import Script from 'next/script'
+import { useEffect } from 'react'
+import { CookiesProvider } from 'react-cookie'
 import '../styles/globals.css'
+import * as gtag from '../utils/gtag'
 
 function MyApp({ Component, pageProps }) {
+    const router = useRouter()
+
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+            gtag.pageview(url)
+        }
+        router.events.on('routeChangeComplete', handleRouteChange)
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [router.events])
     return (
         <>
             <Script
@@ -22,7 +37,9 @@ function MyApp({ Component, pageProps }) {
             `,
                 }}
             />
-            <Component {...pageProps} />
+            <CookiesProvider>
+                <Component {...pageProps} />
+            </CookiesProvider>
         </>
     )
 }

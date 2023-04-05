@@ -85,9 +85,10 @@ const Header = ({ blue }) => {
                                 path="/John-Livornese-Resume_2023-02.pdf"
                                 desktop
                             >
-                                My Resume
+                                My Résumé
                             </NavLink>
                         </li>
+                        <li className="global-nav__spacer" />
                         <li className="global-nav__item">
                             <NavLink
                                 title="John Livornese on LinkedIn"
@@ -152,7 +153,7 @@ const Header = ({ blue }) => {
                                 path="/John-Livornese-Resume_2023-02.pdf"
                                 desktop
                             >
-                                My Resume
+                                My Résumé
                             </NavLink>
                         </li>
                     </ul>

@@ -164,57 +164,6 @@ export default function Home() {
                 </div>
             </div>
             <div className="home-features">
-                <div id="work" className="home-features__intro">
-                    <h2 className="home-features__title">Past Work</h2>
-                    {/* <p className="home-features__intro-text">
-                        I turn complicated design problems into simple and
-                        beautiful websites & apps.
-                    </p> */}
-                </div>
-                <div className="home-features__list">
-                    <Feature
-                        title="Hit the Ground Running"
-                        caption="Foundational product design process"
-                        thumbnail="/work/thumbnails/upstart.png"
-                        logo="/work/logos/upstart.png"
-                        flag="Case Study Coming Soon"
-                    />
-                    <Feature
-                        title="A Visual Spreadsheet Model"
-                        caption="Can a spreadsheet be fun?"
-                        thumbnail="/work/thumbnails/visual-spreadsheet.png"
-                        logo="/work/logos/tableau-salesforce.png"
-                        flag="Case Study Coming Soon"
-                    />
-                    <Feature
-                        title="The Highlights Page"
-                        caption="The cornerstone of our UI"
-                        thumbnail="/work/thumbnails/highlights.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/highlights"
-                    />
-                    <Feature
-                        title="Making Great Color Palettes"
-                        caption="Which blue should I use?"
-                        thumbnail="/work/thumbnails/color-palettes.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/colors"
-                    />
-                    <Feature
-                        title="Answers First"
-                        caption="How to eliminate “Analysis Paralysis”"
-                        thumbnail="/work/thumbnails/answers-first.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/answers-first"
-                    />
-                    <Feature
-                        title="Comparing Time Periods"
-                        caption="What even happened last week?"
-                        thumbnail="/work/thumbnails/comparison.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/comparisons"
-                    />
-                </div>
                 <div
                     id="about"
                     className="home-features__intro"
@@ -278,6 +227,58 @@ export default function Home() {
                         talk design or whatever, no pressure.
                     </p>
                 </div>
+                <div id="work" className="home-features__intro">
+                    <h2 className="home-features__title">Past Work</h2>
+                    {/* <p className="home-features__intro-text">
+                        I turn complicated design problems into simple and
+                        beautiful websites & apps.
+                    </p> */}
+                </div>
+                <div className="home-features__list">
+                    <Feature
+                        title="Answers First"
+                        caption="How to eliminate “Analysis Paralysis”"
+                        thumbnail="/work/thumbnails/answers-first.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/answers-first"
+                    />
+                    <Feature
+                        title="Making Great Color Palettes"
+                        caption="Which blue should I use?"
+                        thumbnail="/work/thumbnails/color-palettes.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/colors"
+                    />
+                    <Feature
+                        title="Tableau Scenario Planner"
+                        caption="Planning Better Together"
+                        thumbnail="/work/thumbnails/visual-spreadsheet.png"
+                        logo="/work/logos/tableau-salesforce.png"
+                        path="/work/scenario-planning"
+                    />
+                    {/* <Feature
+                        title="Hit the Ground Running"
+                        caption="Foundational product design process"
+                        thumbnail="/work/thumbnails/upstart.png"
+                        logo="/work/logos/upstart.png"
+                        flag="Just Added"
+                        path="/work/design-foundation"
+                    />
+                    <Feature
+                        title="The Highlights Page"
+                        caption="The cornerstone of our UI"
+                        thumbnail="/work/thumbnails/highlights.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/highlights"
+                    />
+                    <Feature
+                        title="Comparing Time Periods"
+                        caption="What even happened last week?"
+                        thumbnail="/work/thumbnails/comparison.png"
+                        logo="/work/logos/luminoso.png"
+                        path="/work/comparisons"
+                    /> */}
+                </div>
                 <div
                     className="home-features__intro"
                     style={{ marginTop: '4rem' }}
@@ -286,24 +287,24 @@ export default function Home() {
                 </div>
                 <div className="home-features__endorsement-list">
                     <Endorsement
-                        palette={palettes.yellow}
+                        palette={palettes.purple}
                         text={
                             '...The best way I can describe working with John is "effortless"... John is collaborative and flexible, while remaining a decisive advocate for his perspective. His sense of humor, positivity, and humbleness uplifts any team he is working with...'
                         }
                         byline={'Michelle R.'}
                         bytitle={'Director of Product Managment'}
                         byimage={'/endorsements/michelle.jpg'}
-                        size={'.875em'}
+                        size={'.75em'}
                     />
                     <Endorsement
-                        palette={palettes.red}
+                        palette={palettes.teal}
                         text={
                             'John is one of the most deliberate, thoughtful, and intentional designers I’ve worked with. I was fortunate to collaborate with him on improving our company’s design challenge interview, where he married prior experience with present circumstances to vastly improve the efficacy of our candidate interview process... Any design team would be lucky to have John in their corner!'
                         }
                         byline={'@Gabe O.'}
                         bytitle={'Product Designer'}
                         byimage={'/endorsements/gabe.jpg'}
-                        size={'.75em'}
+                        size={'.675em'}
                     />
                     <Endorsement
                         palette={palettes.blue}
@@ -313,7 +314,7 @@ export default function Home() {
                         byline={'Steph B.'}
                         bytitle={'Senior Product Designer'}
                         byimage={'/endorsements/steph.jpg'}
-                        size={'.75em'}
+                        size={'.675em'}
                     />
                 </div>
             </div>
