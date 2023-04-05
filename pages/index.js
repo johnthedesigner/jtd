@@ -309,12 +309,12 @@ export default function Home() {
                     <Endorsement
                         palette={palettes.blue}
                         text={
-                            'John was my manager at Luminoso for just shy of three years. In that time, he was an insightful voice of leadership for the broader team and was clearly interested in empowering me in my career. Whenever I had questions or concerns about a project, he was eager to help me untangle the issue. If I had a new product idea, or a concern, he was always supportive and willing to listen...'
+                            '...John and I collaborated on two different products (each of us owned one) and it was clear from day one his skillset was unique. He had the innate ability to tackle a problem with scalability and consistency at the forefront, something I believe we really needed across both of our products... I have worked with a number of designers in my career and I would have to say his approach has been one of the most thought out and effective approaches I have seen. Not only did he move fast, every decision was intentional and moved the needle forward...'
                         }
-                        byline={'Steph B.'}
-                        bytitle={'Senior Product Designer'}
-                        byimage={'/endorsements/steph.jpg'}
-                        size={'.675em'}
+                        byline={'Darsh K.'}
+                        bytitle={'Product Design Manager'}
+                        byimage={'/endorsements/darsh.jpg'}
+                        size={'.6125em'}
                     />
                 </div>
             </div>
