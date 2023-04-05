@@ -10,7 +10,7 @@
     "answersFirst": {
         "label": "Answers First",
         "title": "Case Study: \"Answers First\" | John the Designer – Boston-Area Product Designer John Livornese",
-        "description": "An example of some of my recent work in a product design role",
+        "description": "How I redesigned and reorganized our flagship product to produce better analytics outcomes and make our product easier to use and easier to sell",
         "image": "/social-img.png",
         "path": "/work/answers-first",
         "inSitemap": true
@@ -18,25 +18,17 @@
     "colors": {
         "label": "Colors",
         "title": "Case Study: \"Great Color Palettes\" | John the Designer – Boston-Area Product Designer John Livornese",
-        "description": "An example of some of my recent work in a product design role",
+        "description": "Designing a Figma plugin for generating powerful color palette tokens for digital design systems",
         "image": "/social-img.png",
         "path": "/work/colors",
         "inSitemap": true
     },
-    "comparisons": {
-        "label": "Colors",
-        "title": "Case Study: \"Great Color Palettes\" | John the Designer – Boston-Area Product Designer John Livornese",
-        "description": "An example of some of my recent work in a product design role",
+    "scenarioPlanning": {
+        "label": "Scenario Planning",
+        "title": "Case Study: \"Tableau Scenario Planning\" | John the Designer – Boston-Area Product Designer John Livornese",
+        "description": "Foundational design work for a brand-new Tableau product for building collaborative, accessible scenario planning models and visualizations",
         "image": "/social-img.png",
-        "path": "/work/comparisons",
-        "inSitemap": true
-    },
-    "highlights": {
-        "label": "Colors",
-        "title": "Case Study: \"Great Color Palettes\" | John the Designer – Boston-Area Product Designer John Livornese",
-        "description": "An example of some of my recent work in a product design role",
-        "image": "/social-img.png",
-        "path": "/work/highlights",
+        "path": "/work/scenario-planning",
         "inSitemap": true
     }
 }
