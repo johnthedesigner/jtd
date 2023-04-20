@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { CookiesProvider } from 'react-cookie'
 import '../styles/globals.css'
 import * as gtag from '../utils/gtag'
+import { Analytics } from '@vercel/analytics/react'
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter()
@@ -39,6 +40,7 @@ function MyApp({ Component, pageProps }) {
             />
             <CookiesProvider>
                 <Component {...pageProps} />
+                <Analytics />
             </CookiesProvider>
         </>
     )
