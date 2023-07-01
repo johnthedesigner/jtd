@@ -38,6 +38,18 @@ function MyApp({ Component, pageProps }) {
             `,
                 }}
             />
+            <Script
+                strategy="afterInteractive"
+                src="https://www.googletagmanager.com/gtag/js?id=G-3FS5NPTT0B"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){window.dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-3FS5NPTT0B');
+                `}
+            </Script>
             <CookiesProvider>
                 <Component {...pageProps} />
                 <Analytics />
