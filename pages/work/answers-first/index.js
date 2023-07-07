@@ -51,7 +51,7 @@ const AnswersFirst = () => {
                                 launched a reimagined end-to-end workflow. The
                                 new product was easier to learn, allowed
                                 analysts to complete their analysis within
-                                Daylight, and even made the product eaier to
+                                Daylight, and even made the product easier to
                                 sell.
                             </p>
                         </div>
