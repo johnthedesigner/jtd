@@ -2,7 +2,12 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { palettes } from '../utils/colorUtils'
 
-import { InstagramIcon, LinkedinIcon, TwitterIcon } from './SocialIcons'
+import {
+    InstagramIcon,
+    LinkedinIcon,
+    ThreadsIcon,
+    TwitterIcon,
+} from './SocialIcons'
 
 const Header = ({ blue }) => {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -96,6 +101,15 @@ const Header = ({ blue }) => {
                                 newTab
                             >
                                 <LinkedinIcon color="currentcolor" />
+                            </NavLink>
+                        </li>
+                        <li className="global-nav__item">
+                            <NavLink
+                                title="John Livornese on Threads"
+                                path="https://threads.net/johnthedesigner/"
+                                newTab
+                            >
+                                <ThreadsIcon color="currentcolor" />
                             </NavLink>
                         </li>
                         <li className="global-nav__item">
