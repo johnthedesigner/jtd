@@ -243,7 +243,7 @@ export default function Home() {
                         path="/work/answers-first"
                     />
                     <Feature
-                        title="Making Great Color Palettes"
+                        title="Great Design System Color Palettes"
                         caption="Which blue should I use?"
                         thumbnail="/work/thumbnails/color-palettes.png"
                         logo="/work/logos/luminoso.png"

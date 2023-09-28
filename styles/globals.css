@@ -1417,6 +1417,7 @@ iframe,
 
 .new-case-study__hero-content {
     margin: 8rem auto -2rem;
+    max-width: 90vw;
 }
 
 .new-case-study__title {

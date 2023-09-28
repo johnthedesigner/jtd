@@ -377,8 +377,8 @@ const Paletteer = () => {
                             A Refined Palette
                         </h1>
                         <h2 className="new-case-study__subtitle">
-                            Building the color palette you're going to need
-                            later
+                            Starting with the color tokens your design system
+                            really needs
                         </h2>
                     </div>
                     <Image
@@ -394,33 +394,35 @@ const Paletteer = () => {
                         <div className="tldr__main">
                             <h2 className="tldr__title">TL;DR</h2>
                             <p className="tldr__text">
-                                I was hired to join a new team at Tableau tasked
-                                with building a new product for scenario
-                                planning. I identified a common schema for
-                                scenario planning models, designed a visual
-                                model editor that could show the underlying
-                                structure and relationships of the model and
-                                paired that with automatically generated
-                                visualizations optimized for comparing outcomes
-                                and making informed decisions.
+                                This project was born out of an effort to
+                                incorporate our growing design system into our
+                                application's aging codebase. A particular
+                                pain-point was our inconsistent use of color. I
+                                coded an internal tool that allowed me to
+                                generate accessible, flexible color palettes.
+                                Engineers could use the tool to generate code
+                                snippets with color tokens, identify the correct
+                                replacement color for out-of-palette colors and
+                                more. Since then I independently developed this
+                                tool into a Figma plugin with over 10,000 users.
                             </p>
                         </div>
                         <div className="tldr__aside">
                             <h4 className="tldr__aside-title">My Role</h4>
                             <p className="tldr__aside-text">
-                                As a Product Design Lead, I led design for this
-                                project, and did the bulk of the design work
-                                with support and collaboration from the Tableau
-                                UX team.
+                                I coded the original internal tool, including
+                                the unique color generation script myself while
+                                I was working as the Head of Product Design at
+                                Luminoso. I coded and maintain the subsequent
+                                Figma plugin myself.
                             </p>
                             <h4 className="tldr__aside-title">Outcome</h4>
                             <p className="tldr__aside-text">
-                                By designing, building and testing early
-                                prototypes we confirmed our hypotheses around
-                                model structure and the market's need for more
-                                collaborative features and secured approval to
-                                increase hiring and announce this product at our
-                                annual convention.
+                                While working at Luminoso I used this tool to
+                                generate color tokens that helped speed
+                                communication between design and engineering,
+                                and helped engineers audit our codebase toward
+                                consistency with our design system.
                             </p>
                         </div>
                     </div>
@@ -438,11 +440,11 @@ const Paletteer = () => {
                                 the color palette has grown to three times its
                                 original size, there are 16 colors in the
                                 codebase just for buttons... wait, who made this
-                                button "electric blueberry" for this CTA?
+                                button <em>"electric blueberry"</em>?
                             </p>
                             <p>
-                                Picking a color palette for digital design is
-                                complicated. Your carefully assembled color
+                                Creating a color palette for your design system
+                                is complicated. Your carefully assembled color
                                 palette can start to expand to accomodate
                                 interaction states, visual hierarchy,
                                 accessibility concerns and other realities of
