@@ -237,21 +237,21 @@ export default function Home() {
                 <div className="home-features__list">
                     <Feature
                         title="Answers First"
-                        caption="How to eliminate “Analysis Paralysis”"
+                        caption="Eliminating “Analysis Paralysis” with automatic text analytics"
                         thumbnail="/work/thumbnails/answers-first.png"
                         logo="/work/logos/luminoso.png"
                         path="/work/answers-first"
                     />
                     <Feature
-                        title="Great Design System Color Palettes"
-                        caption="Which blue should I use?"
+                        title="Great Design System Color Tokens"
+                        caption="Building an application to generate the color tokens your design system really needs"
                         thumbnail="/work/thumbnails/color-palettes.png"
                         logo="/work/logos/luminoso.png"
                         path="/work/colors"
                     />
                     <Feature
                         title="Tableau Scenario Planner"
-                        caption="Planning Better Together"
+                        caption="Designing a new product @ Tableau"
                         thumbnail="/work/thumbnails/visual-spreadsheet.png"
                         logo="/work/logos/tableau-salesforce.png"
                         path="/work/scenario-planning"

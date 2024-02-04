@@ -396,15 +396,16 @@ const Paletteer = () => {
                             <p className="tldr__text">
                                 This project was born out of an effort to
                                 incorporate our growing design system into our
-                                application's aging codebase. A particular
-                                pain-point was our inconsistent use of color. I
-                                coded an internal tool that allowed me to
-                                generate accessible, flexible color palettes.
-                                Engineers could use the tool to generate code
-                                snippets with color tokens, identify the correct
-                                replacement color for out-of-palette colors and
-                                more. Since then I independently developed this
-                                tool into a Figma plugin with over 10,000 users.
+                                application's aging codebase at Luminoso. A
+                                particular pain-point was our inconsistent use
+                                of color. I coded an internal tool that allowed
+                                me to generate accessible, flexible color
+                                palettes. Engineers could use the tool to
+                                generate code snippets with color tokens,
+                                identify the correct replacement color for
+                                out-of-palette colors and more. Since then I
+                                independently developed this tool into a Figma
+                                plugin with over 10,000 users.
                             </p>
                         </div>
                         <div className="tldr__aside">
@@ -443,16 +444,19 @@ const Paletteer = () => {
                                 button <em>"electric blueberry"</em>?
                             </p>
                             <p>
-                                Creating a color palette for your design system
-                                is complicated. Your carefully assembled color
-                                palette can start to expand to accomodate
-                                interaction states, visual hierarchy,
-                                accessibility concerns and other realities of
-                                maintaining an application in the long term. As
-                                the palette grows, these new colors fall into
+                                Color usage is just one way in which your design
+                                system can get out of hand. Your carefully
+                                assembled color palette can start to expand to
+                                accomodate your design system's interaction
+                                states, visual hierarchy, accessibility
+                                concerns, and other realities of maintaining an
+                                application in the long term. As the design
+                                system grows, these new colors fall into
                                 inconsistent use and inconsistent naming
                                 practices. Engineers are less certain of which
                                 colors to use and when to choose a new one.
+                                Color usage in your application becomes less
+                                meaningful, purposeful and accessible.
                             </p>
                         </div>
                     </div>
@@ -489,17 +493,18 @@ const Paletteer = () => {
                         <div className="page-section__text-container">
                             <h3>Making it easier to get started</h3>
                             <p>
-                                Our team needed help organizing the transition
-                                to our new color palette, so I deployed my
-                                palette generator internally as a web app. In
+                                Our team needed help organizing the
+                                implementation of our design system and its more
+                                deliberate color palette, so I built a set of
+                                internal tools to make things easier. In
                                 addition to generating arrays of color
-                                variations the app supported an array of
-                                features for the team. The colors could be
-                                output as JS objects or CSS variables so they
-                                could be easily incorporated into our codebase.
-                                In addition, engineers could supply a hex code
-                                or RGB value from the codebase and find out
-                                which color from the new color palette most
+                                variations there were a number of features for
+                                the engineering and design teams. The colors
+                                could be output as JS objects or CSS variables
+                                so they could be easily incorporated into our
+                                codebase. In addition, engineers could supply a
+                                hex code or RGB value from the codebase and find
+                                out which color from the new color palette most
                                 closely matched that color, significantly
                                 accellerating the clean-up color of our UI.
                             </p>
