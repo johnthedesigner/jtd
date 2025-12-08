@@ -56,24 +56,28 @@ const AnswersFirst = () => {
                             </p>
                         </div>
                         <div className="tldr__aside">
-                            <h4 className="tldr__aside-title">My Role</h4>
-                            <p className="tldr__aside-text">
-                                As a Head of Product Design at Luminoso, I
-                                proposed this update, set a new product roadmap
-                                and acted as design lead. I led research
-                                studies, like stakeholder interviews and
-                                usability studies.
-                            </p>
-                            <h4 className="tldr__aside-title">Outcome</h4>
-                            <p className="tldr__aside-text">
-                                Analytics showed steadily increasing usage in
-                                total and on an average user basis throughout
-                                the incremental release of these updates and
-                                after. We measurably decreased customer reliance
-                                on Excel to complete their analyses. The sales
-                                and client services team cited less reliance on
-                                documentation and hands-on instruction.
-                            </p>
+                            <div>
+                                <h4 className="tldr__aside-title">My Role</h4>
+                                <p className="tldr__aside-text">
+                                    As a Head of Product Design at Luminoso, I
+                                    proposed this update, set a new product roadmap
+                                    and acted as design lead. I led research
+                                    studies, like stakeholder interviews and
+                                    usability studies.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="tldr__aside-title">Outcome</h4>
+                                <p className="tldr__aside-text">
+                                    Analytics showed steadily increasing usage in
+                                    total and on an average user basis throughout
+                                    the incremental release of these updates and
+                                    after. We measurably decreased customer reliance
+                                    on Excel to complete their analyses. The sales
+                                    and client services team cited less reliance on
+                                    documentation and hands-on instruction.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -83,13 +87,13 @@ const AnswersFirst = () => {
                         <div className="page-section__text-container">
                             <h2 className="page-section__title">
                                 We need{' '}
-                                <span className="highlight-text--purple">
+                                <span className="highlight-text--yellow">
                                     “Answers First”
                                 </span>
                                 .
                             </h2>
                             <h4>
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     Some Backstory...
                                 </span>
                             </h4>
@@ -103,7 +107,7 @@ const AnswersFirst = () => {
                                 really powerful.
                             </p>
                             <h4>
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     Users were unhappy with the UX
                                 </span>
                             </h4>
@@ -121,7 +125,7 @@ const AnswersFirst = () => {
                                 organizations.
                             </p>
                             <h4>
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     The Idea
                                 </span>
                             </h4>
@@ -358,7 +362,7 @@ const AnswersFirst = () => {
                                 text analytics tool that they are trying to
                                 avoid reading documents, but that's not quite
                                 true. What they really want to do is to read{' '}
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     the right
                                 </span>{' '}
                                 documents.
@@ -368,7 +372,7 @@ const AnswersFirst = () => {
                                 measure different topics in a unique way, but in
                                 the end you still need more context to
                                 understand what a topic{' '}
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     really means
                                 </span>
                                 .
@@ -562,14 +566,13 @@ const AnswersFirst = () => {
                                     marginTop: '6rem',
                                 }}
                             >
-                                <Link className="button" href="/#work">
+                                <Link className="button" href="/work">
                                     See More Work
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <Footer />
             </div>
         </>
     )

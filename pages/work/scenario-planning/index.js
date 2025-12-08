@@ -53,22 +53,26 @@ const ScenarioPlanning = () => {
                             </p>
                         </div>
                         <div className="tldr__aside">
-                            <h4 className="tldr__aside-title">My Role</h4>
-                            <p className="tldr__aside-text">
-                                As a Product Design Lead, I led design for this
-                                project, and did the bulk of the design work
-                                with support and collaboration from the Tableau
-                                UX team.
-                            </p>
-                            <h4 className="tldr__aside-title">Outcome</h4>
-                            <p className="tldr__aside-text">
-                                By designing, building and testing early
-                                prototypes we confirmed our hypotheses around
-                                model structure and the market's need for more
-                                collaborative features and secured approval to
-                                increase hiring and announce this product at our
-                                annual convention.
-                            </p>
+                            <div>
+                                <h4 className="tldr__aside-title">My Role</h4>
+                                <p className="tldr__aside-text">
+                                    As a Product Design Lead, I led design for this
+                                    project, and did the bulk of the design work
+                                    with support and collaboration from the Tableau
+                                    UX team.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="tldr__aside-title">Outcome</h4>
+                                <p className="tldr__aside-text">
+                                    By designing, building and testing early
+                                    prototypes we confirmed our hypotheses around
+                                    model structure and the market's need for more
+                                    collaborative features and secured approval to
+                                    increase hiring and announce this product at our
+                                    annual convention.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -607,15 +611,14 @@ const ScenarioPlanning = () => {
                                     marginTop: '6rem',
                                 }}
                             >
-                                <Link className="button" href="/#work">
+                                <Link className="button" href="/work">
                                     See More Work
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <Footer />
-            </div>
+            </div >
         </>
     )
 }
