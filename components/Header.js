@@ -159,17 +159,17 @@ const Header = ({ blue }) => {
                             </NavLink>
                         </li>
                         <li className="mobile-nav__item">
-                            <NavLink title="Work" path="/#work" desktop>
+                            <NavLink title="Work" path="/work" desktop>
                                 Work
                             </NavLink>
                         </li>
                         <li className="mobile-nav__item">
-                            <NavLink title="About" path="/#about" desktop>
+                            <NavLink title="About" path="/about" desktop>
                                 About
                             </NavLink>
                         </li>
                         <li className="mobile-nav__item">
-                            <NavLink title="Contact" path="/#contact" desktop>
+                            <NavLink title="Contact" path="#contact" desktop>
                                 Contact
                             </NavLink>
                         </li>
