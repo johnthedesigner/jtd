@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { palettes } from '../utils/colorUtils'
+import { useRouter } from 'next/router'
 
 import {
     InstagramIcon,
@@ -11,15 +12,18 @@ import {
 
 const Header = ({ blue }) => {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
+    const router = useRouter()
+    const { pathname } = router
 
     const NavLink = ({ children, title, path, newTab, desktop, className }) => {
         return (
             <Link
                 className={`global-nav__link ${blue && 'global-nav__link--blue'
-                    } ${className}`}
+                    } ${className} ${pathname === path ? 'global-nav__link--active' : ''}`}
                 href={path}
                 title={title}
                 target={newTab ? '_blank' : '_self'}
+                aria-current={pathname === path ? 'page' : undefined}
             >
                 {children}
             </Link>
@@ -31,38 +35,6 @@ const Header = ({ blue }) => {
             <header className="global-header">
                 <nav className="global-nav">
                     <ul className="global-nav__list">
-                        <li className="global-nav__item global-nav__item--mobile">
-                            <button
-                                className="mobile-nav__toggle"
-                                onClick={() => {
-                                    setMobileNavOpen(!mobileNavOpen)
-                                }}
-                            >
-                                <svg
-                                    width="64"
-                                    height="24"
-                                    viewBox="0 0 64 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <rect width="64" height="24" fill="none" />
-                                    <rect
-                                        y="4"
-                                        width="64"
-                                        height="3"
-                                        rx="1.5"
-                                        fill={palettes.black[8].value}
-                                    />
-                                    <rect
-                                        y="17"
-                                        width="64"
-                                        height="3"
-                                        rx="1.5"
-                                        fill={palettes.black[8].value}
-                                    />
-                                </svg>
-                            </button>
-                        </li>
                         <li className="global-nav__item global-nav__item--logo">
                             <NavLink title="John Livornese" path="/" className=" global-nav__logo-link--desktop">
                                 <svg className="global-nav__logo--desktop" width="90" height="41" viewBox="0 0 90 41" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,11 +60,11 @@ const Header = ({ blue }) => {
                                 About
                             </NavLink>
                         </li>
-                        <li className="global-nav__item global-nav__item--desktop">
+                        {/* <li className="global-nav__item global-nav__item--desktop">
                             <NavLink title="Contact" path="#contact" desktop>
                                 Contact
                             </NavLink>
-                        </li>
+                        </li> */}
                         <li className="global-nav__item global-nav__item--desktop">
                             <NavLink
                                 title="My Resume"
@@ -102,7 +74,7 @@ const Header = ({ blue }) => {
                                 My Résumé
                             </NavLink>
                         </li>
-                        <li className="global-nav__item">
+                        <li className="global-nav__item global-nav__item--desktop">
                             <NavLink
                                 title="John Livornese on LinkedIn"
                                 path="https://www.linkedin.com/in/johnlivornese/"
@@ -110,6 +82,47 @@ const Header = ({ blue }) => {
                             >
                                 <LinkedinIcon color="currentcolor" />
                             </NavLink>
+                        </li>
+                        <li className="global-nav__item global-nav__item--mobile">
+                            <button
+                                style={{ alignSelf: 'stretch' }}
+                                className="mobile-nav__toggle"
+                                onClick={() => {
+                                    setMobileNavOpen(!mobileNavOpen)
+                                }}
+                            >
+                                <svg
+                                    style={{ height: '100%', width: 'auto' }}
+                                    width="48"
+                                    height="26.5"
+                                    viewBox="0 0 48 26.5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect width="48" height="26.5" fill="none" />
+                                    <rect
+                                        y="0"
+                                        width="48"
+                                        height="3"
+                                        rx="1.5"
+                                        fill={palettes.black[0].value}
+                                    />
+                                    <rect
+                                        y="11"
+                                        width="48"
+                                        height="3"
+                                        rx="1.5"
+                                        fill={palettes.black[0].value}
+                                    />
+                                    <rect
+                                        y="22.5"
+                                        width="48"
+                                        height="3"
+                                        rx="1.5"
+                                        fill={palettes.black[0].value}
+                                    />
+                                </svg>
+                            </button>
                         </li>
                         {/* <li className="global-nav__item">
                             <NavLink

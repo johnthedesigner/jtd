@@ -12,6 +12,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import pages from '../utils/pages.json'
 import WorkItem from '../components/WorkItem'
+import caseStudies from '../utils/caseStudies'
 
 const { title, description, image, path } = pages.home
 
@@ -171,15 +172,16 @@ export default function Home() {
                 </div>
             </div>
             <div style={{ padding: '4rem 0 6rem', margin: '0 auto', width: '50rem', maxWidth: '90%' }}>
-                <h3 style={{ fontFamily: 'var(--primary-font)', fontSize: '1.5rem', fontWeight: 700, lineHeight: '1.5', margin: '1rem 2rem' }}>Case Studies</h3>
+                <h3 style={{ fontFamily: 'var(--blackletter-font)', fontSize: '3rem', fontWeight: 700, lineHeight: '1.5', margin: '1rem 2rem', textAlign: 'center' }}>Case Studies</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '1rem' }}>
-                    <WorkItem color1={palettes['caribbean-green']} color2={palettes['navy-blue']} item={{ company: "Salesforce", title: "Design Token Archaeology", description: "Explore the fascinating world of design tokens in our article \"Design Token Archaeology.\" We delve into the intricacies of various popular design systems, analyzing their strengths and weaknesses. Discover how these tokens shape the user experience and learn valuable lessons from their implementation. Join us as we uncover the best practices and pitfalls in the evolving landscape of design tokens." }} />
-                    <div style={{ height: '3rem', background: '#0FD398', borderRadius: '8px', padding: '0 2rem', display: 'flex', alignItems: 'center', gap: '2rem', cursor: 'pointer' }} onClick={() => router.push('/work')}>
-                        <span style={{ color: 'white', fontSize: '0.875rem', fontWeight: 700 }}>+3 more</span>
-                        <svg style={{ flex: 1 }} width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <WorkItem
+                        item={_.find(caseStudies, { homepage: true })} />
+                    <div className="case-studies-link" onClick={() => router.push('/work')}>
+                        <span className="case-studies-link__count">+3 more</span>
+                        <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
                         </svg>
-                        <span style={{ color: '#00703F', fontSize: '0.875rem', fontWeight: '900' }}>Go to the Case Studies</span>
+                        <span className="case-studies-link__label">Go to the Case Studies</span>
                     </div>
                 </div>
             </div>

@@ -74,6 +74,7 @@ const AboutPage = () => {
             <div className="page-body" style={{ padding: "0 4rem", margin: "0 auto", maxWidth: "800px" }}>
                 <div className="about-me">
                     <div style={{ margin: '2rem', border: `4px solid ${palettes['navy-blue'][5].value}`, borderRadius: '.5rem', overflow: 'hidden' }}>
+                        <img src="https://placehold.co/600x400" alt="John Livornese" style={{ width: '100%', height: 'auto', display: 'block' }} />
                     </div>
                     <p className="about-me__paragraph">
                         Hi! I’m John Livornese. I am a creative, strategic,

@@ -4,6 +4,7 @@ import { useContext } from 'react';
 // import Visibility from '@mui/icons-material/Visibility';
 // import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
+import Link from 'next/link';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -13,6 +14,7 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
+    DialogOverlay,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
@@ -20,6 +22,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import { PasswordProvider } from "../utils/context"
+import { Key, KeyRound } from 'lucide-react';
 
 // export const AuthButton = () => {
 //     const { authenticated, setDialogOpen } = useContext(PasswordProvider);
@@ -33,23 +36,23 @@ import { PasswordProvider } from "../utils/context"
 export const LogoutButton = () => {
     const { logout } = useContext(PasswordProvider);
     return (
-        <Button variant="contained" color="blue" onClick={logout}>
+        <button className="button" onClick={logout}>
             Log Out
-        </Button>
+        </button>
     );
 }
 
 const PasswordDialog = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const { authLoading, authenticated, passwordError, dialogOpen, setDialogOpen, handlePassword, logout } = useContext(PasswordProvider);
+    const { authLoading, authenticated, passwordError, handlePassword } = useContext(PasswordProvider);
     // const handleClose = () => {
     //     setDialogOpen(false);
     // };
 
     const submitPassword = async () => {
         await handlePassword(password);
-        setDialogOpen(false);
+        // setDialogOpen(false);
         setPassword('');
     };
 
@@ -61,9 +64,10 @@ const PasswordDialog = () => {
                 <Dialog>
                     <form>
                         <DialogTrigger asChild>
-                            <Button variant="outline">Open Dialog</Button>
+                            <button className="button"> <KeyRound style={{ display: 'inline' }} />Enter the Password</button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                        <DialogOverlay style={{ background: 'rgb(from var(--navy-blue-4) R G B / 0.5)', backdropFilter: 'blur(8px)' }} />
+                        <DialogContent className="auth-dialog">
                             {/* <DialogHeader> */}
                             {/* <img src="/work/paletteer/header.svg" alt="Header Image" style={{ width: '100%', height: 'auto', marginBottom: '1rem' }} /> */}
                             {/* <DialogTitle style={{ fontFamily: 'var(--primary-font)', fontSize: '1.5rem', margin: 0 }}>Got the password?</DialogTitle>
@@ -73,8 +77,8 @@ const PasswordDialog = () => {
                             {/* </DialogHeader> */}
                             <div className="grid gap-8">
                                 <div>
-                                    <DialogTitle style={{ fontFamily: 'var(--primary-font)', fontSize: '1.5rem', margin: '.5rem 0' }}>Got the password?</DialogTitle>
-                                    <DialogDescription style={{ margin: '.5rem 0' }}>
+                                    <DialogTitle style={{ fontFamily: 'var(--primary-font)', fontSize: '2rem', margin: '.5rem 0' }}>Got the password?</DialogTitle>
+                                    <DialogDescription style={{ fontSize: '1.25rem', margin: '.5rem 0', color: 'var(--main-font-color' }}>
                                         It's ok if not, just ask John.
                                     </DialogDescription>
                                 </div>
@@ -89,9 +93,9 @@ const PasswordDialog = () => {
                             </div>
                             <DialogFooter>
                                 <DialogClose asChild>
-                                    <Button variant="outline">Cancel</Button>
+                                    <button className="button button--outline-light" variant="outline">Cancel</button>
                                 </DialogClose>
-                                <Button type="submit" onClick={submitPassword} color="blue">Submit</Button>
+                                <button className="button button--light" type="submit" onClick={submitPassword}>Submit</button>
                             </DialogFooter>
                         </DialogContent>
                     </form>

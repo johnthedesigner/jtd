@@ -566,8 +566,12 @@ const AnswersFirst = () => {
                                     marginTop: '6rem',
                                 }}
                             >
-                                <Link className="button" href="/work">
-                                    See More Work
+                                <Link className="case-studies-link" href="/work">
+                                    <span className="case-studies-link__count">+3 more case studies</span>
+                                    <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                                    </svg>
+                                    <span className="case-studies-link__label">View 'em All</span>
                                 </Link>
                             </div>
                         </div>

@@ -5,10 +5,6 @@ const nextConfig = {
     // Allow mixed JS/TS during migration
     ignoreBuildErrors: true,
   },
-  eslint: {
-    // Allow mixed JS/TS during migration
-    ignoreDuringBuilds: true,
-  },
 }
 
 module.exports = nextConfig

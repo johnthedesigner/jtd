@@ -9,6 +9,7 @@ import { Analytics } from '@vercel/analytics/react'
 
 import { PasswordProvider } from '../utils/context'
 import Layout from '../components/Layout'
+import AuthNotice from '../components/AuthNotice'
 
 function MyApp({ Component, pageProps }) {
     // Password Protecting Case Studies
@@ -85,6 +86,7 @@ function MyApp({ Component, pageProps }) {
             {/* <Theme grayColor='gray' hasBackground={false} accentColor='#0069F0' radius="large" scaling="95%"> */}
             <CookiesProvider>
                 <PasswordProvider.Provider value={{ authLoading, authenticated, passwordError, dialogOpen, setDialogOpen, handlePassword, logout }}>
+                    {authenticated && <AuthNotice />}
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
