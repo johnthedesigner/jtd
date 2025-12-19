@@ -291,7 +291,6 @@ html {
     background-color: var(--body-bg-color);
     min-height: 100%;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 body {
@@ -303,7 +302,6 @@ body {
     background-size: 1rem 1rem;
     background-repeat: repeat;
     background-position: top center;
-    overflow: auto;
 }
 
 main {
