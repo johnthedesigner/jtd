@@ -10,8 +10,14 @@ import { palettes } from '../../../utils/colorUtils'
 import pages from '../../../utils/pages.json'
 import ActionIcon from '../../../components/ActionIcons'
 import generateColors from '../../../utils/generateColors'
+import caseStudies from '../../../utils/caseStudies'
+import PasswordProtect from '../../../components/PasswordProtect'
+import UnauthenticatedContent from '../../../components/UnauthenticatedCaseStudy'
 
 const { title, description, image } = pages.colors
+
+const caseStudy = caseStudies.find((cs) => cs.href === '/work/colors');
+const isPrivate = caseStudy ? caseStudy.private : false;
 
 const seedColors = [
     '#FF6C63',
@@ -25,19 +31,20 @@ const seedColors = [
 
 const defaultExampleColors = {
     cardBackground: 'white',
-    labelColor: palettes.grayscale[2],
-    buttonBackground: palettes.purple[5],
-    buttonOutline: palettes.purple[5],
-    outlineButtonText: palettes.purple[5],
-    linkText: palettes.purple[5],
-    headlineColor: palettes.purple[5],
-    iconColor: palettes.purple[5],
-    paragraphColor: palettes.grayscale[8],
+    labelColor: palettes.black[2].value,
+    buttonBackground: palettes['purple-heart'][5].value,
+    buttonOutline: palettes['purple-heart'][5].value,
+    outlineButtonText: palettes['purple-heart'][5].value,
+    linkText: palettes['purple-heart'][5].value,
+    headlineColor: palettes['purple-heart'][5].value,
+    iconColor: palettes['purple-heart'][5].value,
+    paragraphColor: palettes.black[8].value,
 }
 
+palettes.pur
 const initialPalette = generateColors(seedColors[5])
 
-const Paletteer = () => {
+const AuthenticatedContent = () => {
     const [seedInput, setSeedInput] = useState('#AA7DE4')
     const [seedColor, setSeedColor] = useState('#AA7DE4')
     const [palette, setPalette] = useState(initialPalette)
@@ -48,36 +55,36 @@ const Paletteer = () => {
     var examplePalettes = {
         light: {
             cardBackground: 'white',
-            labelColor: palettes.grayscale[2],
+            labelColor: palettes.black[6].value,
             buttonBackground: swatches[5].hex,
             buttonOutline: swatches[5].hex,
             outlineButtonText: swatches[5].hex,
             linkText: swatches[5].hex,
-            headlineColor: swatches[3].hex,
+            headlineColor: swatches[5].hex,
             iconColor: swatches[5].hex,
-            paragraphColor: palettes.grayscale[8],
+            paragraphColor: palettes.black[12].value,
         },
         dark: {
-            cardBackground: palettes.grayscale[9],
-            labelColor: palettes.grayscale[2],
+            cardBackground: palettes.black[13].value,
+            labelColor: palettes.black[2].value,
             buttonBackground: swatches[5].hex,
             buttonOutline: swatches[5].hex,
             outlineButtonText: swatches[5].hex,
             linkText: swatches[5].hex,
             headlineColor: swatches[3].hex,
             iconColor: swatches[5].hex,
-            paragraphColor: palettes.grayscale[0],
+            paragraphColor: palettes.black[0].value,
         },
         colorful: {
             cardBackground: swatches[5].hex,
-            labelColor: swatches[2].hex,
+            labelColor: swatches[1].hex,
             buttonBackground: swatches[9].hex,
             buttonOutline: swatches[9].hex,
             outlineButtonText: swatches[0].hex,
             linkText: swatches[0].hex,
             headlineColor: swatches[1].hex,
-            iconColor: swatches[9].hex,
-            paragraphColor: swatches[0],
+            iconColor: swatches[10].hex,
+            paragraphColor: 'white',
         },
     }
 
@@ -139,9 +146,9 @@ const Paletteer = () => {
                         value={seedInput}
                         onChange={handleInputChange}
                         style={{
-                            border: `1px solid ${palettes.grayscale[1]}`,
+                            border: `1px solid ${palettes.black[1].value}`,
                             background: 'white',
-                            color: palettes.grayscale[8],
+                            color: palettes.black[8].value,
                             width: '6rem',
                             height: '2rem',
                             lineHeight: '2rem',
@@ -364,10 +371,10 @@ const Paletteer = () => {
     return (
         <>
             <Head>
-                <title>{title}</title>
-                <meta property="og:title" content={title} key="title" />
-                <meta name="description" content={description} />
-                <meta name="og:image" content={image} />
+                <title>{`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`}</title>
+                <meta property="og:title" content={`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`} key="title" />
+                <meta name="description" content={caseStudy ? caseStudy.description : description} />
+                <meta name="og:image" content={pages.colors.image} />
             </Head>
             <div id="main">
                 <Header blue />
@@ -409,22 +416,26 @@ const Paletteer = () => {
                             </p>
                         </div>
                         <div className="tldr__aside">
-                            <h4 className="tldr__aside-title">My Role</h4>
-                            <p className="tldr__aside-text">
-                                I coded the original internal tool, including
-                                the unique color generation script myself while
-                                I was working as the Head of Product Design at
-                                Luminoso. I coded and maintain the subsequent
-                                Figma plugin myself.
-                            </p>
-                            <h4 className="tldr__aside-title">Outcome</h4>
-                            <p className="tldr__aside-text">
-                                While working at Luminoso I used this tool to
-                                generate color tokens that helped speed
-                                communication between design and engineering,
-                                and helped engineers audit our codebase toward
-                                consistency with our design system.
-                            </p>
+                            <div>
+                                <h4 className="tldr__aside-title">My Role</h4>
+                                <p className="tldr__aside-text">
+                                    I coded the original internal tool, including
+                                    the unique color generation script myself while
+                                    I was working as the Head of Product Design at
+                                    Luminoso. I coded and maintain the subsequent
+                                    Figma plugin myself.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="tldr__aside-title">Outcome</h4>
+                                <p className="tldr__aside-text">
+                                    While working at Luminoso I used this tool to
+                                    generate color tokens that helped speed
+                                    communication between design and engineering,
+                                    and helped engineers audit our codebase toward
+                                    consistency with our design system.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -534,15 +545,32 @@ const Paletteer = () => {
                                     marginTop: '6rem',
                                 }}
                             >
-                                <Link className="button" href="/#work">
-                                    See More Work
+                                <Link className="case-studies-link" href="/work">
+                                    <span className="case-studies-link__count">+3 more case studies</span>
+                                    <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                                    </svg>
+                                    <span className="case-studies-link__label">View 'em All</span>
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <Footer />
             </div>
+        </>
+    )
+};
+
+const Paletteer = () => {
+    return (
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} key="title" />
+                <meta name="description" content={description} />
+                <meta name="og:image" content={image} />
+            </Head>
+            {isPrivate ? <PasswordProtect isPrivate={true} AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} /> : <AuthenticatedContent />}
         </>
     )
 }

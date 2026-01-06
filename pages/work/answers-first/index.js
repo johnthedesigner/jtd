@@ -5,17 +5,23 @@ import Image from 'next/image'
 import Header from '../../../components/Header'
 import pages from '../../../utils/pages.json'
 import Footer from '../../../components/Footer'
+import caseStudies from '../../../utils/caseStudies'
+import PasswordProtect from '../../../components/PasswordProtect'
+import UnauthenticatedContent from '../../../components/UnauthenticatedCaseStudy'
 
 const { title, description, image } = pages.answersFirst
 
-const AnswersFirst = () => {
+const caseStudy = caseStudies.find((cs) => cs.href === '/work/answers-first');
+const isPrivate = caseStudy ? caseStudy.private : false;
+
+const AuthenticatedContent = () => {
     return (
         <>
             <Head>
-                <title>{title}</title>
-                <meta property="og:title" content={title} key="title" />
-                <meta name="description" content={description} />
-                <meta name="og:image" content={image} />
+                <title>{`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`}</title>
+                <meta property="og:title" content={`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`} key="title" />
+                <meta name="description" content={caseStudy ? caseStudy.description : description} />
+                <meta name="og:image" content={pages.answersFirst.image} />
             </Head>
             <div id="main">
                 <Header blue />
@@ -56,24 +62,28 @@ const AnswersFirst = () => {
                             </p>
                         </div>
                         <div className="tldr__aside">
-                            <h4 className="tldr__aside-title">My Role</h4>
-                            <p className="tldr__aside-text">
-                                As a Head of Product Design at Luminoso, I
-                                proposed this update, set a new product roadmap
-                                and acted as design lead. I led research
-                                studies, like stakeholder interviews and
-                                usability studies.
-                            </p>
-                            <h4 className="tldr__aside-title">Outcome</h4>
-                            <p className="tldr__aside-text">
-                                Analytics showed steadily increasing usage in
-                                total and on an average user basis throughout
-                                the incremental release of these updates and
-                                after. We measurably decreased customer reliance
-                                on Excel to complete their analyses. The sales
-                                and client services team cited less reliance on
-                                documentation and hands-on instruction.
-                            </p>
+                            <div>
+                                <h4 className="tldr__aside-title">My Role</h4>
+                                <p className="tldr__aside-text">
+                                    As a Head of Product Design at Luminoso, I
+                                    proposed this update, set a new product roadmap
+                                    and acted as design lead. I led research
+                                    studies, like stakeholder interviews and
+                                    usability studies.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="tldr__aside-title">Outcome</h4>
+                                <p className="tldr__aside-text">
+                                    Analytics showed steadily increasing usage in
+                                    total and on an average user basis throughout
+                                    the incremental release of these updates and
+                                    after. We measurably decreased customer reliance
+                                    on Excel to complete their analyses. The sales
+                                    and client services team cited less reliance on
+                                    documentation and hands-on instruction.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -83,13 +93,13 @@ const AnswersFirst = () => {
                         <div className="page-section__text-container">
                             <h2 className="page-section__title">
                                 We need{' '}
-                                <span className="highlight-text--purple">
+                                <span className="highlight-text--yellow">
                                     “Answers First”
                                 </span>
                                 .
                             </h2>
                             <h4>
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     Some Backstory...
                                 </span>
                             </h4>
@@ -103,7 +113,7 @@ const AnswersFirst = () => {
                                 really powerful.
                             </p>
                             <h4>
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     Users were unhappy with the UX
                                 </span>
                             </h4>
@@ -121,7 +131,7 @@ const AnswersFirst = () => {
                                 organizations.
                             </p>
                             <h4>
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     The Idea
                                 </span>
                             </h4>
@@ -358,7 +368,7 @@ const AnswersFirst = () => {
                                 text analytics tool that they are trying to
                                 avoid reading documents, but that's not quite
                                 true. What they really want to do is to read{' '}
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     the right
                                 </span>{' '}
                                 documents.
@@ -368,7 +378,7 @@ const AnswersFirst = () => {
                                 measure different topics in a unique way, but in
                                 the end you still need more context to
                                 understand what a topic{' '}
-                                <span className="underline-text--purple">
+                                <span className="underline-text--yellow">
                                     really means
                                 </span>
                                 .
@@ -562,15 +572,32 @@ const AnswersFirst = () => {
                                     marginTop: '6rem',
                                 }}
                             >
-                                <Link className="button" href="/#work">
-                                    See More Work
+                                <Link className="case-studies-link" href="/work">
+                                    <span className="case-studies-link__count">+3 more case studies</span>
+                                    <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                                    </svg>
+                                    <span className="case-studies-link__label">View 'em All</span>
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <Footer />
             </div>
+        </>
+    )
+};
+
+const AnswersFirst = () => {
+    return (
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} key="title" />
+                <meta name="description" content={description} />
+                <meta name="og:image" content={image} />
+            </Head>
+            {isPrivate ? <PasswordProtect isPrivate={true} AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} /> : <AuthenticatedContent />}
         </>
     )
 }

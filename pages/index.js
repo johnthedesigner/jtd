@@ -11,6 +11,8 @@ import { palettes } from '../utils/colorUtils'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import pages from '../utils/pages.json'
+import WorkItem from '../components/WorkItem'
+import caseStudies from '../utils/caseStudies'
 
 const { title, description, image, path } = pages.home
 
@@ -49,9 +51,8 @@ export default function Home() {
 
         return (
             <button
-                className={`home-features__item ${
-                    path ? '' : 'home-features__item--disabled'
-                }`}
+                className={`home-features__item ${path ? '' : 'home-features__item--disabled'
+                    }`}
                 style={itemStyles}
                 onClick={thumbnailClick}
             >
@@ -78,7 +79,7 @@ export default function Home() {
         return (
             <div
                 className="home-features__endorsement"
-                style={{ background: palette[2] }}
+                style={{ background: palette[1].value }}
             >
                 <svg
                     width="86"
@@ -96,7 +97,7 @@ export default function Home() {
                         fillRule="evenodd"
                         clipRule="evenodd"
                         d="M20 0H86L56 30L26 60H40L0 90L10 60H0L10 30L20 0Z"
-                        fill={palette[2]}
+                        fill={palette[1].value}
                     />
                 </svg>
                 <p
@@ -119,14 +120,14 @@ export default function Home() {
                     <div className="home-features__endorsement-footer-text">
                         <p
                             className="home-features__endorsement-byline"
-                            style={{ color: palette[6] }}
+                            style={{ color: palette[6].value }}
                         >
                             {byline}
                         </p>
                         {bytitle && (
                             <p
                                 className="home-features__endorsement-bytitle"
-                                style={{ color: palette[6] }}
+                                style={{ color: palette[6].value }}
                             >
                                 {bytitle}
                             </p>
@@ -135,6 +136,13 @@ export default function Home() {
                 </div>
             </div>
         )
+    }
+
+    const pageStyles = {
+        backgroundImage: "url('/logobg.svg')",
+        backgroundSize: "110% auto",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center 10rem",
     }
 
     return (
@@ -146,7 +154,7 @@ export default function Home() {
                 <meta property="og:image" content={image} />
             </Head>
             <Header />
-            <div className="home-hero">
+            <div className="home-hero" style={pageStyles}>
                 <div className="home-hero__logo">
                     <SketchLogo />
                 </div>
@@ -163,198 +171,20 @@ export default function Home() {
                     </h2>
                 </div>
             </div>
-            <div className="home-features">
-                <div
-                    id="about"
-                    className="home-features__intro"
-                    style={{ marginTop: '4rem' }}
-                >
-                    <h2 className="home-features__title">About Me</h2>
-                </div>
-                <div className="about-me">
-                    <p className="about-me__paragraph">
-                        Hi! I’m John Livornese. I am a creative, strategic,
-                        product design leader with experience working in
-                        difficult problem spaces on teams of all sizes. I love
-                        building interfaces that communicate meaning, increase
-                        understanding, and make the end user feel smarter. My
-                        dream job is a place where people are proud of what
-                        they’re building and they have fun doing it. I’m a
-                        designer who cares a lot about engineering and product,
-                        and I love working with PMs and engineers who care a lot
-                        about design.
-                    </p>
-                    <p className="about-me__paragraph">
-                        I’ve worked at both Fortune 500 companies like{' '}
-                        <a
-                            href="http://tableau.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Tableau"
-                        >
-                            Tableau
-                        </a>
-                        /
-                        <a
-                            href="http://salesforce.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Salesforce"
-                        >
-                            Salesforce
-                        </a>
-                        , and small startups like{' '}
-                        <a
-                            href="http://luminoso.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Luminoso"
-                        >
-                            Luminoso
-                        </a>
-                        . Most recently I was Principal Product Designer at
-                        Upstart, where I was brought in to design a brand new
-                        product. I have joined established teams and built teams
-                        from the ground up. My work has often been focused on
-                        foundational and end-to-end design for new products,
-                        building out product design practice and design
-                        strategy.
-                    </p>
-                    <p className="about-me__paragraph">
-                        Since you&apos;re here, why not check out some of my{' '}
-                        <Link href="/#work">work</Link>, or you could&nbsp;
-                        <Link href="/#contact">get in touch</Link>. We could
-                        talk design or whatever, no pressure.
-                    </p>
-                </div>
-                <div id="work" className="home-features__intro">
-                    <h2 className="home-features__title">Past Work</h2>
-                    {/* <p className="home-features__intro-text">
-                        I turn complicated design problems into simple and
-                        beautiful websites & apps.
-                    </p> */}
-                </div>
-                <div className="home-features__list">
-                    <Feature
-                        title="Answers First"
-                        caption="Eliminating “Analysis Paralysis” with automatic text analytics"
-                        thumbnail="/work/thumbnails/answers-first.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/answers-first"
-                    />
-                    <Feature
-                        title="Great Design System Color Tokens"
-                        caption="Building an application to generate the color tokens your design system really needs"
-                        thumbnail="/work/thumbnails/color-palettes.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/colors"
-                    />
-                    <Feature
-                        title="Tableau Scenario Planner"
-                        caption="Designing a new product @ Tableau"
-                        thumbnail="/work/thumbnails/visual-spreadsheet.png"
-                        logo="/work/logos/tableau-salesforce.png"
-                        path="/work/scenario-planning"
-                    />
-                    {/* <Feature
-                        title="Hit the Ground Running"
-                        caption="Foundational product design process"
-                        thumbnail="/work/thumbnails/upstart.png"
-                        logo="/work/logos/upstart.png"
-                        flag="Just Added"
-                        path="/work/design-foundation"
-                    />
-                    <Feature
-                        title="The Highlights Page"
-                        caption="The cornerstone of our UI"
-                        thumbnail="/work/thumbnails/highlights.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/highlights"
-                    />
-                    <Feature
-                        title="Comparing Time Periods"
-                        caption="What even happened last week?"
-                        thumbnail="/work/thumbnails/comparison.png"
-                        logo="/work/logos/luminoso.png"
-                        path="/work/comparisons"
-                    /> */}
-                </div>
-                <div
-                    className="home-features__intro"
-                    style={{ marginTop: '4rem' }}
-                >
-                    <h2 className="home-features__title">Words from Friends</h2>
-                </div>
-                <div className="home-features__endorsement-list">
-                    <Endorsement
-                        palette={palettes.purple}
-                        text={
-                            '...The best way I can describe working with John is "effortless"... John is collaborative and flexible, while remaining a decisive advocate for his perspective. His sense of humor, positivity, and humbleness uplifts any team he is working with...'
-                        }
-                        byline={'Michelle R.'}
-                        bytitle={'Director of Product Managment'}
-                        byimage={'/endorsements/michelle.jpg'}
-                        size={'.75em'}
-                    />
-                    <Endorsement
-                        palette={palettes.teal}
-                        text={
-                            'John is one of the most deliberate, thoughtful, and intentional designers I’ve worked with. I was fortunate to collaborate with him on improving our company’s design challenge interview, where he married prior experience with present circumstances to vastly improve the efficacy of our candidate interview process... Any design team would be lucky to have John in their corner!'
-                        }
-                        byline={'@Gabe O.'}
-                        bytitle={'Product Designer'}
-                        byimage={'/endorsements/gabe.jpg'}
-                        size={'.675em'}
-                    />
-                    <Endorsement
-                        palette={palettes.blue}
-                        text={
-                            '...John and I collaborated on two different products (each of us owned one) and it was clear from day one his skillset was unique. He had the innate ability to tackle a problem with scalability and consistency at the forefront, something I believe we really needed across both of our products... I have worked with a number of designers in my career and I would have to say his approach has been one of the most thought out and effective approaches I have seen. Not only did he move fast, every decision was intentional and moved the needle forward...'
-                        }
-                        byline={'Darsh K.'}
-                        bytitle={'Product Design Manager'}
-                        byimage={'/endorsements/darsh.jpg'}
-                        size={'.6125em'}
-                    />
+            <div style={{ padding: '4rem 0 6rem', margin: '0 auto', width: '50rem', maxWidth: '90%' }}>
+                <h3 style={{ fontFamily: 'var(--blackletter-font)', fontSize: '3rem', fontWeight: 700, lineHeight: '1.5', margin: '1rem 2rem', textAlign: 'center' }}>Case Studies</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '3rem' }}>
+                    <WorkItem
+                        item={_.find(caseStudies, { homepage: true })} />
+                    <div className="case-studies-link" onClick={() => router.push('/work')}>
+                        <span className="case-studies-link__count">+3 more</span>
+                        <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                        </svg>
+                        <span className="case-studies-link__label">Go to the Case Studies</span>
+                    </div>
                 </div>
             </div>
-            <div id="contact" className="home-contact">
-                <h2 className="home-contact__title">Let's Talk</h2>
-                <p className="home-contact__intro-text">
-                    Reach out if you’d like to talk about working together, or
-                    just talk about design.
-                </p>
-                <div className="email-block">
-                    <input
-                        className="email-block__input"
-                        value={emailAddress}
-                        onClick={(e) => {
-                            e.target.select()
-                        }}
-                        onChange={() => {
-                            null
-                        }}
-                        style={{
-                            borderColor: showCopySuccess
-                                ? '#6FCF97'
-                                : '#5F9DF2',
-                        }}
-                    />
-                    <button
-                        className="email-block__button"
-                        onClick={copyEmail}
-                        style={{
-                            background: showCopySuccess ? '#6FCF97' : '#5F9DF2',
-                        }}
-                        disabled={showCopySuccess}
-                    >
-                        {showCopySuccess
-                            ? 'Copied to Clipboard!'
-                            : 'Copy Email Address'}
-                    </button>
-                </div>
-            </div>
-            <Footer />
         </>
     )
 }
