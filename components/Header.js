@@ -68,7 +68,7 @@ const Header = ({ blue }) => {
                         <li className="global-nav__item global-nav__item--desktop">
                             <NavLink
                                 title="My Resume"
-                                path="/John_L_Res_202312.pdf"
+                                path="/John_L_Res_202507.pdf"
                                 desktop
                             >
                                 My Résumé
@@ -176,7 +176,7 @@ const Header = ({ blue }) => {
                         <li className="mobile-nav__item">
                             <NavLink
                                 title="Contact"
-                                path="/John_L_Res_202312.pdf"
+                                path="/John_L_Res_202507.pdf"
                                 desktop
                             >
                                 My Résumé
