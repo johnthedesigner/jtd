@@ -173,7 +173,7 @@ export default function Home() {
             </div>
             <div style={{ padding: '4rem 0 6rem', margin: '0 auto', width: '50rem', maxWidth: '90%' }}>
                 <h3 style={{ fontFamily: 'var(--blackletter-font)', fontSize: '3rem', fontWeight: 700, lineHeight: '1.5', margin: '1rem 2rem', textAlign: 'center' }}>Case Studies</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '1rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '3rem' }}>
                     <WorkItem
                         item={_.find(caseStudies, { homepage: true })} />
                     <div className="case-studies-link" onClick={() => router.push('/work')}>

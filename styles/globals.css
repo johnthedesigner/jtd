@@ -1791,7 +1791,7 @@ iframe,
 
 .tldr__title {
     font-family: var(--blackletter-font);
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     margin: 0 0 0.5rem;
 }
@@ -1806,7 +1806,7 @@ iframe,
     flex-direction: row;
     gap: 2rem;
     flex: 1;
-    font-size: 0.875rem;
+    font-size: 1rem;
     margin-bottom: .5rem;
 }
 
@@ -1838,9 +1838,21 @@ iframe,
         margin-right: 0;
     }
 
+    .tldr__aside {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
     .tldr__aside-title,
     .tldr__aside-title:not(:first-child) {
         margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .tldr__aside {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
 

@@ -125,12 +125,12 @@ const AuthenticatedContent = () => {
 
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
-                        <h4 className="page-section__subtitle">Prepare, Act I:</h4>
+                        <h4 className="page-section__subtitle">Building Prepare, Act I:</h4>
                         <h2 className="page-section__title">
                             Voice Simulations
                         </h2>
                         <p>
-                            When I joined, Prepare was text-only. Users could practice conversations through chat-based simulations, but most real conversations our users needed to prepare for were spoken. Phone calls with people in crisis, healthcare outreach, customer service escalations—these require tone management, active listening, pacing, and empathy that are difficult to practice through text alone.
+                            When I joined, <em>Prepare</em> was text-only. Users could practice conversations through chat-based simulations, but most real conversations our users needed to prepare for were spoken. Phone calls with people in crisis, healthcare outreach, customer service escalations—these require tone management, active listening, pacing, and empathy that are difficult to practice through text alone.
                         </p>
 
                         <h4>
@@ -144,10 +144,10 @@ const AuthenticatedContent = () => {
                             className="wide-table"
                             width="1500"
                             height="560"
-                            alt="A set of color palettes from the Forma design system."
+                            alt="Voice simulation experience showing an active voice call"
                         />
                         <h4 className="work__art-caption">
-                            A set of color palettes from the Forma design system.
+                            Voice simulation experience showing an active voice call.
                         </h4>
                         <p>
                             We made deliberate scoping decisions for V1, focusing on the core training loop—start simulation, have conversation, receive feedback—rather than trying to achieve feature parity with all text capabilities immediately. This let us validate the concept and gather real usage data before expanding.
@@ -157,10 +157,10 @@ const AuthenticatedContent = () => {
                             className="wide-table"
                             width="1500"
                             height="893"
-                            alt="A set of color palettes from the Forma design system."
+                            alt="Example UI details from the voice call experience and voice call transcript views"
                         />
                         <h4 className="work__art-caption">
-                            A set of color palettes from the Forma design system.
+                            Example UI details from the voice call experience and voice call transcript views.
                         </h4>
 
                         <h4>
@@ -174,7 +174,7 @@ const AuthenticatedContent = () => {
 
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
-                        <h4 className="page-section__subtitle">Prepare, Act II:</h4>
+                        <h4 className="page-section__subtitle">Building Prepare, Act II:</h4>
                         <h2 className="page-section__title">
                             Build-Your-Own Scenarios with Studio
                         </h2>
@@ -186,52 +186,52 @@ const AuthenticatedContent = () => {
                             The Design Challenge: Power vs. Accessibility
                         </h4>
                         <p>
-                            I needed to design tools that were powerful enough for sophisticated customization yet accessible enough that a training manager with no technical background could create a simulation. The wrong approach would expose every parameter upfront—intimidating and error-prone. But hiding too much would feel limiting.
+                            I needed to design tools that were powerful enough for sophisticated customization yet accessible enough that a training manager with no technical background could create a simulation. The wrong approach would expose every parameter upfront, creating an intimidating and error-prone experience. But hiding too much would feel limiting.
                         </p>
                         <Image
                             src="/work/prepare/summary.svg"
                             className="wide-table"
                             width="1500"
                             height="560"
-                            alt="A set of color palettes from the Forma design system."
+                            alt="The summary page of a newly created simulation from our new simulation creation experience in Reflex Studio"
                         />
                         <h4 className="work__art-caption">
-                            A set of color palettes from the Forma design system.
+                            The summary page of a newly created simulation from our new simulation creation experience in Reflex Studio.
                         </h4>
                         <p>
-                            I designed Studio around a core insight: users don't start with a blank slate. They start with an idea of what conversation they need to practice, who the simulated person should be, and what skills they're trying to develop.
+                            I designed the Simulation creation experience around a core insight: users don't start with a blank slate. They start with an idea of what conversation they need to practice, who the simulated person should be, and what skills they're trying to develop.
                         </p>
                         <p>
-                            The Studio interface guides users through logical steps: define the scenario, configure the persona's background and behavior, set learning objectives and scoring criteria, then test and refine. At each step, we provide smart defaults based on common use cases while exposing deeper customization for power users. The interface scales complexity based on user choices.
+                            The interface acts like a series of writing prompts, guiding users through defining the scenario, imagining the persona's background and behavior, setting learning objectives and scoring criteria, then testing and refining. At each step, we provide smart defaults based on common use cases while exposing deeper customization for power users. The interface scales complexity based on user choices.
                         </p>
                         <Image
                             src="/work/prepare/simulation-editor.svg"
                             className="wide-table"
                             width="1500"
                             height="560"
-                            alt="A set of color palettes from the Forma design system."
+                            alt="Example UI from Reflex Studio's simulation editor experience"
                         />
                         <h4 className="work__art-caption">
-                            A set of color palettes from the Forma design system.
+                            Example UI from Reflex Studio's simulation editor experience.
                         </h4>
 
                         <h4>
                             The Result
                         </h4>
                         <p>
-                            Studio transformed ReflexAI's business model. Organizations that previously needed hands-on support could now create customized training independently. This reduced customer success load, improved satisfaction through faster time-to-value, and opened up use cases we hadn't anticipated. Training managers became designers of their own learning experiences.
+                            Studio transformed ReflexAI's business model. Organizations that previously needed hands-on support could now create customized training independently. This reduced the strain of scaling on our customer success team, improved satisfaction through faster time-to-value, and opened up use cases we hadn't anticipated. Training managers became designers of their own learning experiences.
                         </p>
                     </div>
                 </div>
 
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
-                        <h4 className="page-section__subtitle">Prepare, Act III:</h4>
+                        <h4 className="page-section__subtitle">Building Prepare, Act III:</h4>
                         <h2 className="page-section__title">
                             AI-Generated Simulations
                         </h2>
                         <p>
-                            Studio proved customers wanted custom content, but even with our streamlined flow, building a quality simulation required thought, time, and iteration. The next evolution: what if AI could do the heavy lifting, letting users focus on refinement rather than generation?
+                            Studio proved customers wanted custom content, but even with our streamlined flow, building a quality simulation required thought, time, and iteration. The next evolution: what if AI could do the heavy lifting, letting users focus on refinement rather than generation and significantly reducing time-to-value?
                         </p>
 
                         <h4>
@@ -244,17 +244,17 @@ const AuthenticatedContent = () => {
                             "I need a simulation where a customer calls because their online order was delayed and they're upset about missing an important event."
                         </p>
                         <p>
-                            The AI instantly generates detailed scenarios including rich background context, behavioral parameters, appropriate emotional complexity, and suggested scoring dimensions. But generation isn't the end—it's the beginning. Users can immediately suggest changes and details regenerate instantly, creating a collaborative refinement loop. Users stay in control while AI removes the blank-page problem and accelerates creation.
+                            The AI instantly generates detailed scenarios including rich background context, behavioral parameters, appropriate emotional complexity, and suggested scoring dimensions. But generation is only the beginning. Users can immediately suggest changes and details regenerate instantly, creating a collaborative refinement loop. Users stay in control while AI removes the blank-page problem and accelerates creation.
                         </p>
                         <Image
                             src="/work/prepare/chat-input.svg"
                             className="wide-table"
                             width="1500"
                             height="560"
-                            alt="A set of color palettes from the Forma design system."
+                            alt="AI-generation input interface where users describe scenarios in natural language for instant creation"
                         />
                         <h4 className="work__art-caption">
-                            A set of color palettes from the Forma design system.
+                            AI-generation input interface where users describe scenarios in natural language for instant creation.
                         </h4>
                         <p>
                             Because we'd already built Studio's creation and editing tools, AI-generation didn't require redesigning the entire experience. It's a new entry point into the same configuration system. The AI generates to the same schema users were manually configuring, so all of Studio's features—testing, refinement, version control—work seamlessly with AI-generated scenarios.
@@ -267,16 +267,14 @@ const AuthenticatedContent = () => {
                             className="wide-table"
                             width="1500"
                             height="560"
-                            alt="A set of color palettes from the Forma design system."
+                            alt="Generated scenario details panel showing AI-created background, behavioral parameters, and suggested refinements"
                         />
                         <h4 className="work__art-caption">
-                            A set of color palettes from the Forma design system.
+                            Generated scenario details panel showing AI-created background, behavioral parameters, and suggested refinements.
                         </h4>
 
                         <h4>
-                            <span className="underline-text--purple">
-                                The Result
-                            </span>
+                            The Result
                         </h4>
                         <p>
                             AI-generation represents the culmination of our sequential feature strategy. Voice established realistic training modalities. Studio gave users creation tools. AI-generation made creation effortless while preserving control. Together, they've transformed Prepare from a product with pre-configured training to a platform where organizations can create sophisticated, customized training in minutes.
@@ -297,7 +295,7 @@ const AuthenticatedContent = () => {
                             <li>Helped grow design team from 1 to 3 designers with established processes</li>
                             <li>Helped establish Forma design system with atomic and composed components, fully documented</li>
                             <li>Led design for three major product transformations: Voice-based Simulations, Reflex Studio, and AI-assisted scenario generation</li>
-                            <li>Company grew from ~20 to 50+ employees</li>
+                            <li>Company grew from fewer than 20 to more than 50 employees</li>
                             <li>Prepare evolved from promising MVP to sophisticated training platform serving crisis centers, healthcare, and enterprise customer service</li>
                         </ul>
 
@@ -305,16 +303,16 @@ const AuthenticatedContent = () => {
                             What Made It Work
                         </h4>
                         <p>
-                            <strong>Systems thinking from day one</strong> - Advocating for and helping establish Forma wasn't separate from building features—it was how we built features. This foundation made every subsequent project faster and more coherent.
+                            <strong>Systems thinking from day one</strong> - Advocating for and helping establish Forma was essential to accelerating our work. Building the design system in parallel with new features let us maintain consistency and speed as we evolved the product.
                         </p>
                         <p>
-                            <strong>Strategic sequencing</strong> - Voice → Studio → AI-generation wasn't arbitrary. Each feature validated assumptions, proved capabilities, and built infrastructure that the next feature leveraged. We weren't building in isolation; we were building a platform.
+                            <strong>Strategic sequencing</strong> - The sequencing of Voice → Studio → AI-generation allowed each feature to validate assumptions, prove capabilities, and build infrastructure that the next feature leveraged.
                         </p>
                         <p>
                             <strong>Collaborative scoping</strong> - Working closely with product and engineering leadership to sequence work, make tradeoffs, and focus on strategic impact meant we could move fast without sacrificing quality.
                         </p>
                         <p>
-                            Establishing a design practice at a fast-growing startup while simultaneously driving major product evolution requires balancing speed with sustainability, power with accessibility, and innovation with responsibility. I'm proud that Prepare is faster, more powerful, and more accessible than when I joined, the design practice is established and growing, and most importantly, we're helping organizations train people for some of the most important conversations they'll ever have.
+                            Establishing a design practice at a fast-growing startup while simultaneously driving major product evolution requires balancing speed with sustainability. I'm proud that Prepare is faster, more powerful, and more accessible than when I joined, the design practice is established and growing, and most importantly, we're helping organizations train people for some of the most important conversations they'll ever have.
                         </p>
 
                         <div

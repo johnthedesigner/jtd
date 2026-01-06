@@ -64,10 +64,7 @@ const AuthenticatedContent = () => {
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
                         <h2 className="page-section__title">
-                            The Challenge:{' '}
-                            <span className="highlight-text--purple">
-                                Scaling Past the MVP
-                            </span>
+                            Getting Past the MVP
                         </h2>
                         <p>
                             When I joined ReflexAI in April 2024, the product was exactly where a promising early-stage startup should be: built rapidly to validate the market opportunity, with strong core functionality and early customer traction. The UI worked, but it used a generic off-the-shelf component library that wasn't designed for our specific use cases.
@@ -97,13 +94,10 @@ const AuthenticatedContent = () => {
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
                         <h2 className="page-section__title">
-                            The Opportunity: Systems Thinking as{' '}
-                            <span className="highlight-text--purple">
-                                Competitive Advantage
-                            </span>
+                            Systems Thinking as Competitive Advantage
                         </h2>
                         <p>
-                            I've worked in both large public companies with mature design systems and small startups building from scratch. I knew that the right approach to design systems could be a competitive advantage—enabling us to move faster, maintain higher quality, and scale the team more effectively than competitors who were accumulating design debt.
+                            I've worked in both large public companies with mature design systems and small startups building from scratch. I knew that the right approach to design systems could be a competitive advantage. It could enable us to move faster, maintain higher quality, and scale the team more effectively than competitors who were accumulating design debt.
                         </p>
                         <p>
                             The opportunity wasn't just to build a component library. It was to establish a practice and culture around systematic design that would pay dividends across everything we built. Done right, a design system would:
@@ -124,10 +118,7 @@ const AuthenticatedContent = () => {
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
                         <h2 className="page-section__title">
-                            Strategic Approach:{' '}
-                            <span className="highlight-text--purple">
-                                Leading Through Contribution
-                            </span>
+                            Leading Through Contribution
                         </h2>
                         <p>
                             I took a "show, don't tell" approach to building support for a design system. Rather than starting with presentations about why we needed one, I started by doing the work and letting the results speak for themselves.
@@ -137,7 +128,7 @@ const AuthenticatedContent = () => {
                             Starting with High-Leverage Components
                         </h4>
                         <p>
-                            I began by identifying the most frequently used, most visible components in our UI—buttons, form inputs, badges, icons, tooltips—and designing improved versions in Figma. These weren't just aesthetic updates; they addressed real usability issues, improved accessibility, and established visual patterns that felt more sophisticated and appropriate for our use cases.
+                            I began by identifying the most frequently used, most visible components in our UI—buttons, form inputs, badges, icons, tooltips—and designing improved versions in Figma. The new components are an aesthetic update, but they also addressed real issues with usability. They were easier to design with, they improved accessibility, and through them I established visual patterns that felt more sophisticated and appropriate for our use cases.
                         </p>
                         <Image
                             src="/work/forma/buttons.svg"
@@ -253,10 +244,7 @@ const AuthenticatedContent = () => {
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
                         <h2 className="page-section__title">
-                            Establishing the Practice:{' '}
-                            <span className="highlight-text--purple">
-                                From Library to System
-                            </span>
+                            Establishing the Practice
                         </h2>
                         <p>
                             About a year in, with demonstrated value from the Figma library and growing adoption by designers and engineers, I was able to help take the next critical step: transforming a component library into a true design system practice.
@@ -276,10 +264,10 @@ const AuthenticatedContent = () => {
                             The Documentation Site
                         </h4>
                         <p>
-                            From early in the process, I advocated for a well-documented UI design system maintained by engineers. This vision became reality when our senior frontend engineer stepped up to build a comprehensive documentation site in our development environment. This collaboration—design articulating the need, engineering building the solution—exemplified the partnership that made Forma successful.
+                            From early in the process, I advocated for a well-documented UI design system maintained by engineers. My colleague, a senior frontend engineer who was leading the design system effort on the engineering side, stepped up to build a comprehensive documentation site in our development environment. This collaboration—design articulating the need, engineering building the solution—exemplified the partnership that made Forma successful.
                         </p>
                         <p>
-                            The documentation site wasn't just a showcase—it was a living, interactive reference that showed:
+                            The documentation site is a living, interactive reference that shows:
                         </p>
                         <ul className='case-study--list'>
                             <li>All completed and in-progress components</li>
@@ -289,7 +277,7 @@ const AuthenticatedContent = () => {
                             <li>Interactive examples where engineers could change configurations and see results immediately</li>
                         </ul>
                         <p>
-                            The documentation site transformed how we worked. Design-to-engineering handoff went from lengthy explanation sessions to quick reviews of component configurations. New team members could get up to speed quickly. Engineers could implement designs with confidence.
+                            The documentation site transformed how we worked. Design-to-engineering handoff took less time because we had a shared understanding of the components and principles of our UI. New team members could get up to speed quickly. Engineers could implement designs with confidence.
                         </p>
 
                         <h4>
@@ -333,10 +321,10 @@ const AuthenticatedContent = () => {
                 <div className="page-section page-section--centered">
                     <div className="page-section__text-container">
                         <p>
-                            More importantly, Forma enabled the rapid feature evolution described in the main ReflexAI case study. Voice simulations, ReflexAI Studio, and AI-generated content were all built on top of Forma's foundation. Without the design system, maintaining quality and consistency while shipping those features at startup velocity would have been nearly impossible.
+                            More importantly, Forma enabled the rapid feature evolution described in <Link href="/work/prepare">my other ReflexAI case study</Link>. Voice simulations, ReflexAI Studio, and AI-generated content were all built on top of Forma's foundation. Without the design system, maintaining quality and consistency while shipping those features at startup velocity would have been nearly impossible.
                         </p>
                         <p>
-                            In the first year of Forma:
+                            Within my first year our design system saw some major milestones:
                         </p>
                         <ul className='case-study--list'>
                             <li>Designed, developed, documented, and deployed over two dozen components</li>
