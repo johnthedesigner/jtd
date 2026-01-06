@@ -10,8 +10,14 @@ import { palettes } from '../../../utils/colorUtils'
 import pages from '../../../utils/pages.json'
 import ActionIcon from '../../../components/ActionIcons'
 import generateColors from '../../../utils/generateColors'
+import caseStudies from '../../../utils/caseStudies'
+import PasswordProtect from '../../../components/PasswordProtect'
+import UnauthenticatedContent from '../../../components/UnauthenticatedCaseStudy'
 
 const { title, description, image } = pages.colors
+
+const caseStudy = caseStudies.find((cs) => cs.href === '/work/colors');
+const isPrivate = caseStudy ? caseStudy.private : false;
 
 const seedColors = [
     '#FF6C63',
@@ -38,7 +44,7 @@ const defaultExampleColors = {
 palettes.pur
 const initialPalette = generateColors(seedColors[5])
 
-const Paletteer = () => {
+const AuthenticatedContent = () => {
     const [seedInput, setSeedInput] = useState('#AA7DE4')
     const [seedColor, setSeedColor] = useState('#AA7DE4')
     const [palette, setPalette] = useState(initialPalette)
@@ -551,6 +557,20 @@ const Paletteer = () => {
                     </div>
                 </div>
             </div>
+        </>
+    )
+};
+
+const Paletteer = () => {
+    return (
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} key="title" />
+                <meta name="description" content={description} />
+                <meta name="og:image" content={image} />
+            </Head>
+            {isPrivate ? <PasswordProtect isPrivate={true} AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} /> : <AuthenticatedContent />}
         </>
     )
 }

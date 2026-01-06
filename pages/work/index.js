@@ -8,7 +8,7 @@ export default function WorkIndex() {
             <SimpleHeader title="Case Studies" />
             <main style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
                 <div className="work-grid">
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '2rem', width: '50rem', margin: '0 auto' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '6rem', width: '50rem', maxWidth: '90vw', margin: '0 auto' }}>
                         {caseStudies.map((page, index) => (
                             <WorkItem key={index} item={page} />
                         ))}

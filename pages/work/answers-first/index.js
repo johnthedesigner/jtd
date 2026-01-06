@@ -5,10 +5,16 @@ import Image from 'next/image'
 import Header from '../../../components/Header'
 import pages from '../../../utils/pages.json'
 import Footer from '../../../components/Footer'
+import caseStudies from '../../../utils/caseStudies'
+import PasswordProtect from '../../../components/PasswordProtect'
+import UnauthenticatedContent from '../../../components/UnauthenticatedCaseStudy'
 
 const { title, description, image } = pages.answersFirst
 
-const AnswersFirst = () => {
+const caseStudy = caseStudies.find((cs) => cs.href === '/work/answers-first');
+const isPrivate = caseStudy ? caseStudy.private : false;
+
+const AuthenticatedContent = () => {
     return (
         <>
             <Head>
@@ -578,6 +584,20 @@ const AnswersFirst = () => {
                     </div>
                 </div>
             </div>
+        </>
+    )
+};
+
+const AnswersFirst = () => {
+    return (
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} key="title" />
+                <meta name="description" content={description} />
+                <meta name="og:image" content={image} />
+            </Head>
+            {isPrivate ? <PasswordProtect isPrivate={true} AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} /> : <AuthenticatedContent />}
         </>
     )
 }
