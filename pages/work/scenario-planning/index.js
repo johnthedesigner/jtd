@@ -626,13 +626,15 @@ const AuthenticatedContent = () => {
 };
 
 const ScenarioPlanning = () => {
+    const title = isPrivate ? "Private Case Study" : `${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`;
+    const description = isPrivate ? "This case study is private. Please reach out to John Livornese directly for access." : (caseStudy ? caseStudy.description : description);
     return (
         <>
             <Head>
                 <title>{title}</title>
                 <meta property="og:title" content={title} key="title" />
                 <meta name="description" content={description} />
-                <meta name="og:image" content={image} />
+                <meta name="og:image" content={pages.scenarioPlanning.image} />
             </Head>
             {isPrivate ? <PasswordProtect isPrivate={true} AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} /> : <AuthenticatedContent />}
         </>

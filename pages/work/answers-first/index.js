@@ -18,10 +18,10 @@ const AuthenticatedContent = () => {
     return (
         <>
             <Head>
-                <title>{title}</title>
-                <meta property="og:title" content={title} key="title" />
-                <meta name="description" content={description} />
-                <meta name="og:image" content={image} />
+                <title>{`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`}</title>
+                <meta property="og:title" content={`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`} key="title" />
+                <meta name="description" content={caseStudy ? caseStudy.description : description} />
+                <meta name="og:image" content={pages.answersFirst.image} />
             </Head>
             <div id="main">
                 <Header blue />

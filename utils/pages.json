@@ -30,5 +30,18 @@
         "image": "/social-img.png",
         "path": "/work/scenario-planning",
         "inSitemap": true
+    },
+    "prepare": {
+        "label": "Prepare",
+        "image": "/social-img.png",
+        "path": "/work/prepare",
+        "inSitemap": false
+    },
+    "forma": {
+        "label": "Forma",
+        "title": "Case Study: \"Forma\" | John the Designer – Boston-Area Product Designer John Livornese",
+        "image": "/social-img.png",
+        "path": "/work/forma",
+        "inSitemap": false
     }
 }
