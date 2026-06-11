@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { oklch, formatHex } from 'culori'
 
+const isMobile = window.matchMedia('(max-width: 768px)').matches
+
 function shiftL(hex, delta) {
     const c = oklch(hex)
     if (!c) return hex
@@ -20,11 +22,12 @@ const SIZE_MIN = 40
 const SIZE_MAX = 800
 const STAGGER_MS = 2000
 const FADE_MS = 40
+const LOGO_COUNT_FACTOR = isMobile ? 100 : 500
 
 // Scale logo count proportionally to the vh value in the height string
 function logoCountFromHeight(height) {
     const vh = parseFloat(height)
-    if (!isNaN(vh)) return Math.round((vh / 100) * 500)
+    if (!isNaN(vh)) return Math.round((vh / 100) * LOGO_COUNT_FACTOR)
     return 200
 }
 
