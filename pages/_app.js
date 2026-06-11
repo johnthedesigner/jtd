@@ -7,9 +7,31 @@ import '../styles/globals.css'
 import * as gtag from '../utils/gtag'
 import { Analytics } from '@vercel/analytics/react'
 
+import localFont from 'next/font/local'
+import { Fraunces, Nunito_Sans } from 'next/font/google'
+
 import { PasswordProvider } from '../utils/context'
 import Layout from '../components/Layout'
 import AuthNotice from '../components/AuthNotice'
+
+const schmaltzy = localFont({
+    src: '../public/fonts/Schmaltzy-VF.ttf',
+    variable: '--font-schmaltzy',
+    display: 'swap',
+})
+
+const fraunces = Fraunces({
+    subsets: ['latin'],
+    axes: ['opsz', 'SOFT'],
+    variable: '--font-fraunces',
+    display: 'swap',
+})
+
+const nunitoSans = Nunito_Sans({
+    subsets: ['latin'],
+    variable: '--font-nunito-sans',
+    display: 'swap',
+})
 
 function MyApp({ Component, pageProps }) {
     // Password Protecting Case Studies
@@ -30,30 +52,20 @@ function MyApp({ Component, pageProps }) {
             setAuthenticated(false)
             localStorage.setItem('authenticated', JSON.stringify(false))
             setPasswordError(true)
-            // setTimeout(() => { // Uncomment if you want to clear the error after a delay
-            //     setPasswordError(false)
-            // }, 3000)
         }
     }
-    // Logout function
     const logout = () => {
-        console.log('Logging out...')
         setAuthenticated(false)
         setAuthLoading(false)
         localStorage.setItem('authenticated', JSON.stringify(false))
         setPasswordError(false)
-        console.log('Logged out, authenticated state:', authenticated)
     }
-    // get and set authenticated in local storage
     useEffect(() => {
-        console.log('Checking local storage for authenticated state...')
         const storedAuth = localStorage.getItem('authenticated')
         if (storedAuth) {
-            console.log('Found authenticated state in local storage:', storedAuth)
             setAuthenticated(JSON.parse(storedAuth))
         } else {
             logout()
-            console.log('No authenticated state found in local storage, setting to false')
         }
     }, [])
 
@@ -69,6 +81,8 @@ function MyApp({ Component, pageProps }) {
         }
     }, [router.events])
 
+    const isDesignRoute = router.pathname.startsWith('/design')
+
     return (
         <>
             <Script
@@ -83,18 +97,23 @@ function MyApp({ Component, pageProps }) {
                     gtag('config', 'G-3FS5NPTT0B');
                 `}
             </Script>
-            {/* <Theme grayColor='gray' hasBackground={false} accentColor='#0069F0' radius="large" scaling="95%"> */}
             <CookiesProvider>
                 <PasswordProvider.Provider value={{ authLoading, authenticated, passwordError, dialogOpen, setDialogOpen, handlePassword, logout }}>
-                    {authenticated && <AuthNotice />}
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
+                    <div className={`${schmaltzy.variable} ${fraunces.variable} ${nunitoSans.variable}`} style={{ fontVariationSettings: "'SOFT' 50" }}>
+                        {isDesignRoute ? (
+                            <Component {...pageProps} />
+                        ) : (
+                            <>
+                                {authenticated && <AuthNotice />}
+                                <Layout>
+                                    <Component {...pageProps} />
+                                </Layout>
+                            </>
+                        )}
+                    </div>
                 </PasswordProvider.Provider>
                 <Analytics />
             </CookiesProvider>
-            {/* <ThemePanel /> */}
-            {/* </Theme> */}
         </>
     )
 }

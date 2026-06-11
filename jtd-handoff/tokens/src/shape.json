@@ -1,0 +1,144 @@
+{
+  "radius": {
+    "$description": "Border radius scale for johnthedesigner.com. Personality: rounded-but-controlled — warm and approachable without being consumer-playful. Scale approved in style-preview v5. Hierarchy principle: inline interactive elements (6px) < containers (10px) < overlays (18px). No component uses the same radius as a component at a meaningfully different scale. Full-radius reserved for badges and pills only.",
+    "none": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$description": "Hard edge. Use for: horizontal rules, full-bleed image containers, code block backgrounds where content must align flush, data table cells. Not used on interactive elements."
+    },
+    "xs": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$description": "Minimal rounding. Use for: inline code snippets, small chip variants, tooltip containers. Barely perceptible — signals precision without being sharp."
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "6px",
+      "$description": "INTERACTIVE TIER — primary radius for all interactive inline elements. Use for: buttons (all variants), text inputs, select controls, semantic state blocks (error/success/warning), search fields. 6px creates a friendly but controlled feel appropriate to a professional portfolio."
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "8px",
+      "$description": "General purpose. Use for: image thumbnails in flowing content, inline media embeds at small scale, secondary surface elements that need moderate rounding. Bridges interactive (6px) and container (10px) tiers."
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "10px",
+      "$description": "CONTAINER TIER — primary radius for surface containers. Use for: work index cards, media embeds, image panels, aside containers. Cards use shadow-sm for elevation — radius is the shape complement to that shadow."
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "14px",
+      "$description": "PANEL TIER — solid section panels and prominent callouts. Use for: blue-500 callout blocks, CTA sections (blue-500 or slate-900 fills), featured aside blocks. Larger containers warrant more rounding to avoid feeling like sharp-cornered rectangles at their size."
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "18px",
+      "$description": "OVERLAY TIER — highest radius in the system. Use for: modals, dialogs, drawers, bottom sheets. The soft rounding of overlays communicates their temporary/floating nature. Do not apply to persistent UI elements."
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "9999px",
+      "$description": "PILL — full circular radius. Use for: badges (solid and outline), tags, filter chips. Pill shapes are high-emphasis visual signals — reserved for these labeling components only. Do not apply full-radius to buttons, cards, or inputs — it would conflict with the system's controlled-rounding personality."
+    }
+  },
+  "shadow": {
+    "$description": "Elevation scale. Three levels only — minimal shadow system. Shadow colors derived from slate-900 (#0e1720) hue for cool-tinted shadows rather than generic black-opacity. Solid fill sections (blue-500, slate-900) use no shadow — color carries the emphasis.",
+    "none": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "0px",
+        "color": "transparent"
+      },
+      "$description": "No elevation. Use for: flat bordered elements (dividers, bordered cards before hover), inline code, page-level surface. Pair with border-color token for visible structure without elevation."
+    },
+    "sm": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "2px",
+        "blur": "8px",
+        "spread": "0px",
+        "color": "rgba(14, 23, 32, 0.08)"
+      },
+      "$description": "Raised surface. Use for: work index cards, any surface that must visually lift off the page. The second shadow value below (1px hairline) is expressed as a separate CSS layer: 0 0 1px rgba(14,23,32,0.06). Both layers should be applied together: box-shadow: 0 2px 8px rgba(14,23,32,0.08), 0 0 1px rgba(14,23,32,0.06)"
+    },
+    "sm-hairline": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "1px",
+        "spread": "0px",
+        "color": "rgba(14, 23, 32, 0.06)"
+      },
+      "$description": "Hairline layer — always paired with shadow.sm. Creates a subtle edge definition at the border of raised cards. Apply as the second value in a multi-layer box-shadow declaration."
+    },
+    "lg": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "8px",
+        "blur": "32px",
+        "spread": "0px",
+        "color": "rgba(14, 23, 32, 0.14)"
+      },
+      "$description": "Overlay elevation. Use for: modals, dialogs, dropdown menus, tooltip panels. The second layer: 0 2px 8px rgba(14,23,32,0.07). Full declaration: box-shadow: 0 8px 32px rgba(14,23,32,0.14), 0 2px 8px rgba(14,23,32,0.07)"
+    },
+    "lg-mid": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "2px",
+        "blur": "8px",
+        "spread": "0px",
+        "color": "rgba(14, 23, 32, 0.07)"
+      },
+      "$description": "Mid layer — always paired with shadow.lg. Apply as the second value in a multi-layer box-shadow declaration."
+    },
+    "focus-ring": {
+      "$type": "shadow",
+      "$value": {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "3px",
+        "color": "rgba(22, 131, 255, 0.18)"
+      },
+      "$description": "Focus ring glow — paired with a 2px solid blue-500 border on focused inputs. Creates a soft blue halo that reinforces focus visibility beyond the border alone. Full input focus declaration: border: 2px solid #1683FF; box-shadow: 0 0 0 3px rgba(22,131,255,0.18)"
+    }
+  },
+  "border": {
+    "$description": "Border width tokens. Kept minimal — this system favors solid fills and shadows over borders as structural elements. Borders appear only where a dividing line genuinely communicates structure.",
+    "width": {
+      "none": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "No border. Default for elevated surfaces — shadow provides definition."
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "1px",
+        "$description": "Standard border. Use for: horizontal rules (hr), section dividers, flat card outlines, input resting state. The majority of bordered elements."
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "1.5px",
+        "$description": "Medium border. Use for: badge-outline variant border, ghost button border. Slightly heavier than sm to ensure visibility at small sizes."
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "2px",
+        "$description": "Heavy border. Use for: focused input border (blue-500, 2px), active/selected state indicators. Signals interactivity."
+      },
+      "focus": {
+        "$type": "dimension",
+        "$value": "2px",
+        "$description": "Focus ring border width. Applied as border: 2px solid color.border-focus on focused interactive elements. Always paired with shadow.focus-ring."
+      }
+    }
+  }
+}

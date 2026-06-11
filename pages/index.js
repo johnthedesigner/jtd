@@ -1,149 +1,17 @@
-import _ from 'lodash'
 import Head from 'next/head'
-import copy from 'copy-to-clipboard'
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
-
+import Image from 'next/image'
+import CaseStudyCard from '../components/CaseStudyCard'
+import { Button } from '../components/ui/button'
+import LogoHero from '../components/LogoHero'
 import SketchLogo from '../components/SketchLogo'
-import { palettes } from '../utils/colorUtils'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import pages from '../utils/pages.json'
-import WorkItem from '../components/WorkItem'
 import caseStudies from '../utils/caseStudies'
 
-const { title, description, image, path } = pages.home
+const { title, description, image } = pages.home
 
 export default function Home() {
-    const router = useRouter()
-
-    const [emailAddress, setEmailAddress] = useState('')
-    const [showCopySuccess, setShowCopySuccess] = useState(false)
-
-    // Update email address after initial render
-    useEffect(() => {
-        setEmailAddress('john@johnthedesigner.com')
-    }, [])
-
-    // Copy email address to clipboard then trigger success message
-    const copyEmail = async () => {
-        await copy(emailAddress)
-        setShowCopySuccess(true)
-        setTimeout(() => {
-            setShowCopySuccess(false)
-        }, 3000)
-    }
-
-    const Feature = ({ title, caption, thumbnail, logo, path, flag }) => {
-        const itemStyles = {
-            backgroundImage: `url(${thumbnail})`,
-            width: '100%',
-            aspectRatio: '1',
-        }
-
-        const thumbnailClick = () => {
-            if (path) {
-                router.push(path)
-            }
-        }
-
-        return (
-            <button
-                className={`home-features__item ${path ? '' : 'home-features__item--disabled'
-                    }`}
-                style={itemStyles}
-                onClick={thumbnailClick}
-            >
-                <div className="home-features__item-text">
-                    {flag && <p className="home-features__item-flag">{flag}</p>}
-                    <h3 className="home-features__item-title">{title}</h3>
-                    <p className="home-features__item-caption">{caption}</p>
-                    {logo && (
-                        <p className="home-features__item-logo">
-                            <Image
-                                src={logo}
-                                fill
-                                style={{ objectFit: 'contain' }}
-                                alt="company logo"
-                            />
-                        </p>
-                    )}
-                </div>
-            </button>
-        )
-    }
-
-    const Endorsement = ({ palette, text, byline, bytitle, byimage, size }) => {
-        return (
-            <div
-                className="home-features__endorsement"
-                style={{ background: palette[1].value }}
-            >
-                <svg
-                    width="86"
-                    height="90"
-                    viewBox="0 0 86 90"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{
-                        position: 'absolute',
-                        right: '2rem',
-                        bottom: '-2.75rem',
-                    }}
-                >
-                    <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M20 0H86L56 30L26 60H40L0 90L10 60H0L10 30L20 0Z"
-                        fill={palette[1].value}
-                    />
-                </svg>
-                <p
-                    className="home-features__endorsement-quote"
-                    style={{ color: 'white', fontSize: size }}
-                >
-                    {text}
-                </p>
-                <div className="home-features__endorsement-footer">
-                    {byimage && (
-                        <div className="home-features__endorsement-avatar">
-                            <Image
-                                src={byimage}
-                                alt={byline}
-                                className="home-features__endorsement-image"
-                                fill
-                            />
-                        </div>
-                    )}
-                    <div className="home-features__endorsement-footer-text">
-                        <p
-                            className="home-features__endorsement-byline"
-                            style={{ color: palette[6].value }}
-                        >
-                            {byline}
-                        </p>
-                        {bytitle && (
-                            <p
-                                className="home-features__endorsement-bytitle"
-                                style={{ color: palette[6].value }}
-                            >
-                                {bytitle}
-                            </p>
-                        )}
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-    const pageStyles = {
-        backgroundImage: "url('/logobg.svg')",
-        backgroundSize: "110% auto",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center 10rem",
-    }
+    const featuredStudy = caseStudies.find(cs => cs.homepage)
 
     return (
         <>
@@ -153,36 +21,199 @@ export default function Home() {
                 <meta name="description" content={description} />
                 <meta property="og:image" content={image} />
             </Head>
-            <Header />
-            <div className="home-hero" style={pageStyles}>
-                <div className="home-hero__logo">
-                    <SketchLogo />
-                </div>
-                <div className="home-hero__text">
-                    <h1 className="home-hero__title">
-                        <span className="home-hero__title-top">John the</span>
-                        <span className="home-hero__title-bottom">
-                            Designer
-                        </span>
+
+            <LogoHero height="80vh" animate>
+                <div style={{ textAlign: 'center', padding: '0 24px' }}>
+                    <div style={{ width: 'min(480px, 80vw)', marginBottom: '32px', overflow: 'hidden', margin: '0 auto 32px' }}>
+                        <SketchLogo />
+                    </div>
+                    <h1 style={{
+                        fontFamily: 'var(--font-schmaltzy), Palatino Linotype, serif',
+                        fontSize: 'clamp(72px, 14vw, 180px)',
+                        fontWeight: 600,
+                        lineHeight: 0.95,
+                        letterSpacing: '-0.02em',
+                        color: 'white',
+                        margin: '0 0 24px',
+                    }}>
+                        <span style={{ display: 'block' }}>John the</span>
+                        <span style={{ display: 'block' }}>Designer</span>
                     </h1>
-                    <h2 className="home-hero__tag-line">
-                        I turn complex design problems into simple and beautiful
-                        websites & apps.
+                    <p style={{
+                        fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                        fontSize: 'clamp(16px, 2vw, 22px)',
+                        fontWeight: 700,
+                        lineHeight: 1.4,
+                        color: 'rgba(255,255,255,0.9)',
+                        maxWidth: '500px',
+                        margin: '0 auto',
+                    }}>
+                        I turn complex design problems into simple and beautiful websites&nbsp;&amp;&nbsp;apps.
+                    </p>
+                </div>
+            </LogoHero>
+
+            {/* Case studies section */}
+            <div style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{
+                    maxWidth: '880px',
+                    margin: '0 auto',
+                    padding: '240px 24px 120px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '32px',
+                }}>
+                    <h2 style={{
+                        fontFamily: 'var(--font-fraunces), Georgia, serif',
+                        fontSize: 'clamp(32px, 4vw, 48px)',
+                        fontWeight: 600,
+                        lineHeight: 1.1,
+                        letterSpacing: '-0.02em',
+                        color: 'var(--color-on-surface)',
+                        margin: 0,
+                    }}>
+                        Case Studies
                     </h2>
+                    {featuredStudy && <CaseStudyCard item={featuredStudy} />}
+                    <Button asChild variant="primary" className="w-full">
+                        <Link href="/work">View all case studies</Link>
+                    </Button>
                 </div>
             </div>
-            <div style={{ padding: '4rem 0 6rem', margin: '0 auto', width: '50rem', maxWidth: '90%' }}>
-                <h3 style={{ fontFamily: 'var(--blackletter-font)', fontSize: '3rem', fontWeight: 700, lineHeight: '1.5', margin: '1rem 2rem', textAlign: 'center' }}>Case Studies</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '3rem' }}>
-                    <WorkItem
-                        item={_.find(caseStudies, { homepage: true })} />
-                    <div className="case-studies-link" onClick={() => router.push('/work')}>
-                        <span className="case-studies-link__count">+3 more</span>
-                        <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                        </svg>
-                        <span className="case-studies-link__label">Go to the Case Studies</span>
-                    </div>
+
+            {/* Personal Projects section */}
+            <div style={{
+                maxWidth: '880px',
+                margin: '0 auto',
+                padding: '0 24px 120px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '32px',
+            }}>
+                <h2 style={{
+                    fontFamily: 'var(--font-fraunces), Georgia, serif',
+                    fontSize: 'clamp(32px, 4vw, 48px)',
+                    fontWeight: 600,
+                    lineHeight: 1.1,
+                    letterSpacing: '-0.02em',
+                    color: 'var(--color-on-surface)',
+                    margin: 0,
+                }}>
+                    Personal Projects
+                </h2>
+                {/* subgrid: each card spans 3 rows so logo/text/buttons align across both cards */}
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    columnGap: '24px',
+                    rowGap: '24px',
+                }}>
+                    {[
+                        {
+                            logo: '/sistema-logo.svg',
+                            logoWidth: 583,
+                            logoHeight: 192,
+                            logoAlt: 'Sistema',
+                            description: 'A knowledge base and playbook that gives AI agents reference material from real design systems before they generate. The output looks like it was designed, not statistically averaged.',
+                            caseStudyHref: '/work/sistema',
+                            projectHref: 'https://sistema.johnthedesigner.com',
+                            projectLabel: 'Open Sistema',
+                        },
+                        {
+                            logo: '/paletteer-logo.svg',
+                            logoWidth: 500,
+                            logoHeight: 124,
+                            logoAlt: 'Paletteer',
+                            description: 'A color palette generator that builds accessible, flexible token ramps from a seed color. Started as an internal tool, now a Figma plugin with 16,000+ users.',
+                            caseStudyHref: '/work/colors',
+                            projectHref: 'https://www.figma.com/community/plugin/849144368519969202',
+                            projectLabel: 'Open Figma Plugin',
+                        },
+                    ].map(({ logo, logoWidth, logoHeight, logoAlt, description, caseStudyHref, projectHref, projectLabel }) => (
+                        <div key={caseStudyHref} style={{
+                            gridRow: 'span 3',
+                            display: 'grid',
+                            gridTemplateRows: 'subgrid',
+                            borderRadius: '16px',
+                            border: '1px solid var(--color-border)',
+                            background: 'var(--color-surface-raised)',
+                            boxShadow: '0 2px 8px rgba(14,23,32,0.06), 0 0 1px rgba(14,23,32,0.04)',
+                            overflow: 'hidden',
+                            textAlign: 'center',
+                        }}>
+                            {/* Row 1 — logo */}
+                            <div style={{ padding: '40px 36px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Image
+                                    src={logo}
+                                    alt={logoAlt}
+                                    width={logoWidth}
+                                    height={logoHeight}
+                                    style={{ height: '40px', width: 'auto' }}
+                                />
+                            </div>
+                            {/* Row 2 — description */}
+                            <p style={{
+                                fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                fontSize: '15px',
+                                lineHeight: 1.6,
+                                color: 'var(--color-on-surface-body)',
+                                margin: 0,
+                                padding: '0 36px',
+                            }}>
+                                {description}
+                            </p>
+                            {/* Row 3 — buttons */}
+                            <div style={{ padding: '0 36px 40px', display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                                <a
+                                    href={projectHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '6px',
+                                        height: '40px',
+                                        padding: '0 18px',
+                                        background: 'var(--color-primary)',
+                                        color: 'white',
+                                        fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                        fontSize: '13px',
+                                        fontWeight: 700,
+                                        letterSpacing: '0.01em',
+                                        textDecoration: 'none',
+                                        borderRadius: '8px',
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
+                                    {projectLabel}
+                                    <svg width={12} height={12} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </a>
+                                <Link
+                                    href={caseStudyHref}
+                                    style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        height: '40px',
+                                        padding: '0 18px',
+                                        background: 'transparent',
+                                        color: 'var(--color-on-surface)',
+                                        border: '1px solid var(--color-border-mid)',
+                                        fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                        fontSize: '13px',
+                                        fontWeight: 700,
+                                        letterSpacing: '0.01em',
+                                        textDecoration: 'none',
+                                        borderRadius: '8px',
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
+                                    Case study
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>

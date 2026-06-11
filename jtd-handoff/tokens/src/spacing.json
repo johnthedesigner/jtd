@@ -1,0 +1,103 @@
+{
+  "space": {
+    "1": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$description": "4px — hairline spacing. Use for: icon-to-label gap, badge internal padding adjustment, tight inline gaps. Not suitable for component padding."
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": "8px",
+      "$description": "8px — compact spacing. Use for: gap between badge and adjacent text, gap between stacked tags, internal padding in caption/label contexts."
+    },
+    "3": {
+      "$type": "dimension",
+      "$value": "12px",
+      "$description": "12px — small component padding. Use for: callout block vertical padding (paired with space-7 horizontal), tight card internal rhythm, gap between a label and its content."
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$description": "16px — standard component gap. The component-gap semantic alias points here. Use for: gap between adjacent badges/tags, gap between stacked form elements, button horizontal padding (paired with space-6 vertical)."
+    },
+    "5": {
+      "$type": "dimension",
+      "$value": "20px",
+      "$description": "20px — medium component padding. Use for: card internal horizontal padding (alongside space-7 for vertical), spacing between a heading and its following paragraph within a section."
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": "24px",
+      "$description": "24px — generous component padding. The page-gutter semantic alias points here. Use for: page horizontal gutter on mobile, card body padding, callout horizontal padding."
+    },
+    "7": {
+      "$type": "dimension",
+      "$value": "28px",
+      "$description": "28px — card padding tier. Use for: work card internal padding (vertical), comfortable component breathing room."
+    },
+    "8": {
+      "$type": "dimension",
+      "$value": "32px",
+      "$description": "32px — section element gap. Use for: gap between a section heading and the content that follows it, gap between a display title and the deck copy beneath it, card padding on larger viewports."
+    },
+    "10": {
+      "$type": "dimension",
+      "$value": "40px",
+      "$description": "40px — sub-section gap. Use for: gap between discrete content blocks within a section, spacing between the last paragraph and a following callout block, page gutter on tablet."
+    },
+    "12": {
+      "$type": "dimension",
+      "$value": "48px",
+      "$description": "48px — comfortable section spacing. Use for: gap between major sections on mobile, solid panel vertical padding."
+    },
+    "14": {
+      "$type": "dimension",
+      "$value": "56px",
+      "$description": "56px — large section gap. Use for: page header padding-top, space above and below the primary display headline."
+    },
+    "16": {
+      "$type": "dimension",
+      "$value": "64px",
+      "$description": "64px — generous layout spacing. Use for: gap between case study sections on desktop, vertical padding inside solid-fill sections."
+    },
+    "20": {
+      "$type": "dimension",
+      "$value": "80px",
+      "$description": "80px — major section gap. The section-gap semantic alias points here. Use for: vertical gap between major page sections (e.g., between the hero and the first work section, between case study TL;DR and body content)."
+    },
+    "24": {
+      "$type": "dimension",
+      "$value": "96px",
+      "$description": "96px — page-level breathing room. Use for: page bottom padding, very generous section gaps on desktop at wide viewport."
+    },
+    "$description": "Spacing scale for johnthedesigner.com. Content-sparse tier — generous stops on a 4px base unit. All values are multiples of 4px. Named by their pixel value so the token name is always truthful: space-4 is always 4px. Do not use arbitrary values outside this scale. For component-internal padding, prefer space-3 through space-6. For layout-level gaps, prefer space-8 through space-20."
+  },
+  "layout": {
+    "$description": "Semantic layout aliases — the three most-referenced layout spacing decisions. These reference the underlying space tokens and exist so components can say layout.page-gutter rather than space-6, making intent explicit and allowing the underlying value to change without hunting through component code.",
+    "page-gutter": {
+      "$type": "dimension",
+      "$value": "{space.6}",
+      "$description": "Horizontal padding on page-level containers — the margin between content and the viewport edge. 24px on mobile. On desktop (≥1024px), this expands via responsive logic to space-10 (40px) or space-12 (48px) depending on viewport. The token defines the mobile base; responsive overrides are applied in the layout component."
+    },
+    "section-gap": {
+      "$type": "dimension",
+      "$value": "{space.20}",
+      "$description": "Vertical gap between major page sections — e.g., between the hero and the work grid, between the work grid and the about section, between case study sections. 80px. Content-sparse tier; this generous gap is what gives the site its open, editorial quality."
+    },
+    "component-gap": {
+      "$type": "dimension",
+      "$value": "{space.4}",
+      "$description": "Default gap between adjacent sibling components in a list, row, or flex container — e.g., the gap between tag pills in a tag row, between badge and eyebrow label, between stacked form elements. 16px."
+    },
+    "content-max-width": {
+      "$type": "dimension",
+      "$value": "720px",
+      "$description": "Maximum width for prose content columns — about page body, case study body paragraphs. 720px at 17px Nunito Sans produces approximately 75–80 characters per line, within the optimal 45–90 character measure range."
+    },
+    "page-max-width": {
+      "$type": "dimension",
+      "$value": "880px",
+      "$description": "Maximum width for the overall page wrapper — wider than content-max-width to allow eyebrow labels, display headings, and imagery to extend beyond the prose column without going edge-to-edge."
+    }
+  }
+}

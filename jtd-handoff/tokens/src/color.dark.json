@@ -1,0 +1,119 @@
+{
+  "$metadata": {
+    "tokenSetOrder": ["color"]
+  },
+  "$description": "Dark mode color overrides for johnthedesigner.com. Applied via @media (prefers-color-scheme: dark). Tonal shift model — not inversion. Only tokens that change between light and dark are defined here.",
+
+  "color": {
+
+    "surface": {
+      "$type": "color",
+      "$value": "#0e1720",
+      "$description": "Dark mode page surface — slate-900. Deep neutral, cool-tinted. Not true black."
+    },
+    "surface-raised": {
+      "$type": "color",
+      "$value": "#182330",
+      "$description": "Dark mode raised surface — slate-800. Cards, sheets sit one step lighter than base."
+    },
+    "surface-overlay": {
+      "$type": "color",
+      "$value": "#22303f",
+      "$description": "Dark mode overlay surface — slate-700. Modals and dialogs one step above raised."
+    },
+    "surface-subtle": {
+      "$type": "color",
+      "$value": "#182330",
+      "$description": "Dark mode subtle surface — same as raised. Slate-50 in light mode becomes slate-800 in dark."
+    },
+
+    "on-surface": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$description": "Dark mode heading/display text — pure white. 18.07:1 on slate-900 — AA ✓"
+    },
+    "on-surface-body": {
+      "$type": "color",
+      "$value": "#d5dde6",
+      "$description": "Dark mode body text — slate-100. Lighter than slate-200 used previously; 13.18:1 on slate-900 — AA ✓. Not pure white — preserves readability and avoids harsh contrast."
+    },
+    "on-surface-muted": {
+      "$type": "color",
+      "$value": "#7f97ad",
+      "$description": "Dark mode muted text — slate-300. 4.88:1 on slate-900 — AA ✓"
+    },
+    "on-surface-placeholder": {
+      "$type": "color",
+      "$value": "#56748e",
+      "$description": "Dark mode placeholder — slate-400. 3.02:1 on slate-900 — passes non-text 3:1 ✓ for placeholder context."
+    },
+
+    "primary": {
+      "$type": "color",
+      "$value": "#1683FF",
+      "$description": "Primary fill color unchanged in dark mode — blue-500 holds its vibrancy against the dark surface."
+    },
+    "primary-text": {
+      "$type": "color",
+      "$value": "#5ca8ff",
+      "$description": "Dark mode interactive text — blue-300. Tonal shift from blue-600 light. 7.31:1 on slate-900 — AAA ✓"
+    },
+    "primary-hover": {
+      "$type": "color",
+      "$value": "#2d8eff",
+      "$description": "Dark mode hover for primary fills — blue-400, slightly lighter than blue-500."
+    },
+    "primary-subtle": {
+      "$type": "color",
+      "$value": "#042d5e",
+      "$description": "Dark mode subtle blue tint — blue-900. Used for ghost button hover backgrounds."
+    },
+
+    "border": {
+      "$type": "color",
+      "$value": "#22303f",
+      "$description": "Dark mode default border — slate-700."
+    },
+    "border-mid": {
+      "$type": "color",
+      "$value": "#2D3C4D",
+      "$description": "Dark mode stronger border — slate-600."
+    },
+    "border-focus": {
+      "$type": "color",
+      "$value": "#2d8eff",
+      "$description": "Dark mode focus ring — blue-400. More visible against dark surfaces than blue-500."
+    },
+
+    "error": {
+      "$type": "color",
+      "$value": "#FAA1A1",
+      "$description": "Error fill unchanged — pastel red remains readable in dark mode context. Slate-900 text: 9.19:1 — AA ✓"
+    },
+    "success": {
+      "$type": "color",
+      "$value": "#A1DFB7",
+      "$description": "Success fill unchanged. Slate-900 text: 11.84:1 — AA ✓"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "#F8E49A",
+      "$description": "Warning fill unchanged. Slate-900 text: 14.25:1 — AA ✓"
+    },
+    "error-surface": {
+      "$type": "color",
+      "$value": "#2d1414",
+      "$description": "Dark mode error surface tint — deep red-tinted dark. Decorative only."
+    },
+    "success-surface": {
+      "$type": "color",
+      "$value": "#0d2018",
+      "$description": "Dark mode success surface tint — deep green-tinted dark. Decorative only."
+    },
+    "warning-surface": {
+      "$type": "color",
+      "$value": "#241e0a",
+      "$description": "Dark mode warning surface tint — deep amber-tinted dark. Decorative only."
+    }
+  }
+}
