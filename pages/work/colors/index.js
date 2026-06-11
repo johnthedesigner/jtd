@@ -1,342 +1,457 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-import Footer from '../../../components/Footer'
-import { useEffect, useState } from 'react'
-import _ from 'lodash'
+import { useState } from 'react'
+import {
+    ProseSection, ProseSectionHeading, ProseSectionBody,
+} from '@/components/case-study/ProseSection'
+import { CaseStudyHero } from '@/components/case-study/CaseStudyHero'
+import { TLDRBlock, TLDRItemWhite } from '@/components/case-study/TLDRBlock'
+import { NextCaseStudy } from '@/components/case-study/NextCaseStudy'
+import pages from '@/utils/pages.json'
+import ActionIcon from '@/components/ActionIcons'
+import { generatePalette, isValidHex } from '@/utils/palette'
+import { STOPS, toCss, toTailwind, toDtcg } from '@/utils/paletteFormat'
+import caseStudies from '@/utils/caseStudies'
+import PasswordProtect from '@/components/PasswordProtect'
+import UnauthenticatedContent from '@/components/UnauthenticatedCaseStudy'
 
-import Header from '../../../components/Header'
-import { palettes } from '../../../utils/colorUtils'
-import pages from '../../../utils/pages.json'
-import ActionIcon from '../../../components/ActionIcons'
-import generateColors from '../../../utils/generateColors'
-import caseStudies from '../../../utils/caseStudies'
-import PasswordProtect from '../../../components/PasswordProtect'
-import UnauthenticatedContent from '../../../components/UnauthenticatedCaseStudy'
+const caseStudy = caseStudies.find((cs) => cs.href === '/work/colors')
+const isPrivate = caseStudy?.private ?? false
 
-const { title, description, image } = pages.colors
+const GAP = '80px'
 
-const caseStudy = caseStudies.find((cs) => cs.href === '/work/colors');
-const isPrivate = caseStudy ? caseStudy.private : false;
+const Narrow = ({ children, padBottom = false }) => (
+    <div style={{
+        maxWidth: '720px',
+        margin: '0 auto',
+        width: '100%',
+        padding: `${GAP} 24px ${padBottom ? GAP : '0'}`,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: GAP,
+    }}>
+        {children}
+    </div>
+)
 
-const seedColors = [
-    '#FF6C63',
-    '#FFA51F',
-    '#FFEC44',
-    '#4FEB8D',
-    '#3DACEA',
-    '#AA7DE4',
-    '#273A40',
-]
+const INITIAL_SEED = '#AA7DE4'
+const initialPalette = generatePalette(INITIAL_SEED)
 
 const defaultExampleColors = {
-    cardBackground: 'white',
-    labelColor: palettes.black[2].value,
-    buttonBackground: palettes['purple-heart'][5].value,
-    buttonOutline: palettes['purple-heart'][5].value,
-    outlineButtonText: palettes['purple-heart'][5].value,
-    linkText: palettes['purple-heart'][5].value,
-    headlineColor: palettes['purple-heart'][5].value,
-    iconColor: palettes['purple-heart'][5].value,
-    paragraphColor: palettes.black[8].value,
+    cardBackground: '#ffffff',
+    labelColor: 'rgba(0,0,0,0.45)',
+    buttonBackground: initialPalette.stops['500'].hex,
+    buttonOutline: initialPalette.stops['500'].hex,
+    outlineButtonText: initialPalette.stops['500'].hex,
+    linkText: initialPalette.stops['500'].hex,
+    headlineColor: initialPalette.stops['500'].hex,
+    iconColor: initialPalette.stops['500'].hex,
+    paragraphColor: '#1a2632',
 }
 
-palettes.pur
-const initialPalette = generateColors(seedColors[5])
-
 const AuthenticatedContent = () => {
-    const [seedInput, setSeedInput] = useState('#AA7DE4')
-    const [seedColor, setSeedColor] = useState('#AA7DE4')
+    const [seedHex, setSeedHex] = useState(INITIAL_SEED)
+    const [hexInput, setHexInput] = useState(INITIAL_SEED)
+    const [paletteName, setPaletteName] = useState('custom')
     const [palette, setPalette] = useState(initialPalette)
-    const { swatches } = palette
     const [exampleType, setExampleType] = useState('light')
     const [exampleColors, setExampleColors] = useState(defaultExampleColors)
+    const [format, setFormat] = useState('css')
+    const [copied, setCopied] = useState(false)
+    const [swatchCopied, setSwatchCopied] = useState(null)
 
-    var examplePalettes = {
+    const examplePalettes = (p) => ({
         light: {
-            cardBackground: 'white',
-            labelColor: palettes.black[6].value,
-            buttonBackground: swatches[5].hex,
-            buttonOutline: swatches[5].hex,
-            outlineButtonText: swatches[5].hex,
-            linkText: swatches[5].hex,
-            headlineColor: swatches[5].hex,
-            iconColor: swatches[5].hex,
-            paragraphColor: palettes.black[12].value,
+            cardBackground: '#ffffff',
+            labelColor: 'rgba(0,0,0,0.45)',
+            buttonBackground: p.stops['500'].hex,
+            buttonOutline: p.stops['500'].hex,
+            outlineButtonText: p.stops['500'].hex,
+            linkText: p.stops['500'].hex,
+            headlineColor: p.stops['500'].hex,
+            iconColor: p.stops['500'].hex,
+            paragraphColor: '#1a2632',
         },
         dark: {
-            cardBackground: palettes.black[13].value,
-            labelColor: palettes.black[2].value,
-            buttonBackground: swatches[5].hex,
-            buttonOutline: swatches[5].hex,
-            outlineButtonText: swatches[5].hex,
-            linkText: swatches[5].hex,
-            headlineColor: swatches[3].hex,
-            iconColor: swatches[5].hex,
-            paragraphColor: palettes.black[0].value,
+            cardBackground: '#0e1720',
+            labelColor: 'rgba(255,255,255,0.4)',
+            buttonBackground: p.stops['500'].hex,
+            buttonOutline: p.stops['500'].hex,
+            outlineButtonText: p.stops['500'].hex,
+            linkText: p.stops['500'].hex,
+            headlineColor: p.stops['350'].hex,
+            iconColor: p.stops['500'].hex,
+            paragraphColor: '#d5dde6',
         },
         colorful: {
-            cardBackground: swatches[5].hex,
-            labelColor: swatches[1].hex,
-            buttonBackground: swatches[9].hex,
-            buttonOutline: swatches[9].hex,
-            outlineButtonText: swatches[0].hex,
-            linkText: swatches[0].hex,
-            headlineColor: swatches[1].hex,
-            iconColor: swatches[10].hex,
-            paragraphColor: 'white',
+            cardBackground: p.stops['500'].hex,
+            labelColor: p.stops['100'].hex,
+            buttonBackground: p.stops['750'].hex,
+            buttonOutline: p.stops['750'].hex,
+            outlineButtonText: p.stops['50'].hex,
+            linkText: p.stops['50'].hex,
+            headlineColor: p.stops['100'].hex,
+            iconColor: p.stops['850'].hex,
+            paragraphColor: '#ffffff',
         },
+    })
+
+    const commitSeed = (hex) => {
+        const normalized = hex.startsWith('#') ? hex : '#' + hex
+        if (!isValidHex(normalized)) return
+        setSeedHex(normalized)
+        setHexInput(normalized)
+        const p = generatePalette(normalized)
+        setPalette(p)
+        setExampleColors(examplePalettes(p)[exampleType])
     }
 
-    useEffect(() => {
-        setPalette(generateColors(seedColor))
-    }, [seedColor])
-
-    useEffect(() => {
-        setExampleColors(examplePalettes[exampleType])
-    }, [palette])
-
-    const handleInputChange = (e) => {
-        let { value } = e.target
-        // If input is a complete valid color, update the seed color
-        let validColor = chroma.valid(value)
-        if (validColor) {
-            setSeedColor(value)
-        }
-        setSeedInput(value)
+    const handleHexInput = (e) => {
+        const val = e.target.value
+        setHexInput(val)
+        const normalized = val.startsWith('#') ? val : '#' + val
+        if (isValidHex(normalized)) commitSeed(normalized)
     }
 
-    const handleSeedClick = (seed) => {
-        setSeedColor(seed)
-        setSeedInput(seed)
+    const handleColorPicker = (e) => {
+        commitSeed(e.target.value)
     }
 
     const handleTypeClick = (type) => {
         setExampleType(type)
-        setExampleColors(examplePalettes[type])
+        setExampleColors(examplePalettes(palette)[type])
     }
 
-    const labelStyles = { color: exampleColors.labelColor }
+    const handleCopy = () => {
+        const name = paletteName.trim() || 'custom'
+        let text
+        if (format === 'css') text = toCss(name, palette)
+        else if (format === 'tailwind') text = toTailwind(name, palette)
+        else text = toDtcg(name, palette)
+        navigator.clipboard.writeText(text).then(() => {
+            setCopied(true)
+            setTimeout(() => setCopied(false), 2000)
+        })
+    }
 
-    const PaletteWidget = () => {
-        return (
-            <>
-                <h4
-                    style={{
-                        fontFamily: 'var(--monospace-font)',
-                        fontStyle: 'italic',
-                        textAlign: 'center',
-                        color: swatches[5].hex,
-                        margin: '.75rem auto',
-                    }}
-                >
-                    Choose a seed color to get started
-                </h4>
-                <div
-                    className="seed-colors"
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    <input
-                        type="text"
-                        value={seedInput}
-                        onChange={handleInputChange}
+    const handleSwatchCopy = (stop, hex) => {
+        navigator.clipboard.writeText(hex).then(() => {
+            setSwatchCopied(stop)
+            setTimeout(() => setSwatchCopied(null), 1200)
+        })
+    }
+
+    const labelStyle = (color) => ({
+        fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+        fontSize: '11px',
+        fontWeight: 700,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color,
+        display: 'block',
+        margin: '0 0 10px 0',
+        transition: 'color 0.2s',
+    })
+
+    const divider = <div style={{ height: '1px', background: 'rgba(128,128,128,0.15)' }} />
+
+    const isPickerValid = isValidHex(hexInput.startsWith('#') ? hexInput : '#' + hexInput)
+
+    const PaletteWidget = () => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+            {/* ── Color picker row ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <span style={{
+                    fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                    fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em',
+                    textTransform: 'uppercase', color: 'var(--color-on-surface-muted)',
+                }}>
+                    Choose a color
+                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <label
+                        title="Click to open color picker"
                         style={{
-                            border: `1px solid ${palettes.black[1].value}`,
-                            background: 'white',
-                            color: palettes.black[8].value,
-                            width: '6rem',
-                            height: '2rem',
-                            lineHeight: '2rem',
-                            padding: '0 .5rem',
-                            margin: '0 .5rem',
-                            borderRadius: '.25rem',
-                            fontFamily: 'var(--monospace-font)',
-                            fontSize: '1rem',
-                        }}
-                    />
-                    {_.map(seedColors, (seed) => {
-                        let seedStyles = {
-                            background: seed,
-                            width: '2rem',
-                            aspectRatio: '1',
-                            borderRadius: '50%',
-                            margin: '0 .125rem',
+                            width: '44px', height: '44px',
+                            borderRadius: '8px',
+                            background: isPickerValid ? seedHex : 'var(--color-surface-subtle)',
+                            border: '1px solid var(--color-border)',
                             cursor: 'pointer',
-                            borderColor:
-                                seed == seedColor ? 'white' : 'transparent',
-                            borderStyle: 'solid',
-                            borderWidth: '.125rem',
-                            boxSizing: 'border-box',
-                        }
+                            flexShrink: 0,
+                            position: 'relative',
+                            overflow: 'hidden',
+                            transition: 'background 0.2s',
+                        }}
+                    >
+                        <input
+                            type="color"
+                            value={isPickerValid ? seedHex : '#000000'}
+                            onChange={handleColorPicker}
+                            style={{
+                                position: 'absolute', inset: 0,
+                                opacity: 0, width: '100%', height: '100%',
+                                cursor: 'pointer',
+                            }}
+                        />
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        <input
+                            type="text"
+                            value={hexInput}
+                            onChange={handleHexInput}
+                            placeholder="#2563eb"
+                            maxLength={7}
+                            style={{
+                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                fontSize: '13px',
+                                height: '36px', padding: '0 10px',
+                                background: 'var(--color-surface)',
+                                border: `1px solid ${hexInput && !isPickerValid ? 'var(--color-error, #dc2626)' : 'var(--color-border)'}`,
+                                borderRadius: '6px',
+                                color: hexInput && !isPickerValid ? 'var(--color-error, #dc2626)' : 'var(--color-on-surface)',
+                                width: '110px', outline: 'none',
+                            }}
+                        />
+                        {hexInput && !isPickerValid && (
+                            <span style={{ fontSize: '11px', color: 'var(--color-error, #dc2626)', fontFamily: 'var(--font-nunito-sans)' }}>
+                                Enter a valid hex color
+                            </span>
+                        )}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        <input
+                            type="text"
+                            value={paletteName}
+                            onChange={(e) => setPaletteName(e.target.value.replace(/[^a-z0-9-]/gi, '-').toLowerCase())}
+                            placeholder="custom"
+                            style={{
+                                fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                fontSize: '13px',
+                                height: '36px', padding: '0 10px',
+                                background: 'var(--color-surface)',
+                                border: '1px solid var(--color-border)',
+                                borderRadius: '6px',
+                                color: 'var(--color-on-surface)',
+                                width: '130px', outline: 'none',
+                            }}
+                        />
+                    </div>
+                    <span style={{ fontSize: '11px', color: 'var(--color-on-surface-muted)', fontFamily: 'var(--font-nunito-sans)' }}>
+                        ← token name
+                    </span>
+                </div>
+            </div>
+
+            {/* ── 19-stop swatch strip ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(19, 1fr)', gap: '3px' }}>
+                    {STOPS.map((stop) => {
+                        const s = palette.stops[stop]
+                        const useWhite = s.contrast_white > s.contrast_black
+                        const labelColor = useWhite ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)'
+                        const isCopied = swatchCopied === stop
                         return (
-                            <div
-                                key={seed}
-                                className="palette__swatch"
-                                style={seedStyles}
-                                onClick={() => {
-                                    handleSeedClick(seed)
+                            <button
+                                key={stop}
+                                onClick={() => handleSwatchCopy(stop, s.hex)}
+                                title={`${stop}: ${s.hex}`}
+                                style={{
+                                    background: s.hex,
+                                    aspectRatio: '1 / 2.2',
+                                    borderRadius: '4px',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    padding: '4px 2px 3px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    transition: 'transform 0.1s',
+                                    outline: 'none',
                                 }}
-                            />
+                                onMouseEnter={e => e.currentTarget.style.transform = 'scaleY(1.06)'}
+                                onMouseLeave={e => e.currentTarget.style.transform = 'scaleY(1)'}
+                            >
+                                <span style={{ fontSize: '7px', fontFamily: 'monospace', color: labelColor, lineHeight: 1 }}>{stop}</span>
+                                <span style={{ fontSize: '6px', fontFamily: 'monospace', color: labelColor, lineHeight: 1, opacity: 0.8 }}>
+                                    {isCopied ? '✓' : s.hex.slice(1).toUpperCase()}
+                                </span>
+                            </button>
                         )
                     })}
                 </div>
-                <div
-                    className="color-examples"
-                    style={{ background: exampleColors.cardBackground }}
-                >
-                    <div className="color-examples__type-selection">
-                        <button
-                            className="color-examples__type-button"
-                            onClick={() => handleTypeClick('light')}
-                            style={{
-                                background:
-                                    examplePalettes.light.cardBackground,
-                                color: examplePalettes.light.paragraphColor,
-                            }}
-                        >
-                            Light
-                        </button>
-                        <button
-                            className="color-examples__type-button"
-                            onClick={() => handleTypeClick('dark')}
-                            style={{
-                                background: examplePalettes.dark.cardBackground,
-                                color: examplePalettes.dark.paragraphColor,
-                            }}
-                        >
-                            Dark
-                        </button>
-                        <button
-                            className="color-examples__type-button"
-                            onClick={() => handleTypeClick('colorful')}
-                            style={{
-                                background:
-                                    examplePalettes.colorful.cardBackground,
-                                color: examplePalettes.colorful.paragraphColor,
-                            }}
-                        >
-                            Colorful
-                        </button>
+            </div>
+
+            {/* ── Copy tokens ── */}
+            <div style={{
+                border: '1px solid var(--color-border)',
+                borderRadius: '10px',
+                overflow: 'hidden',
+            }}>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '10px 14px',
+                    background: 'var(--color-surface-subtle)',
+                    borderBottom: '1px solid var(--color-border)',
+                    flexWrap: 'wrap',
+                    gap: '8px',
+                }}>
+                    <div style={{
+                        display: 'flex', gap: '2px',
+                        background: 'var(--color-surface)',
+                        borderRadius: '6px', padding: '3px',
+                        border: '1px solid var(--color-border)',
+                    }}>
+                        {[
+                            { id: 'css', label: 'CSS Variables' },
+                            { id: 'tailwind', label: 'Tailwind' },
+                            { id: 'json', label: 'JSON Tokens' },
+                        ].map(({ id, label }) => (
+                            <button
+                                key={id}
+                                onClick={() => setFormat(id)}
+                                style={{
+                                    fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                    fontSize: '11px', fontWeight: 700,
+                                    padding: '4px 10px',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    background: format === id ? 'var(--color-primary)' : 'transparent',
+                                    color: format === id ? '#ffffff' : 'var(--color-on-surface-muted)',
+                                    transition: 'all 0.15s',
+                                }}
+                            >
+                                {label}
+                            </button>
+                        ))}
                     </div>
-                    <div
-                        className="color-examples__group"
-                        style={{ marginTop: '2rem' }}
+                    <button
+                        onClick={handleCopy}
+                        style={{
+                            fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                            fontSize: '12px', fontWeight: 700,
+                            height: '32px', padding: '0 14px',
+                            background: copied ? 'var(--color-success, #16a34a)' : 'var(--color-surface)',
+                            color: copied ? '#ffffff' : 'var(--color-on-surface)',
+                            border: '1px solid var(--color-border)',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            whiteSpace: 'nowrap',
+                        }}
                     >
-                        <label
-                            className="color-examples__label"
-                            style={labelStyles}
-                        >
-                            Color Palette
-                        </label>
-                        <div
-                            className="palette"
+                        {copied ? '✓ Copied!' : 'Copy'}
+                    </button>
+                </div>
+                <div style={{
+                    padding: '14px',
+                    background: 'var(--color-surface-subtle)',
+                    maxHeight: '160px',
+                    overflowY: 'auto',
+                }}>
+                    <pre style={{
+                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                        fontSize: '11px',
+                        lineHeight: 1.6,
+                        color: 'var(--color-on-surface-body)',
+                        margin: 0,
+                        whiteSpace: 'pre',
+                        overflowX: 'auto',
+                    }}>
+                        {format === 'css'
+                            ? toCss(paletteName.trim() || 'custom', palette)
+                            : format === 'tailwind'
+                            ? toTailwind(paletteName.trim() || 'custom', palette)
+                            : toDtcg(paletteName.trim() || 'custom', palette)
+                        }
+                    </pre>
+                </div>
+            </div>
+
+            {/* ── Preview card ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{
+                    display: 'flex', gap: '4px',
+                    background: 'var(--color-surface-subtle)',
+                    borderRadius: '8px', padding: '4px',
+                }}>
+                    {['light', 'dark', 'colorful'].map((type) => (
+                        <button
+                            key={type}
+                            onClick={() => handleTypeClick(type)}
                             style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(6, 1fr)',
-                                margin: '0 auto',
-                                width: '28rem',
-                                maxWidth: '100%',
+                                flex: 1,
+                                fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                fontSize: '12px', fontWeight: 700,
+                                height: '32px', border: 'none', borderRadius: '6px',
+                                cursor: 'pointer',
+                                background: exampleType === type ? 'var(--color-surface)' : 'transparent',
+                                color: exampleType === type ? 'var(--color-on-surface)' : 'var(--color-on-surface-muted)',
+                                boxShadow: exampleType === type ? '0 1px 3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)' : 'none',
+                                transition: 'all 0.15s',
                             }}
                         >
-                            {palette &&
-                                _.map(palette.swatches, (swatch) => {
-                                    let swatchStyles = {
-                                        position: 'relative',
-                                        background: swatch.hex,
-                                        aspectRatio: '2',
-                                        margin: '.125rem',
-                                        borderRadius: '.25rem',
-                                        border: '1px solid rgba(0,0,0,.1)',
-                                    }
-                                    return (
-                                        <div
-                                            key={swatch.hex}
-                                            className="palette__swatch"
-                                            style={swatchStyles}
-                                        >
-                                            <div
-                                                className="palette__swatch-label"
-                                                style={{
-                                                    position: 'absolute',
-                                                    left: 0,
-                                                    right: 0,
-                                                    bottom: 0,
-                                                    color: swatch.displayColor,
-                                                    fontFamily:
-                                                        'var(--monospace-font)',
-                                                    fontSize: '.5rem',
-                                                    padding: '.25rem',
-                                                    overflow: 'hidden',
-                                                }}
-                                            />
-                                        </div>
-                                    )
-                                })}
+                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                        </button>
+                    ))}
+                </div>
+
+                <div style={{
+                    background: exampleColors.cardBackground,
+                    borderRadius: '12px',
+                    border: '1px solid var(--color-border)',
+                    overflow: 'hidden',
+                    transition: 'background 0.2s',
+                }}>
+                    <div style={{ padding: '16px 20px' }}>
+                        <span style={labelStyle(exampleColors.labelColor)}>Buttons</span>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                            <button style={{
+                                height: '36px', padding: '0 16px',
+                                background: exampleColors.buttonBackground, color: '#ffffff',
+                                border: 'none', borderRadius: '6px',
+                                fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                                transition: 'background 0.2s',
+                            }}>Primary</button>
+                            <button style={{
+                                height: '36px', padding: '0 16px',
+                                background: 'transparent', color: exampleColors.outlineButtonText,
+                                border: `1.5px solid ${exampleColors.buttonOutline}`, borderRadius: '6px',
+                                fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                                transition: 'all 0.2s',
+                            }}>Secondary</button>
+                            <button style={{
+                                height: '36px', padding: '0 12px',
+                                background: 'transparent', color: exampleColors.linkText,
+                                border: 'none', borderRadius: '6px',
+                                fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                                fontSize: '13px', fontWeight: 700, cursor: 'pointer', textDecoration: 'underline',
+                                transition: 'color 0.2s',
+                            }}>Link</button>
                         </div>
                     </div>
-                    <div className="color-examples__group">
-                        <label
-                            className="color-examples__label"
-                            style={labelStyles}
-                        >
-                            Buttons
-                        </label>
-                        <button
-                            className="color-examples__button--primary"
-                            style={{
-                                background: exampleColors.buttonBackground,
-                            }}
-                        >
-                            Primary
-                        </button>
-                        <button
-                            className="color-examples__button--secondary"
-                            style={{
-                                borderColor: exampleColors.buttonOutline,
-                                color: exampleColors.outlineButtonText,
-                            }}
-                        >
-                            Secondary
-                        </button>
-                        <button
-                            className="color-examples__button--tertiary"
-                            style={{
-                                color: exampleColors.linkText,
-                            }}
-                        >
-                            Link
-                        </button>
-                    </div>
-                    <div className="color-examples__group">
-                        <label
-                            className="color-examples__label"
-                            style={labelStyles}
-                        >
-                            Headlines
-                        </label>
-                        <span
-                            className="color-examples__headline"
-                            style={{ color: exampleColors.headlineColor }}
-                        >
+                    {divider}
+                    <div style={{ padding: '16px 20px' }}>
+                        <span style={labelStyle(exampleColors.labelColor)}>Headlines</span>
+                        <span style={{
+                            fontFamily: 'var(--font-fraunces), Georgia, serif',
+                            fontSize: '22px', fontWeight: 600, lineHeight: 1.25,
+                            color: exampleColors.headlineColor, display: 'block',
+                            transition: 'color 0.2s',
+                        }}>
                             The quick brown fox jumped over the lazy dog
                         </span>
                     </div>
-                    <div className="color-examples__group">
-                        <label
-                            className="color-examples__label"
-                            style={labelStyles}
-                        >
-                            Icons
-                        </label>
-                        <span
-                            className="color-examples__icons-row"
-                            style={{ color: exampleColors.iconColor }}
-                        >
+                    {divider}
+                    <div style={{ padding: '16px 20px' }}>
+                        <span style={labelStyle(exampleColors.labelColor)}>Icons</span>
+                        <div style={{ display: 'flex', gap: '12px', color: exampleColors.iconColor, transition: 'color 0.2s' }}>
                             <ActionIcon iconType="newRectangle" />
                             <ActionIcon iconType="newEllipse" />
                             <ActionIcon iconType="newText" />
@@ -344,19 +459,17 @@ const AuthenticatedContent = () => {
                             <ActionIcon iconType="blending" />
                             <ActionIcon iconType="sendToBack" />
                             <ActionIcon iconType="bringToFront" />
-                        </span>
+                        </div>
                     </div>
-                    <div className="color-examples__group">
-                        <label
-                            className="color-examples__label"
-                            style={labelStyles}
-                        >
-                            Paragraph Text
-                        </label>
-                        <p
-                            className="color-examples__paragraph"
-                            style={{ color: exampleColors.paragraphColor }}
-                        >
+                    {divider}
+                    <div style={{ padding: '16px 20px' }}>
+                        <span style={labelStyle(exampleColors.labelColor)}>Paragraph Text</span>
+                        <p style={{
+                            fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                            fontSize: '15px', lineHeight: 1.65,
+                            color: exampleColors.paragraphColor, margin: 0,
+                            transition: 'color 0.2s',
+                        }}>
                             Nam faucibus accumsan ultrices. Duis magna velit,
                             pretium quis ultricies in, efficitur eu nisi. Ut id
                             condimentum neque. Integer dapibus eros urna, quis
@@ -364,215 +477,138 @@ const AuthenticatedContent = () => {
                         </p>
                     </div>
                 </div>
-            </>
-        )
-    }
+            </div>
+
+        </div>
+    )
 
     return (
         <>
             <Head>
-                <title>{`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`}</title>
-                <meta property="og:title" content={`${caseStudy ? caseStudy.title : title} | John the Designer – Boston-Area Product Designer John Livornese`} key="title" />
-                <meta name="description" content={caseStudy ? caseStudy.description : description} />
-                <meta name="og:image" content={pages.colors.image} />
+                <title>{`${caseStudy?.title ?? 'A Refined Palette'} | John the Designer – Boston-Area Product Designer John Livornese`}</title>
+                <meta property="og:title" content={`${caseStudy?.title ?? 'A Refined Palette'} | John the Designer – Boston-Area Product Designer John Livornese`} key="title" />
+                <meta name="description" content={caseStudy?.description ?? pages.colors?.description} />
+                <meta name="og:image" content={pages.colors?.image ?? '/social-img.png'} />
             </Head>
-            <div id="main">
-                <Header blue />
-                <div className="new-case-study__hero">
-                    <div className="new-case-study__hero-content">
-                        <h1 className="new-case-study__title">
-                            A Refined Palette
-                        </h1>
-                        <h2 className="new-case-study__subtitle">
-                            Starting with the color tokens your design system
-                            really needs
-                        </h2>
-                    </div>
-                    <Image
-                        src="/work/paletteer/header.svg"
-                        className="new-case-study__hero-image"
-                        width="2396"
-                        height="1656"
-                        alt="Full-screen mockup of the modeling mode of the scenario planning tool I designed"
-                    />
-                </div>
-                <div className="new-case-study__body">
-                    <div className="tldr">
-                        <div className="tldr__main">
-                            <h2 className="tldr__title">TL;DR</h2>
-                            <p className="tldr__text">
-                                This project was born out of an effort to
-                                incorporate our growing design system into our
-                                application's aging codebase at Luminoso. A
-                                particular pain-point was our inconsistent use
-                                of color. I coded an internal tool that allowed
-                                me to generate accessible, flexible color
-                                palettes. Engineers could use the tool to
-                                generate code snippets with color tokens,
-                                identify the correct replacement color for
-                                out-of-palette colors and more. Since then I
-                                independently developed this tool into a Figma
-                                plugin with over 10,000 users.
-                            </p>
-                        </div>
-                        <div className="tldr__aside">
-                            <div>
-                                <h4 className="tldr__aside-title">My Role</h4>
-                                <p className="tldr__aside-text">
-                                    I coded the original internal tool, including
-                                    the unique color generation script myself while
-                                    I was working as the Head of Product Design at
-                                    Luminoso. I coded and maintain the subsequent
-                                    Figma plugin myself.
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="tldr__aside-title">Outcome</h4>
-                                <p className="tldr__aside-text">
-                                    While working at Luminoso I used this tool to
-                                    generate color tokens that helped speed
-                                    communication between design and engineering,
-                                    and helped engineers audit our codebase toward
-                                    consistency with our design system.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* NOTE: 
-                    This section should introduce the general area our product would address*/}
-                    <div className="page-section page-section--centered">
-                        <div className="page-section__text-container">
-                            <h2 className="page-section__title">
-                                What's the problem?
-                            </h2>
+            <CaseStudyHero
+                company="Personal Project"
+                title="A Refined Palette"
+                subtitle="Starting with the color tokens your design system really needs"
+                imageSrc="/work/paletteer/header.svg"
+                imageWidth={2396}
+                imageHeight={1656}
+                imageAlt="Palette generator showing a 19-stop color ramp generated from a seed color"
+            />
+
+            <main style={{ display: 'flex', flexDirection: 'column' }}>
+                <Narrow padBottom>
+                    <TLDRBlock summary="This project was born out of an effort to incorporate our growing design system into our application's aging codebase at Luminoso. A particular pain-point was our inconsistent use of color. I coded an internal tool that allowed me to generate accessible, flexible color palettes. Engineers could use the tool to generate code snippets with color tokens, identify the correct replacement color for out-of-palette colors and more. Since then I independently developed this tool into a Figma plugin with over 10,000 users.">
+                        <TLDRItemWhite label="My Role">
+                            I coded the original internal tool, including the unique color generation script
+                            myself while I was working as the Head of Product Design at Luminoso. I coded
+                            and maintain the subsequent Figma plugin myself.
+                        </TLDRItemWhite>
+                        <TLDRItemWhite label="Outcome">
+                            While working at Luminoso I used this tool to generate color tokens that helped
+                            speed communication between design and engineering, and helped engineers audit
+                            our codebase toward consistency with our design system.
+                        </TLDRItemWhite>
+                    </TLDRBlock>
+
+                    <ProseSection>
+                        <ProseSectionHeading>What&apos;s the problem?</ProseSectionHeading>
+                        <ProseSectionBody>
                             <p>
-                                We've all been there right? Your product (not to
-                                mention your style guide) is a few years old,
-                                the color palette has grown to three times its
-                                original size, there are 16 colors in the
-                                codebase just for buttons... wait, who made this
-                                button <em>"electric blueberry"</em>?
+                                We&apos;ve all been there right? Your product (not to mention your style guide)
+                                is a few years old, the color palette has grown to three times its original
+                                size, there are 16 colors in the codebase just for buttons... wait, who made
+                                this button <em>&ldquo;electric blueberry&rdquo;</em>?
                             </p>
                             <p>
-                                Color usage is just one way in which your design
-                                system can get out of hand. Your carefully
-                                assembled color palette can start to expand to
-                                accomodate your design system's interaction
-                                states, visual hierarchy, accessibility
-                                concerns, and other realities of maintaining an
-                                application in the long term. As the design
-                                system grows, these new colors fall into
-                                inconsistent use and inconsistent naming
-                                practices. Engineers are less certain of which
-                                colors to use and when to choose a new one.
-                                Color usage in your application becomes less
+                                Color usage is just one way in which your design system can get out of hand.
+                                Your carefully assembled color palette can start to expand to accomodate your
+                                design system&apos;s interaction states, visual hierarchy, accessibility
+                                concerns, and other realities of maintaining an application in the long term.
+                                As the design system grows, these new colors fall into inconsistent use and
+                                inconsistent naming practices. Engineers are less certain of which colors to
+                                use and when to choose a new one. Color usage in your application becomes less
                                 meaningful, purposeful and accessible.
                             </p>
-                        </div>
-                    </div>
-                    <div className="page-section page-section--centered">
-                        <div className="page-section__text-container">
-                            <h2 className="page-section__title">
-                                How did I fix it?
-                            </h2>
+                        </ProseSectionBody>
+                    </ProseSection>
+
+                    <ProseSection>
+                        <ProseSectionHeading>How did I fix it?</ProseSectionHeading>
+                        <ProseSectionBody>
                             <p>
                                 <em>
-                                    TL;DR: Start with the palette you will need,
-                                    and share it between design and engineering.
+                                    TL;DR: Start with the palette you will need, and share it between design
+                                    and engineering.
                                 </em>
                             </p>
                             <p>
-                                We're often working from a set of core brand
-                                colors, so that's where I started. I wrote an
-                                application that takes a seed color, then builds
-                                an array of shades from that seed. The resulting
-                                color palettes contain a broad enough selection
-                                to accomodate subtle hover states, text contrast
-                                issues, light mode/dark mode color palettes and
-                                more. Try it out below to see an example of how
-                                I put this into practice.
+                                We&apos;re often working from a set of core brand colors, so that&apos;s where
+                                I started. I wrote an application that takes a seed color, then builds an array
+                                of shades from that seed. The resulting color palettes contain a broad enough
+                                selection to accomodate subtle hover states, text contrast issues, light
+                                mode/dark mode color palettes and more. Try it out below to see an example of
+                                how I put this into practice.
                             </p>
-                        </div>
-                    </div>
-                    <div className="page-section page-section--centered">
-                        <div className="page-section__text-container">
                             <PaletteWidget />
-                        </div>
-                    </div>
-                    <div className="page-section page-section--centered">
-                        <div className="page-section__text-container">
-                            <h3>Making it easier to get started</h3>
+                        </ProseSectionBody>
+                    </ProseSection>
+
+                    <ProseSection>
+                        <ProseSectionHeading>Making it easier to get started</ProseSectionHeading>
+                        <ProseSectionBody>
                             <p>
-                                Our team needed help organizing the
-                                implementation of our design system and its more
-                                deliberate color palette, so I built a set of
-                                internal tools to make things easier. In
-                                addition to generating arrays of color
-                                variations there were a number of features for
-                                the engineering and design teams. The colors
-                                could be output as JS objects or CSS variables
-                                so they could be easily incorporated into our
-                                codebase. In addition, engineers could supply a
-                                hex code or RGB value from the codebase and find
-                                out which color from the new color palette most
-                                closely matched that color, significantly
-                                accellerating the clean-up color of our UI.
+                                Our team needed help organizing the implementation of our design system and its
+                                more deliberate color palette, so I built a set of internal tools to make
+                                things easier. In addition to generating arrays of color variations there were
+                                a number of features for the engineering and design teams. The colors could be
+                                output as JS objects or CSS variables so they could be easily incorporated into
+                                our codebase. In addition, engineers could supply a hex code or RGB value from
+                                the codebase and find out which color from the new color palette most closely
+                                matched that color, significantly accellerating the clean-up of our UI.
                             </p>
-                            <h3>P.S. There's a Figma Plugin</h3>
+                        </ProseSectionBody>
+                    </ProseSection>
+
+                    <ProseSection>
+                        <ProseSectionHeading>P.S. There&apos;s a Figma Plugin</ProseSectionHeading>
+                        <ProseSectionBody>
                             <p>
-                                The cleanup went quickly and smoothly, the team
-                                was really happy with our color palette
-                                generator. I found myself using the generator
-                                for almost every project I worked on, even
-                                outside of work. So I figured I'd share the joy.
+                                The cleanup went quickly and smoothly, the team was really happy with our color
+                                palette generator. I found myself using the generator for almost every project
+                                I worked on, even outside of work. So I figured I&apos;d share the joy.
                             </p>
                             <p>
-                                I've released a{' '}
+                                I&apos;ve released a{' '}
                                 <a
                                     href="https://www.figma.com/community/plugin/849144368519969202"
                                     target="_blank"
                                     rel="noreferrer"
+                                    style={{ color: 'var(--color-primary-text)', textDecoration: 'underline', textUnderlineOffset: '2px' }}
                                 >
                                     Figma Plugin
                                 </a>
-                                , based on the color palette generator and
-                                released it to the Figma community.
+                                , based on the color palette generator, released to the Figma community.
                             </p>
-                            <div
-                                style={{
-                                    textAlign: 'center',
-                                    marginTop: '6rem',
-                                }}
-                            >
-                                <Link className="case-studies-link" href="/work">
-                                    <span className="case-studies-link__count">+3 more case studies</span>
-                                    <svg className="case-studies-link__divider" width="100%" height="3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <line x1="0" y1="1.5" x2="100%" y2="1.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                                    </svg>
-                                    <span className="case-studies-link__label">View 'em All</span>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </ProseSectionBody>
+                    </ProseSection>
+
+                    <NextCaseStudy current="/work/colors" nextHref="/work/sistema" />
+                </Narrow>
+            </main>
         </>
     )
-};
+}
 
 const Paletteer = () => {
-    return (
-        <>
-            <Head>
-                <title>{title}</title>
-                <meta property="og:title" content={title} key="title" />
-                <meta name="description" content={description} />
-                <meta name="og:image" content={image} />
-            </Head>
-            {isPrivate ? <PasswordProtect isPrivate={true} AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} /> : <AuthenticatedContent />}
-        </>
-    )
+    return isPrivate
+        ? <PasswordProtect isPrivate AuthenticatedContent={AuthenticatedContent} UnauthenticatedContent={UnauthenticatedContent} />
+        : <AuthenticatedContent />
 }
 
 export default Paletteer

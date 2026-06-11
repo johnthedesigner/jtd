@@ -1,0 +1,197 @@
+{
+  "$metadata": {
+    "tokenSetOrder": ["color"]
+  },
+  "color": {
+    "$description": "Semantic color roles for johnthedesigner.com. Architecture: Named palette (Model 3) — two hue families (blue + slate), explicit brand control, semantic roles mapped from primitives. Light mode values. Dark mode overrides in color.dark.json.",
+
+    "primitive": {
+      "$description": "Raw palette values. Consumed only by semantic layer — never referenced directly by components.",
+
+      "blue": {
+        "50":  { "$type": "color", "$value": "#f8fafd", "$description": "Blue near-white — 1.05:1 on white" },
+        "100": { "$type": "color", "$value": "#e4ecf8", "$description": "Blue tint — subtle bg, ghost hover, focus ring glow" },
+        "150": { "$type": "color", "$value": "#cadcf4", "$description": "Blue light tint" },
+        "200": { "$type": "color", "$value": "#afccf3", "$description": "Blue mid-light — dark mode link underlines, decorative borders" },
+        "250": { "$type": "color", "$value": "#94bdf4", "$description": "Blue mid-light" },
+        "300": { "$type": "color", "$value": "#79aef6", "$description": "Blue mid — dark mode links; 9.2:1 on slate-900 (AAA)" },
+        "350": { "$type": "color", "$value": "#5d9ff9", "$description": "Blue mid-vivid" },
+        "400": { "$type": "color", "$value": "#3e91fc", "$description": "Blue vivid — one step lighter than primary; dark mode hover/accents. 3.15:1 on white" },
+        "450": { "$type": "color", "$value": "#1082ff", "$description": "PRIMARY — all solid fills, section backgrounds, badges, borders, focus rings, icon accents. 3.71:1 on white — non-text UI only." },
+        "500": { "$type": "color", "$value": "#0075ef", "$description": "Blue dark-vivid — button/chip hover (one step darker than primary). 4.38:1 on white" },
+        "550": { "$type": "color", "$value": "#006ada", "$description": "PRIMARY TEXT — interactive text (links, button labels). 5.15:1 on white — AA ✓" },
+        "600": { "$type": "color", "$value": "#005fc6", "$description": "Blue dark — pressed states. 6.08:1 on white — AA ✓" },
+        "650": { "$type": "color", "$value": "#0055b2", "$description": "Blue deeper. 7.14:1 on white — AA ✓" },
+        "700": { "$type": "color", "$value": "#004b9e", "$description": "Blue dark — deep emphasis. 8.40:1 on white — AAA ✓" },
+        "750": { "$type": "color", "$value": "#00418b", "$description": "Blue deep. 9.86:1 on white" },
+        "800": { "$type": "color", "$value": "#003776", "$description": "Blue deep. 11.61:1 on white" },
+        "850": { "$type": "color", "$value": "#012c60", "$description": "Blue near-black. 13.72:1 on white" },
+        "900": { "$type": "color", "$value": "#032047", "$description": "Blue near-black — dark mode subtle tint bg. 16.14:1 on white" },
+        "950": { "$type": "color", "$value": "#021026", "$description": "Blue deepest. 19.01:1 on white" }
+      },
+
+      "slate": {
+        "50":  { "$type": "color", "$value": "#edf1f5", "$description": "Slate tint — subtle backgrounds, tag fills, code block bg" },
+        "100": { "$type": "color", "$value": "#d5dde6", "$description": "Slate light — default dividers/borders, dark mode body text (13.18:1 on slate-900)" },
+        "200": { "$type": "color", "$value": "#adbccc", "$description": "Slate mid-light — stronger borders" },
+        "300": { "$type": "color", "$value": "#7f97ad", "$description": "Slate mid — dark mode muted text, decorative elements" },
+        "400": { "$type": "color", "$value": "#56748e", "$description": "Slate mid-dark — placeholder text, inactive icons" },
+        "500": { "$type": "color", "$value": "#3d5268", "$description": "Slate muted — captions, metadata. 8.06:1 on white — AA ✓" },
+        "600": { "$type": "color", "$value": "#2D3C4D", "$description": "BODY TEXT — primary prose color. 11.26:1 on white — AA ✓" },
+        "700": { "$type": "color", "$value": "#22303f", "$description": "Slate dark" },
+        "800": { "$type": "color", "$value": "#182330", "$description": "Slate dark — dark mode card surface" },
+        "900": { "$type": "color", "$value": "#0e1720", "$description": "HEADINGS + DARK SURFACE — display and heading text; dark mode page bg. 18.07:1 on white — AA ✓" },
+        "950": { "$type": "color", "$value": "#070c11", "$description": "Slate deepest" }
+      },
+
+      "semantic": {
+        "error":   { "$type": "color", "$value": "#FAA1A1", "$description": "Error fill. Slate-900 text only: 9.19:1 — AA ✓. Never as text on white." },
+        "success": { "$type": "color", "$value": "#A1DFB7", "$description": "Success fill. Slate-900 text only: 11.84:1 — AA ✓. Never as text on white." },
+        "warning": { "$type": "color", "$value": "#F8E49A", "$description": "Warning fill. Slate-900 text only: 14.25:1 — AA ✓. Never as text on white." },
+        "error-surface":   { "$type": "color", "$value": "#fff1f1", "$description": "Decorative tint only. No text on this color." },
+        "success-surface": { "$type": "color", "$value": "#ecfdf5", "$description": "Decorative tint only. No text on this color." },
+        "warning-surface": { "$type": "color", "$value": "#fffbeb", "$description": "Decorative tint only. No text on this color." }
+      }
+    },
+
+    "primary": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.450}",
+      "$description": "Primary brand color. All solid fills, section backgrounds, badges, decorative borders, focus rings, icon accents. 3.71:1 on white — not suitable for text. Use color.primary-text for interactive text."
+    },
+    "primary-light": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.400}",
+      "$description": "One ramp step lighter than primary. Hover state for primary-filled backgrounds/surfaces (cards, banners). 3.15:1 on white."
+    },
+    "primary-text": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.550}",
+      "$description": "Primary interactive text color. Links, button labels, any inline blue. 5.15:1 on white — AA ✓"
+    },
+    "primary-hover": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.500}",
+      "$description": "Hover state for primary-filled interactive controls (buttons, chips). One step darker than primary. 4.38:1 on white."
+    },
+    "primary-pressed": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.600}",
+      "$description": "Pressed/active state for primary-filled elements. 6.08:1 on white."
+    },
+    "primary-subtle": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.100}",
+      "$description": "Very light blue tint for hover states on ghost elements, badge outline backgrounds."
+    },
+
+    "surface": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$description": "Default page surface. Pure white — the primary background for all content."
+    },
+    "surface-raised": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$description": "Raised surface — cards, sheets. Same color as surface; differentiated from page by shadow-sm, not by color."
+    },
+    "surface-overlay": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$description": "Overlay surface — modals, dialogs, drawers. Differentiated by shadow-lg."
+    },
+    "surface-subtle": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.50}",
+      "$description": "Subtle tinted surface — tag fills, code blocks, callout aside backgrounds. Slate-50 (#edf1f5)."
+    },
+
+    "on-surface": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.900}",
+      "$description": "Primary text on surface — display, headings, UI labels requiring maximum contrast. 18.07:1 on white — AA ✓"
+    },
+    "on-surface-body": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.600}",
+      "$description": "Body text on surface — all prose, descriptions, card copy. 11.26:1 on white — AA ✓"
+    },
+    "on-surface-muted": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.500}",
+      "$description": "Muted text on surface — captions, timestamps, placeholder text, secondary metadata. 8.06:1 on white — AA ✓"
+    },
+    "on-surface-placeholder": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.400}",
+      "$description": "Placeholder text in inputs. 4.73:1 on white — AA ✓ for large text; use sparingly at small sizes."
+    },
+
+    "border": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.100}",
+      "$description": "Default border/divider — horizontal rules, section separators, flat card outlines."
+    },
+    "border-mid": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.200}",
+      "$description": "Stronger border — input resting state, table rows, visible structural lines."
+    },
+    "border-focus": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.450}",
+      "$description": "Focus ring border color. 3.71:1 on white — passes WCAG 1.4.11 non-text 3:1 threshold ✓. Used at 2px width with glow offset."
+    },
+    "border-active": {
+      "$type": "color",
+      "$value": "{color.primitive.blue.450}",
+      "$description": "Active/selected border — same as primary. Used for selected tab underlines, active nav indicators."
+    },
+
+    "error": {
+      "$type": "color",
+      "$value": "{color.primitive.semantic.error}",
+      "$description": "Error fill (#FAA1A1). Slate-900 text only: 9.19:1 — AA ✓. Bright pastel — softer than conventional alert red."
+    },
+    "on-error": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.900}",
+      "$description": "Text/icons on error fill. 9.19:1 — AA ✓"
+    },
+    "success": {
+      "$type": "color",
+      "$value": "{color.primitive.semantic.success}",
+      "$description": "Success fill (#A1DFB7). Slate-900 text only: 11.84:1 — AA ✓."
+    },
+    "on-success": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.900}",
+      "$description": "Text/icons on success fill. 11.84:1 — AA ✓"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "{color.primitive.semantic.warning}",
+      "$description": "Warning fill (#F8E49A). Slate-900 text only: 14.25:1 — AA ✓."
+    },
+    "on-warning": {
+      "$type": "color",
+      "$value": "{color.primitive.slate.900}",
+      "$description": "Text/icons on warning fill. 14.25:1 — AA ✓"
+    },
+    "error-surface": {
+      "$type": "color",
+      "$value": "{color.primitive.semantic.error-surface}",
+      "$description": "Decorative error tint (#fff1f1). No text on this color — use as background behind error fill elements only."
+    },
+    "success-surface": {
+      "$type": "color",
+      "$value": "{color.primitive.semantic.success-surface}",
+      "$description": "Decorative success tint (#ecfdf5). No text on this color."
+    },
+    "warning-surface": {
+      "$type": "color",
+      "$value": "{color.primitive.semantic.warning-surface}",
+      "$description": "Decorative warning tint (#fffbeb). No text on this color."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+/**
+ * Dark mode color overrides
+ * johnthedesigner.com design system
+ * Trigger: @media (prefers-color-scheme: dark)
+ * Architecture: tonal shift — not inversion
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: #0e1720;
+    --color-surface-raised: #182330;
+    --color-surface-overlay: #22303f;
+    --color-surface-subtle: #182330;
+    --color-on-surface: #ffffff;
+    --color-on-surface-body: #d5dde6;
+    --color-on-surface-muted: #7f97ad;
+    --color-on-surface-placeholder: #56748e;
+    --color-primary: #1082ff;
+    --color-primary-text: #79aef6;
+    --color-primary-hover: #3e91fc;
+    --color-primary-subtle: #032047;
+    --color-border: #22303f;
+    --color-border-mid: #2d3c4d;
+    --color-border-focus: #3e91fc;
+    --color-error: #faa1a1;
+    --color-success: #a1dfb7;
+    --color-warning: #f8e49a;
+    --color-error-surface: #2d1414;
+    --color-success-surface: #0d2018;
+    --color-warning-surface: #241e0a;
+  }
+}

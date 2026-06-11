@@ -1,0 +1,91 @@
+{
+  "$metadata": {
+    "tokenSetOrder": ["type"]
+  },
+  "type": {
+    "$description": "Typography scale for johnthedesigner.com. Three-font system: Schmaltzy (self-hosted VF, display only), Fraunces (Google Fonts, headings), Nunito Sans (Google Fonts, body/UI). Named semantic roles — content-sparse, editorial-leaning. Scale is hand-tuned from a loose 1.25–1.33 modular base to land on clean values with correct line-height grid relationships. All line-heights are unitless multipliers. Legibility constraints applied per role.",
+
+    "display": {
+      "$description": "Hero headline — Schmaltzy heavy blackletter. One instance per page maximum. Used only for the primary page title (home hero, case study title, about header). The personality anchor of the system.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Schmaltzy, serif",  "$description": "Self-hosted variable font. next/font/local from /fonts/Schmaltzy-VF.ttf. Falls back to serif." },
+      "font-size":      { "$type": "dimension",   "$value": "64px",              "$description": "At content-sparse density, display lives at 64px. Adjust to 56px on viewports below 768px." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 800,                 "$description": "Heavy weight. Schmaltzy is a variable font — 800 is the target; adjust if the VF axis range differs." },
+      "line-height":    { "$type": "number",      "$value": 1.0,                 "$description": "Tight. At 64px, 1.0 line-height is correct — display text is rarely multi-line; tight setting is intentional." },
+      "letter-spacing": { "$type": "dimension",   "$value": "-0.01em",           "$description": "Slight negative tracking compensates for optical spread at 64px. Standard for display sizes." }
+    },
+
+    "heading-lg": {
+      "$description": "Major section heading — Fraunces SemiBold. Case study section titles, work index page heading, about page H1. The primary structural heading role.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Fraunces, Georgia, serif", "$description": "Google Font — next/font/google. Georgia as system fallback." },
+      "font-size":      { "$type": "dimension",   "$value": "34px",              "$description": "34px — clean step below display. 64 → 34 is a clear hierarchy jump that reads at a glance." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 600,                 "$description": "SemiBold. Creates hierarchy against heading-sm (weight 400) without approaching display weight." },
+      "line-height":    { "$type": "number",      "$value": 1.15,                "$description": "1.15 — correct for 28–40px range per architecture reference. Tight but allows multi-line headings to breathe." },
+      "letter-spacing": { "$type": "dimension",   "$value": "-0.015em",          "$description": "Negative tracking at 34px. Standard optical correction for large headings." }
+    },
+
+    "heading-sm": {
+      "$description": "Subsection heading — Fraunces Regular. Case study subsection headers, card headings, about section subheads. Lower visual tension than heading-lg — feels editorial rather than structural.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Fraunces, Georgia, serif" },
+      "font-size":      { "$type": "dimension",   "$value": "22px",              "$description": "22px — clean step below heading-lg. Falls in the 18–24px range where line-height 1.25–1.35 is correct." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 400,                 "$description": "Regular. Deliberately lower weight than heading-lg — role distinction communicated through weight difference, not size alone." },
+      "line-height":    { "$type": "number",      "$value": 1.25,                "$description": "1.25 — tighter than body, looser than heading-lg. Correct for 18–24px range." },
+      "letter-spacing": { "$type": "dimension",   "$value": "-0.01em",           "$description": "Slight negative tracking at 22px." }
+    },
+
+    "deck": {
+      "$description": "Case study deck / subhead — Fraunces Light Italic. Appears directly beneath the display title as editorial bridge copy before body text begins. Also usable as a pull quote or chapter intro. Italic provides warmth and pace contrast.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Fraunces, Georgia, serif" },
+      "font-size":      { "$type": "dimension",   "$value": "20px",              "$description": "20px — slightly larger than body-lg, clearly subordinate to headings. Clean value in the 18–24px comfort zone." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 300,                 "$description": "Light. The weight drop from heading-sm (400) is intentional — deck copy recedes." },
+      "line-height":    { "$type": "number",      "$value": 1.4,                 "$description": "1.4 — generous for a size that may be used in multi-line deck copy. Sits between heading and body line-height values." },
+      "letter-spacing": { "$type": "dimension",   "$value": "0em",               "$description": "Zero tracking. Fraunces Light Italic has calibrated defaults at this size; no adjustment needed." },
+      "font-style":     { "$type": "string",      "$value": "italic",            "$description": "Always italic for this role. The italic is part of the role definition, not an optional state." }
+    },
+
+    "body-lg": {
+      "$description": "Primary body prose — Nunito Sans Regular. About page copy, case study body paragraphs, long-form content. The reading workhorse of the system. Sized and spaced for sustained reading.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Nunito Sans, system-ui, sans-serif", "$description": "Google Font — next/font/google. Falls back to system-ui." },
+      "font-size":      { "$type": "dimension",   "$value": "17px",              "$description": "17px — slightly above the conventional 16px. Reflects content-sparse density; there is room for slightly larger body text. Nunito Sans has a moderate x-height — 17px reads clearly without feeling large." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 400,                 "$description": "Regular. Body text should never be set bold; weight carries semantic meaning at this role." },
+      "line-height":    { "$type": "number",      "$value": 1.7,                 "$description": "1.7 — generous for a reading context. 17px × 1.7 = 28.9px line height, close to a 4px grid multiple of 28px. Aids comprehension for extended reading. Architecture reference: body range is 1.4–1.6; 1.7 is deliberately above this for content-sparse editorial context." },
+      "letter-spacing": { "$type": "dimension",   "$value": "0em",               "$description": "Zero tracking. Nunito Sans body at 17px uses font defaults. No adjustment needed." }
+    },
+
+    "body-sm": {
+      "$description": "Secondary body prose — Nunito Sans Regular. Card body copy, work index descriptions, sidebar content, secondary descriptions. One size step below body-lg; same weight and family for consistency.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Nunito Sans, system-ui, sans-serif" },
+      "font-size":      { "$type": "dimension",   "$value": "14px",              "$description": "14px — clear step below 17px. Sits at the lower boundary of comfortable reading; do not use at smaller sizes for prose." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 400,                 "$description": "Regular. Matches body-lg weight — consistency in prose, differentiation only by size." },
+      "line-height":    { "$type": "number",      "$value": 1.65,                "$description": "1.65 — slightly tighter than body-lg (1.7) for a smaller size, still generous. 14px × 1.65 = 23.1px, near 24px grid." },
+      "letter-spacing": { "$type": "dimension",   "$value": "0em",               "$description": "Zero tracking at 14px. Slight positive tracking could be added if a specific typeface requires it." }
+    },
+
+    "label": {
+      "$description": "UI chrome label — Nunito Sans Bold, uppercase, tracked. Eyebrow labels, section category tags, nav metadata, timestamps, form field labels. The uppercase + tracking combination creates strong visual signal at 11px. Always uppercase — never set label-scale text in sentence or title case.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Nunito Sans, system-ui, sans-serif" },
+      "font-size":      { "$type": "dimension",   "$value": "11px",              "$description": "11px — UI-chrome scale. Below this, legibility degrades; at this size, bold + tracking is required." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 700,                 "$description": "Bold. Weight 700 is essential at 11px — lighter weights at this size become illegible, especially in uppercase." },
+      "line-height":    { "$type": "number",      "$value": 1.0,                 "$description": "1.0 — label text is typically single-line UI chrome. No line-height expansion needed." },
+      "letter-spacing": { "$type": "dimension",   "$value": "0.12em",            "$description": "Positive tracking is required at uppercase 11px. 0.12em opens the letter spacing to compensate for optical compression of uppercase characters at small sizes. Architecture reference: small sizes require slight positive tracking." },
+      "text-transform":  { "$type": "string",     "$value": "uppercase",         "$description": "Always uppercase for this role." }
+    },
+
+    "caption": {
+      "$description": "Supporting text — Nunito Sans Regular. Image captions, footnotes, input helper text, timestamps in secondary contexts. Always on-surface-muted (slate-500) — never on-surface (slate-900).",
+      "font-family":    { "$type": "fontFamily",  "$value": "Nunito Sans, system-ui, sans-serif" },
+      "font-size":      { "$type": "dimension",   "$value": "12px",              "$description": "12px — clearly smaller than body-sm, clearly larger than true fine print. Comfortable for supplementary content." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 400,                 "$description": "Regular. Caption text should recede; weight would draw unwanted attention." },
+      "line-height":    { "$type": "number",      "$value": 1.5,                 "$description": "1.5 — appropriate for 12px. Architecture reference: small/label range is 1.3–1.5." },
+      "letter-spacing": { "$type": "dimension",   "$value": "0.01em",            "$description": "Tiny positive tracking at 12px aids legibility at this size without visible effect." }
+    },
+
+    "code": {
+      "$description": "Monospace code — Geist Mono. Inline code snippets, code blocks in case studies, technical labels in Sistema/Paletteer contexts. Loads as part of the Geist type system alongside display roles.",
+      "font-family":    { "$type": "fontFamily",  "$value": "Geist Mono, ui-monospace, SFMono-Regular, monospace", "$description": "Geist Mono via next/font/google. Falls back to system monospace stack." },
+      "font-size":      { "$type": "dimension",   "$value": "13px",              "$description": "13px — monospace fonts appear larger than proportional fonts at the same size due to wide characters. 13px in Geist Mono visually matches 14px in Nunito Sans." },
+      "font-weight":    { "$type": "fontWeight",  "$value": 400,                 "$description": "Regular. Bold mono weight is reserved for syntax highlighting (specific token categories), not the base style." },
+      "line-height":    { "$type": "number",      "$value": 1.6,                 "$description": "1.6 — slightly tighter than body-lg. Code blocks benefit from a bit less leading than prose; lines are shorter and scanning is more vertical." },
+      "letter-spacing": { "$type": "dimension",   "$value": "0em",               "$description": "Zero tracking. Monospace fonts have fixed character widths; tracking adjustments distort the alignment properties." }
+    }
+  }
+}

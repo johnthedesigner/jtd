@@ -13,7 +13,7 @@
         "description": "How I redesigned and reorganized our flagship product to produce better analytics outcomes and make our product easier to use and easier to sell",
         "image": "/social-img.png",
         "path": "/work/answers-first",
-        "inSitemap": true
+        "inSitemap": false
     },
     "colors": {
         "label": "Colors",
@@ -21,6 +21,14 @@
         "description": "Designing a Figma plugin for generating powerful color palette tokens for digital design systems",
         "image": "/social-img.png",
         "path": "/work/colors",
+        "inSitemap": true
+    },
+    "sistema": {
+        "label": "Sistema",
+        "title": "Case Study: \"Sistema\" | John the Designer – Boston-Area Product Designer John Livornese",
+        "description": "Building a knowledge base and playbook tool that gives AI agents access to curated documentation from real design systems — so every generation starts from better source material.",
+        "image": "/social-img.png",
+        "path": "/work/sistema",
         "inSitemap": true
     },
     "scenarioPlanning": {
