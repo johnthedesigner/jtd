@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { oklch, formatHex } from 'culori'
 
-const isMobile = window.matchMedia('(max-width: 768px)').matches
+const isMobile = false;
+if (typeof window !== 'undefined') {
+    isMobile = window.matchMedia('(max-width: 768px)').matches
+}
 
 function shiftL(hex, delta) {
     const c = oklch(hex)
