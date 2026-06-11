@@ -22,10 +22,11 @@ const STAGGER_MS = 2000
 const FADE_MS = 40
 
 // Scale logo count proportionally to the vh value in the height string
-function logoCountFromHeight(height) {
+function logoCountFromHeight(height, isMobile = true) {
+    const LOGO_COUNT_FACTOR = isMobile ? 100 : 500
     const vh = parseFloat(height)
-    if (!isNaN(vh)) return Math.round((vh / 100) * 500)
-    return 200
+    if (!isNaN(vh)) return Math.round((vh / 100) * LOGO_COUNT_FACTOR)
+    return isMobile ? 60 : 200
 }
 
 function LogoMark({ color, size }) {
@@ -60,8 +61,9 @@ export default function LogoHero({ height = '60vh', animate = true, children }) 
     }, [])
 
     useEffect(() => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches
         const shouldAnimate = animate && !prefersReducedMotion
-        const count = logoCountFromHeight(height)
+        const count = logoCountFromHeight(height, isMobile)
         const items = Array.from({ length: count }, (_, i) => {
             const y = Math.random() * 100
             return {
