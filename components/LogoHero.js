@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react'
 import { oklch, formatHex } from 'culori'
 
-useEffect(() => {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    const count = logoCountFromHeight(height, isMobile)
-}, [height, animate, prefersReducedMotion])
-
 function shiftL(hex, delta) {
     const c = oklch(hex)
     if (!c) return hex
@@ -66,8 +61,9 @@ export default function LogoHero({ height = '60vh', animate = true, children }) 
     }, [])
 
     useEffect(() => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches
         const shouldAnimate = animate && !prefersReducedMotion
-        const count = logoCountFromHeight(height)
+        const count = logoCountFromHeight(height, isMobile)
         const items = Array.from({ length: count }, (_, i) => {
             const y = Math.random() * 100
             return {
