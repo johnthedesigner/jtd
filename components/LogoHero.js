@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { oklch, formatHex } from 'culori'
 
-const isMobile = false;
-if (typeof window !== 'undefined') {
-    isMobile = window.matchMedia('(max-width: 768px)').matches
-}
+useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    const count = logoCountFromHeight(height, isMobile)
+}, [height, animate, prefersReducedMotion])
 
 function shiftL(hex, delta) {
     const c = oklch(hex)
@@ -25,13 +25,13 @@ const SIZE_MIN = 40
 const SIZE_MAX = 800
 const STAGGER_MS = 2000
 const FADE_MS = 40
-const LOGO_COUNT_FACTOR = isMobile ? 100 : 500
 
 // Scale logo count proportionally to the vh value in the height string
-function logoCountFromHeight(height) {
+function logoCountFromHeight(height, isMobile = true) {
+    const LOGO_COUNT_FACTOR = isMobile ? 100 : 500
     const vh = parseFloat(height)
     if (!isNaN(vh)) return Math.round((vh / 100) * LOGO_COUNT_FACTOR)
-    return 200
+    return isMobile ? 60 : 200
 }
 
 function LogoMark({ color, size }) {
