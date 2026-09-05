@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import LogoHero from '@/components/LogoHero'
+import LogoHeroGPU from '@/components/LogoHeroGPU'
+import { COMPACT_FALLBACK_IMAGES } from '@/components/logo-hero-gpu/constants'
 
 const TESTIMONIALS = [
     {
@@ -103,7 +104,13 @@ export default function AboutPage() {
                 <meta name="og:image" content="/social-img.png" />
             </Head>
 
-            <LogoHero height="30vh" animate={false}>
+            <LogoHeroGPU
+                height="45vh"
+                animate={false}
+                tearEndsAt={0.9}
+                contentLift={0.06}
+                fallbackImages={COMPACT_FALLBACK_IMAGES}
+            >
                 <h1 style={{
                     fontFamily: 'var(--font-schmaltzy), Palatino Linotype, serif',
                     fontSize: 'clamp(48px, 8vw, 100px)',
@@ -117,14 +124,17 @@ export default function AboutPage() {
                 }}>
                     About Me
                 </h1>
-            </LogoHero>
+            </LogoHeroGPU>
 
             <div style={{ position: 'relative', zIndex: 1 }}>
                 {/* Bio */}
                 <div style={{
                     maxWidth: '680px',
                     margin: '0 auto',
-                    padding: '200px 24px 0',
+                    // Trimmed from the 200px the old flat header carried: the
+                    // ragged edge now tapers off inside the hero, so it needs
+                    // far less clearance than a hard bottom line did.
+                    padding: '36px 24px 0',
                 }}>
                     <p style={{
                         fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',

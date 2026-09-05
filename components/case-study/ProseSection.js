@@ -1,6 +1,12 @@
 const ProseSection = ({ children }) => (
     <div style={{
         maxWidth: '720px',
+        // Without an explicit width this is sized shrink-to-fit, which floors
+        // at its content's min-content width. A code block's longest line then
+        // widens the column past the viewport and scrolls the whole page
+        // sideways. `min-width` cannot fix that; an explicit width can.
+        width: '100%',
+        minWidth: 0,
         margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
@@ -62,6 +68,7 @@ const ProseSectionBody = ({ children }) => (
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        minWidth: 0,
     }}>
         {children}
     </div>

@@ -24,15 +24,17 @@ const TLDRItem = ({ label, children }) => (
     </div>
 )
 
+// Two columns only once there is room for them. The block sits inside a 720px
+// column, so below the `md` breakpoint each side is too narrow to read and the
+// aside's rule belongs across the top rather than down the side.
 const TLDRBlock = ({ summary, children }) => (
-    <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '48px',
-        padding: '48px',
-        background: 'var(--color-primary)',
-        borderRadius: '14px',
-    }}>
+    <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-6 md:p-12"
+        style={{
+            background: 'var(--color-primary)',
+            borderRadius: '14px',
+        }}
+    >
         {/* Summary */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <p style={{
@@ -59,13 +61,16 @@ const TLDRBlock = ({ summary, children }) => (
         </div>
 
         {/* Aside metadata */}
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '28px',
-            paddingLeft: '48px',
-            borderLeft: '1px solid rgba(255,255,255,0.2)',
-        }}>
+        <div
+            className="pt-8 border-t md:pt-0 md:border-t-0 md:pl-12 md:border-l"
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '28px',
+                borderStyle: 'solid',
+                borderColor: 'rgba(255,255,255,0.2)',
+            }}
+        >
             {children}
         </div>
     </div>

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import CaseStudyCard from '../components/CaseStudyCard'
 import { Button } from '../components/ui/button'
-import LogoHero from '../components/LogoHero'
+import LogoHeroGPU from '../components/LogoHeroGPU'
 import SketchLogo from '../components/SketchLogo'
 import pages from '../utils/pages.json'
 import caseStudies from '../utils/caseStudies'
@@ -22,7 +22,7 @@ export default function Home() {
                 <meta property="og:image" content={image} />
             </Head>
 
-            <LogoHero height="80vh" animate>
+            <LogoHeroGPU height="90vh" animate>
                 <div style={{ textAlign: 'center', padding: '0 24px' }}>
                     <div style={{ width: 'min(480px, 80vw)', marginBottom: '32px', overflow: 'hidden', margin: '0 auto 32px' }}>
                         <SketchLogo />
@@ -51,14 +51,16 @@ export default function Home() {
                         I turn complex design problems into simple and beautiful websites&nbsp;&amp;&nbsp;apps.
                     </p>
                 </div>
-            </LogoHero>
+            </LogoHeroGPU>
 
             {/* Case studies section */}
             <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{
                     maxWidth: '880px',
                     margin: '0 auto',
-                    padding: '240px 24px 120px',
+                    // The hero's canvas hangs about 240px past its container
+                    // so the ragged edge is drawn whole; this clears it.
+                    padding: '250px 24px 120px',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '32px',

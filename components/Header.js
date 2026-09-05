@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Menu, X } from 'lucide-react'
 import { LinkedinIcon } from './SocialIcons'
+import MenuBackdrop from './MenuBackdrop'
 
 const NAV_LINKS = [
     { label: 'Work',      path: '/work' },
@@ -11,6 +12,13 @@ const NAV_LINKS = [
 ]
 
 const HEADER_HEIGHT = 60
+
+/** How long the menu itself takes to fade, either way. */
+const MENU_FADE_MS = 100
+
+/** Each menu item waits this much longer than the one above it. */
+const MENU_ITEM_STAGGER_MS = 70
+const MENU_ITEM_FADE_MS = 240
 
 const Logo = () => (
     <svg width="72" height="33" viewBox="0 0 90 41" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -22,11 +30,65 @@ const Logo = () => (
 )
 
 const Header = () => {
-    const [mobileOpen, setMobileOpen] = useState(false)
+    // closed -> opening -> open -> closing -> leaving -> closed. Opening fades
+    // the menu in while the backdrop field builds; closing runs the field back
+    // out first and only then fades the menu away.
+    const [menuPhase, setMenuPhase] = useState('closed')
+    // The panel and the items fade on their own schedules: the items lead the
+    // way in and out, the panel covers the gap at each end.
+    const [chromeVisible, setChromeVisible] = useState(false)
+    const [itemsVisible, setItemsVisible] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const { pathname } = useRouter()
 
-    useEffect(() => { setMobileOpen(false) }, [pathname])
+    const mobileOpen = menuPhase !== 'closed'
+
+    // A route change should not play the whole close sequence.
+    useEffect(() => {
+        setMenuPhase('closed')
+        setChromeVisible(false)
+        setItemsVisible(false)
+    }, [pathname])
+
+    const closeMenu = useCallback(() => {
+        setMenuPhase((phase) => {
+            if (phase !== 'opening' && phase !== 'open') return phase
+            // Items leave first, in reverse, while the field runs backwards.
+            setItemsVisible(false)
+            return 'closing'
+        })
+    }, [])
+
+    const toggleMenu = () => {
+        if (menuPhase === 'closed') {
+            setChromeVisible(false)
+            setItemsVisible(false)
+            setMenuPhase('opening')
+        } else {
+            closeMenu()
+        }
+    }
+
+    // The backdrop reports when it can draw; the menu starts its fade then, so
+    // the two arrive together rather than the text landing on bare page.
+    const handleBackdropReady = useCallback(() => {
+        setChromeVisible(true)
+        setItemsVisible(true)
+    }, [])
+
+    const handleBackdropDone = useCallback((which) => {
+        if (which === 'in') setMenuPhase((phase) => (phase === 'opening' ? 'open' : phase))
+        else if (which === 'out') {
+            setMenuPhase((phase) => (phase === 'closing' ? 'leaving' : phase))
+            setChromeVisible(false)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (menuPhase !== 'leaving') return
+        const id = setTimeout(() => setMenuPhase('closed'), MENU_FADE_MS)
+        return () => clearTimeout(id)
+    }, [menuPhase])
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 10)
@@ -42,6 +104,20 @@ const Header = () => {
 
     const isActive = (path) =>
         path === '/work' ? pathname.startsWith('/work') : pathname === path
+
+    // Items arrive top to bottom and leave bottom to top.
+    const MENU_ITEM_COUNT = NAV_LINKS.length + 1
+    const menuItemStyle = (index) => {
+        const delay =
+            (itemsVisible ? index : MENU_ITEM_COUNT - 1 - index) * MENU_ITEM_STAGGER_MS
+        return {
+            opacity: itemsVisible ? 1 : 0,
+            transform: itemsVisible ? 'none' : 'translateY(6px)',
+            transition:
+                `opacity ${MENU_ITEM_FADE_MS}ms ease ${delay}ms, ` +
+                `transform ${MENU_ITEM_FADE_MS}ms ease ${delay}ms`,
+        }
+    }
 
     const desktopLinkStyle = (path) => ({
         fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
@@ -113,11 +189,13 @@ const Header = () => {
                             background: 'none',
                             border: 'none',
                             cursor: 'pointer',
-                            color: scrolled ? 'var(--color-on-surface)' : 'rgba(255,255,255,0.9)',
+                            // The menu panel is near-white, so a white glyph
+                            // would vanish on it.
+                            color: mobileOpen || scrolled ? 'var(--color-on-surface)' : 'rgba(255,255,255,0.9)',
                             borderRadius: '6px',
                             padding: 0,
                         }}
-                        onClick={() => setMobileOpen(!mobileOpen)}
+                        onClick={toggleMenu}
                         aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                         aria-expanded={mobileOpen}
                     >
@@ -128,52 +206,69 @@ const Header = () => {
 
             {/* Mobile menu */}
             {mobileOpen && (
-                <div style={{
-                    position: 'fixed',
-                    inset: 0,
-                    top: `${HEADER_HEIGHT}px`,
-                    zIndex: 49,
-                    background: 'var(--color-surface)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '48px 24px 40px',
-                }}>
-                    {NAV_LINKS.map(({ label, path, external }) => (
+                <div
+                    style={{
+                        position: 'fixed',
+                        inset: 0,
+                        zIndex: 49,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        padding: `${HEADER_HEIGHT}px 24px 24px`,
+                        opacity: chromeVisible ? 1 : 0,
+                        transition: `opacity ${MENU_FADE_MS}ms ease`,
+                    }}
+                >
+                    <MenuBackdrop
+                        phase={menuPhase === 'closing' || menuPhase === 'leaving' ? 'out' : 'in'}
+                        onReady={handleBackdropReady}
+                        onPhaseDone={handleBackdropDone}
+                    />
+
+                    {NAV_LINKS.map(({ label, path, external }, index) => (
                         <Link
                             key={path}
                             href={path}
                             target={external ? '_blank' : undefined}
                             rel={external ? 'noopener noreferrer' : undefined}
-                            onClick={() => setMobileOpen(false)}
+                            onClick={closeMenu}
                             style={{
+                                ...menuItemStyle(index),
+                                position: 'relative',
                                 fontFamily: 'var(--font-fraunces), Georgia, serif',
                                 fontSize: '40px',
                                 fontWeight: 600,
                                 lineHeight: 1.15,
                                 letterSpacing: '-0.015em',
                                 textDecoration: 'none',
-                                color: isActive(path) ? 'var(--color-primary-text)' : 'var(--color-on-surface)',
+                                color: 'var(--color-on-surface)',
                                 padding: '10px 0',
-                                borderBottom: '1px solid var(--color-border)',
                             }}
                         >
                             {label}
                         </Link>
                     ))}
 
-                    <div style={{ marginTop: '32px', display: 'flex', gap: '20px' }}>
-                        <Link
-                            href="https://www.linkedin.com/in/johnlivornese/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="John Livornese on LinkedIn"
-                            style={{ display: 'flex', color: 'var(--color-on-surface-muted)' }}
-                        >
-                            <LinkedinIcon color="currentcolor" />
-                        </Link>
-                    </div>
+                    <Link
+                        href="https://www.linkedin.com/in/johnlivornese/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="John Livornese on LinkedIn"
+                        style={{
+                            ...menuItemStyle(NAV_LINKS.length),
+                            position: 'relative',
+                            display: 'flex',
+                            marginTop: '16px',
+                            color: 'var(--color-on-surface)',
+                        }}
+                    >
+                        <LinkedinIcon color="currentcolor" />
+                    </Link>
                 </div>
             )}
+
         </>
     )
 }

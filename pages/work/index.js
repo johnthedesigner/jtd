@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import CaseStudyCard from '@/components/CaseStudyCard'
-import LogoHero from '@/components/LogoHero'
+import LogoHeroGPU from '@/components/LogoHeroGPU'
+import { COMPACT_FALLBACK_IMAGES } from '@/components/logo-hero-gpu/constants'
 import caseStudies from '@/utils/caseStudies'
 
 export default function WorkIndex() {
@@ -14,7 +15,13 @@ export default function WorkIndex() {
             </Head>
 
             <main style={{ display: 'flex', flexDirection: 'column' }}>
-                <LogoHero height="20vh" animate={false}>
+                <LogoHeroGPU
+                height="42vh"
+                animate={false}
+                tearEndsAt={0.9}
+                contentLift={0.06}
+                fallbackImages={COMPACT_FALLBACK_IMAGES}
+            >
                     <h1 style={{
                         fontFamily: 'var(--font-schmaltzy), Palatino Linotype, serif',
                         fontSize: 'clamp(40px, 6vw, 80px)',
@@ -28,14 +35,16 @@ export default function WorkIndex() {
                     }}>
                         Case Studies
                     </h1>
-                </LogoHero>
+                </LogoHeroGPU>
 
                 <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{
                     maxWidth: '880px',
                     margin: '0 auto',
                     width: '100%',
-                    padding: '0 24px 120px',
+                    // Clears the hero's ragged edge, which tapers off just
+                    // inside the hero and needs room before the first card.
+                    padding: '48px 24px 120px',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '32px',
