@@ -40,6 +40,12 @@ const SIZE_MAX_RATIO = 1.345
 /** Height of the logomark's box relative to its width. */
 const LOGO_ASPECT = 0.5196
 
+/**
+ * Overall strength of the depth of field. The ratios below it are the tuned
+ * balance between near and far; this scales all three at once.
+ */
+export const DEFOCUS = 0.7
+
 /** Where the field's fringe runs out, and how far the tear reaches past it. */
 const FRINGE_END = 1.03
 const TEAR_DEPTH = 0.667
@@ -110,9 +116,9 @@ export function heroFieldOptions(width, height, { raggedEdge = true } = {}) {
             worldSizeMin: worldMean * SIZE_MIN_RATIO,
             worldSizeMax: worldMean * SIZE_MAX_RATIO,
             // Defocus is a screen-space distance, so it tracks logo size.
-            nearBlurPx: meanWidth * 0.055,
-            farBlurPx: meanWidth * 0.0265,
-            maxBlurPx: meanWidth * 0.053,
+            nearBlurPx: meanWidth * 0.055 * DEFOCUS,
+            farBlurPx: meanWidth * 0.0265 * DEFOCUS,
+            maxBlurPx: meanWidth * 0.053 * DEFOCUS,
         },
     }
 }

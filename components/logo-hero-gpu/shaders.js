@@ -27,7 +27,9 @@ struct Params {
   sdfScale: f32,
   sharpness: f32,
   maxBlur: f32,
-  _pad: vec2f,
+  // Seconds the drop takes, and how far it falls in pixels.
+  settle: f32,
+  drop: f32,
   colorLow: vec4f,
   colorHigh: vec4f,
 }
@@ -67,6 +69,12 @@ struct VertexOut {
   let raw = clamp((params.time - delay) / max(params.fade, 1e-5), 0.0, 1.0);
   let reveal = raw * raw * (3.0 - 2.0 * raw);
 
+  // The drop runs on its own, longer clock: the fade is quick, and a slide
+  // that short would read as a jump. Cubic ease-out, so it carries most of
+  // the distance immediately and eases into place.
+  let fall = clamp((params.time - delay) / max(params.settle, 1e-5), 0.0, 1.0);
+  let landed = 1.0 - pow(1.0 - fall, 3.0);
+
   var corners = array<vec2f, 6>(
     vec2f(0.0, 0.0), vec2f(1.0, 0.0), vec2f(0.0, 1.0),
     vec2f(1.0, 0.0), vec2f(1.0, 1.0), vec2f(0.0, 1.0),
@@ -89,7 +97,10 @@ struct VertexOut {
 
   // y is a fraction of the hero, not of the canvas: the canvas is taller so
   // logos on the bottom edge can hang past it without being cut off.
-  let anchor = vec2f(inst.place.x * params.resolution.x, inst.place.y * params.heroHeight);
+  let anchor = vec2f(
+    inst.place.x * params.resolution.x,
+    inst.place.y * params.heroHeight - params.drop * (1.0 - landed),
+  );
   let pixel = anchor + rotated;
 
   var out: VertexOut;

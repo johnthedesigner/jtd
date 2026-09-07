@@ -10,6 +10,11 @@ import caseStudies from '../utils/caseStudies'
 
 const { title, description, image } = pages.home
 
+// Experiment: fill the hero top to bottom and back to front at once, so the
+// wave travels down the page while also coming toward the viewer. Stable
+// reference — the hero rebuilds its field if this changes.
+const HERO_FIELD = { revealOrder: 'both', revealMix: 0.5 }
+
 export default function Home() {
     const featuredStudy = caseStudies.find(cs => cs.homepage)
 
@@ -22,7 +27,7 @@ export default function Home() {
                 <meta property="og:image" content={image} />
             </Head>
 
-            <LogoHeroGPU height="90vh" animate>
+            <LogoHeroGPU height="90vh" animate fieldOptions={HERO_FIELD}>
                 <div style={{ textAlign: 'center', padding: '0 24px' }}>
                     <div style={{ width: 'min(480px, 80vw)', marginBottom: '32px', overflow: 'hidden', margin: '0 auto 32px' }}>
                         <SketchLogo />

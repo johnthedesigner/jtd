@@ -47,8 +47,18 @@ export const FIELD_DEFAULTS = {
     settleRotationDeg: 20,
     staggerMs: 2000,
     fadeMs: 90,
-    // Share of the stagger spent on the top-down sweep rather than scatter.
+    // Each logo slides down into place over this long, from this far above it.
+    // Longer than the fade so the movement reads; the shader eases it out.
+    settleMs: 340,
+    settleDropPx: 26,
+    // Share of the stagger spent on the ordered part of the reveal rather
+    // than on scatter.
     sweepShare: 0.75,
+    // `sweep` fills top to bottom, `depth` fills back to front, `both` runs
+    // the two together so the field arrives as a wave that also recedes.
+    revealOrder: 'sweep',
+    // For `both`: 0 is all sweep, 1 is all depth.
+    revealMix: 0.5,
 
     alphaMin: 0.94,
     alphaMax: 1,
@@ -172,6 +182,21 @@ export function createLogoField({ count, seed = 1, maxCount = MAX_INSTANCES, ...
         if (fringeT > 0) z += (opts.zFar - z) * fringeT * opts.fringeDepthPush
         const depth = (z - opts.zNear) / zSpan
 
+        // What decides a logo's turn. `sweep` runs top to bottom, squared so
+        // the front of the sweep starts fast; logos above the top edge land
+        // with the first row rather than late. `depth` runs back to front,
+        // which matches the draw order, so each logo arrives in front of the
+        // ones already there. One random draw either way, so switching the
+        // order does not reshuffle the field itself.
+        const sweepTerm = sweepY * sweepY
+        const depthTerm = 1 - depth
+        const ordered = opts.revealOrder === 'depth' ? depthTerm
+            : opts.revealOrder === 'both'
+                ? sweepTerm * (1 - opts.revealMix) + depthTerm * opts.revealMix
+                : sweepTerm
+        const orderedDelay = ordered * stagger * opts.sweepShare
+            + random() * stagger * (1 - opts.sweepShare)
+
         // Perspective only scales the logo; positions stay uniform so that
         // coverage does not thin out toward the edges.
         const width = (opts.worldSizeMin + random() * (opts.worldSizeMax - opts.worldSizeMin)) / z
@@ -189,9 +214,7 @@ export function createLogoField({ count, seed = 1, maxCount = MAX_INSTANCES, ...
             y,
             width,
             rotation: (random() - 0.5) * opts.rotationDeg * toRad,
-            // Logos above the top edge land with the first row, not late.
-            delay: sweepY * sweepY * stagger * opts.sweepShare
-                + random() * stagger * (1 - opts.sweepShare),
+            delay: orderedDelay,
             alpha: opts.alphaMin + random() * (opts.alphaMax - opts.alphaMin),
             blur,
             shade: Math.min(1, depth * opts.depthShade + random() * opts.shadeJitter) * opts.shadeCeiling,
@@ -233,7 +256,7 @@ export function createLogoField({ count, seed = 1, maxCount = MAX_INSTANCES, ...
         data,
         count: logos.length,
         floatsPerInstance: FLOATS_PER_INSTANCE,
-        durationSec: stagger + opts.fadeMs / 1000,
+        durationSec: stagger + Math.max(opts.fadeMs, opts.settleMs) / 1000,
         options: opts,
     }
 }

@@ -8,7 +8,7 @@
 
 // Ends of the ramp each logo is shaded along. Near-white on white, so the
 // marks read as texture rather than as content.
-import { heroFieldOptions } from './hero-field.js'
+import { DEFOCUS, heroFieldOptions } from './hero-field.js'
 
 export const MENU_COLOR_LOW = '#e9eef4'
 export const MENU_COLOR_HIGH = '#ffffff'
@@ -27,6 +27,11 @@ export function panelOptions(width, height) {
         count,
         field: {
             ...field,
+            // Holds the panel's own depth of field steady when the heroes'
+            // is retuned; the two were balanced separately.
+            nearBlurPx: field.nearBlurPx / DEFOCUS,
+            farBlurPx: field.farBlurPx / DEFOCUS,
+            maxBlurPx: field.maxBlurPx / DEFOCUS,
             // Opaque marks, so the texture comes from the shade ramp alone and
             // the settled panel closes completely. Menu text sits on this, so a
             // pinhole would show the page scrolling behind it. Checked by
