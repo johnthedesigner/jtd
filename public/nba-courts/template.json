@@ -1,0 +1,626 @@
+{
+  "canvas": {
+    "width": 2016,
+    "height": 992
+  },
+  "pixelsPerFoot": 16,
+  "court": {
+    "x": 256,
+    "y": 96,
+    "width": 1504,
+    "height": 800,
+    "uv": {
+      "u0": 0.12698412698412698,
+      "v0": 0.0967741935483871,
+      "u1": 0.873015873015873,
+      "v1": 0.9032258064516129
+    }
+  },
+  "apronMarginFeet": {
+    "baselineEnds": 16,
+    "sidelines": 6
+  },
+  "notes": "Court corners are the outer edge of the boundary lines. Areas outside the drawn apron are transparent. Backboards and rims removed.",
+  "images": {
+    "current_atl": {
+      "team": "atl",
+      "type": "current",
+      "file": "current_atl.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_bkn": {
+      "team": "bkn",
+      "type": "current",
+      "file": "current_bkn.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.9,
+        "sidelineTop": 5.2,
+        "sidelineBottom": 5.2
+      }
+    },
+    "current_bos": {
+      "team": "bos",
+      "type": "current",
+      "file": "current_bos.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.0,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_cha": {
+      "team": "cha",
+      "type": "current",
+      "file": "current_cha.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_chi": {
+      "team": "chi",
+      "type": "current",
+      "file": "current_chi.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_cle": {
+      "team": "cle",
+      "type": "current",
+      "file": "current_cle.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.7,
+        "sidelineTop": 3.8,
+        "sidelineBottom": 3.7
+      }
+    },
+    "current_dal": {
+      "team": "dal",
+      "type": "current",
+      "file": "current_dal.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.0,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.2
+      }
+    },
+    "current_den": {
+      "team": "den",
+      "type": "current",
+      "file": "current_den.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 16.8,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_det": {
+      "team": "det",
+      "type": "current",
+      "file": "current_det.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 4.9
+      }
+    },
+    "current_gsw": {
+      "team": "gsw",
+      "type": "current",
+      "file": "current_gsw.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 23.5,
+        "sidelineTop": 14.2,
+        "sidelineBottom": 14.2
+      }
+    },
+    "current_hou": {
+      "team": "hou",
+      "type": "current",
+      "file": "current_hou.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.5,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_ind": {
+      "team": "ind",
+      "type": "current",
+      "file": "current_ind.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.5,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 9.8
+      }
+    },
+    "current_lac": {
+      "team": "lac",
+      "type": "current",
+      "file": "current_lac.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 19.9,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_lal": {
+      "team": "lal",
+      "type": "current",
+      "file": "current_lal.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 16.7,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_mem": {
+      "team": "mem",
+      "type": "current",
+      "file": "current_mem.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_mia": {
+      "team": "mia",
+      "type": "current",
+      "file": "current_mia.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.0,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_mil": {
+      "team": "mil",
+      "type": "current",
+      "file": "current_mil.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_min": {
+      "team": "min",
+      "type": "current",
+      "file": "current_min.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.2,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_nop": {
+      "team": "nop",
+      "type": "current",
+      "file": "current_nop.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 16.4,
+        "sidelineTop": 5.2,
+        "sidelineBottom": 5.3
+      }
+    },
+    "current_nyk": {
+      "team": "nyk",
+      "type": "current",
+      "file": "current_nyk.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.0,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_okc": {
+      "team": "okc",
+      "type": "current",
+      "file": "current_okc.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.0,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.1
+      }
+    },
+    "current_orl": {
+      "team": "orl",
+      "type": "current",
+      "file": "current_orl.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.1
+      }
+    },
+    "current_phi": {
+      "team": "phi",
+      "type": "current",
+      "file": "current_phi.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 19.2,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_phx": {
+      "team": "phx",
+      "type": "current",
+      "file": "current_phx.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.3,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_por": {
+      "team": "por",
+      "type": "current",
+      "file": "current_por.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.0,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_sac": {
+      "team": "sac",
+      "type": "current",
+      "file": "current_sac.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 17.0,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_sas": {
+      "team": "sas",
+      "type": "current",
+      "file": "current_sas.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 13.9,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_tor": {
+      "team": "tor",
+      "type": "current",
+      "file": "current_tor.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_uta": {
+      "team": "uta",
+      "type": "current",
+      "file": "current_uta.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.0,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "current_was": {
+      "team": "was",
+      "type": "current",
+      "file": "current_was.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.3,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_atl": {
+      "team": "atl",
+      "type": "vintage",
+      "file": "vintage_atl.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 10.5,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_bkn": {
+      "team": "bkn",
+      "type": "vintage",
+      "file": "vintage_bkn.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 9.4,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_bos": {
+      "team": "bos",
+      "type": "vintage",
+      "file": "vintage_bos.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 13.9,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_cha": {
+      "team": "cha",
+      "type": "vintage",
+      "file": "vintage_cha.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 10.0,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 4.9
+      }
+    },
+    "vintage_chi": {
+      "team": "chi",
+      "type": "vintage",
+      "file": "vintage_chi.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.1
+      }
+    },
+    "vintage_cle": {
+      "team": "cle",
+      "type": "vintage",
+      "file": "vintage_cle.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 7.8,
+        "sidelineTop": 4.8,
+        "sidelineBottom": 4.8
+      }
+    },
+    "vintage_dal": {
+      "team": "dal",
+      "type": "vintage",
+      "file": "vintage_dal.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.1,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_den": {
+      "team": "den",
+      "type": "vintage",
+      "file": "vintage_den.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 11.6,
+        "sidelineTop": 4.8,
+        "sidelineBottom": 4.9
+      }
+    },
+    "vintage_det": {
+      "team": "det",
+      "type": "vintage",
+      "file": "vintage_det.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.4,
+        "sidelineTop": 4.8,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_gsw": {
+      "team": "gsw",
+      "type": "vintage",
+      "file": "vintage_gsw.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 9.5,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.2
+      }
+    },
+    "vintage_hou": {
+      "team": "hou",
+      "type": "vintage",
+      "file": "vintage_hou.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.9,
+        "sidelineTop": 4.6,
+        "sidelineBottom": 4.6
+      }
+    },
+    "vintage_ind": {
+      "team": "ind",
+      "type": "vintage",
+      "file": "vintage_ind.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.7,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_lac": {
+      "team": "lac",
+      "type": "vintage",
+      "file": "vintage_lac.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.1,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_lal": {
+      "team": "lal",
+      "type": "vintage",
+      "file": "vintage_lal.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.9,
+        "sidelineTop": 5.5,
+        "sidelineBottom": 5.7
+      }
+    },
+    "vintage_mem": {
+      "team": "mem",
+      "type": "vintage",
+      "file": "vintage_mem.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.6,
+        "sidelineTop": 4.8,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_mia": {
+      "team": "mia",
+      "type": "vintage",
+      "file": "vintage_mia.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 13.5,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_mil": {
+      "team": "mil",
+      "type": "vintage",
+      "file": "vintage_mil.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 9.4,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_min": {
+      "team": "min",
+      "type": "vintage",
+      "file": "vintage_min.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.2,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 4.9
+      }
+    },
+    "vintage_nop": {
+      "team": "nop",
+      "type": "vintage",
+      "file": "vintage_nop.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 15.3,
+        "sidelineTop": 6.0,
+        "sidelineBottom": 6.0
+      }
+    },
+    "vintage_nyk": {
+      "team": "nyk",
+      "type": "vintage",
+      "file": "vintage_nyk.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 14.0,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_okc": {
+      "team": "okc",
+      "type": "vintage",
+      "file": "vintage_okc.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 11.7,
+        "sidelineTop": 5.8,
+        "sidelineBottom": 5.7
+      }
+    },
+    "vintage_orl": {
+      "team": "orl",
+      "type": "vintage",
+      "file": "vintage_orl.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.0,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 4.9
+      }
+    },
+    "vintage_phi": {
+      "team": "phi",
+      "type": "vintage",
+      "file": "vintage_phi.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 10.0,
+        "sidelineTop": 4.8,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_phx": {
+      "team": "phx",
+      "type": "vintage",
+      "file": "vintage_phx.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 8.0,
+        "sidelineTop": 5.0,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_por": {
+      "team": "por",
+      "type": "vintage",
+      "file": "vintage_por.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 9.4,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_sac": {
+      "team": "sac",
+      "type": "vintage",
+      "file": "vintage_sac.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 9.4,
+        "sidelineTop": 5.1,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_sas": {
+      "team": "sas",
+      "type": "vintage",
+      "file": "vintage_sas.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 12.1,
+        "sidelineTop": 5.4,
+        "sidelineBottom": 5.6
+      }
+    },
+    "vintage_tor": {
+      "team": "tor",
+      "type": "vintage",
+      "file": "vintage_tor.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 13.9,
+        "sidelineTop": 4.8,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_uta": {
+      "team": "uta",
+      "type": "vintage",
+      "file": "vintage_uta.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 13.9,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    },
+    "vintage_was": {
+      "team": "was",
+      "type": "vintage",
+      "file": "vintage_was.webp",
+      "sourceApronFeet": {
+        "baselineEnds": 13.0,
+        "sidelineTop": 4.9,
+        "sidelineBottom": 5.0
+      }
+    }
+  }
+}

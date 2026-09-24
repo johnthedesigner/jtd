@@ -210,6 +210,46 @@ function edt2d(grid, width, height) {
  * pixels (which is also the distance the field encodes), and `supersample`
  * the mask oversampling used before the field is averaged back down.
  */
+/**
+ * A plain coverage mask of the logomark — 0 outside, 255 inside, with
+ * antialiased edges from supersampling.
+ *
+ * The SDF below is the right shape for the hero, which needs a distance to
+ * threshold against at arbitrary screen sizes. Anything that just needs to
+ * know "is this point inside the mark" — embossing it onto a surface, for
+ * instance — wants coverage, and deriving that back out of a signed
+ * distance stored as a half float is a lossy way to ask a simple question.
+ *
+ * Shares the flattening and scan conversion with `buildLogoSdf`, so the two
+ * cannot disagree about the shape.
+ */
+export function buildLogoMask({ scale = 6, pad = 8, supersample = 4 } = {}) {
+    const unitWidth = Math.round(LOGO_VIEWBOX.width * scale)
+    const unitHeight = Math.round(LOGO_VIEWBOX.height * scale)
+    const width = unitWidth + pad * 2
+    const height = unitHeight + pad * 2
+
+    const ss = supersample
+    const rings = []
+    for (const d of LETTER_PATHS) {
+        rings.push(...flattenPath(d, scale * ss, pad * ss, pad * ss, 24))
+    }
+    const hi = rasterize(rings, width * ss, height * ss)
+
+    const data = new Uint8Array(width * height)
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            let sum = 0
+            for (let sy = 0; sy < ss; sy++) {
+                const row = (y * ss + sy) * width * ss
+                for (let sx = 0; sx < ss; sx++) sum += hi[row + x * ss + sx] ? 1 : 0
+            }
+            data[y * width + x] = Math.round((sum / (ss * ss)) * 255)
+        }
+    }
+    return { data, width, height }
+}
+
 export function buildLogoSdf({ scale = 6, pad = 60, supersample = 2 } = {}) {
     const unitWidth = Math.round(LOGO_VIEWBOX.width * scale)
     const unitHeight = Math.round(LOGO_VIEWBOX.height * scale)

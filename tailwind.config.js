@@ -61,6 +61,7 @@ module.exports = {
                 display: ['var(--font-schmaltzy)', 'Palatino Linotype', 'serif'],
                 heading: ['var(--font-fraunces)', 'Georgia', 'serif'],
                 sans:    ['var(--font-nunito-sans)', 'Helvetica Neue', 'sans-serif'],
+                mono:    ['var(--font-plex-mono)', 'ui-monospace', 'monospace'],
             },
             maxWidth: {
                 prose: 'var(--layout-content-max-width)',
