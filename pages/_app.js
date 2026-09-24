@@ -8,7 +8,7 @@ import * as gtag from '../utils/gtag'
 import { Analytics } from '@vercel/analytics/react'
 
 import localFont from 'next/font/local'
-import { Fraunces, Nunito_Sans } from 'next/font/google'
+import { Fraunces, IBM_Plex_Mono, Nunito_Sans } from 'next/font/google'
 
 import { PasswordProvider } from '../utils/context'
 import Layout from '../components/Layout'
@@ -30,6 +30,16 @@ const fraunces = Fraunces({
 const nunitoSans = Nunito_Sans({
     subsets: ['latin'],
     variable: '--font-nunito-sans',
+    display: 'swap',
+})
+
+// Tabular by construction — used where columns of clock times have to line
+// up (the live game feed), which a proportional face won't do reliably
+// across digits and a colon.
+const plexMono = IBM_Plex_Mono({
+    subsets: ['latin'],
+    weight: ['400', '500'],
+    variable: '--font-plex-mono',
     display: 'swap',
 })
 
@@ -99,7 +109,7 @@ function MyApp({ Component, pageProps }) {
             </Script>
             <CookiesProvider>
                 <PasswordProvider.Provider value={{ authLoading, authenticated, passwordError, dialogOpen, setDialogOpen, handlePassword, logout }}>
-                    <div className={`${schmaltzy.variable} ${fraunces.variable} ${nunitoSans.variable}`} style={{ fontVariationSettings: "'SOFT' 50" }}>
+                    <div className={`${schmaltzy.variable} ${fraunces.variable} ${nunitoSans.variable} ${plexMono.variable}`} style={{ fontVariationSettings: "'SOFT' 50" }}>
                         {isDesignRoute ? (
                             <Component {...pageProps} />
                         ) : (
