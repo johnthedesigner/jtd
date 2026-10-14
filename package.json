@@ -13,7 +13,9 @@
     "tokens": "node style-dictionary.config.mjs",
     "verify:hero": "node scripts/verify-logo-hero.mjs",
     "fallbacks": "node scripts/generate-fallbacks.mjs",
-    "verify:menu": "node scripts/verify-menu-backdrop.mjs"
+    "verify:menu": "node scripts/verify-menu-backdrop.mjs",
+    "predev": "node scripts/reap-orphan-browsers.mjs",
+    "reap:browsers": "node scripts/reap-orphan-browsers.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

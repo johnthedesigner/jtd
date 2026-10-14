@@ -88,6 +88,20 @@ function flattenPath(d, scale, offsetX, offsetY, segments) {
     return rings.filter((r) => r.length >= 6)
 }
 
+/**
+ * The logomark's outlines as flat `[x0, y0, x1, y1, ...]` rings, in viewBox
+ * units with Y running down as SVG does.
+ *
+ * Exported so the mark can be built as geometry rather than only
+ * rasterised — the same flattening either way, so a 3D version and the
+ * hero's distance field cannot disagree about the shape.
+ */
+export function logoRings(scale = 1, segments = 24) {
+    const rings = []
+    for (const d of LETTER_PATHS) rings.push(...flattenPath(d, scale, 0, 0, segments))
+    return rings
+}
+
 /** Scan-converts closed rings with the nonzero winding rule into a binary mask. */
 function rasterize(rings, width, height) {
     const mask = new Uint8Array(width * height)
@@ -250,9 +264,23 @@ export function buildLogoMask({ scale = 6, pad = 8, supersample = 4 } = {}) {
     return { data, width, height }
 }
 
-export function buildLogoSdf({ scale = 6, pad = 60, supersample = 2 } = {}) {
-    const unitWidth = Math.round(LOGO_VIEWBOX.width * scale)
-    const unitHeight = Math.round(LOGO_VIEWBOX.height * scale)
+/**
+ * `paths` and `viewBox` default to the JTD mark, and are parameters so a
+ * field can be drawn with a different glyph — the experiments header uses
+ * Lucide's flask. Anything passed here has to be *filled* M/L/C/Z outlines,
+ * since that is what `flattenPath` reads and what the nonzero scan
+ * conversion below expects; see `flask-glyph.js` for what converting a
+ * stroked icon into that form involves.
+ */
+export function buildLogoSdf({
+    scale = 6,
+    pad = 60,
+    supersample = 2,
+    paths = LETTER_PATHS,
+    viewBox = LOGO_VIEWBOX,
+} = {}) {
+    const unitWidth = Math.round(viewBox.width * scale)
+    const unitHeight = Math.round(viewBox.height * scale)
     const width = unitWidth + pad * 2
     const height = unitHeight + pad * 2
 
@@ -261,7 +289,7 @@ export function buildLogoSdf({ scale = 6, pad = 60, supersample = 2 } = {}) {
     const maskHeight = height * ss
 
     const rings = []
-    for (const d of LETTER_PATHS) {
+    for (const d of paths) {
         rings.push(...flattenPath(d, scale * ss, pad * ss, pad * ss, 24))
     }
     const mask = rasterize(rings, maskWidth, maskHeight)

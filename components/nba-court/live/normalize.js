@@ -27,8 +27,22 @@ function normalizeStatus(state) {
 function sideFromCompetitor(c) {
     return {
         teamId: c?.team?.id ? Number(c.team.id) : null,
+        // Null for anyone who isn't one of the 30 — preseason schedules
+        // carry international clubs, and `tricode` is this app's key for a
+        // court texture and a logo, neither of which exists for them.
         tricode: espnAbbrToTeam(c?.team?.abbreviation),
+        // ESPN's own abbreviation and name, kept regardless, so a game
+        // against a club with no court can still be listed and labelled
+        // rather than appearing as a blank row.
+        abbr: c?.team?.abbreviation ?? null,
         name: c?.team?.displayName ?? null,
+        // ESPN's own primary/secondary brand hex, carried on every
+        // competitor in the scoreboard payload — six characters, no `#`.
+        // Confirmed present on all 30 NBA clubs and *absent* on the
+        // international clubs preseason schedules carry (London has no
+        // `color` field at all), so a consumer has to have a fallback.
+        color: c?.team?.color ?? null,
+        altColor: c?.team?.alternateColor ?? null,
         score: c?.score != null ? Number(c.score) : null,
     }
 }
@@ -163,11 +177,35 @@ function locateOnCourt(type, coordinate, end) {
  */
 export function normalizePlayByPlay(raw, { homeTeamId } = {}) {
     const plays = raw?.plays ?? []
+    // Which basket the ball was last at. A rebound carries no basket of its
+    // own worth trusting — see `actionEnd` below.
+    let lastShotEnd = 0
+
     return plays.map((p) => {
         const shootingPlay = Boolean(p.shootingPlay)
         const type = normalizePlayType(p.type, shootingPlay)
         const teamId = p.team?.id ? Number(p.team.id) : undefined
         const end = teamId === Number(homeTeamId) ? 1 : -1
+
+        /**
+         * The basket the action actually happened at, which is not always
+         * the one the play's team is attacking.
+         *
+         * `end` is derived from the play's own team, and for a shot that is
+         * right. For a **rebound it is wrong more often than not**: a
+         * defensive rebound belongs to the team that was *not* shooting, so
+         * its attacking basket is the far one, and the mark landed at the
+         * opposite end of the floor from the miss it came off. Measured
+         * against a full real game: 54 of 86 rebounds — every defensive one
+         * — were drawn at the wrong basket.
+         *
+         * The ball was at whichever basket the last shot was taken at, so
+         * that is what a rebound inherits.
+         */
+        let actionEnd = end
+        if (shootingPlay) lastShotEnd = end
+        else if (type === 'rebound' && lastShotEnd) actionEnd = lastShotEnd
+
         const court = locateOnCourt(type, p.coordinate, end)
 
         return {
@@ -182,6 +220,7 @@ export function normalizePlayByPlay(raw, { homeTeamId } = {}) {
             // basket, for a turnover). Meaningless when `teamId` is
             // undefined (period/game-boundary plays carry no team).
             end,
+            actionEnd,
             playerId: p.participants?.[0]?.athlete?.id ?? undefined,
             // ESPN's play-by-play doesn't embed a player display name
             // separately from `text` — only athlete ids. Cross-referencing

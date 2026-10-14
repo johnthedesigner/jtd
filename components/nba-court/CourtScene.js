@@ -16,14 +16,14 @@ import {
     fragmentShader,
     vertexShader,
 } from './court-shader'
-import { posePosition, solveDistance } from './camera-poses'
+import { posePosition, solveFraming } from './camera-poses'
 import { grainMaskFallback } from './court-grain'
 import { debugState } from './debug-state'
 import Hoop from './Hoop'
 import ShotColumns from './ShotColumns'
 import { ArenaBowl, ArenaSeating } from './Arena'
 import DFenceShow from './DFenceShow'
-import Basketball from './Basketball'
+import LandingLogo from './LandingLogo'
 import FloorReflection from './FloorReflection'
 import Confetti from './Confetti'
 import LiveGameOverlay from './live/LiveGameOverlay'
@@ -147,7 +147,7 @@ function copyRigState(dst, src) {
  * either), so that was most transitions, and it read as a hard cut no
  * amount of easing could soften.
  */
-function CameraRig({ pointer, reducedMotion, pose, moveRef, tuning }) {
+function CameraRig({ pointer, reducedMotion, pose, moveRef, tuning, frameInsets }) {
     const { camera, size } = useThree()
     const current = useRef({ yaw: 0, lift: 0 })
     const fit = useRef({ aspect: 0, cache: new Map() })
@@ -163,18 +163,31 @@ function CameraRig({ pointer, reducedMotion, pose, moveRef, tuning }) {
 
     useFrame((_, delta) => {
         const aspect = size.width / Math.max(size.height, 1)
-        if (fit.current.aspect !== aspect) {
-            fit.current = { aspect, cache: new Map() }
+        // The overlay's share of the frame is part of the framing problem,
+        // so a change to it invalidates the solve exactly as an aspect
+        // change does. Quantised, so a one-pixel reflow doesn't thrash it.
+        const insetKey =
+            Math.round((frameInsets?.top ?? 0) * 200) * 1000 +
+            Math.round((frameInsets?.bottom ?? 0) * 200)
+        if (fit.current.aspect !== aspect || fit.current.insetKey !== insetKey) {
+            fit.current = { aspect, insetKey, cache: new Map() }
         }
         // ?zoom= multiplies the framing distance, for inspecting detail at
         // the scale it will actually be judged at. Kept as a dial rather than a
         // temporary edit because close inspection is how most of this work gets
         // reviewed.
         const zoom = tuning && tuning.zoom != null ? Math.max(0.05, tuning.zoom) : 1
-        const distFor = (p) => {
+        const framingFor = (p) => {
             let d = fit.current.cache.get(p.id)
             if (d === undefined) {
-                d = solveDistance(p, aspect)
+                // Distance and aim height together: see `solveFraming`. The
+                // aim is aspect-dependent, so it belongs in the same
+                // per-aspect cache the distance already used rather than
+                // being read off the pose.
+                d = solveFraming(p, aspect, {
+                    topFraction: frameInsets?.top ?? 0,
+                    bottomFraction: frameInsets?.bottom ?? 0,
+                })
                 // Live scenes mint a pose id per play, so without a bound
                 // this grows for the whole length of a game. The working
                 // set is two poses (the move's start and end), so any small
@@ -183,10 +196,12 @@ function CameraRig({ pointer, reducedMotion, pose, moveRef, tuning }) {
                 if (fit.current.cache.size > 32) fit.current.cache.clear()
                 fit.current.cache.set(p.id, d)
             }
-            return d * zoom
+            return d
         }
 
-        const toDist = distFor(pose)
+        const framing = framingFor(pose)
+        const toDist = framing.dist * zoom
+        const toTargetY = framing.targetY
 
         // Retarget detection lives here, not in an effect, so the snapshot
         // it takes is the state that was actually rendered rather than
@@ -245,8 +260,10 @@ function CameraRig({ pointer, reducedMotion, pose, moveRef, tuning }) {
         s.azimuth = blend ? L(f.azimuth, pose.azimuth, k) : pose.azimuth
         s.dist = blend ? L(f.dist, toDist, k) : toDist
         s.fov = blend ? L(f.fov, pose.fov, k) : pose.fov
+        // Y comes from the framing solve, X and Z straight off the pose.
+        const poseTarget = [pose.target[0], toTargetY, pose.target[2]]
         for (let i = 0; i < 3; i++) {
-            s.target[i] = blend ? L(f.target[i], pose.target[i], k) : pose.target[i]
+            s.target[i] = blend ? L(f.target[i], poseTarget[i], k) : poseTarget[i]
         }
         s.valid = true
 
@@ -718,6 +735,7 @@ export default function CourtScene({
     liveScore = null,
     liveHomeColor = null,
     shotClockValue = undefined,
+    frameInsets,
 }) {
     const { gl } = useThree()
     // Only while a game is on screen: nothing else puts a scoreboard out
@@ -758,10 +776,15 @@ export default function CourtScene({
                 pose={pose}
                 moveRef={moveRef}
                 tuning={tuning}
+                frameInsets={frameInsets}
             />
             <HouseLights />
             <ArenaFloor signLights={signLights} />
-            <Basketball />
+            {/*
+              The mark takes the scoreboard's own spot, so the two never
+              share the floor.
+            */}
+            <LandingLogo visible={!showLive} />
             {/*
               The scoreboard lighting the room it stands in. The deck takes
               this as a shader term (it has no lit material); the chairs are

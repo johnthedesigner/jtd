@@ -7,6 +7,8 @@ import LogoHeroGPU from '../components/LogoHeroGPU'
 import SketchLogo from '../components/SketchLogo'
 import pages from '../utils/pages.json'
 import caseStudies from '../utils/caseStudies'
+import ExperimentCard from '../components/ExperimentCard'
+import experiments, { EXPERIMENTS_BLURB } from '../utils/experiments'
 
 const { title, description, image } = pages.home
 
@@ -17,6 +19,7 @@ const HERO_FIELD = { revealOrder: 'both', revealMix: 0.5 }
 
 export default function Home() {
     const featuredStudy = caseStudies.find(cs => cs.homepage)
+    const featuredExperiment = experiments.find(e => e.homepage)
 
     return (
         <>
@@ -86,6 +89,43 @@ export default function Home() {
                         <Link href="/work">View all case studies</Link>
                     </Button>
                 </div>
+            </div>
+
+            {/* Experiments section — same shape as Case Studies above: one
+                example, then a way through to the rest. */}
+            <div style={{
+                maxWidth: '880px',
+                margin: '0 auto',
+                padding: '0 24px 120px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '32px',
+            }}>
+                <h2 style={{
+                    fontFamily: 'var(--font-fraunces), Georgia, serif',
+                    fontSize: 'clamp(32px, 4vw, 48px)',
+                    fontWeight: 600,
+                    lineHeight: 1.1,
+                    letterSpacing: '-0.02em',
+                    color: 'var(--color-on-surface)',
+                    margin: 0,
+                }}>
+                    Experiments
+                </h2>
+                <p style={{
+                    fontFamily: 'var(--font-nunito-sans), system-ui, sans-serif',
+                    fontSize: '18px',
+                    lineHeight: 1.6,
+                    color: 'var(--color-on-surface-body)',
+                    maxWidth: '620px',
+                    margin: '-16px 0 0',
+                }}>
+                    {EXPERIMENTS_BLURB}
+                </p>
+                {featuredExperiment && <ExperimentCard item={featuredExperiment} />}
+                <Button asChild variant="primary" className="w-full">
+                    <Link href="/experiments">View all experiments</Link>
+                </Button>
             </div>
 
             {/* Personal Projects section */}

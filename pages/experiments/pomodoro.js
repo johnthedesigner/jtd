@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import _ from 'lodash'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
@@ -46,23 +47,31 @@ export const Pomodoro = () => {
     })
 
     return (
-        <div className="full-page">
-            <div className="timer">
-                <div className="timer__stage">{stage}</div>
-                <div className="timer__time">
-                    <div className="timer__minutes">
-                        {_.padStart(minutes, 2, '0')}
+        <>
+            <Head>
+                <title>Pomodoro — an experiment by John the Designer</title>
+                {/* Still reachable by URL, but not listed and not indexed:
+                    this is a sketch rather than a finished piece. */}
+                <meta name="robots" content="noindex, nofollow" />
+            </Head>
+            <div className="full-page">
+                <div className="timer">
+                    <div className="timer__stage">{stage}</div>
+                    <div className="timer__time">
+                        <div className="timer__minutes">
+                            {_.padStart(minutes, 2, '0')}
+                        </div>
+                        <div className="timer__label">
+                            minute{minutes != 1 && <span>s</span>} &
+                        </div>
+                        <div className="timer__seconds">
+                            {_.padStart(seconds, 2, '0')}
+                        </div>
+                        <div className="timer__label">seconds left</div>
                     </div>
-                    <div className="timer__label">
-                        minute{minutes != 1 && <span>s</span>} &
-                    </div>
-                    <div className="timer__seconds">
-                        {_.padStart(seconds, 2, '0')}
-                    </div>
-                    <div className="timer__label">seconds left</div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

@@ -11,14 +11,7 @@ export const VIEWS = {
     court: {
         id: 'court',
         label: 'Court',
-        pose: 'wide',
-        overlay: null,
-        courtDim: 1,
-    },
-    ball: {
-        id: 'ball',
-        label: 'Ball',
-        pose: 'ball',
+        pose: 'landing',
         overlay: null,
         courtDim: 1,
     },
@@ -73,4 +66,4 @@ export const VIEWS = {
     },
 }
 
-export const VIEW_ORDER = ['court', 'ball', 'basket', 'shots', 'overhead', 'dfence', 'celebration', 'live']
+export const VIEW_ORDER = ['court', 'basket', 'shots', 'overhead', 'dfence', 'celebration', 'live']

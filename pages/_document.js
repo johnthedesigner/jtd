@@ -2,12 +2,16 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 const MyDocument = () => {
     return (
-        <Html>
+        <Html lang="en">
             <Head>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
+                {/*
+                  The viewport meta lives in `_app`, not here: Next warns
+                  about it in `_document` because `_document` renders once on
+                  the server and a page cannot then override it. It also
+                  needs `viewport-fit=cover`, without which `env(safe-area-
+                  inset-*)` is always zero and a full-bleed page cannot reach
+                  under a notch or a home indicator.
+                */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link
                     rel="preconnect"

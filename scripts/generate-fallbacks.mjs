@@ -21,6 +21,7 @@ import { createLogoField } from '../components/logo-hero-gpu/field.js'
 import { heroCanvasBleed, heroFieldOptions, heroTearAt } from '../components/logo-hero-gpu/hero-field.js'
 import { panelOptions } from '../components/logo-hero-gpu/menu-panel.js'
 import { footerField } from '../components/logo-hero-gpu/footer-field.js'
+import { FLASK_SDF, flaskField } from '../components/logo-hero-gpu/flask-hero.js'
 
 const OUT = process.argv[2] ?? 'public'
 const QUALITY = Number(process.env.QUALITY ?? 75)
@@ -45,6 +46,21 @@ function hero(name, width, height, tearEndsAt = null) {
         count,
         fieldOptions: field,
         sceneOptions: { bleed },
+    }
+}
+
+/**
+ * The experiments header: a hero, but with the flask in the field.
+ *
+ * Takes its settings from `flask-hero.js`, the same module the page imports,
+ * so this image cannot drift from what WebGPU visitors see.
+ */
+function flaskHero(name, width, height, tearEndsAt = null) {
+    const base = hero(name, width, height, tearEndsAt)
+    return {
+        ...base,
+        fieldOptions: { ...base.fieldOptions, ...flaskField(width, base.boxHeight) },
+        sceneOptions: { ...base.sceneOptions, sdf: FLASK_SDF },
     }
 }
 
@@ -78,6 +94,10 @@ const VARIANTS = [
     // between them differs by less than a fifth.
     hero('hero-compact-wide', 1440, 340, 0.9),
     hero('hero-compact-tall', 480, 300, 0.9),
+    // Same geometry as the compact pair: the experiments header is a 42vh
+    // hero with the same tear, differing only in the glyph.
+    flaskHero('hero-flask-wide', 1440, 340, 0.9),
+    flaskHero('hero-flask-tall', 480, 300, 0.9),
     footer('footer-wide', 1440, 721),
     footer('footer-tall', 480, 460),
     panel('menu-backdrop', 520, 940),

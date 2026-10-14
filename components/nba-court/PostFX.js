@@ -3,6 +3,18 @@ import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { COURT_HALF, LIGHT_RIG } from './constants'
 import { debugState } from './debug-state'
+const SCRATCH_SIZE = /* reused: this is read every frame while debugging */ new THREE.Vector2()
+
+/**
+ * Camera distance the depth-of-field numbers below were tuned at — a laptop
+ * aspect, where the rig sits about this far from the floor. Everything else
+ * scales against it; see the note in the frame loop.
+ */
+const DOF_REFERENCE_DISTANCE = 130
+/** In-focus band, in feet, at the reference distance. */
+const BASE_FOCUS_RANGE = 2
+/** Feet beyond the band over which blur ramps to full, at the reference. */
+const BASE_FOCUS_FALLOFF = 35
 
 /**
  * Depth of field and arena haze, as one extra pass.
@@ -67,6 +79,7 @@ const composeFragment = /* glsl */ `
     uniform float uHazeShaftStrength;
 
     uniform float uGrainStrength;
+    uniform float uFade;
     uniform float uGrainSeed;
 
     varying vec2 vUv;
@@ -189,17 +202,41 @@ const composeFragment = /* glsl */ `
         float grain = (hash(vUv * uResolution + uGrainSeed) - 0.5) * uGrainStrength;
         color += grain;
 
+        // The house going down and coming back up between views. Applied to
+        // the composed frame rather than to the lights themselves because
+        // not everything in this scene *is* lit — the scoreboard panels are
+        // unlit basic materials standing in for light sources, and dimming
+        // the rig would leave them burning in an otherwise dark arena.
+        color *= uFade;
+
         gl_FragColor = vec4(color, 1.0);
     }
 `
+
+/**
+ * How long the house takes to go down, and to come back up. Out is quicker
+ * than in: a cut to black should feel decisive, while the return wants to
+ * look like lights warming rather than a switch.
+ */
+const FADE_OUT_SECONDS = 0.26
+const FADE_IN_SECONDS = 0.5
 
 export default function PostFX({
     tuning = null,
     focusOverride = null,
     focusRange = null,
+    /**
+     * Any change to this runs a fade out and back in. It is a key, not a
+     * level: callers say *that* something changed — the view, the court —
+     * and the timing lives here.
+     */
+    fadeKey = null,
 }) {
     const { gl, scene, camera, size } = useThree()
     const focusRef = useRef(60)
+    const fadeRef = useRef(1)
+    const fadeDirRef = useRef(0)
+    const lastFadeKey = useRef(fadeKey)
     const raycaster = useMemo(() => new THREE.Raycaster(), [])
     const centerNdc = useMemo(() => new THREE.Vector2(0, 0), [])
 
@@ -258,6 +295,7 @@ export default function PostFX({
 
             uGrainStrength: { value: GRAIN_STRENGTH },
             uGrainSeed: { value: 0 },
+            uFade: { value: 1 },
         }),
         [target, camera]
     )
@@ -316,7 +354,6 @@ export default function PostFX({
         // element the view exists to read. Scoped to the view rather than
         // changed globally, so the compositions that were tuned around a
         // shallow field keep it.
-        if (focusRange != null) uniforms.uFocusRange.value = focusRange
 
         uniforms.uNear.value = camera.near
         uniforms.uFar.value = camera.far
@@ -329,10 +366,35 @@ export default function PostFX({
         // it never repeats frame to frame.
         uniforms.uGrainSeed.value = Math.random() * 1000.0
 
+        // Detected here rather than in an effect so the dip starts on the
+        // same frame the scene actually changes, instead of one after.
+        if (fadeKey !== lastFadeKey.current) {
+            lastFadeKey.current = fadeKey
+            fadeDirRef.current = -1
+        }
+        if (fadeDirRef.current < 0) {
+            fadeRef.current -= delta / FADE_OUT_SECONDS
+            if (fadeRef.current <= 0) {
+                fadeRef.current = 0
+                fadeDirRef.current = 1
+            }
+        } else if (fadeDirRef.current > 0) {
+            fadeRef.current += delta / FADE_IN_SECONDS
+            if (fadeRef.current >= 1) {
+                fadeRef.current = 1
+                fadeDirRef.current = 0
+            }
+        }
+        // Squared, so the darkest part of the dip passes quickly and the
+        // return reads as light coming up rather than a linear wipe.
+        const eased = fadeRef.current * fadeRef.current
+        uniforms.uFade.value = eased
+
         if (tuning) {
             if (tuning.dof != null) uniforms.uDofStrength.value = tuning.dof
-            if (tuning.dofrange != null) uniforms.uFocusRange.value = tuning.dofrange
-            if (tuning.doffalloff != null) uniforms.uFocusFalloff.value = tuning.doffalloff
+            // `dofrange`/`doffalloff` are applied below, with the
+            // distance scaling, so an override is still relative to the
+            // same reference the defaults are.
             if (tuning.dofblur != null) uniforms.uMaxBlurPx.value = tuning.dofblur
             if (tuning.doffocus != null) focusRef.current = tuning.doffocus
             if (tuning.haze != null) uniforms.uHazeStrength.value = tuning.haze
@@ -357,8 +419,8 @@ export default function PostFX({
                 domStyleH: gl.domElement.style.height,
                 targetW: target.width,
                 targetH: target.height,
-                bufW: gl.getDrawingBufferSize(new THREE.Vector2()).x,
-                bufH: gl.getDrawingBufferSize(new THREE.Vector2()).y,
+                bufW: gl.getDrawingBufferSize(SCRATCH_SIZE).x,
+                bufH: gl.getDrawingBufferSize(SCRATCH_SIZE).y,
                 pixelRatio: gl.getPixelRatio(),
                 devicePixelRatio:
                     typeof window !== 'undefined' ? window.devicePixelRatio : null,
@@ -403,6 +465,31 @@ export default function PostFX({
             focusRef.current += (dist - focusRef.current) * k
             uniforms.uFocusDistance.value = focusRef.current
         }
+
+        /*
+          Depth of field scales with how far back the camera is standing.
+
+          The band and its falloff are in feet, and they were tuned at a
+          laptop aspect where the rig sits about 130ft out. Fitting the whole
+          court across a phone's width pushes it past 380ft — three times
+          further — and at that range the floor's own near-to-far spread
+          grows with it, so a fixed 2ft band with a 35ft falloff put almost
+          the entire scene beyond full blur. The landing came out soft end to
+          end on a phone and sharp on a desktop, from the same numbers.
+
+          Scaling both by the focus distance keeps the *proportion* of the
+          scene that is sharp constant instead, which is what "the same
+          look at any size" actually means here. A URL override still wins,
+          since that is for inspecting an exact value.
+        */
+        const dofScale = Math.max(
+            0.25,
+            uniforms.uFocusDistance.value / DOF_REFERENCE_DISTANCE
+        )
+        const baseRange = tuning?.dofrange ?? focusRange ?? BASE_FOCUS_RANGE
+        const baseFalloff = tuning?.doffalloff ?? BASE_FOCUS_FALLOFF
+        uniforms.uFocusRange.value = baseRange * dofScale
+        uniforms.uFocusFalloff.value = baseFalloff * dofScale
 
         // Composite: blur + haze, straight to the screen. Switching the real
         // camera onto layer 1 for this one call makes it see only the quad —

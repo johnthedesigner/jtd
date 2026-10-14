@@ -31,6 +31,12 @@ export const COMPACT_FALLBACK_IMAGES = {
     tall: '/hero-compact-tall.webp',
 }
 
+/** The experiments header, whose field is drawn with the flask. */
+export const FLASK_FALLBACK_IMAGES = {
+    wide: '/hero-flask-wide.webp',
+    tall: '/hero-flask-tall.webp',
+}
+
 export const FOOTER_FALLBACK_IMAGES = {
     wide: '/footer-wide.webp',
     tall: '/footer-tall.webp',

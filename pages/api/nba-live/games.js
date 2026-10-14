@@ -21,17 +21,35 @@ export const config = {
     maxDuration: 60,
 }
 
-/** How many *game dates* (not games) to pull per tab. */
-const DATE_SPAN = 3
+/**
+ * A week either side of today, which is the window the landing page offers.
+ *
+ * Still filtered against the season calendar rather than walked day by day:
+ * a week with no games in it costs seven pointless navigations otherwise,
+ * and in the offseason that is every week.
+ */
+const WINDOW_DAYS = 7
+/** A ceiling on the fan-out, since a busy week can have a game every night. */
+const MAX_DATES = 8
 
 const isoToDateParam = (iso) => String(iso).slice(0, 10).replace(/-/g, '')
 
-function todayDateParam() {
-    const now = new Date()
-    const y = now.getUTCFullYear()
-    const m = String(now.getUTCMonth() + 1).padStart(2, '0')
-    const d = String(now.getUTCDate()).padStart(2, '0')
+function dateParam(date) {
+    const y = date.getUTCFullYear()
+    const m = String(date.getUTCMonth() + 1).padStart(2, '0')
+    const d = String(date.getUTCDate()).padStart(2, '0')
     return `${y}${m}${d}`
+}
+
+function todayDateParam() {
+    return dateParam(new Date())
+}
+
+/** `days` from today, as a comparable YYYYMMDD string. */
+function offsetDateParam(days) {
+    const d = new Date()
+    d.setUTCDate(d.getUTCDate() + days)
+    return dateParam(d)
 }
 
 async function fetchScoreboard(dates) {
@@ -53,11 +71,16 @@ export default async function handler(req, res) {
     }
 
     const today = todayDateParam()
+    const weekAhead = offsetDateParam(WINDOW_DAYS)
+    const weekBack = offsetDateParam(-WINDOW_DAYS)
     let calendar = calendarOf(base.data)
+    // Today belongs to both windows: it holds games still to tip off *and*
+    // games already finished, and which list each lands in is decided by
+    // its status below rather than by its date.
     let dates =
         tab === 'upcoming'
-            ? calendar.filter((d) => d >= today).slice(0, DATE_SPAN)
-            : calendar.filter((d) => d < today).slice(-DATE_SPAN).reverse()
+            ? calendar.filter((d) => d >= today && d <= weekAhead).slice(0, MAX_DATES)
+            : calendar.filter((d) => d <= today && d >= weekBack).slice(-MAX_DATES)
 
     // In the offseason the current season's calendar is entirely in the
     // future, so "past" finds nothing in it. The previous season's calendar
@@ -68,7 +91,10 @@ export default async function handler(req, res) {
             const prior = await fetchScoreboard(String(seasonYear - 1))
             if (prior.ok) {
                 calendar = calendarOf(prior.data)
-                dates = calendar.filter((d) => d < today).slice(-DATE_SPAN).reverse()
+                // No week filter here: the point of the fallback is that
+                // there are no games within a week, so it reaches back to
+                // whatever the last played dates actually were.
+                dates = calendar.filter((d) => d < today).slice(-MAX_DATES)
             }
         }
     }
@@ -80,15 +106,26 @@ export default async function handler(req, res) {
         games.push(...normalizeScoreboard(day.data))
     }
 
-    // Live first within upcoming, then by start time. Past needs no sort:
-    // `dates` is already most-recent-first, so games collect in that order
-    // (an earlier `reverse()` here actively broke it — verified against the
-    // real response, which came back oldest-first).
+    /**
+     * The two tabs are "watch" and "replay", so they split on status, not
+     * only on date. A game that finished earlier today is a replay; one
+     * that tips off tonight is not, and neither belongs in the other list.
+     */
+    const filtered =
+        tab === 'upcoming'
+            ? games.filter((g) => g.status === 'live' || g.status === 'scheduled')
+            : games.filter((g) => g.status === 'final')
+
+    // Anything in progress goes to the front — it is the one thing on this
+    // page that cannot be watched later. Then by tip-off time. Replays need
+    // no sort: `dates` runs oldest to newest, so the row reads left to right
+    // as a timeline up to now, which is why the strip opens scrolled to its
+    // end rather than its start.
     if (tab === 'upcoming') {
-        const rank = { live: 0, scheduled: 1, final: 2 }
-        games.sort(
+        const rank = { live: 0, scheduled: 1 }
+        filtered.sort(
             (a, b) =>
-                (rank[a.status] ?? 3) - (rank[b.status] ?? 3) ||
+                (rank[a.status] ?? 2) - (rank[b.status] ?? 2) ||
                 (a.startTimeUTC || '').localeCompare(b.startTimeUTC || '')
         )
     }
@@ -99,5 +136,5 @@ export default async function handler(req, res) {
             ? 's-maxage=86400, stale-while-revalidate=3600'
             : 's-maxage=300, stale-while-revalidate=600'
     )
-    res.status(200).json({ tab, dates, games })
+    res.status(200).json({ tab, dates, games: filtered })
 }

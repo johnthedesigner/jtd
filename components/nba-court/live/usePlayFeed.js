@@ -45,8 +45,12 @@ const REPLAY_FIXTURE_URL = '/nba-live/sample-playbyplay.json'
  * old play is picked up automatically without re-triggering anything tied
  * to `latestPlay` specifically.
  */
-export default function usePlayFeed(gameId, { active = true, startAt = 0 } = {}) {
-    const replay = useReplayFeed(REPLAY_FIXTURE_URL, { autoStart: active && !gameId, startAt })
+export default function usePlayFeed(gameId, { active = true, startAt = 0, speed = 1 } = {}) {
+    const replay = useReplayFeed(REPLAY_FIXTURE_URL, {
+        autoStart: active && !gameId,
+        startAt,
+        speed,
+    })
 
     const [liveGame, setLiveGame] = useState(null)
     const [livePlays, setLivePlays] = useState([])
@@ -108,9 +112,12 @@ export default function usePlayFeed(gameId, { active = true, startAt = 0 } = {})
     useEffect(() => {
         if (!active || !isFinal) return
         if (revealed >= livePlays.length) return
-        const id = setTimeout(() => setRevealed((c) => c + 1), DEFAULT_INTERVAL_MS)
+        const id = setTimeout(
+            () => setRevealed((c) => c + 1),
+            DEFAULT_INTERVAL_MS / Math.max(speed, 0.01)
+        )
         return () => clearTimeout(id)
-    }, [active, isFinal, revealed, livePlays.length])
+    }, [active, isFinal, revealed, livePlays.length, speed])
 
     if (!gameId) return replay
 

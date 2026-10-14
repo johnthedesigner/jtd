@@ -224,6 +224,18 @@ body {
     min-height: 100vh;
 }
 
+:root {
+    /* Gap below the court page's bottom strip.
+
+       Deliberately px, not rem: this file drops the root font size to 18px
+       under 900px and 14px under 600px, so a rem value shrinks on exactly
+       the screens that need the margin most — it measured 34px on a laptop
+       and 14px on a phone, which read as the cards running off the bottom.
+       A device's own bottom inset is added on top of this at the usage
+       site, so a home indicator does not eat into it. */
+    --strip-gap: 24px;
+}
+
 html {
     font-size: 20px;
     font-family: var(--primary-font);
@@ -240,6 +252,21 @@ body {
 
 main {
     min-height: 100vh;
+}
+
+/*
+  Full-bleed pages are exactly one viewport and must never scroll.
+
+  `100vh` on mobile is the *large* viewport — the height with the address
+  bar hidden — so a `min-height: 100vh` ancestor stays taller than what is
+  actually on screen while the bar is showing, and anything pinned to the
+  bottom of the page sits below the fold. It is a floor underneath the
+  page's own box, so that box cannot shrink to fit. `body` and `main` both
+  carry one; this clears them for these pages only.
+*/
+.full-bleed,
+.full-bleed .main-content {
+    min-height: 0;
 }
 
 @media screen and (max-width: 900px) {

@@ -73,15 +73,30 @@ const STATUS_FONT_URL = '/fonts/montserrat_bold.typeface.json'
  * height, not used as one.
  */
 const THREE_POINT_DISTANCE = 23.75
-/** Measured, not derived — see `useInkHeight`. */
-const NUMERAL_INK_RATIO = 1.0581
+/**
+ * Measured, not derived — see `useInkHeight`. Re-measure after any change
+ * to the font file: this moved from 1.0581 to 1.0160 when the Montserrat
+ * typefaces were regenerated with overlaps removed, which would otherwise
+ * have drawn the numerals 4% over the three-point height they are
+ * specified at.
+ */
+const NUMERAL_INK_RATIO = 1.016
 const SCORE_SIZE = THREE_POINT_DISTANCE / NUMERAL_INK_RATIO
 /**
- * Deep. These are slabs standing in the room, not signage — at a shallow
- * extrusion the chamfer and the interior light have nothing to happen in,
- * and the glyphs read as cut paper from the raked camera.
+ * Depth of the lit can, as a fraction of the character's height.
+ *
+ * These were slabs — 8ft deep on 23.75ft numerals, and 2.5ft on lettering
+ * under 6ft tall, which is 42% of its own height. From a camera that is
+ * never quite square to the board that put a wide dark band of side wall
+ * across every glyph, covering counters and inside corners and reading as
+ * a crude drop shadow rather than as depth. It looked like a rendering
+ * fault and was not one: the extrusion was simply far too deep for the
+ * letterform.
+ *
+ * Real channel lettering runs nearer a tenth of its height.
  */
-const SCORE_DEPTH = 8
+const DEPTH_RATIO = 0.11
+const SCORE_DEPTH = THREE_POINT_DISTANCE * DEPTH_RATIO
 const SCORE_Z = -38
 const SCORE_BENCH_X = 34
 /**
@@ -98,7 +113,7 @@ const SCORE_Y = 3
  * view's fixed camera, which at the previous 0.26 it did not.
  */
 const LABEL_SIZE = SCORE_SIZE * 0.2
-const LABEL_DEPTH = 2.5
+const LABEL_DEPTH = LABEL_SIZE * DEPTH_RATIO
 /**
  * Where the lettering sits above its number is **measured, not estimated**.
  *
@@ -146,7 +161,7 @@ const LABEL_CHAMFER = 0.1
 const STATUS_CHAMFER = 0.055
 
 const STATUS_SIZE = 4.5
-const STATUS_DEPTH = 1.4
+const STATUS_DEPTH = STATUS_SIZE * DEPTH_RATIO
 /**
  * Resting on the court rather than hovering over it: bottom-baselined at
  * y=0, so the lettering stands on the floor it's announcing.
@@ -172,10 +187,24 @@ const STATUS_FRAME_FALLOFF = { floor: 0.5, spill: 0.4, decay: 0.03 }
  * How hard each panel burns. The losing team's goes dark at the final
  * buzzer, which is the whole reason this is a per-side value.
  */
-const SCORE_PANEL_INTENSITY = 0.7
-const LABEL_PANEL_INTENSITY = 0.6
-const STATUS_PANEL_INTENSITY = 0.76
-const DARK_PANEL_INTENSITY = 0
+/*
+  Panel brightness. These multiply the panel colour (see `sign-material`),
+  so they are the lit face of each channel letter rather than an emissive
+  bloom — raising them reads as the sign being driven harder, not as the
+  scene being exposed differently.
+*/
+const SCORE_PANEL_INTENSITY = 1.0
+const LABEL_PANEL_INTENSITY = 0.88
+const STATUS_PANEL_INTENSITY = 1.05
+/**
+ * The beaten side's panel once a game is decided.
+ *
+ * Not zero. An unlit panel against a dark arena is not a dimmed score, it
+ * is an absent one — the losing total simply vanished, which reads as a bug
+ * rather than as a result. This is low enough to be unmistakably the quiet
+ * half of the board and high enough to still be read.
+ */
+const DARK_PANEL_INTENSITY = 0.34
 
 /**
  * The metal return around each lit face is the chamfer — real geometry,
@@ -190,6 +219,14 @@ const DARK_PANEL_INTENSITY = 0
  * out at the final buzzer stops lighting the room too, which is most of
  * what makes that moment read.
  */
+/**
+ * How much light the beaten side's numerals still throw onto the floor and
+ * the chairs. Kept in step with `DARK_PANEL_INTENSITY`: a panel that is
+ * still lit should still be casting something, or the sign reads as lit
+ * while the floor beneath it reads as dark.
+ */
+const LOSER_LIGHT_RATIO = 0.34
+
 export function scoreboardLights(score, homeEnd = 1) {
     if (!score) return []
     const z = SCORE_Z + SCORE_DEPTH / 2
@@ -202,13 +239,19 @@ export function scoreboardLights(score, homeEnd = 1) {
             x: homeEnd * SCORE_BENCH_X,
             y,
             z,
-            intensity: score.loser === 'home' ? 0 : SCORE_PANEL_INTENSITY,
+            intensity:
+                score.loser === 'home'
+                    ? SCORE_PANEL_INTENSITY * LOSER_LIGHT_RATIO
+                    : SCORE_PANEL_INTENSITY,
         },
         {
             x: -homeEnd * SCORE_BENCH_X,
             y,
             z,
-            intensity: score.loser === 'away' ? 0 : SCORE_PANEL_INTENSITY,
+            intensity:
+                score.loser === 'away'
+                    ? SCORE_PANEL_INTENSITY * LOSER_LIGHT_RATIO
+                    : SCORE_PANEL_INTENSITY,
         },
     ]
 }
