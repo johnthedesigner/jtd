@@ -23,7 +23,7 @@ export const DEFAULT_INTERVAL_MS = 3500
  */
 export default function useReplayFeed(
     fixtureUrl,
-    { intervalMs = DEFAULT_INTERVAL_MS, autoStart = true, startAt = 0 } = {}
+    { intervalMs = DEFAULT_INTERVAL_MS, autoStart = true, startAt = 0, speed = 1 } = {}
 ) {
     const [game, setGame] = useState(null)
     const [allPlays, setAllPlays] = useState([])
@@ -59,9 +59,14 @@ export default function useReplayFeed(
 
     useEffect(() => {
         if (!autoStart || revealedCount >= allPlays.length) return
-        const id = setTimeout(() => setRevealedCount((c) => c + 1), intervalMs)
+        // Dividing the interval rather than scaling a clock: the reveal is
+        // a timer, so speed is just how long it waits between plays.
+        const id = setTimeout(
+            () => setRevealedCount((c) => c + 1),
+            intervalMs / Math.max(speed, 0.01)
+        )
         return () => clearTimeout(id)
-    }, [autoStart, allPlays.length, revealedCount, intervalMs])
+    }, [autoStart, allPlays.length, revealedCount, intervalMs, speed])
 
     const plays = allPlays.slice(0, revealedCount)
     return { game, plays, latestPlay: plays[plays.length - 1] ?? null }

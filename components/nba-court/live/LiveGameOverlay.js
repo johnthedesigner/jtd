@@ -113,9 +113,25 @@ const SPARK_TINT = 0.16
 const tmpObj = new THREE.Object3D()
 
 /** Symbol and colour per marker kind — see `live-markers.js` for placement. */
+/**
+ * The miss marker's red.
+ *
+ * `#ff4f42` measured 0.272 relative luminance against a 0.522 mean for the
+ * other four marks — about half as bright, and on a lit parquet floor it
+ * read as a dark smudge where the green, amber and cyan all popped.
+ *
+ * This sits halfway between it and a version raised to the others' level.
+ * That version, `#ff877e`, was bright enough but had drifted to a pale
+ * coral: lifting lightness at full saturation walks a hue toward white, and
+ * the channel spread fell from 189 to 129. At this midpoint the spread is
+ * 159 and the luminance 0.326 — brighter than it was, still unmistakably
+ * red.
+ */
+const MISS_RED = '#ff6b60'
+
 const MARKS = {
     [MARKER_KINDS.MAKE]: { color: new THREE.Color('#41e08a'), shape: makeCircleShape },
-    [MARKER_KINDS.MISS]: { color: new THREE.Color('#ff4f42'), shape: makeXShape },
+    [MARKER_KINDS.MISS]: { color: new THREE.Color(MISS_RED), shape: makeXShape },
     [MARKER_KINDS.REBOUND]: { color: new THREE.Color('#ffc24a'), shape: makeHexShape },
     [MARKER_KINDS.STEAL]: { color: new THREE.Color('#4ad4ff'), shape: makeArrowShape },
     [MARKER_KINDS.TURNOVER]: { color: new THREE.Color('#ff9a3c'), shape: makeDiamondShape },

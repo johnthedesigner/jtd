@@ -30,11 +30,30 @@ import puppeteer from 'puppeteer-core'
  * from a real browser. `page.goto()` sends `Sec-Fetch-Mode: navigate`,
  * matching a real address-bar request.
  *
- * The browser itself is a module-level singleton: launching one costs real
- * time (measured locally at ~380ms cold, and considerably more once
- * `@sparticuz/chromium` unpacks inside a fresh serverless container), so it's
- * launched once and reused by every later call that lands on the same warm
- * instance, rather than per request.
+ * The browser is a singleton **on `globalThis`, not on this module**, and
+ * that distinction was worth about 24GB of a laptop's RAM.
+ *
+ * A plain `let browserPromise` here looks like a singleton and is not one in
+ * Next's dev server, which re-evaluates server modules per request: measured
+ * directly, three sequential requests to one route launched three separate
+ * Chromiums. Nothing closed them, and because `puppeteer.launch()` detaches
+ * the child, they outlived the dev server itself — orphans from two days
+ * earlier were still resident, reparented to launchd, 25MB apiece. 424 of
+ * them had accumulated.
+ *
+ * So three things hold the line, and all three are needed:
+ *
+ * 1. `Symbol.for` on `globalThis` — the one place that survives module
+ *    re-evaluation.
+ * 2. An idle timer that closes the browser when nothing has used it for a
+ *    while, so a dev server left running overnight isn't holding a Chromium.
+ * 3. Exit hooks that kill the child process, so stopping the server does not
+ *    leave anything behind. `exit` alone is not enough: Node does not emit it
+ *    for a signal-terminated process, which is exactly how a dev server dies.
+ *
+ * Launch cost is still real (~380ms locally, considerably more once
+ * `@sparticuz/chromium` unpacks in a cold serverless container), which is why
+ * the thing is pooled at all rather than opened per call.
  */
 
 // Confirmed non-viable (see above) — kept only so future investigation
@@ -44,8 +63,30 @@ export const NBA_FEED_BASE = 'https://cdn.nba.com/static/json'
 export const ESPN_FEED_BASE = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba'
 export const ESPN_SUMMARY_BASE = 'https://site.web.api.espn.com/apis/site/v2/sports/basketball/nba'
 
-let browserPromise = null
-let realUserAgentPromise = null
+/**
+ * Shared across every copy of this module in the process. `Symbol.for` keys
+ * into the global registry, so two evaluations of this file reach the same
+ * object instead of each getting a private one.
+ */
+const STATE_KEY = Symbol.for('jtd.nba-court.browser-pool')
+
+/** Close the browser after this long with no requests. */
+const IDLE_MS = 5 * 60 * 1000
+
+function pool() {
+    let state = globalThis[STATE_KEY]
+    if (!state) {
+        state = {
+            promise: null,
+            browser: null,
+            userAgent: null,
+            idleTimer: null,
+            exitHooked: false,
+        }
+        globalThis[STATE_KEY] = state
+    }
+    return state
+}
 
 /**
  * The browser's own real User-Agent with "HeadlessChrome" swapped for
@@ -55,10 +96,88 @@ let realUserAgentPromise = null
  * itself be a mismatch worth flagging).
  */
 async function getRealUserAgent(browser) {
-    if (!realUserAgentPromise) {
-        realUserAgentPromise = browser.userAgent().then((ua) => ua.replace('HeadlessChrome/', 'Chrome/'))
+    const state = pool()
+    if (!state.userAgent) {
+        state.userAgent = browser
+            .userAgent()
+            .then((ua) => ua.replace('HeadlessChrome/', 'Chrome/'))
     }
-    return realUserAgentPromise
+    return state.userAgent
+}
+
+/**
+ * Whether a browser is still usable.
+ *
+ * puppeteer-core moved this from an `isConnected()` method to a `connected`
+ * property, and the old call survived here for a long time without anyone
+ * noticing, because the reuse path it lived on was never once reached — the
+ * singleton it guarded was being rebuilt per request, so there was never an
+ * existing browser to check. The first thing fixing the singleton did was
+ * surface `state.browser.isConnected is not a function` on every request
+ * after the first. Both spellings are accepted so a future bump doesn't
+ * quietly reintroduce a relaunch-every-time bug.
+ */
+function isUsable(browser) {
+    if (!browser) return false
+    if (typeof browser.connected === 'boolean') return browser.connected
+    if (typeof browser.isConnected === 'function') return browser.isConnected()
+    return false
+}
+
+/**
+ * Kills the browser without awaiting anything.
+ *
+ * `browser.close()` is async, and an `exit` handler cannot await — so this
+ * signals the child process directly, which is the only cleanup that is
+ * guaranteed to complete while the process is on its way out.
+ */
+function killBrowser(state) {
+    const browser = state.browser
+    state.browser = null
+    state.promise = null
+    state.userAgent = null
+    if (state.idleTimer) {
+        clearTimeout(state.idleTimer)
+        state.idleTimer = null
+    }
+    if (!browser) return
+    try {
+        const child = browser.process()
+        if (child) child.kill('SIGKILL')
+    } catch {
+        // Already gone; nothing to do.
+    }
+}
+
+function hookExit(state) {
+    if (state.exitHooked) return
+    state.exitHooked = true
+    process.once('exit', () => killBrowser(state))
+    // Node emits `exit` when the loop drains or `process.exit()` runs, but
+    // *not* for a process killed by a signal — which is how a dev server
+    // ends. Each handler re-raises with the default disposition so this
+    // doesn't quietly take over the server's own shutdown.
+    for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+        process.once(signal, () => {
+            killBrowser(state)
+            process.kill(process.pid, signal)
+        })
+    }
+}
+
+/** Restarts the countdown to closing an unused browser. */
+function touchIdleTimer(state) {
+    if (state.idleTimer) clearTimeout(state.idleTimer)
+    state.idleTimer = setTimeout(() => {
+        const browser = state.browser
+        state.browser = null
+        state.promise = null
+        state.userAgent = null
+        state.idleTimer = null
+        browser?.close().catch(() => {})
+    }, IDLE_MS)
+    // Never hold the process open just to wait out an idle timer.
+    state.idleTimer.unref?.()
 }
 
 function isServerlessRuntime() {
@@ -87,17 +206,49 @@ async function launchBrowser() {
 }
 
 async function getBrowser() {
-    if (browserPromise) {
+    const state = pool()
+    hookExit(state)
+
+    if (state.promise) {
         try {
-            const existing = await browserPromise
-            if (existing.isConnected()) return existing
+            const existing = await state.promise
+            if (isUsable(existing)) {
+                touchIdleTimer(state)
+                return existing
+            }
         } catch {
-            // Last launch attempt failed — fall through and retry below.
+            // Last launch attempt failed — fall through and relaunch.
         }
-        browserPromise = null
+        // Only the caller that still owns the dead promise clears it. Without
+        // this check, several callers awaiting the same broken promise each
+        // start their own replacement and all but one get orphaned — the
+        // in-process version of the bug this whole module is shaped around.
+        if (state.promise) {
+            state.promise = null
+            state.browser = null
+            state.userAgent = null
+        }
     }
-    browserPromise = launchBrowser()
-    return browserPromise
+
+    if (!state.promise) {
+        // Assigned synchronously, before any `await`, so a second caller
+        // arriving in the same tick joins this launch instead of starting one.
+        state.promise = launchBrowser().then((browser) => {
+            state.browser = browser
+            // A browser that dies on its own shouldn't leave a stale promise
+            // behind for the next caller to await.
+            browser.once('disconnected', () => {
+                if (state.browser === browser) {
+                    state.browser = null
+                    state.promise = null
+                    state.userAgent = null
+                }
+            })
+            return browser
+        })
+    }
+    touchIdleTimer(state)
+    return state.promise
 }
 
 /**

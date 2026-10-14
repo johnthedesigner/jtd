@@ -6,9 +6,10 @@ import { LinkedinIcon } from './SocialIcons'
 import MenuBackdrop from './MenuBackdrop'
 
 const NAV_LINKS = [
-    { label: 'Work',      path: '/work' },
-    { label: 'About',     path: '/about' },
-    { label: 'My Résumé', path: '/John_L_Res_202507.pdf', external: true },
+    { label: 'Work',        path: '/work' },
+    { label: 'Experiments', path: '/experiments' },
+    { label: 'About',       path: '/about' },
+    { label: 'My Résumé',   path: '/John_L_Res_202507.pdf', external: true },
 ]
 
 const HEADER_HEIGHT = 60

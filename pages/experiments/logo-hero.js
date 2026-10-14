@@ -102,7 +102,7 @@ export default function LogoHeroExperiment() {
         <>
             <Head>
                 <title>Logo hero: GPU vs DOM</title>
-                <meta name="robots" content="noindex" />
+                <meta name="robots" content="noindex, nofollow" />
             </Head>
 
             <div ref={heroRef}>

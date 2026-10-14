@@ -11,24 +11,72 @@ import { sampleCourtColors } from './court-colors'
 import { buildGrainMask } from './court-grain'
 import { debugState } from './debug-state'
 import DebugPanel from './DebugPanel'
-import SettingsFlyout from './SettingsFlyout'
+import CourtMenu from './CourtMenu'
 import usePlayFeed from './live/usePlayFeed'
 import useLiveSceneDirector from './live/useLiveSceneDirector'
 import LiveHUD from './live/LiveHUD'
-import GameListOverlay from './live/GameListOverlay'
-import UpcomingGamesStrip from './live/UpcomingGamesStrip'
+import PlaybackSpeed from './live/PlaybackSpeed'
+import GamesStrip from './live/GamesStrip'
+import ProductTour, { TourButton, useTourAutoStart } from './ProductTour'
+import { OVERLAY_BG } from './overlay-surface'
+import useDeviceTilt from './use-device-tilt'
+import SmallScreenNotice from './SmallScreenNotice'
+import ViewportReadout from './ViewportReadout'
 
 /**
  * Textures are cached across switches, so flipping between two teams after the
  * first visit costs nothing. The court fills most of the frame at a grazing
  * angle, which is exactly the case trilinear filtering handles badly, so every
  * texture gets mipmaps and max anisotropy.
+ *
+ * **Bounded, because it used not to be.** There are 60 courts (30 clubs, two
+ * eras), each 2016x992: 7.6MB decoded, 10.2MB once mipmapped, so browsing the
+ * whole league through the court picker parked 0.6GB in GPU memory and never
+ * gave any of it back. Each one also carries a grain mask built on the CPU,
+ * which is JS heap on top of that. The picker now shows all thirty marks at
+ * once, so clicking through them is an obvious thing to do rather than a
+ * stress test.
+ *
+ * Eviction never touches the most recent few entries, which is what makes it
+ * safe without any bookkeeping between here and the renderer: the court on
+ * screen and the one being cross-faded out of are by construction the two
+ * most recently loaded, and `useTeamColors` only ever adds two more. A limit
+ * well above that can't reach anything still in use.
  */
+const MAX_CACHED_COURTS = 8
 const cache = new Map()
+
+/** Frees both the texture and the mask built alongside it. */
+function disposeCourt(texture) {
+    texture.userData?.grainMask?.dispose?.()
+    texture.dispose()
+}
+
+/**
+ * Drops least-recently-used entries past the cap.
+ *
+ * A `Map` iterates in insertion order, and `touch` below re-inserts on every
+ * hit, so the iteration order *is* the recency order — oldest first.
+ */
+function evictCourts() {
+    while (cache.size > MAX_CACHED_COURTS) {
+        const [url, promise] = cache.entries().next().value
+        cache.delete(url)
+        // The entry may still be in flight, or may have failed. Either way
+        // the cache is done with it; dispose whatever actually arrives.
+        Promise.resolve(promise).then(disposeCourt, () => {})
+    }
+}
 
 function loadCourt(team, era) {
     const url = courtImageUrl(team, era)
-    if (cache.has(url)) return cache.get(url)
+    if (cache.has(url)) {
+        // Re-insert so this becomes the newest entry.
+        const existing = cache.get(url)
+        cache.delete(url)
+        cache.set(url, existing)
+        return existing
+    }
 
     const promise = new Promise((resolve, reject) => {
         new THREE.TextureLoader().load(
@@ -53,6 +101,11 @@ function loadCourt(team, era) {
     })
 
     cache.set(url, promise)
+    // A failed load shouldn't occupy a slot forever, or be retried never.
+    promise.catch(() => {
+        if (cache.get(url) === promise) cache.delete(url)
+    })
+    evictCourts()
     return promise
 }
 
@@ -81,6 +134,71 @@ function useTeamColors(tricode, era) {
         }
     }, [tricode, era])
     return colors
+}
+
+/**
+ * How much of the viewport the bottom overlay covers, as a fraction.
+ *
+ * Measured off whatever is actually down there — the game strip out on the
+ * landing, the score bug inside a game — rather than carried as a constant
+ * per view. The camera frames the scene into the band above it (see
+ * `solveFraming`), so a number that drifts out of date here shows up as the
+ * court sliding under the overlay, and these two things change shape for
+ * real reasons: the strip's cards are shorter on a phone, and the score bug
+ * grows when its play feed is open.
+ */
+function useFrameInsets(hostRef) {
+    const [insets, setInsets] = useState({ top: 0.08, bottom: 0.24 })
+    useEffect(() => {
+        const host = hostRef.current
+        if (!host || typeof ResizeObserver === 'undefined') return
+        let frame = 0
+        const measure = () => {
+            const height = host.clientHeight
+            if (!height) return
+            const el = host.querySelector('[data-bottom-overlay]')
+            // The strip's own top padding is a fade, not content; the
+            // element's full height would reserve space that nothing
+            // occupies. Its first child is the part that is actually drawn.
+            const box = el?.firstElementChild ?? el
+            const bottomPx = box ? box.getBoundingClientRect().height : 0
+            // The site nav floats over this canvas and is not part of it,
+            // so it is measured from the document rather than the host.
+            const nav = document.querySelector('header')
+            const navBox = nav?.getBoundingClientRect()
+            const hostTop = host.getBoundingClientRect().top
+            const topPx = navBox ? Math.max(0, navBox.bottom - hostTop) : 0
+            const next = {
+                top: Math.min(Math.max(topPx / height, 0), 0.3),
+                bottom: Math.min(Math.max(bottomPx / height, 0.08), 0.6),
+            }
+            setInsets((prev) =>
+                Math.abs(prev.top - next.top) < 0.005 &&
+                Math.abs(prev.bottom - next.bottom) < 0.005
+                    ? prev
+                    : next
+            )
+        }
+        // The overlay mounts and swaps with the view, so watch the subtree
+        // rather than one element that may not exist yet.
+        const observer = new ResizeObserver(() => {
+            cancelAnimationFrame(frame)
+            frame = requestAnimationFrame(measure)
+        })
+        observer.observe(host)
+        const mutation = new MutationObserver(() => {
+            cancelAnimationFrame(frame)
+            frame = requestAnimationFrame(measure)
+        })
+        mutation.observe(host, { childList: true, subtree: true })
+        measure()
+        return () => {
+            cancelAnimationFrame(frame)
+            observer.disconnect()
+            mutation.disconnect()
+        }
+    }, [hostRef])
+    return insets
 }
 
 function usePrefersReducedMotion() {
@@ -149,42 +267,62 @@ function winVerb(teamName) {
 }
 
 /**
- * How deep the live view's in-focus band runs, in feet either side of the
- * focus distance. Sized from the geometry: the scoreboard stands at
- * z = -40 and the camera focuses on the court's middle about 35ft nearer,
- * so anything under that leaves the numerals blurred.
+ * How deep the in-focus band runs, in feet either side of the focus
+ * distance. Sized from the geometry: the scoreboard stands at z = -40 and
+ * the camera focuses on the court's middle about 35ft nearer, so anything
+ * under that leaves the numerals blurred.
+ *
+ * Used by the landing too, which has the same problem for the same reason —
+ * its lockup stands exactly where the scoreboard does. The landing had been
+ * left on the default 2ft band, which is right for a single subject and
+ * wrong for a view whose whole back wall is content. `PostFX` scales this
+ * with camera distance, so one value holds at every viewport.
  */
-const LIVE_FOCUS_RANGE = 46
+const FOCUS_RANGE = 46
 
-/** Reads ?team=&era=&pose= so a particular shot can be linked to directly. */
+/**
+ * Reads ?team=&era=&view=&game= so a particular shot can be linked to
+ * directly — including a specific game, which is the only way to reach one
+ * without clicking through the strip, and what makes a given moment in a
+ * given game reproducible.
+ */
 function readQuery(fallbackTeam, fallbackEra) {
-    if (typeof window === 'undefined') return [fallbackTeam, fallbackEra, 'court']
+    if (typeof window === 'undefined') return [fallbackTeam, fallbackEra, 'court', null]
     const params = new URLSearchParams(window.location.search)
     const team = params.get('team')
     const era = params.get('era')
     const view = params.get('view')
+    const game = params.get('game')
     return [
         TEAMS.includes(team) ? team : fallbackTeam,
         ERAS.includes(era) ? era : fallbackEra,
         VIEWS[view] ? view : 'court',
+        /^\d{6,}$/.test(game ?? '') ? game : null,
     ]
 }
 
+/** The floor the landing view sits on, and returns to. */
+export const LANDING_TEAM = 'bos'
+export const LANDING_ERA = 'current'
+
 export default function CourtViewer({
-    initialTeam = 'bos',
-    initialEra = 'current',
+    initialTeam = LANDING_TEAM,
+    initialEra = LANDING_ERA,
 }) {
-    const [initTeam, initEra, initView] = readQuery(initialTeam, initialEra)
+    const [initTeam, initEra, initView, initGame] = readQuery(initialTeam, initialEra)
     const [team, setTeam] = useState(initTeam)
     const [era, setEra] = useState(initEra)
     const [texture, setTexture] = useState(null)
     const [ready, setReady] = useState(false)
     const [viewId, setViewId] = useState(initView)
     const [profile, setProfile] = useState('modern')
-    const [gameListOpen, setGameListOpen] = useState(false)
+    const [courtMenuOpen, setCourtMenuOpen] = useState(false)
+    const [tourOpen, setTourOpen] = useState(false)
+    // 1x is the pace replay already ran at, so the default changes nothing.
+    const [playbackSpeed, setPlaybackSpeed] = useState(1)
     // Which game `usePlayFeed` polls — null means "no game picked," which
     // falls back to the replay fixture (see `usePlayFeed.js`).
-    const [selectedGameId, setSelectedGameId] = useState(null)
+    const [selectedGameId, setSelectedGameId] = useState(initGame)
     const view = VIEWS[viewId]
 
     // Synthetic while the look is being settled; real aggregates drop into the
@@ -194,11 +332,15 @@ export default function CourtViewer({
         [profile]
     )
 
+    const rootRef = useRef(null)
     const prevTexture = useRef(null)
     const moveRef = useRef(1)
     const mixRef = useRef(1)
     const pointer = useRef({ x: 0, y: 0 })
+    const frameInsets = useFrameInsets(rootRef)
     const reducedMotion = usePrefersReducedMotion()
+    // Writes into `pointer` itself, and reports whether it has taken over.
+    const tiltActive = useDeviceTilt(pointer, { enabled: !reducedMotion })
     const renderActive = useRenderActive()
     const debugOn = useMemo(() => {
         if (typeof window === 'undefined') return false
@@ -254,6 +396,7 @@ export default function CourtViewer({
     const { game: liveGame, plays: livePlays, latestPlay } = usePlayFeed(selectedGameId, {
         active: viewId === 'live',
         startAt: tuning?.replayfrom ?? 0,
+        speed: playbackSpeed,
     })
     const activeScene = useLiveSceneDirector(latestPlay)
 
@@ -337,8 +480,10 @@ export default function CourtViewer({
         params.set('team', team)
         params.set('era', era)
         params.set('view', viewId)
+        if (selectedGameId) params.set('game', selectedGameId)
+        else params.delete('game')
         window.history.replaceState(null, '', `?${params}`)
-    }, [team, era, viewId])
+    }, [team, era, viewId, selectedGameId])
 
     // Choosing a view swaps the overlay; the pose transition itself is
     // handled uniformly below, for any reason the resolved pose changes —
@@ -351,6 +496,10 @@ export default function CourtViewer({
     // so this is the only way back to the rest of the experiment.
     const exitGame = useCallback(() => {
         setSelectedGameId(null)
+        // Back to the landing floor, not whichever building the last game
+        // was played in.
+        setTeam(LANDING_TEAM)
+        setEra(LANDING_ERA)
         selectView('court')
     }, [selectView])
 
@@ -361,10 +510,13 @@ export default function CourtViewer({
     // yet (see `selectedGameId` above).
     const selectGame = useCallback(
         (game) => {
-            setTeam(game.home.tricode)
+            // A preseason opponent can be a club with no court of its own;
+            // the home side always has one, but guard anyway rather than
+            // blanking the floor.
+            if (game.home?.tricode) setTeam(game.home.tricode)
             setSelectedGameId(game.gameId)
             selectView('live')
-            setGameListOpen(false)
+            setCourtMenuOpen(false)
         },
         [selectView]
     )
@@ -383,29 +535,59 @@ export default function CourtViewer({
         viewId === 'live' && activeScene?.pose ? activeScene.pose : POSES[view.pose]
 
 
-    const onPointerMove = useCallback((event) => {
-        const rect = event.currentTarget.getBoundingClientRect()
-        pointer.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-        pointer.current.y = ((event.clientY - rect.top) / rect.height) * 2 - 1
-    }, [])
+    // Both yield to the device's own sense of which way it is being held:
+    // a phone emits pointer events for every tap, and a tap that jumped the
+    // camera would fight the tilt that is already driving it.
+    const onPointerMove = useCallback(
+        (event) => {
+            if (tiltActive.current) return
+            const rect = event.currentTarget.getBoundingClientRect()
+            pointer.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+            pointer.current.y = ((event.clientY - rect.top) / rect.height) * 2 - 1
+        },
+        [tiltActive]
+    )
 
     const onPointerLeave = useCallback(() => {
+        if (tiltActive.current) return
         pointer.current.x = 0
         pointer.current.y = 0
-    }, [])
+    }, [tiltActive])
 
     const teamList = useMemo(
         () => TEAMS.map((abbr) => [abbr, TEAM_NAMES[abbr]]),
         []
     )
 
+    const openTour = useCallback(() => setTourOpen(true), [])
+    const closeTour = useCallback(() => setTourOpen(false), [])
+    // Waits for the floor to be lit: a tour that points at a loading
+    // screen is pointing at nothing. Held back on a phone as well, where
+    // `SmallScreenNotice` has the first word and the two would otherwise
+    // stack on top of each other on a first visit.
+    const autoTourOk =
+        ready &&
+        viewId !== 'live' &&
+        (typeof window === 'undefined' ||
+            !window.matchMedia?.('(max-width: 639px)').matches)
+    useTourAutoStart(autoTourOk, openTour)
+
     return (
         <div
+            ref={rootRef}
             className="relative h-full w-full overflow-hidden bg-[#0b0d12]"
             onPointerMove={onPointerMove}
             onPointerLeave={onPointerLeave}
         >
             <Canvas
+                /*
+                  Hidden from assistive tech on purpose. Everything a screen
+                  reader can use — the call, the score, the clock, the
+                  controls — is in the DOM overlays above it; the canvas
+                  itself would announce as an unlabelled graphic and offer
+                  nothing to navigate.
+                */
+                aria-hidden="true"
                 dpr={[1, 2]}
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
                 camera={{ fov: 34, near: 1, far: 2000, position: [0, 60, 104] }}
@@ -423,6 +605,7 @@ export default function CourtViewer({
                     reducedMotion={reducedMotion}
                     pose={resolvedPose}
                     moveRef={moveRef}
+                    frameInsets={frameInsets}
                     courtColors={texture?.userData?.colors}
                     shots={shots}
                     showShots={view.overlay === 'shots'}
@@ -448,7 +631,10 @@ export default function CourtViewer({
                 />
                 <PostFX
                     tuning={tuning}
-                    focusRange={viewId === 'live' ? LIVE_FOCUS_RANGE : null}
+                    focusRange={FOCUS_RANGE}
+                    // Entering or leaving a game, and changing the court,
+                    // all take the house down and bring it back.
+                    fadeKey={`${viewId}|${team}|${era}`}
                 />
             </Canvas>
 
@@ -464,65 +650,70 @@ export default function CourtViewer({
 
             {debugOn && <DebugPanel />}
 
+            {/* `?vp` only — see the component for why this exists. */}
+            <ViewportReadout />
+
             {/*
-              The bottom bar outside a game: picking what to watch is the
-              primary action, so it takes the bar, and the court experiment's
-              own knobs sit beside it behind the gear. Both disappear once a
-              game is open — the live view puts its score block here instead,
-              and the court/teams are then dictated by the game itself.
+              Outside a game the bottom of the screen is for choosing one.
+              Both this and the court menu disappear once a game is open —
+              the live view puts its score block here instead, and the court
+              is then dictated by the game itself.
             */}
+            <GamesStrip
+                active={viewId !== 'live'}
+                onSelectGame={selectGame}
+                onStartTour={openTour}
+            />
+
             {viewId !== 'live' && (
-                <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/80 to-transparent px-4 pb-4 pt-16 sm:px-6 sm:pb-6">
-                    <div className="mx-auto flex max-w-5xl items-end gap-3">
-                        <UpcomingGamesStrip
-                            active={!gameListOpen}
-                            onSelectGame={selectGame}
-                            onOpenAll={() => setGameListOpen(true)}
-                        />
-                        <SettingsFlyout
-                            team={team}
-                            era={era}
-                            onTeam={setTeam}
-                            onEra={setEra}
-                            teamList={teamList}
-                            viewId={viewId}
-                            onView={selectView}
-                            profile={profile}
-                            onProfile={setProfile}
-                        />
-                    </div>
-                </div>
+                <CourtMenu
+                    team={team}
+                    era={era}
+                    onTeam={setTeam}
+                    onEra={setEra}
+                    teamList={teamList}
+                    open={courtMenuOpen}
+                    onOpen={() => setCourtMenuOpen(true)}
+                    onClose={() => setCourtMenuOpen(false)}
+                />
             )}
 
             {/*
-              Leaving a game is a standalone control, not part of the score
-              bug — offset below the site header, which floats over this
-              canvas and would otherwise sit on top of it.
+              The left-hand controls, as a row rather than two absolutely
+              positioned buttons: leaving a game and starting the tour are
+              both here, and only one of them exists in both views, so
+              stacking them by hand would mean two sets of coordinates that
+              have to agree. Offset below the site header, which floats over
+              this canvas and would otherwise sit on top of them.
             */}
-            {viewId === 'live' && (
-                <button
-                    type="button"
-                    onClick={exitGame}
-                    aria-label="Leave game"
-                    title="Leave game"
-                    className="absolute left-4 top-20 z-10 flex h-11 w-11 items-center justify-center rounded-sm bg-black/60 text-white/70 backdrop-blur transition-colors hover:bg-black/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:left-6"
-                >
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="20"
-                        height="20"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden
+            <div className="absolute left-4 top-20 z-20 flex items-center gap-2 sm:left-6">
+                {viewId === 'live' && (
+                    <button
+                        type="button"
+                        onClick={exitGame}
+                        data-tour="exit-game"
+                        aria-label="Leave game"
+                        title="Leave game"
+                        className="flex h-[40px] w-[40px] items-center justify-center rounded-sm text-white/70 ring-1 ring-white/10 backdrop-blur transition-colors hover:text-white hover:ring-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        style={{ backgroundColor: OVERLAY_BG }}
                     >
-                        <line x1="19" y1="12" x2="5" y2="12" />
-                        <polyline points="12,19 5,12 12,5" />
-                    </svg>
-                </button>
-            )}
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="20"
+                            height="20"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                        >
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12,19 5,12 12,5" />
+                        </svg>
+                    </button>
+                )}
+            </div>
 
             <LiveHUD
                 active={viewId === 'live'}
@@ -532,12 +723,37 @@ export default function CourtViewer({
                 homeColors={liveHomeColors}
                 awayColors={liveAwayColors}
                 winner={winner}
+                footerLeft={<TourButton onClick={openTour} bare />}
+                footerRight={
+                    /*
+                      Only while replaying — a live game arrives at the
+                      speed it is being played.
+                    */
+                    <PlaybackSpeed
+                        active={liveGame?.status === 'final'}
+                        speed={playbackSpeed}
+                        onSpeed={setPlaybackSpeed}
+                    />
+                }
             />
 
-            <GameListOverlay
-                open={gameListOpen}
-                onClose={() => setGameListOpen(false)}
-                onSelectGame={selectGame}
+            {/*
+              Last in the tree, and on its own z-layer above the court
+              menu's modal: whatever it is pointing at, it has to be the
+              thing in front.
+            */}
+            {/*
+              Above the tour, since it is the first thing to answer on a
+              phone and the tour would otherwise run underneath it.
+            */}
+            <SmallScreenNotice />
+
+            <ProductTour
+                containerRef={rootRef}
+                context={viewId === 'live' ? 'live' : 'landing'}
+                open={tourOpen}
+                hidden={courtMenuOpen}
+                onClose={closeTour}
             />
         </div>
     )

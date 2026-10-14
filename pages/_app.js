@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Script from 'next/script'
@@ -12,6 +13,7 @@ import { Fraunces, IBM_Plex_Mono, Nunito_Sans } from 'next/font/google'
 
 import { PasswordProvider } from '../utils/context'
 import Layout from '../components/Layout'
+import { absoluteUrl } from '../utils/site'
 import AuthNotice from '../components/AuthNotice'
 
 const schmaltzy = localFont({
@@ -95,6 +97,25 @@ function MyApp({ Component, pageProps }) {
 
     return (
         <>
+            <Head>
+                {/*
+                  `viewport-fit=cover` lets a full-bleed page paint under the
+                  notch and the home indicator, and is what makes
+                  `env(safe-area-inset-*)` report anything other than zero.
+                */}
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1, viewport-fit=cover"
+                />
+                {/*
+                  One canonical for every page, built from the route rather
+                  than written per page, so a new page cannot be added
+                  without one. `asPath` carries the query string and hash;
+                  neither belongs in a canonical, and leaving them in would
+                  make every filtered or linked variant its own URL.
+                */}
+                <link rel="canonical" href={absoluteUrl(router.asPath.split(/[?#]/)[0])} />
+            </Head>
             <Script
                 strategy="afterInteractive"
                 src="https://www.googletagmanager.com/gtag/js?id=G-3FS5NPTT0B"
@@ -115,7 +136,7 @@ function MyApp({ Component, pageProps }) {
                         ) : (
                             <>
                                 {authenticated && <AuthNotice />}
-                                <Layout>
+                                <Layout fullBleed={Component.fullBleed}>
                                     <Component {...pageProps} />
                                 </Layout>
                             </>

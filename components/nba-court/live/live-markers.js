@@ -99,9 +99,13 @@ export function markerForPlay(play) {
     }
 
     if (play.type === 'rebound') {
+        // `actionEnd`, not `end`: a defensive rebound's team attacks the
+        // *other* basket, so keying off `end` put the mark at the far end
+        // of the floor from the miss it came off. See `normalize.js`.
+        const at = play.actionEnd || play.end
         return {
             kind: MARKER_KINDS.REBOUND,
-            x: play.end * (RIM_X - 3) + jitter(seed, 1) * REBOUND_SPREAD_X,
+            x: at * (RIM_X - 3) + jitter(seed, 1) * REBOUND_SPREAD_X,
             z: jitter(seed, 2) * REBOUND_SPREAD_Z,
         }
     }

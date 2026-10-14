@@ -16,9 +16,25 @@ import { MARKER_KINDS } from './live-markers'
  * mean every future tweak to one silently changed the other.
  */
 
+/**
+ * The miss marker's red.
+ *
+ * `#ff4f42` measured 0.272 relative luminance against a 0.522 mean for the
+ * other four marks — about half as bright, and on a lit parquet floor it
+ * read as a dark smudge where the green, amber and cyan all popped.
+ *
+ * This sits halfway between it and a version raised to the others' level.
+ * That version, `#ff877e`, was bright enough but had drifted to a pale
+ * coral: lifting lightness at full saturation walks a hue toward white, and
+ * the channel spread fell from 189 to 129. At this midpoint the spread is
+ * 159 and the luminance 0.326 — brighter than it was, still unmistakably
+ * red.
+ */
+const MISS_RED = '#ff6b60'
+
 const GLYPHS = {
     [MARKER_KINDS.MAKE]: { color: '#41e08a', label: 'Made' },
-    [MARKER_KINDS.MISS]: { color: '#ff4f42', label: 'Missed' },
+    [MARKER_KINDS.MISS]: { color: MISS_RED, label: 'Missed' },
     [MARKER_KINDS.REBOUND]: { color: '#ffc24a', label: 'Rebound' },
     [MARKER_KINDS.STEAL]: { color: '#4ad4ff', label: 'Steal' },
     [MARKER_KINDS.TURNOVER]: { color: '#ff9a3c', label: 'Turnover' },
