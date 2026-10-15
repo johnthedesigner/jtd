@@ -2030,6 +2030,102 @@ Reported before changing anything, and the ones acted on:
 
 ---
 
+## "Watch live" never showed a live game (2026-10-14)
+
+ESPN keys its scoreboard by the **US** date. `games.js` computed "today"
+with `getUTC*`.
+
+An NBA evening game is already the next day in UTC before it has tipped off
+— 7pm Eastern is 23:00 UTC, and a 10:30pm game runs past 03:00 UTC the
+following day. So from late afternoon Eastern onward, "today" in UTC was
+*tomorrow's* scoreboard, and because the upcoming window starts at today,
+every game actually being played was filtered out before a request was made
+for it. Observed directly at 20:08 ET: ESPN had two live games on
+`20261014`, and the route fetched `20261015, 20261016, 20261020, ...` and
+returned 30 scheduled, 0 live.
+
+The window now formats dates in `America/New_York`, which is the date ESPN
+itself is using.
+
+**It also reaches back one day.** A game that tipped at 10pm Eastern is
+still being played at 1am, by which point ESPN's own day has rolled over
+while the game sits on yesterday's scoreboard — starting the window at today
+would drop it at exactly the moment someone wants to watch it. It costs one
+extra scoreboard fetch, and the status filter discards anything on that date
+that has already finished.
+
+Verified end to end against two real live games: the route returns
+`live: 2` sorted to the front, the strip shows them first with a "Watch
+live" call to action, and clicking one opens a genuine live game — Miami's
+floor, the real score and clock, timeouts and bonus counted from the live
+feed, and no speed control, since a live game arrives at the pace it is
+being played.
+
+This was invisible to every test written so far: each one replayed a
+*finished* game by id, which never touches the date window.
+
+---
+
+## The landing keeps itself current (2026-10-14)
+
+`useGamesList` polls every 30s. A live game's score, quarter and clock are
+stale the moment they arrive, and a game that ends has to leave "Watch live"
+on its own — the route already decides which tab a game belongs to from its
+status, so a refetch is all that takes.
+
+Three things had to be right for that to be worth anything:
+
+- **`loading` is only true for the first load of a tab.** It drives the
+  skeletons, so setting it on every refetch would blink the whole row twice
+  a minute.
+- **The scroll position is set once per visit to a tab, not once per
+  update.** `games` has to be a dependency of that layout effect because
+  `scrollWidth` is wrong until the cards exist — but with polling, every
+  refresh would have yanked the Replays row back to its end while someone
+  was reading it.
+- **Polling stops when the tab is hidden**, and catches up immediately on
+  return rather than waiting out another interval.
+
+### The caching was wrong in two different ways
+
+**`s-maxage` alone does not speak to the browser.** With no `max-age`,
+Chrome fell back to heuristic freshness and served its own copy: the page
+polled on schedule and redisplayed the same score for minutes while the
+route itself was returning fresh ones. Confirmed by curling the route twice
+35s apart and watching the clock advance while the browser's view did not.
+`max-age=0` fixes that.
+
+**`stale-while-revalidate` is right for the edge and wrong for this
+client.** Chrome honours it by handing the *cached* body straight back to
+the fetch and revalidating in the background — which is why every poll
+produced exactly two requests and could still show a minute-old score. The
+fetch now passes `cache: 'no-store'`, which keeps it out of the browser's
+cache only; the edge keeps its 30s plus SWR, which matters because a miss
+here costs several real browser navigations and someone would wait for them.
+
+Worth knowing: that double request was visible in production too, so it was
+never React's StrictMode — the obvious suspect, and the wrong one.
+
+**Unverified locally:** `no-store` makes Chrome send `Cache-Control:
+no-cache` as a *request* header, and this assumes Vercel's CDN ignores it
+for `s-maxage` responses, as CDNs generally do. `next start` has no CDN, so
+it cannot be checked here. If it were honoured, every poll would reach the
+origin.
+
+Measured end to end on a production build against six real live games: one
+request per 30s, no skeleton flash, scroll position held at 300px across
+polls, and the clock and score advancing between snapshots.
+
+### Team order: already right
+
+North American pro sports list the **away team first**, home second — the
+convention that gives "AWAY @ HOME" — and basketball follows it. Checked
+rather than assumed, and every surface here already matched: the card rows,
+the score bug's band, the "X at Y" title, and the 3D scoreboard, which puts
+home at `+SCORE_BENCH_X` and away at the negative. Nothing to change.
+
+---
+
 ## Backlog / ideas
 
 (Open space for future feature and content ideas, not just live-game-mode.

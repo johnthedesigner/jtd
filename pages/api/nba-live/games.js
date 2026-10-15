@@ -34,11 +34,31 @@ const MAX_DATES = 8
 
 const isoToDateParam = (iso) => String(iso).slice(0, 10).replace(/-/g, '')
 
+/**
+ * ESPN keys its scoreboard by the **US** date, and this used to read UTC.
+ *
+ * An NBA evening game is the next day in UTC before it has even tipped off:
+ * 7pm Eastern on the 14th is 23:00 UTC, and a 10:30pm game runs past 03:00
+ * UTC on the 15th. So from late afternoon Eastern onward, "today" in UTC was
+ * tomorrow's scoreboard — and since the upcoming window starts at today,
+ * every game actually being played was filtered out before a request was
+ * even made. "Watch live" could not show a live game after about 8pm ET,
+ * which is when nearly all of them are on.
+ *
+ * Formatting in `America/New_York` asks for the date ESPN itself is using.
+ */
+const ESPN_TIME_ZONE = 'America/New_York'
+const espnDate = new Intl.DateTimeFormat('en-CA', {
+    timeZone: ESPN_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+})
+
 function dateParam(date) {
-    const y = date.getUTCFullYear()
-    const m = String(date.getUTCMonth() + 1).padStart(2, '0')
-    const d = String(date.getUTCDate()).padStart(2, '0')
-    return `${y}${m}${d}`
+    // `en-CA` formats as YYYY-MM-DD, which is the shape ESPN wants minus
+    // its separators.
+    return espnDate.format(date).replace(/-/g, '')
 }
 
 function todayDateParam() {
@@ -73,13 +93,24 @@ export default async function handler(req, res) {
     const today = todayDateParam()
     const weekAhead = offsetDateParam(WINDOW_DAYS)
     const weekBack = offsetDateParam(-WINDOW_DAYS)
+    /*
+      The upcoming window reaches back one day as well as forward.
+
+      A game that tipped at 10pm Eastern is still being played at 1am, by
+      which point ESPN's "today" has rolled over but the game is still on
+      *yesterday's* scoreboard. Starting the window at today would drop it
+      at exactly the moment someone might want to watch it. It costs one
+      extra scoreboard fetch, and the status filter below throws away
+      anything from that date which has already finished.
+    */
+    const yesterday = offsetDateParam(-1)
     let calendar = calendarOf(base.data)
     // Today belongs to both windows: it holds games still to tip off *and*
     // games already finished, and which list each lands in is decided by
     // its status below rather than by its date.
     let dates =
         tab === 'upcoming'
-            ? calendar.filter((d) => d >= today && d <= weekAhead).slice(0, MAX_DATES)
+            ? calendar.filter((d) => d >= yesterday && d <= weekAhead).slice(0, MAX_DATES)
             : calendar.filter((d) => d <= today && d >= weekBack).slice(-MAX_DATES)
 
     // In the offseason the current season's calendar is entirely in the
@@ -130,11 +161,32 @@ export default async function handler(req, res) {
         )
     }
 
+    /*
+      Both windows change while someone is watching, which the old numbers
+      did not allow for.
+
+      `upcoming` carries live scores and clocks, and a day's cache on `past`
+      meant a game that had just finished would not appear in Replays until
+      tomorrow. The edge cache still absorbs the real cost — this route is a
+      handful of real browser navigations — it just does so over seconds now
+      rather than hours.
+    */
+    /*
+      `max-age=0` is the part that matters for the browser.
+
+      `s-maxage` only speaks to shared caches, so with no `max-age` at all
+      Chrome fell back to heuristic freshness and served its own copy: the
+      landing polled on schedule and redisplayed the same score and clock
+      for minutes while the route itself was returning fresh ones. This asks
+      the browser to revalidate every time and lets the edge absorb the real
+      cost, which is where it belongs — a miss here is a handful of actual
+      browser navigations.
+    */
     res.setHeader(
         'Cache-Control',
         tab === 'past'
-            ? 's-maxage=86400, stale-while-revalidate=3600'
-            : 's-maxage=300, stale-while-revalidate=600'
+            ? 'public, max-age=0, s-maxage=300, stale-while-revalidate=1800'
+            : 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
     )
     res.status(200).json({ tab, dates, games: filtered })
 }

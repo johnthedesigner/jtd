@@ -101,10 +101,18 @@ export default function GamesStrip({ active, onSelectGame, onStartTour }) {
      * Layout effect, not a plain one: setting `scrollLeft` after paint
      * shows a frame of the row at the far left first, which reads as a
      * flinch.
+     *
+     * Once per visit to a tab, not once per update. `games` has to be a
+     * dependency because `scrollWidth` is wrong until the cards exist — but
+     * the list now refreshes on a timer, and without the guard every poll
+     * would yank the row back to its end while someone was reading it.
      */
+    const positionedFor = useRef(null)
     useLayoutEffect(() => {
         const el = scrollerRef.current
-        if (!el) return
+        if (!el || games.length === 0) return
+        if (positionedFor.current === tab) return
+        positionedFor.current = tab
         el.scrollLeft = tab === 'past' ? el.scrollWidth : 0
     }, [tab, games])
 
