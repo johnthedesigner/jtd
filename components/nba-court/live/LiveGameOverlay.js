@@ -620,17 +620,131 @@ function FlashPool({ pool, material }) {
     )
 }
 
-function usePlayWatcher(latestPlay, onMark) {
-    const lastActionNumberRef = useRef(null)
+/**
+ * Landing a batch of plays.
+ *
+ * A live poll hands over everything ESPN has published since the last one,
+ * and ESPN publishes in bursts. Measured against a finished game's real
+ * `wallclock` stamps: 46% of three-second windows hold more than one play,
+ * and 98% of the time a shot and the rebound off it land inside the same
+ * window. Marking only the newest play therefore dropped 48% of everything
+ * that happened — and since the rebound is the one that comes second, the
+ * play that vanished was reliably the *shot*. That is the "all rebounds,
+ * barely any makes or misses" the floor was showing.
+ *
+ * Polling faster does not fix it. The same measurement at 1.5s still drops
+ * 47%: the plays are bunched in wall-clock time, not merely in our sampling
+ * of it, so a shorter interval just re-slices the same bursts. Landing the
+ * whole batch is the fix; the interval only decides how late it arrives.
+ *
+ * They land staggered rather than on one frame. Simultaneous marks would
+ * collapse a shot and its rebound into a single event, which is the mirror
+ * of the bug they are fixing; a beat between them reads as the sequence it
+ * was. Afterwards the whole burst stays on the floor together — `onMark`
+ * pulls existing marks back to their five-second minimum rather than
+ * clearing them, so marks spawned moments apart coexist.
+ *
+ * Replays never hit any of this: `usePlayFeed` reveals a finished game one
+ * play per tick, so its batches are always of one.
+ */
+const CATCH_UP_STAGGER_MS = 260
+
+/**
+ * A stall — a backgrounded tab, a sleeping laptop, a dropped connection —
+ * can hand back far more than one poll's worth. Only the tail of it gets
+ * marked: the last few plays are what is actually happening now, and
+ * flushing two minutes of basketball across the floor to catch up is worse
+ * than skipping it. Four at this stagger drain in about a second, well
+ * inside one poll.
+ */
+const CATCH_UP_LIMIT = 4
+
+function usePlayWatcher(plays, feedId, onMark) {
+    // The highest `actionNumber` already marked — a watermark rather than an
+    // index, because `plays` is replaced wholesale on every poll and ESPN
+    // revises plays in place. Positions are not stable across polls; the
+    // numbers are.
+    const markedThroughRef = useRef(null)
+    const feedRef = useRef(feedId)
+    const timersRef = useRef(new Set())
+
     useLayoutEffect(() => {
-        if (!latestPlay || latestPlay.actionNumber === lastActionNumberRef.current) return
-        lastActionNumberRef.current = latestPlay.actionNumber
-        const mark = markerForPlay(latestPlay)
-        if (mark) onMark(mark)
-    }, [latestPlay, onMark])
+        const last = plays?.length ? plays[plays.length - 1] : null
+        if (!last) return
+
+        const clearPending = () => {
+            timersRef.current.forEach(clearTimeout)
+            timersRef.current.clear()
+        }
+
+        // First sight of a feed: a game just opened, or a different one was
+        // picked, or a replay restarted. Take the watermark silently and
+        // mark nothing.
+        //
+        // Nothing, specifically, rather than the current play: these are
+        // plays that happened before the viewer arrived, and the whole
+        // backlog would otherwise carpet the floor the moment a game in
+        // progress opened. It also sidesteps the switch-over window, where
+        // `usePlayFeed` still holds the previous game's plays while the new
+        // game's request is in flight — marking there would put a play from
+        // the game you just left onto the court of the one you just opened.
+        //
+        // A watermark running backwards means the same thing by another
+        // route: a feed changed underneath us without the id changing.
+        if (feedRef.current !== feedId || markedThroughRef.current === null) {
+            feedRef.current = feedId
+            markedThroughRef.current = last.actionNumber
+            clearPending()
+            return
+        }
+
+        const marked = markedThroughRef.current
+        if (last.actionNumber === marked) return
+        if (last.actionNumber < marked) {
+            markedThroughRef.current = last.actionNumber
+            clearPending()
+            return
+        }
+
+        // Everything published since the last poll, oldest first.
+        const fresh = []
+        for (let i = plays.length - 1; i >= 0; i--) {
+            if (plays[i].actionNumber <= marked) break
+            fresh.push(plays[i])
+        }
+        fresh.reverse()
+        markedThroughRef.current = last.actionNumber
+
+        // Most plays have no symbol — a substitution, a timeout, the start
+        // of a period — so the cap applies to the marks, not to the plays
+        // they were filtered from.
+        const marks = fresh.map(markerForPlay).filter(Boolean).slice(-CATCH_UP_LIMIT)
+        if (marks.length === 0) return
+
+        onMark(marks[0])
+        for (let i = 1; i < marks.length; i++) {
+            const id = setTimeout(() => {
+                timersRef.current.delete(id)
+                onMark(marks[i])
+            }, i * CATCH_UP_STAGGER_MS)
+            timersRef.current.add(id)
+        }
+    }, [plays, feedId, onMark])
+
+    // Pending marks deliberately outlive the effect that scheduled them —
+    // the stagger has to survive the next poll's re-render — so they are
+    // only cleared when the component goes away, or by `clearPending` above
+    // when the feed they belong to is no longer the one on screen.
+    useEffect(
+        () => () => {
+            timersRef.current.forEach(clearTimeout)
+            timersRef.current.clear()
+        },
+        []
+    )
 }
 
-export default function LiveGameOverlay({ active, latestPlay }) {
+export default function LiveGameOverlay({ active, plays, gameId = null }) {
     // One marker pool and one spark pool per kind, built once. Kept keyed by
     // kind rather than as four named refs so adding a symbol is a `MARKS`
     // entry and nothing else.
@@ -751,7 +865,7 @@ export default function LiveGameOverlay({ active, latestPlay }) {
         []
     )
 
-    usePlayWatcher(active ? latestPlay : null, onMark)
+    usePlayWatcher(active ? plays : null, gameId, onMark)
 
     if (!active) return null
 

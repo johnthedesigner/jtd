@@ -730,7 +730,8 @@ export default function CourtScene({
     celebrate = false,
     celebrateColor = null,
     showLive = false,
-    liveLatestPlay = null,
+    livePlays = null,
+    liveGameId = null,
     liveTypography = null,
     liveScore = null,
     liveHomeColor = null,
@@ -844,7 +845,7 @@ export default function CourtScene({
                 active={celebrate}
                 colors={[celebrateColor || courtColors?.ribbonPrimary, '#ffffff']}
             />
-            <LiveGameOverlay active={showLive} latestPlay={liveLatestPlay} />
+            <LiveGameOverlay active={showLive} plays={livePlays} gameId={liveGameId} />
             {showLive && (
                 <ScoreboardText
                     score={liveScore}
