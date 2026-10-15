@@ -4,7 +4,53 @@ import useReplayFeed, { DEFAULT_INTERVAL_MS } from './useReplayFeed'
 // Matches the `summary/[gameId]` route's own `s-maxage=3` — polling faster
 // wouldn't get fresher data (the edge cache is the actual freshness floor),
 // slower would waste it.
+//
+// Deliberately left here after being re-examined, because the obvious
+// suspicion is wrong: a shorter interval does *not* make the court miss
+// fewer plays. Measured against a finished game's real `wallclock` stamps,
+// three-second sampling and 1.5-second sampling both put ~46% of plays into
+// a window alongside another play — ESPN publishes in bursts, so sampling
+// faster just re-slices the same bursts. Plays were being lost because
+// `LiveGameOverlay` marked only the newest play in each batch, which is
+// fixed there; the interval was never the cause. All a shorter one buys is
+// latency, paid for in ESPN fetches through the single shared headless
+// browser, which is this app's scarcest resource.
 const POLL_MS = 3000
+
+/**
+ * Whether the page is actually on screen.
+ *
+ * Both timers below are gated on this, because a hidden tab is a bad place
+ * to keep a game running. R3F's render loop is driven by
+ * `requestAnimationFrame`, which the browser stops for a hidden page —
+ * measured at **1 frame in 45 seconds** — but `setInterval` and
+ * `setTimeout` keep going (Chrome only clamps them to 1s, and only after
+ * the first five minutes). So the feed kept advancing into a scene that
+ * had stopped drawing: floor marks were spawned but never aged, never
+ * expired, and piled up until the 12-slot pool was full. Coming back to
+ * the tab showed all twelve at once, scattered across the floor.
+ *
+ * That predates the batching work in `LiveGameOverlay` — one mark per poll
+ * filled the same pool, just more slowly. Catching up on return is the
+ * right behaviour and still happens: flipping back re-runs the poll effect,
+ * which fetches at once, and the batch that arrives is capped there.
+ *
+ * Pausing a replay rather than letting it run on is also what you'd want
+ * from a replay — you come back to where you left it, not to a game that
+ * carried on without you.
+ */
+function useDocumentVisible() {
+    const [visible, setVisible] = useState(
+        () => typeof document === 'undefined' || !document.hidden
+    )
+    useEffect(() => {
+        const onChange = () => setVisible(!document.hidden)
+        document.addEventListener('visibilitychange', onChange)
+        onChange()
+        return () => document.removeEventListener('visibilitychange', onChange)
+    }, [])
+    return visible
+}
 const REPLAY_FIXTURE_URL = '/nba-live/sample-playbyplay.json'
 
 /**
@@ -58,11 +104,15 @@ export default function usePlayFeed(gameId, { active = true, startAt = 0, speed 
     const stoppedRef = useRef(false)
     // How much of a finished game has been played back so far (see above).
     const [revealed, setRevealed] = useState(0)
+    const visible = useDocumentVisible()
 
     useEffect(() => {
         stoppedRef.current = false
         setRevealed(0)
-        if (!active || !gameId) return
+    }, [active, gameId])
+
+    useEffect(() => {
+        if (!active || !gameId || !visible) return
 
         let cancelled = false
         const fetchOnce = async () => {
@@ -89,7 +139,7 @@ export default function usePlayFeed(gameId, { active = true, startAt = 0, speed 
             cancelled = true
             clearInterval(id)
         }
-    }, [active, gameId])
+    }, [active, gameId, visible])
 
     const isFinal = liveGame?.status === 'final'
 
@@ -110,14 +160,14 @@ export default function usePlayFeed(gameId, { active = true, startAt = 0, speed 
     }, [isFinal, livePlays.length, startAt])
 
     useEffect(() => {
-        if (!active || !isFinal) return
+        if (!active || !isFinal || !visible) return
         if (revealed >= livePlays.length) return
         const id = setTimeout(
             () => setRevealed((c) => c + 1),
             DEFAULT_INTERVAL_MS / Math.max(speed, 0.01)
         )
         return () => clearTimeout(id)
-    }, [active, isFinal, revealed, livePlays.length, speed])
+    }, [active, isFinal, revealed, livePlays.length, speed, visible])
 
     if (!gameId) return replay
 

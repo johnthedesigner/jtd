@@ -2124,6 +2124,106 @@ rather than assumed, and every surface here already matched: the card rows,
 the score bug's band, the "X at Y" title, and the 3D scoreboard, which puts
 home at `+SCORE_BENCH_X` and away at the negative. Nothing to change.
 
+### Live games dropped half their on-court marks
+
+Reported from watching a real game: the floor showed rebounds but very few
+makes or misses, while the event list beside it had everything. The cause
+was `usePlayWatcher` in `LiveGameOverlay`, which took `latestPlay` — one
+play — and marked that. A replay reveals one play per tick so it never
+noticed; a live poll hands over everything published since the last one.
+
+Quantified before fixing, against game 401898398's real `wallclock` stamps
+(542 plays):
+
+- **46%** of three-second windows contain more than one play.
+- So **48%** of plays never reached the floor.
+- **98%** of the time, a shot and the rebound off it land in the same
+  window — and the rebound is second, so the *shot* is what disappeared.
+  That is exactly the reported symptom, and it is not a coincidence: ESPN
+  publishes the pair together because they happen together.
+
+**Polling faster does not help.** The same measurement at 1.5s still drops
+47%. The plays are bunched in wall-clock time, not merely in our sampling
+of it, so a shorter interval re-slices the same bursts. `POLL_MS` stays at
+3000, matched to the route's `s-maxage=3`; the note there records this so
+the interval doesn't get "optimised" later on the same wrong hunch.
+
+The fix marks every play past a watermark of the last-marked
+`actionNumber`, staggered 260ms apart so a shot and its rebound read as a
+sequence rather than collapsing into one event — the mirror of the bug.
+Capped at four per batch: a backgrounded tab can return with minutes of
+basketball queued, and flushing it is worse than skipping it.
+
+First sight of a feed takes the watermark **silently**, marking nothing.
+Two reasons: joining a game in progress would otherwise carpet the floor
+with its whole history, and `usePlayFeed` keeps the previous game's plays
+while the next game's request is in flight, so marking there would drop a
+play from the game you just left onto the court of the one you just opened.
+Feed identity is the `gameId`, threaded down as `liveGameId` — needed
+because a new game's action numbers can be *higher* than the old game's, in
+which case a watermark alone reads the switch as a catch-up batch.
+
+**Verified in a real browser**, not by inspection: a puppeteer run
+intercepting `/api/nba-live/summary/*` to serve a game marked `live` whose
+plays jump by three in one poll. All three marks appear on the floor
+together — a green circle, a cyan arrow and a purple triangle — with the
+HUD on the last of them. Replay checked separately for regression: still
+one mark per tick, no console errors.
+
+Two things worth knowing that came out of this:
+
+- `next build` passing says nothing about runtime here. It passed on the
+  `brandBadge` `ReferenceError` too. The browser check is the real gate.
+- The client's plain `fetch` of the summary route was suspected of the
+  stale-body problem `useGamesList` had. Measured: **0 of 6** polls served
+  from Chrome's cache. The games route sets `max-age=0, swr=60`, which
+  gives the browser an explicit stale window; this route sets no `max-age`
+  at all, so no fresh lifetime is established and Chrome revalidates every
+  time. No fix needed — but the two headers are not interchangeable.
+
+### Background tabs filled the whole marker pool
+
+Asked whether the four-per-batch cap also covers leaving the tab and coming
+back. It did not, and the question found a **pre-existing** bug rather than
+anything the batching work introduced.
+
+Two timers disagreed about whether the page was running. R3F's render loop
+is `requestAnimationFrame`, which a browser stops for a hidden page —
+measured at **1 frame in 45 seconds**. `setInterval` is not stopped:
+Chrome clamps hidden-tab timers to 1s, and only after the first five
+minutes, so a 3s poll keeps its full rate. Measured: **15 polls in 45
+seconds hidden, against 1 rendered frame.**
+
+So the feed advanced into a scene that had stopped drawing. Marks were
+spawned but never aged, so nothing ever reached `expireAt` and nothing was
+released. They accumulated until the 12-slot pool was full, and returning
+to the tab showed **all twelve at once**, scattered over the floor. The
+per-batch cap can't help: it bounds one batch, and this is many batches
+landing into a frozen scene.
+
+Pre-existing because the old one-mark-per-poll code filled the same pool
+from the same 15 polls, just more slowly. The batching change only makes it
+fill faster; the end state was always the whole pool.
+
+Fixed in `usePlayFeed` with a `useDocumentVisible` gate on both timers —
+the live poll and the replay reveal — which is what `useGamesList` already
+did and this hook never had. Catching up on return still happens and is
+still capped: flipping back re-runs the poll effect, which fetches
+immediately, and `LiveGameOverlay` caps the batch that arrives. Pausing a
+replay is independently right — you return to where you left it rather than
+to a game that ran on without you.
+
+Measured after: **0 polls while hidden** (was 15), and three marks on
+return (cap is four). Replay re-checked for regression, reaching the same
+point in the game as before the change.
+
+**Careful with the measurement here.** Counting pixels of a mark's colour
+and dividing by a per-mark estimate said "~3 marks" when the screenshot
+plainly showed twelve — these marks are small, semi-transparent and lit, so
+a pixel count is not proportional to how many there are. The screenshot was
+the thing that gave the right answer both times; the number was misleading
+in both directions.
+
 ---
 
 ## Backlog / ideas

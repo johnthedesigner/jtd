@@ -623,7 +623,8 @@ export default function CourtViewer({
                     celebrate={view.overlay === 'celebration' || Boolean(winner)}
                     celebrateColor={winnerColors?.ribbonPrimary}
                     showLive={view.overlay === 'live'}
-                    liveLatestPlay={latestPlay}
+                    livePlays={livePlays}
+                    liveGameId={selectedGameId}
                     liveTypography={liveTypography}
                     liveScore={liveScore}
                     liveHomeColor={liveHomeColors?.ribbonPrimary}
