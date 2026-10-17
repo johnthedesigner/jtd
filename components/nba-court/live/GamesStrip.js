@@ -1,8 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import useVisualViewportInset from '../../webgl/use-visual-viewport-inset'
 import useGamesList from './useGamesList'
 import GameCard from './GameCard'
 import GameCardSkeleton from './GameCardSkeleton'
-import { TourButton } from '../ProductTour'
+import { TourButton } from '../../webgl/ProductTour'
+import { TOUR_LABEL } from '../court-tours'
 import useNarrow, { NARROW_MAX } from '../use-narrow'
 
 /**
@@ -78,6 +80,7 @@ function useFittingCount(ref, cardWidth) {
 }
 
 export default function GamesStrip({ active, onSelectGame, onStartTour }) {
+    const viewportInset = useVisualViewportInset()
     const [tab, setTab] = useState('upcoming')
     const { games, loading, error } = useGamesList(tab, { enabled: active })
     const scrollerRef = useRef(null)
@@ -121,7 +124,19 @@ export default function GamesStrip({ active, onSelectGame, onStartTour }) {
     return (
         <div
             data-bottom-overlay
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[#0b0d12]/85 to-transparent px-4 pt-16 sm:px-6"
+                        /*
+              Fixed to the visual viewport, not to the page box.
+
+              This was `absolute; bottom: 0` inside a container sized from
+              a measured `--app-height`, plus a measured `--vv-clip`
+              correction on its padding. That chain is only correct while
+              every box in it is, and on iOS one of them is not: with the
+              document box 140 px taller than the screen — which is what
+              the toolbar-hidden layout viewport produces — an
+              `absolute; bottom: 0` child lands 140 px below the fold.
+              See `components/webgl/use-visual-viewport-inset`.
+            */
+            className="pointer-events-none fixed inset-x-0 z-20 bg-gradient-to-t from-[#0b0d12]/85 to-transparent px-4 pt-16 sm:px-6"
             /*
               The bottom gap is padding plus whatever the device reserves for
               its home indicator. On a phone the cards were running into the
@@ -130,8 +145,9 @@ export default function GamesStrip({ active, onSelectGame, onStartTour }) {
               be added rather than assumed to be zero.
             */
             style={{
+                bottom: `${viewportInset}px`,
                 paddingBottom:
-                    'calc(var(--strip-gap) + env(safe-area-inset-bottom, 0px) + var(--vv-clip, 0px))',
+                    'calc(var(--strip-gap) + env(safe-area-inset-bottom, 0px))',
                 paddingLeft: 'max(1rem, env(safe-area-inset-left, 0px))',
                 paddingRight: 'max(1rem, env(safe-area-inset-right, 0px))',
             }}
@@ -152,7 +168,7 @@ export default function GamesStrip({ active, onSelectGame, onStartTour }) {
                   the row of games they govern.
                 */}
                 <div className="mb-2 flex w-full items-center justify-between gap-2 sm:gap-3">
-                    {onStartTour ? <TourButton onClick={onStartTour} /> : <span />}
+                    {onStartTour ? <TourButton onClick={onStartTour} label={TOUR_LABEL} /> : <span />}
                     {/*
                       The heading is the control. Two words that change is a
                       lighter thing to put on screen than a labelled toggle

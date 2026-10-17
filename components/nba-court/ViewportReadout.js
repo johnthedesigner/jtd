@@ -19,10 +19,16 @@ export default function ViewportReadout() {
 
     useEffect(() => {
         if (typeof window === 'undefined') return
-        // Development only. This exists to diagnose a device-specific layout
-        // bug, not as something a visitor should be able to summon with a
-        // query string — and bundling it is dead weight in production.
-        if (process.env.NODE_ENV === 'production') return
+        /*
+          Available in production too, deliberately.
+
+          It was development-only, which sounds right and made it useless:
+          the bug it exists to diagnose only happens on a phone, and the
+          build a phone loads is a production one. Gating it to development
+          meant the one tool for the job was absent every time it was
+          needed. It is a couple of kilobytes behind a query string nobody
+          will type by accident.
+        */
         if (!new URLSearchParams(window.location.search).has('vp')) return
         setOn(true)
 

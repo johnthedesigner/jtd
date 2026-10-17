@@ -17,10 +17,14 @@ import useLiveSceneDirector from './live/useLiveSceneDirector'
 import LiveHUD from './live/LiveHUD'
 import PlaybackSpeed from './live/PlaybackSpeed'
 import GamesStrip from './live/GamesStrip'
-import ProductTour, { TourButton, useTourAutoStart } from './ProductTour'
+import ProductTour, { TourButton, useTourAutoStart } from '../webgl/ProductTour'
+import TOURS, { TOUR_SEEN_KEY, TOUR_LABEL } from './court-tours'
 import { OVERLAY_BG } from './overlay-surface'
 import useDeviceTilt from './use-device-tilt'
 import SmallScreenNotice from './SmallScreenNotice'
+import useFrameInsets from '../webgl/use-frame-insets'
+import usePrefersReducedMotion from '../webgl/use-reduced-motion'
+import useRenderActive from '../webgl/use-render-active'
 import ViewportReadout from './ViewportReadout'
 
 /**
@@ -136,124 +140,6 @@ function useTeamColors(tricode, era) {
     return colors
 }
 
-/**
- * How much of the viewport the bottom overlay covers, as a fraction.
- *
- * Measured off whatever is actually down there — the game strip out on the
- * landing, the score bug inside a game — rather than carried as a constant
- * per view. The camera frames the scene into the band above it (see
- * `solveFraming`), so a number that drifts out of date here shows up as the
- * court sliding under the overlay, and these two things change shape for
- * real reasons: the strip's cards are shorter on a phone, and the score bug
- * grows when its play feed is open.
- */
-function useFrameInsets(hostRef) {
-    const [insets, setInsets] = useState({ top: 0.08, bottom: 0.24 })
-    useEffect(() => {
-        const host = hostRef.current
-        if (!host || typeof ResizeObserver === 'undefined') return
-        let frame = 0
-        const measure = () => {
-            const height = host.clientHeight
-            if (!height) return
-            const el = host.querySelector('[data-bottom-overlay]')
-            // The strip's own top padding is a fade, not content; the
-            // element's full height would reserve space that nothing
-            // occupies. Its first child is the part that is actually drawn.
-            const box = el?.firstElementChild ?? el
-            const bottomPx = box ? box.getBoundingClientRect().height : 0
-            // The site nav floats over this canvas and is not part of it,
-            // so it is measured from the document rather than the host.
-            const nav = document.querySelector('header')
-            const navBox = nav?.getBoundingClientRect()
-            const hostTop = host.getBoundingClientRect().top
-            const topPx = navBox ? Math.max(0, navBox.bottom - hostTop) : 0
-            const next = {
-                top: Math.min(Math.max(topPx / height, 0), 0.3),
-                bottom: Math.min(Math.max(bottomPx / height, 0.08), 0.6),
-            }
-            setInsets((prev) =>
-                Math.abs(prev.top - next.top) < 0.005 &&
-                Math.abs(prev.bottom - next.bottom) < 0.005
-                    ? prev
-                    : next
-            )
-        }
-        // The overlay mounts and swaps with the view, so watch the subtree
-        // rather than one element that may not exist yet.
-        const observer = new ResizeObserver(() => {
-            cancelAnimationFrame(frame)
-            frame = requestAnimationFrame(measure)
-        })
-        observer.observe(host)
-        const mutation = new MutationObserver(() => {
-            cancelAnimationFrame(frame)
-            frame = requestAnimationFrame(measure)
-        })
-        mutation.observe(host, { childList: true, subtree: true })
-        measure()
-        return () => {
-            cancelAnimationFrame(frame)
-            observer.disconnect()
-            mutation.disconnect()
-        }
-    }, [hostRef])
-    return insets
-}
-
-function usePrefersReducedMotion() {
-    const [reduced, setReduced] = useState(false)
-    useEffect(() => {
-        const query = window.matchMedia('(prefers-reduced-motion: reduce)')
-        const update = () => setReduced(query.matches)
-        update()
-        query.addEventListener('change', update)
-        return () => query.removeEventListener('change', update)
-    }, [])
-    return reduced
-}
-
-/**
- * True only while this tab is both the visible tab and the focused window.
- * Backs the render loop's on/off switch below — an R3F canvas nobody can
- * see still burns CPU and GPU (and, on a laptop, battery) running its
- * animation every frame, so the whole scene should go fully idle rather
- * than just quietly rendering into a backgrounded tab.
- *
- * Two separate browser signals, combined: visibilitychange alone catches
- * switching tabs or minimizing, but doesn't reliably fire when this window
- * loses OS focus to another app while still on screen, which is what the
- * focus/blur listeners are for.
- */
-function useRenderActive() {
-    // Visibility and focus are tracked separately and combined, rather than
-    // both folded into one synchronous document.hasFocus() poll. That poll
-    // turns out to be unreliable in at least one real environment (headless
-    // Chrome under CDP automation reports it false from the very first
-    // frame, with no blur ever having fired) — and since frameloop='never'
-    // below skips every render including the first one, trusting a flaky
-    // "false" at mount time means the canvas never paints anything at all,
-    // ever. Focus/blur events are edge-triggered and don't have that
-    // problem: both start true, and only flip on an event that actually
-    // fired, so a page that never receives a real blur stays active.
-    const [visible, setVisible] = useState(true)
-    const [focused, setFocused] = useState(true)
-    useEffect(() => {
-        const onVisibility = () => setVisible(document.visibilityState === 'visible')
-        const onFocus = () => setFocused(true)
-        const onBlur = () => setFocused(false)
-        onVisibility()
-        document.addEventListener('visibilitychange', onVisibility)
-        window.addEventListener('focus', onFocus)
-        window.addEventListener('blur', onBlur)
-        return () => {
-            document.removeEventListener('visibilitychange', onVisibility)
-            window.removeEventListener('focus', onFocus)
-            window.removeEventListener('blur', onBlur)
-        }
-    }, [])
-    return visible && focused
-}
 
 /**
  * "Knicks win", but "Heat wins" — NBA nicknames split between plurals and
@@ -570,7 +456,7 @@ export default function CourtViewer({
         viewId !== 'live' &&
         (typeof window === 'undefined' ||
             !window.matchMedia?.('(max-width: 639px)').matches)
-    useTourAutoStart(autoTourOk, openTour)
+    useTourAutoStart(autoTourOk, openTour, TOUR_SEEN_KEY)
 
     return (
         <div
@@ -724,7 +610,7 @@ export default function CourtViewer({
                 homeColors={liveHomeColors}
                 awayColors={liveAwayColors}
                 winner={winner}
-                footerLeft={<TourButton onClick={openTour} bare />}
+                footerLeft={<TourButton onClick={openTour} label={TOUR_LABEL} bare />}
                 footerRight={
                     /*
                       Only while replaying — a live game arrives at the
@@ -751,7 +637,8 @@ export default function CourtViewer({
 
             <ProductTour
                 containerRef={rootRef}
-                context={viewId === 'live' ? 'live' : 'landing'}
+                steps={TOURS[viewId === 'live' ? 'live' : 'landing']}
+                contextKey={viewId === 'live' ? 'live' : 'landing'}
                 open={tourOpen}
                 hidden={courtMenuOpen}
                 onClose={closeTour}

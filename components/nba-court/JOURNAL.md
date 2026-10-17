@@ -2224,6 +2224,44 @@ a pixel count is not proportional to how many there are. The screenshot was
 the thing that gave the right answer both times; the number was misleading
 in both directions.
 
+### Surfacing errors that `next/dynamic` swallows
+
+Extracting the shared hooks and generalising `ProductTour` /
+`SmallScreenNotice` for a second experiment broke Courtside completely — the
+canvas never mounted, the page rendered as an empty dark rectangle — and
+**everything reported success**: `next build` compiled, and the browser
+logged no `pageerror`, no console error, and no failed request.
+
+The cause was one line. `components/nba-court/overlay-surface.js` was changed
+to re-export the panel colours from their new home:
+
+```js
+export { OVERLAY_RGB, ... } from '../webgl/overlay-surface'
+```
+
+`export ... from` forwards a binding without introducing it into the module's
+own scope, and `CARD_BG` further down still interpolates `OVERLAY_RGB`. So
+the module threw `ReferenceError: OVERLAY_RGB is not defined` on evaluation.
+The fix is to import it as well as re-export it.
+
+The interesting part is why nothing said so. `pages/experiments/courtside.js`
+loads the viewer through `next/dynamic` with `ssr: false`, so the whole module
+graph below it is evaluated **on the client, inside the dynamic loader**,
+which catches the rejection and renders nothing. The build never evaluates it,
+so the build passes.
+
+**The technique that found it:** temporarily replace the `dynamic()` call with
+a plain static import and run `next build`. That forces the same module graph
+to evaluate during page-data collection, where a throw is a hard build error
+with a real stack. It turned a silent blank page into
+`ReferenceError: OVERLAY_RGB is not defined` in one run. Restore the dynamic
+import afterwards — it is there so the three/R3F bundle doesn't travel with
+every page.
+
+Worth keeping, because this is the third time a passing `next build` has meant
+nothing (see the `brandBadge` ReferenceError above), and the first time there
+was a cheap way to make the build actually check.
+
 ---
 
 ## Backlog / ideas

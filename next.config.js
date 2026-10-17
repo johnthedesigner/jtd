@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  /**
+   * The floating dev badge sits bottom-left, which is inside the frame on
+   * the full-bleed canvas experiments. Those pages are judged on what the
+   * scene looks like, and a floating button in the corner is the one thing
+   * on screen that is not part of it.
+   */
+  devIndicators: false,
   typescript: {
     // Allow mixed JS/TS during migration
     ignoreBuildErrors: true,

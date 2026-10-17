@@ -58,6 +58,16 @@ function useViewportHeight(enabled, contentRef) {
             const box = contentRef.current?.getBoundingClientRect()
             const visibleBottom = vv ? vv.height + vv.offsetTop : window.innerHeight
             const clip = box ? Math.max(0, Math.round(box.bottom - visibleBottom)) : 0
+            /*
+              Still published, now unused by the overlays. They anchor to
+              the visual viewport directly instead (see
+              `components/webgl/use-visual-viewport-inset`), because this
+              correction only works when the page box it measures is
+              itself right, and on iOS it is not. Left in place as a
+              diagnostic: `?vp` reports it, and a non-zero value is
+              evidence of exactly the condition that broke the old
+              approach.
+            */
             root.style.setProperty("--vv-clip", `${clip}px`)
         }
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import useVisualViewportInset from '../../webgl/use-visual-viewport-inset'
 import { markerForPlay } from './live-markers'
 import useNarrow from '../use-narrow'
 import { brandBadge, brandBright, scoreBandGradient } from './team-gradient'
@@ -523,6 +524,7 @@ export default function LiveHUD({
     footerLeft,
     footerRight,
 }) {
+    const viewportInset = useVisualViewportInset()
     const narrow = useNarrow()
     /*
       Open by default on a phone. The call row truncates hard at that width,
@@ -596,7 +598,19 @@ export default function LiveHUD({
     return (
         <div
             data-bottom-overlay
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center"
+                        /*
+              Fixed to the visual viewport, not to the page box.
+
+              This was `absolute; bottom: 0` inside a container sized from
+              a measured `--app-height`, plus a measured `--vv-clip`
+              correction on its padding. That chain is only correct while
+              every box in it is, and on iOS one of them is not: with the
+              document box 140 px taller than the screen — which is what
+              the toolbar-hidden layout viewport produces — an
+              `absolute; bottom: 0` child lands 140 px below the fold.
+              See `components/webgl/use-visual-viewport-inset`.
+            */
+            className="pointer-events-none fixed inset-x-0 z-20 flex justify-center"
             /*
               The same bottom gap the game strip uses, plus whatever the
               device reserves for its home indicator. This had only a flat
@@ -606,8 +620,9 @@ export default function LiveHUD({
               The strip got this treatment and this did not.
             */
             style={{
+                bottom: `${viewportInset}px`,
                 paddingBottom:
-                    'calc(var(--strip-gap) + env(safe-area-inset-bottom, 0px) + var(--vv-clip, 0px))',
+                    'calc(var(--strip-gap) + env(safe-area-inset-bottom, 0px))',
                 paddingLeft: 'max(1rem, env(safe-area-inset-left, 0px))',
                 paddingRight: 'max(1rem, env(safe-area-inset-right, 0px))',
             }}
