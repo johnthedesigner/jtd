@@ -2,81 +2,29 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { OVERLAY_BG } from './overlay-surface'
 
 /**
- * A numbered walkthrough of the app, anchored to the real controls rather
- * than drawn over a picture of them.
+ * A numbered walkthrough of an experiment, anchored to the real controls
+ * rather than drawn over a picture of them.
  *
  * Two things shape the design:
  *
- * 1. **The controls on screen change with the view.** The landing has a
- *    game strip and a court picker; a game in progress has a score bug, a
- *    speed control and a way out, and none of the landing's controls at
- *    all. One list of steps covering both would spend half its length
- *    pointing at nothing, so there are two lists and the current view
- *    picks one.
- * 2. **Even within a view, a control may be absent** — the speed control
- *    only exists while replaying a finished game, not during a live one.
- *    So a step whose anchor isn't on screen is dropped before numbering,
- *    which is why the numbers are computed here and not written into the
- *    step list.
+ * 1. **The controls on screen change with what you are doing.** A caller
+ *    passes the step list for the current context and a `contextKey`
+ *    identifying it; navigating to a different context ends the tour,
+ *    because the steps it was part-way through belong to a screen that is
+ *    no longer there.
+ * 2. **Even within one context, a control may be absent.** So a step whose
+ *    anchor isn't on screen is dropped before numbering, which is why the
+ *    numbers are computed here and not written into the step list.
+ *
+ * Steps are `{ id, anchor?, title, body }`; `anchor` matches a
+ * `data-tour="<key>"` attribute somewhere inside `containerRef`, and a step
+ * without one is centred.
  *
  * The highlight is a hole in a dimmed sheet (one element, an enormous
- * spread `box-shadow`), and nothing on the page is click-blocked: the court
+ * spread `box-shadow`), and nothing on the page is click-blocked: the scene
  * keeps rendering and the controls keep working. The cost of that is that
  * someone can navigate out from under the tour mid-step, which ends it.
  */
-
-const TOURS = {
-    landing: [
-        {
-            id: 'welcome',
-            title: 'A basketball game, rendered',
-            body: 'Every game here is drawn on a real NBA floor in 3D — the plays, the score, the lighting. Pick a game and it plays out on the court behind this card.',
-        },
-        {
-            id: 'tabs',
-            anchor: 'games-tabs',
-            title: 'Live now, or anything from the past week',
-            body: '“Watch live” has whatever is in progress plus the rest of the week’s schedule. “Replays” has the finished games — those start from the opening tip, not the final score.',
-        },
-        {
-            id: 'card',
-            anchor: 'game-card',
-            title: 'Pick a game',
-            body: 'Each card shows the matchup, the home side, and when it was played. Choosing one drops you onto that team’s home floor.',
-        },
-        {
-            id: 'court',
-            anchor: 'court-menu',
-            title: 'Change the floor',
-            body: 'Every team’s court is here, in its current and vintage paint. This only exists out here — inside a game the floor belongs to whoever is hosting.',
-        },
-    ],
-    live: [
-        {
-            id: 'hud',
-            anchor: 'live-hud',
-            title: 'What just happened',
-            body: 'The call, the score, the clock, and how many timeouts each side still has. Open it to read back through the plays.',
-        },
-        {
-            id: 'floor',
-            title: 'Watch the floor',
-            body: 'Shots, rebounds and steals are marked where they happened, and the camera turns toward each one. The score behind the benches is part of the building, lit like everything else.',
-        },
-        {
-            id: 'speed',
-            anchor: 'playback-speed',
-            title: 'Set the pace',
-            body: 'A replay runs at its own speed — slow it down to watch a sequence land, or run it up to get through a quarter.',
-        },
-        {
-            id: 'exit',
-            anchor: 'exit-game',
-            title: 'Back out',
-            body: 'This leaves the game and returns you to the schedule, with the lights going down and back up on the way.',
-        },
-    ],
-}
 
 /** Breathing room between the highlight and the thing it is highlighting. */
 const HIGHLIGHT_PAD = 8
@@ -157,8 +105,21 @@ function sameRects(a, b) {
     })
 }
 
-export default function ProductTour({ containerRef, context, open, hidden, onClose }) {
-    const steps = TOURS[context] ?? TOURS.landing
+export default function ProductTour({
+    containerRef,
+    steps,
+    contextKey = null,
+    open,
+    hidden,
+    onClose,
+    /*
+      The dimmed sheet around the highlight. Parameterised, unlike the
+      card, because this one sits directly on the scene and wants the
+      scene's own hue; the card is a light surface and reads the same
+      over any dark background.
+    */
+    scrim = 'rgba(11, 13, 18, 0.72)',
+}) {
     const [index, setIndex] = useState(0)
     const anchorKeys = steps.map((s) => s.anchor).filter(Boolean)
     const rects = useAnchorRects(open, containerRef, anchorKeys)
@@ -172,13 +133,13 @@ export default function ProductTour({ containerRef, context, open, hidden, onClo
 
     // Navigating out from under the tour ends it: the steps it was in the
     // middle of belong to a view that is no longer on screen.
-    const lastContext = useRef(context)
+    const lastContext = useRef(contextKey)
     useEffect(() => {
-        if (lastContext.current !== context) {
-            lastContext.current = context
+        if (lastContext.current !== contextKey) {
+            lastContext.current = contextKey
             if (open) onClose()
         }
-    }, [context, open, onClose])
+    }, [contextKey, open, onClose])
 
     useEffect(() => {
         if (!open) setIndex(0)
@@ -271,11 +232,11 @@ export default function ProductTour({ containerRef, context, open, hidden, onClo
                         top: rect.top - HIGHLIGHT_PAD,
                         width: rect.width + HIGHLIGHT_PAD * 2,
                         height: rect.height + HIGHLIGHT_PAD * 2,
-                        boxShadow: '0 0 0 9999px rgba(11, 13, 18, 0.72)',
+                        boxShadow: `0 0 0 9999px ${scrim}`,
                     }}
                 />
             ) : (
-                <div aria-hidden className="absolute inset-0 bg-[#0b0d12]/72" />
+                <div aria-hidden className="absolute inset-0" style={{ backgroundColor: scrim }} />
             )}
 
             <div
@@ -347,16 +308,14 @@ export default function ProductTour({ containerRef, context, open, hidden, onClo
  * someone lands here and then never again unless asked — the flag is
  * per-browser, and clearing site data brings it back.
  */
-export const TOUR_SEEN_KEY = 'nba-court-tour-v1'
-
-export function useTourAutoStart(ready, onOpen) {
+export function useTourAutoStart(ready, onOpen, storageKey) {
     const fired = useRef(false)
     useEffect(() => {
         if (!ready || fired.current) return
         fired.current = true
         let seen = true
         try {
-            seen = window.localStorage.getItem(TOUR_SEEN_KEY) === '1'
+            seen = window.localStorage.getItem(storageKey) === '1'
         } catch {
             // Private browsing throws on access; treat it as "already seen"
             // rather than running the tour on every single page load.
@@ -364,14 +323,14 @@ export function useTourAutoStart(ready, onOpen) {
         if (seen) return
         const timer = setTimeout(() => {
             try {
-                window.localStorage.setItem(TOUR_SEEN_KEY, '1')
+                window.localStorage.setItem(storageKey, '1')
             } catch {
                 /* nothing to do: it just runs again next time */
             }
             onOpen()
         }, 1200)
         return () => clearTimeout(timer)
-    }, [ready, onOpen])
+    }, [ready, onOpen, storageKey])
 }
 
 /**
@@ -382,13 +341,13 @@ export function useTourAutoStart(ready, onOpen) {
  * clicked. It sits in the same row as the tab switch so the two read as one
  * band of controls above the games rather than as furniture in the corners.
  */
-export function TourButton({ onClick, className = '', bare = false }) {
+export function TourButton({ onClick, label, className = '', bare = false }) {
     return (
         <button
             type="button"
             onClick={onClick}
-            aria-label="How to use JTD Courtside"
-            title="How to use JTD Courtside"
+            aria-label={label}
+            title={label}
             /*
               `bare` drops the panel and the hairline, for when this sits
               inside a surface that already has both — the score overlay's

@@ -55,7 +55,7 @@
     "experiments": {
         "label": "Experiments",
         "title": "Experiments — John the Designer",
-        "description": "Self-directed projects built to answer a question rather than a brief: a real NBA floor rendered in WebGL that plays back live games, and whatever is next.",
+        "description": "Self-directed projects built to answer a question rather than a brief: a real NBA floor rendered in WebGL that plays back live games, and a tennis serve slowed right down so you can see what actually happens in it.",
         "image": "/experiments/courtside-og.jpg",
         "path": "/experiments",
         "inSitemap": true
@@ -66,6 +66,14 @@
         "description": "A real NBA floor drawn in WebGL, under a rig of house lights it reflects. Pick a game and it plays out on the court: shots, rebounds and steals marked where they happened, the score three storeys tall behind the benches.",
         "image": "/experiments/courtside-og.jpg",
         "path": "/experiments/courtside",
+        "inSitemap": true
+    },
+    "serveLab": {
+        "label": "Serve Lab",
+        "title": "Serve Lab — a tennis serve, slowed right down",
+        "description": "A professional tennis serve, recorded at 180 frames a second and rebuilt in 3D. Walk around it, slow it down, and see the parts that go by far too fast to watch.",
+        "image": "/experiments/serve-lab-og.jpg",
+        "path": "/experiments/serve-lab",
         "inSitemap": true
     }
 }

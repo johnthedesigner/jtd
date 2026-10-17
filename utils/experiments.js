@@ -6,10 +6,13 @@
  * Anything without a `thumbnail` renders as a text-only card, so adding one
  * never requires producing art first.
  *
- * Only Courtside is listed for now. The logo-hero and pomodoro pages still
- * exist and still work at their own URLs; they are simply not presented as
- * finished pieces yet, and a listing of one good thing reads better than a
- * listing of one good thing and two sketches.
+ * Courtside and Serve Lab are listed. The logo-hero and pomodoro pages
+ * still exist and still work at their own URLs; they are simply not
+ * presented as finished pieces, and a listing of two good things reads
+ * better than one of two good things and two sketches.
+ *
+ * Only Courtside carries `homepage`. The homepage shows one, and it should
+ * keep showing the one that has been there.
  */
 /**
  * The section's own summary, shown above the list on `/experiments` and
@@ -33,6 +36,19 @@ const experiments = [
         thumbnailFit: 'cover',
         thumbnailAlt:
             'The JTD Courtside lockup standing in lit letters behind a Boston Celtics court rendered in 3D under arena lights',
+    },
+    {
+        title: 'Serve Lab',
+        subtitle: 'Taking a tennis serve apart',
+        description:
+            'Someone recorded a professional serve with eight cameras running at 180 frames a second, then put the data online. I rebuilt it in 3D so you can walk around it, slow it down, and watch the bits that are far too fast to see \u2014 like the half-second where almost all of the racket speed actually shows up, and the sliver of a moment where the ball is on the strings.',
+        href: '/experiments/serve-lab',
+        thumbnail: '/experiments/serve-lab-thumb.webp',
+        // Framed for cropping, like Courtside's: roughly square with margin
+        // around the lockup so a narrow panel can bite in without clipping.
+        thumbnailFit: 'cover',
+        thumbnailAlt:
+            'An overhead view of a blue tennis court with the JTD Serve Lab lockup painted on it, a wooden artist\u2019s mannequin standing at the baseline holding a racket',
     },
 ]
 
